@@ -19,7 +19,18 @@ Route::resource('empleados' , 'EmpleadoController') ;
 
 Route::resource('reclamos','ReclamoController') ;
 
-Route::resource('socios','SocioController') ;
+Route::get('socios','SocioController@index')->name('socios.index') ;
+
+Route::get('socios/create','SocioController@create')->name('socios.create') ;
+
+Route::get('socios/{id}','SocioController@show')->name('socios.show') ;
+
+Route::get('socios/{id}/edit','SocioController@edit')->name('socios.edit') ;
+
+Route::put('socios/{socio}' , 'SocioController@update')->name('socios.update') ;
+
+
+
 
 
 

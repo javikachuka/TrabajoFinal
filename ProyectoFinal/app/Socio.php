@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Socio extends Model
 {
+
+    protected $fillable = [
+        'apellido' ,
+        'nombre' ,
+        'dni' ,
+        'nro_conexion'] ;
+
     public function domicilio(){
         return $this->belongsTo(Domicilio::class) ;
     }

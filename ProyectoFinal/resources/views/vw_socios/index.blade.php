@@ -23,7 +23,7 @@
                     
                     <td>{{$socio->domicilio->barrio->nombre}}</td>
                         
-                    <td><button type="button" class="btn btn-outline-info" onclick="location.href='/socios/{{$socio->apellido}}'">+</button> </td>
+                    <td><button type="button" class="btn btn-outline-info" onclick="location.href='/socios/{{$socio->id}}'">+</button> </td>
                 </tr>
             @endforeach
         </tbody>

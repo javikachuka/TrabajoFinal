@@ -11,27 +11,35 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('vw_principal.principal');
-})->name('home');
+}) ;
 
-Route::resource('empleados' , 'EmpleadoController') ;
+Route::get('/', function(){
+    return view('vw_principal.login') ;
+}) ;
 
 Route::resource('reclamos','ReclamoController') ;
 
+// Route::get('users','UserController@index')->name('users.index') ;
+// Route::get('users/create','UserController@create')->name('users.create') ;
+// Route::post('users','UserController@store')->name('users.store') ;
+// Route::get('users/{id}','UserController@show')->name('users.show') ;
+// Route::get('users/{id}/edit' , 'UserController@edit')->name('users.edit') ;
+// Route::put('users/{user}' , 'UserController@update')->name('users.update') ;
+// Route::delete('users/{id}' , 'UserController@destroy')->name('users.destroy');
+
+Route::resource('users' , 'UserController') ; 
+
 Route::get('socios','SocioController@index')->name('socios.index') ;
-
 Route::get('socios/create','SocioController@create')->name('socios.create') ;
-
+Route::post('socios','SocioController@store')->name('socios.store');
 Route::get('socios/{id}','SocioController@show')->name('socios.show') ;
-
 Route::get('socios/{id}/edit','SocioController@edit')->name('socios.edit') ;
-
 Route::put('socios/{socio}' , 'SocioController@update')->name('socios.update') ;
 
 
 
+Auth::routes();
 
-
-
-
+Route::get('/home', 'HomeController@index')->name('home');

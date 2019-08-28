@@ -13,17 +13,17 @@ class RolTableSeeder extends Seeder
     public function run()
     {
         $rol = new Rol() ;
-        $rol->nombre = 'admin' ;
+        $rol->nombre = 'ADMIN' ;
         $rol->descripcion = 'Administrador General' ;
         $rol->save() ;
 
         $rol = new Rol() ;
-        $rol->nombre = 'empleadoPlanta' ;
+        $rol->nombre = 'EMPLEADO_PLANTA' ;
         $rol->descripcion = 'Empleado que trabaja en el sector planta' ;
         $rol->save() ;
 
         $rol = new Rol() ;
-        $rol->nombre = 'empleadoOficina' ;
+        $rol->nombre = 'EMPLEADO_OFICINA' ;
         $rol->descripcion = 'Empleado que trabaja en la oficina de la cooperativa' ;
         $rol->save() ;
     }

@@ -18,6 +18,12 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('rol_id') ;
             $table->foreign('rol_id')->references('id')->on('roles') ;
             $table->string('name');
+            $table->string('apellido');
+            $table->string('dni') ;
+            $table->unsignedBigInteger('domicilio_id'); 
+            $table->foreign('domicilio_id')->references('id')->on('domicilios') ;
+            $table->date('fecha_ingreso');
+            $table->bigInteger('telefono') ;
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

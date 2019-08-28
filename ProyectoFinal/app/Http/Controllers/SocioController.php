@@ -65,9 +65,9 @@ class SocioController extends Controller
      * @param  \App\Socio  $socio
      * @return \Illuminate\Http\Response
      */
-    public function show(Socio $socio)
+    public function show($id)
     {
-        // $socio = Socio::find($id) ;
+        $socio = Socio::find($id) ;
         return view('vw_socios.show',compact('socio'));
     }
 
@@ -77,9 +77,11 @@ class SocioController extends Controller
      * @param  \App\Socio  $socio
      * @return \Illuminate\Http\Response
      */
-    public function edit(Socio $socio)
+    public function edit($id)
     {
-        //
+        $socio = Socio::find($id) ;
+        $barrios = Barrio::all() ;
+        return view('vw_socios.edit' , compact('socio','barrios')) ;
     }
 
     /**
@@ -89,9 +91,16 @@ class SocioController extends Controller
      * @param  \App\Socio  $socio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Socio $socio)
+    public function update(Request $request, $id)
     {
-        //
+        $socio = Socio::find($id) ;
+        $socio->fill($request->all());
+        $domicilio = $socio->domicilio ;
+        $domicilio->fill($request->all()) ;
+        $socio->save() ;
+        $domicilio->save() ;
+
+        return redirect('/socios') ;
     }
 
     /**

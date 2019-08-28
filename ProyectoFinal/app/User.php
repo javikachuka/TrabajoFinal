@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
@@ -15,9 +16,22 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    // protected $fillable = [
+    //     'name'
+    //     // 'apellido',
+    //     // 'dni',
+    //     // 'rol_id' ,
+    //     // 'domicilio_id',
+    //     // 'fecha_ingreso',
+    //     // 'telefono',
+    //     // 'email', 
+    //     // 'password'
+    // ];
+
+    protected $guarded = [
+        'password',
+        'domicilio_id'
+    ] ;
 
     /**
      * The attributes that should be hidden for arrays.
@@ -39,5 +53,9 @@ class User extends Authenticatable
 
     public function rol(){
         return $this->belongsTo(Rol::class) ;
+    }
+
+    public function domicilio(){
+        return $this->belongsTo(Domicilio::class) ;
     }
 }

@@ -29,7 +29,7 @@ Route::resource('reclamos','ReclamoController') ;
 // Route::put('users/{user}' , 'UserController@update')->name('users.update') ;
 // Route::delete('users/{id}' , 'UserController@destroy')->name('users.destroy');
 
-Route::resource('users' , 'UserController') ; 
+Route::resource('users' , 'UserController') ;
 
 // Route::get('socios','SocioController@index')->name('socios.index') ;
 // Route::get('socios/create','SocioController@create')->name('socios.create') ;
@@ -40,7 +40,7 @@ Route::resource('users' , 'UserController') ;
 
 Route::resource('socios' , 'SocioController') ;
 
-
+Route::resource('proveedores', 'ProveedorController');
 
 Auth::routes();
 

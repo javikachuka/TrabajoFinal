@@ -3,7 +3,12 @@
 @section('content')
 
 <div class="text-center">
-    Hola estas en el inicio del sistema!!!!
+    @guest
+    <div>
+        Hola estas en el inicio del sistema!!!!
+    </div>
+    @endguest
+    
 </div>
     
 @endsection

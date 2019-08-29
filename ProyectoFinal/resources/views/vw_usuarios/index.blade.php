@@ -19,14 +19,12 @@
 	        		<td>{{$user->apellido}}</td>
 					<td>{{$user->name}}</td>
 					<td width ="200px">
-					<form method="POST" action="users/{{$user}}">
-						@method('delete')
+					<button type="button" class="btn btn-info" onclick="location.href='{{route('users.edit',$user->id)}}'">Editar</button> 
+					<form method="POST" action="users/{{$user->id}}">
 						@csrf
-						<button type="button" class="btn btn-info" onclick="location.href='{{route('users.edit',$user->id)}}'">Editar</button> 
-						<button type="submit" class="btn btn-danger btn-xs btn-delete" onclick="location.href='{{route('users.destroy',$user->id)}}'">Borrar</button>
-						
+						@method('DELETE')
+						<button type="submit" class="btn btn-danger btn-xs btn-delete">Borrar</button>
 					</form>
-
 					</td>
 	      		</tr>
 

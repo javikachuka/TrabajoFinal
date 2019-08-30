@@ -1,19 +1,27 @@
-@extends('layouts.app')
 
-@section('content')
-@yield('estructura')
 <div class="container">
-    @yield('formulario')
     <h2>Datos del Proveedor</h2>
-    <label>Nombre</label>
-    <input type="text" name="name" class="form-control">
-    <label>CUIT</label>
-    <input type="text" name="cuit" class="form-control">
-    <label>Email</label>
-    <input type="text" name="Email" class="form-control">
-    <label>Telefono</label>
-    <input type="text" name="telefono" class="form-control">
-    <input type="reset" value="Limpiar" class="btn btn-secondary">
+    <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" name="nombre" value="{{ old('nombre') ?? $proveedor->nombre }}" class="form-control">
+            <div>{{$errors->first('nombre')}} </div>
+    </div>
+    <div class="form-group">
+            <label>CUIT</label>
+            <input type="text" name="cuit" value="{{ old('cuit') ?? $proveedor->cuit }}" class="form-control">
+            <div>{{$errors->first('cuit')}} </div>
+    </div>
+    <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="email" value="{{ old('email') ?? $proveedor->email }}"  class="form-control">
+            <div>{{$errors->first('email')}} </div>
+    </div>
+    <div class="form-group">
+            <label>Telefono</label>
+            <input type="text" name="telefono" value="{{ old('telefono') ?? $proveedor->telefono }}" class="form-control">
+            <div>{{$errors->first('telefono')}} </div>
+    </div>
+
 </div>
 
-@endsection
+@csrf

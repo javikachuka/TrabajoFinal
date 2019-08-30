@@ -1,15 +1,12 @@
-@extends('vw_proveedores.form')
+@extends('layouts.app')
 
+@section('content')
 
-@section('estructura')
-<h1>Registro de Proveedores</h1>
-<form class="form-group" method="POST" action="/proveedores">
-    @csrf
-    @section('formulario')
-    @endsection
+<form class="form-group " method="POST" action="/proveedores" >
+    @include('vw_proveedores.form')
     <div class="text-right">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <input type="reset" value="Limpiar" class="btn btn-secondary">
+            <input type="reset" value="Limpiar" class="btn btn-secondary">
+            <button type="submit" class="btn btn-success">Guardar</button>
     </div>
 </form>
 

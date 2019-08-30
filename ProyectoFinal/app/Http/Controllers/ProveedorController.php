@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Proveedor;
 use Illuminate\Http\Request;
+use Symfony\Component\Process\Process;
 
 class ProveedorController extends Controller
 {
@@ -26,7 +27,8 @@ class ProveedorController extends Controller
      */
     public function create()
     {
-        return view('vw_proveedores.registro') ;
+        $proveedor = new Proveedor();
+        return view('vw_proveedores.registro', compact('proveedor')) ;
     }
 
     /**
@@ -35,17 +37,13 @@ class ProveedorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Proveedor $proveedor)
     {
-        // $proveedor = new Proveedor() ;
-        // $proveedor->nombre = $request->nombre ;
-        // $proveedor->cuit = $request->cuit ;
-        // $proveedor->email = $request->email ;
-        // $proveedor->telefono = $request->telefono;
-        // $proveedor->save() ;
+        $this->validar() ;
 
-        // return redirect('/proveedores') ;
-        return $request ;
+        $proveedor->fill($request->all()) ;
+        $proveedor->save() ;
+        return redirect('/proveedores') ;
 
     }
 
@@ -68,9 +66,11 @@ class ProveedorController extends Controller
      */
     public function edit($id)
     {
-        $proveedor = Proveedor::find($id) ;
+
+        $proveedor = Proveedor::find($id);
 
         return view('vw_proveedores.edit' , compact('proveedor'));
+
     }
 
     /**
@@ -82,6 +82,7 @@ class ProveedorController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validar();
         $proveedor = Proveedor::find($id) ;
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
@@ -102,5 +103,14 @@ class ProveedorController extends Controller
             $proveedor->delete() ;
         }
         return redirect('/proveedores') ;
+    }
+
+    public function validar(){
+        $data = request()->validate([
+            'nombre' => 'required' ,
+            'cuit' => 'required' ,
+            'email' => 'required|email' ,
+            'telefono' => 'required'
+        ]);
     }
 }

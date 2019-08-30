@@ -29,9 +29,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        $user = new User() ;
         $roles = Rol::all() ;
         $barrios = Barrio::all() ;
-        return view('vw_usuarios.registro' ,  compact('roles' ,'barrios')) ;
+        return view('vw_usuarios.registro' ,  compact('roles' ,'barrios','user')) ;
     }
 
     /**
@@ -40,7 +41,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
         $domicilio = new Domicilio();
         $domicilio->barrio_id = $request->barrio_id ;
@@ -48,8 +49,6 @@ class UserController extends Controller
         $domicilio->altura = $request->altura ;
         $domicilio->save() ;
 
-
-        $user = new User() ;
         $user->name = $request->name ;
         $user->apellido = $request->apellido ;
         $user->dni = $request->dni ;
@@ -61,7 +60,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password) ;
         $user->save() ;
 
-        return $request ;
+        return redirect('/users') ;
     }
 
     /**
@@ -121,6 +120,6 @@ class UserController extends Controller
             $user->delete() ;
         }
         return redirect('/users');
-        
+
     }
 }

@@ -14,16 +14,16 @@
       </tr>
     </thead>
     <tbody>
-        @foreach($proveedores as $prov)
+        @foreach($proveedores as $proveedor)
 
             <tr>
-                <td>{{$prov->nombre}}</td>
-                <td>{{$prov->cuit}}</td>
-                <td>{{$prov->email}}</td>
-                <td>{{$prov->telefono}}</td>
+                <td>{{$proveedor->nombre}}</td>
+                <td>{{$proveedor->cuit}}</td>
+                <td>{{$proveedor->email}}</td>
+                <td>{{$proveedor->telefono}}</td>
                 <td width ="200px">
-                <button type="button" class="btn btn-info" onclick="location.href='{{route('proveedores.edit',$user->id)}}'">Editar</button>
-                <form method="POST" action="users/{{$prov->id}}">
+                <button type="button" class="btn btn-info" onclick="location.href='{{route('proveedores.edit',$proveedor->id)}}'">Editar</button>
+                <form method="POST" action="proveedores/{{$proveedor->id}}">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-xs btn-delete">Borrar</button>

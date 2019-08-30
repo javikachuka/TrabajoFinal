@@ -1,23 +1,15 @@
-@extends('vw_usuarios.form')
+@extends('layouts.app')
 
-@section('estructura')
+@section('content')
+
 	<h1>Edicion de Usuarios</h1>
     <form class="form-group " method="POST" action="/users/{{$user->id}}" >
         @method('PUT')
-        @csrf
-        @section('formulario')
-
-        @endsection
-
-        @section('botones')
+        @include('vw_usuarios.form')
         <div class="text-right">
                 <input type="reset" value="Limpiar" class="btn btn-secondary">
                 <button type="submit" class="btn btn-success">Modificar</button>
         </div>
-        @endsection
-
-
-
 	</form>
 
 @endsection

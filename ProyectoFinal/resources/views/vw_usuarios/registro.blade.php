@@ -1,22 +1,15 @@
-@extends('vw_usuarios.form')
+@extends('layouts.app')
 
-@section('estructura')
-	<h1>Registro de Usuarios</h1>
-	<form class="form-group " method="POST" action="/users" >
-		@csrf
-		@section('formulario')
-		@endsection
-		@section('botones')
-		<div class="text-right">
-				<input type="reset" value="Limpiar" class="btn btn-secondary">
-				<button type="submit" class="btn btn-success">Guardar</button>
-		</div>
-		@endsection
-		
-	</form>
-	
+@section('content')
+    <h1>Registro de Usuarios</h1>
+    <form class="form-group " method="POST" action="/users" >
+        @include('vw_usuarios.form')
+        <div class="text-right">
+                <input type="reset" value="Limpiar" class="btn btn-secondary">
+                <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+    </form>
 @endsection
-	
 
 
 

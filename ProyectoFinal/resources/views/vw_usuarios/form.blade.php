@@ -19,7 +19,7 @@
     <div class="form-group">
         <label >Rol del Usuario</label>
         <select name="rol_id" class="form-control" >
-            <option value="0" selected>--Seleccione un rol--</option>
+            <option value="0" disabled >--Seleccione un rol--</option>
                 @foreach ($roles as $rol)
                 @if (($user->rol != null) && ($user->rol->id == $rol->id))
                 <option selected value="{{$rol->id}}">{{$rol->nombre}}</option>
@@ -45,7 +45,7 @@
     <h3>Domicilio</h3>
     <div class="form-group">
         <select name="barrio_id" class="form-control" >
-            <option value="0" selected>--Seleccione un barrio--</option>
+            <option value="0" disabled>--Seleccione un barrio--</option>
                 @foreach ($barrios as $barrio)
                     @if(($user->domicilio != null) && (strcmp($barrio->nombre , $user->domicilio->barrio->nombre) == 0))
                         <option selected value="{{$barrio->id}}">{{$barrio->nombre}}</option>

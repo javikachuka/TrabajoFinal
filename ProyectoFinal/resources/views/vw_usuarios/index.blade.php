@@ -3,7 +3,11 @@
 @section('title','Listado de Empleados')
 
 @section('content')
-	<h1>Listado de Usuarios</h1>
+    <h1>Listado de Usuarios</h1>
+    <div class="text-left form-group">
+            <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('users.create') }}'">Registrar Empleado</button>
+    </div>
+
 	<table class="table table-striped">
 	    <thead>
 	      <tr>
@@ -19,10 +23,10 @@
 	        		<td>{{$user->apellido}}</td>
 					<td>{{$user->name}}</td>
 					<td width ="200px">
-					<button type="button" class="btn btn-info" onclick="location.href='{{route('users.edit',$user->id)}}'">Editar</button> 
-					<form method="POST" action="users/{{$user->id}}">
-						@csrf
-						@method('DELETE')
+                        <form method="POST" action="users/{{$user->id}}">
+                            <button type="button" class="btn btn-info" onclick="location.href='{{route('users.edit',$user->id)}}'">Editar</button>
+						    @csrf
+						    @method('DELETE')
 						<button type="submit" class="btn btn-danger btn-xs btn-delete">Borrar</button>
 					</form>
 					</td>
@@ -31,9 +35,7 @@
 	      	@endforeach
 	    </tbody>
 	</table>
-  	<div class="text-right">
-		<button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('users.create') }}'">Registrar Empleado</button>
-  	</div>
+
 
 
 @endsection

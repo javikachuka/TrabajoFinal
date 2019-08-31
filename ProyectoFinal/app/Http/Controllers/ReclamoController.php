@@ -9,6 +9,12 @@ use App\Socio ;
 
 class ReclamoController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +22,9 @@ class ReclamoController extends Controller
      */
     public function index()
     {
-        
+
         $reclamos = Reclamo::all();
-        
+
         $tip_rec = TipoReclamo::all() ;
 
         $socios = Socio::all() ;
@@ -91,5 +97,5 @@ class ReclamoController extends Controller
         //
     }
 
-    
+
 }

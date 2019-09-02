@@ -5,19 +5,23 @@ namespace App\Http\Controllers;
 use App\Proveedor;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\DB;
 
 class ProveedorController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function search(Request $request){
+        $name = $request->get('search') ;
+        $proveedores = DB::table('proveedores')->where('nombre' , 'like' , '%'.$name.'%')->get() ;
+
+        return view('vw_proveedores.index' , compact('proveedores')) ;
+    }
+
     public function index()
     {
         $proveedores = Proveedor::all() ;

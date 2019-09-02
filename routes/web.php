@@ -19,7 +19,16 @@ Route::get('/', function(){
     return view('vw_principal.login') ;
 }) ;
 
-Route::resource('reclamos','ReclamoController') ;
+Route::middleware(['auth'])->group(function(){
+    Route::resource('reclamos','ReclamoController') ;
+    Route::resource('users' , 'UserController') ;
+    Route::resource('socios' , 'SocioController') ;
+    Route::get('/search' , 'ProveedorController@search');
+    Route::resource('proveedores', 'ProveedorController');
+
+}) ;
+
+
 
 // Route::get('users','UserController@index')->name('users.index') ;
 // Route::get('users/create','UserController@create')->name('users.create') ;
@@ -29,7 +38,6 @@ Route::resource('reclamos','ReclamoController') ;
 // Route::put('users/{user}' , 'UserController@update')->name('users.update') ;
 // Route::delete('users/{id}' , 'UserController@destroy')->name('users.destroy');
 
-Route::resource('users' , 'UserController') ;
 
 // Route::get('socios','SocioController@index')->name('socios.index') ;
 // Route::get('socios/create','SocioController@create')->name('socios.create') ;
@@ -38,9 +46,7 @@ Route::resource('users' , 'UserController') ;
 // Route::get('socios/{id}/edit','SocioController@edit')->name('socios.edit') ;
 // Route::put('socios/{socio}' , 'SocioController@update')->name('socios.update') ;
 
-Route::resource('socios' , 'SocioController') ;
 
-Route::resource('proveedores', 'ProveedorController');
 
 Auth::routes();
 

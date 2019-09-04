@@ -23,7 +23,7 @@ class ReclamoController extends Controller
         $tip_rec = TipoReclamo::all() ;
 
         $socios = Socio::all() ;
-        return view('vw_reclamos.index',compact('reclamos','tip_rec','socios'));
+        return view('reclamos.index',compact('reclamos','tip_rec','socios'));
     }
 
     /**

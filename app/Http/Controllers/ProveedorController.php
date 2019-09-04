@@ -15,18 +15,12 @@ class ProveedorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function search(Request $request){
-        $name = $request->get('search') ;
-        $proveedores = DB::table('proveedores')->where('nombre' , 'like' , '%'.$name.'%')->get() ;
-
-        return view('vw_proveedores.index' , compact('proveedores')) ;
-    }
 
     public function index()
     {
         $proveedores = Proveedor::all() ;
 
-        return view('vw_proveedores.index' , compact('proveedores')) ;
+        return view('proveedores.index' , compact('proveedores')) ;
     }
 
     /**
@@ -37,7 +31,7 @@ class ProveedorController extends Controller
     public function create()
     {
         $proveedor = new Proveedor();
-        return view('vw_proveedores.registro', compact('proveedor')) ;
+        return view('proveedores.registro', compact('proveedor')) ;
     }
 
     /**
@@ -78,7 +72,7 @@ class ProveedorController extends Controller
 
         $proveedor = Proveedor::find($id);
 
-        return view('vw_proveedores.edit' , compact('proveedor'));
+        return view('proveedores.edit' , compact('proveedor'));
 
     }
 

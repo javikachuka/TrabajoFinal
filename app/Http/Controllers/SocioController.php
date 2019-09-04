@@ -19,7 +19,7 @@ class SocioController extends Controller
     {
         $socios = Socio::all();
         $domicilios = Domicilio::all();
-        return view('vw_socios.index',compact('socios','domicilios')) ;
+        return view('socios.index',compact('socios','domicilios')) ;
     }
 
     /**
@@ -31,7 +31,7 @@ class SocioController extends Controller
     {
         $barrios = Barrio::all() ;
 
-        return view('vw_socios.registro',compact('barrios')) ;
+        return view('socios.registro',compact('barrios')) ;
     }
 
     /**
@@ -69,7 +69,7 @@ class SocioController extends Controller
     public function show($id)
     {
         $socio = Socio::find($id) ;
-        return view('vw_socios.show',compact('socio'));
+        return view('socios.show',compact('socio'));
     }
 
     /**
@@ -82,7 +82,7 @@ class SocioController extends Controller
     {
         $socio = Socio::find($id) ;
         $barrios = Barrio::all() ;
-        return view('vw_socios.edit' , compact('socio','barrios')) ;
+        return view('socios.edit' , compact('socio','barrios')) ;
     }
 
     /**

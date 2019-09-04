@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Barrio;
-use App\Rol;
 use App\Domicilio ;
 use App\User ;
+use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -20,7 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $usuarios = User::all() ;
-        return view('vw_usuarios.index' , compact('usuarios')) ;
+        return view('usuarios.index' , compact('usuarios')) ;
     }
 
     /**
@@ -31,9 +31,9 @@ class UserController extends Controller
     public function create()
     {
         $user = new User() ;
-        $roles = Rol::all() ;
+        $roles = Role::all()->pluck('name' , 'id') ;
         $barrios = Barrio::all() ;
-        return view('vw_usuarios.registro' ,  compact('roles' ,'barrios','user')) ;
+        return view('usuarios.registro' ,  compact('roles' ,'barrios','user')) ;
     }
 
     /**
@@ -70,10 +70,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        $user = User::find($id) ;
-        return $user ;
+        return 'holis proband' ;
     }
 
     /**
@@ -85,9 +84,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id) ;
-        $roles = Rol::all() ;
+        $roles = Role::all()->pluck('name' , 'id') ;
         $barrios = Barrio::all() ;
-        return view('vw_usuarios.edit' , compact('user','roles','barrios'));
+        return view('usuarios.edit' , compact('user','roles','barrios'));
     }
 
     /**

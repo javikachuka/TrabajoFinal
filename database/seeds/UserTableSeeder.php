@@ -15,9 +15,6 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $rol_admin = Rol::where('nombre','admin')->get();
-        // $rol_empleadoPlanta = Rol::where('nombre','empleadoPlanta')->get() ;
-        // $rol_empleadoOficina = Rol::where('nombre','empleadoOficina')->get();
 
         $domicilio = new Domicilio();
         $domicilio->barrio_id = 1 ;
@@ -34,7 +31,6 @@ class UserTableSeeder extends Seeder
         $user->telefono = 0 ;
         $user->email = 'admin@admin.com' ;
         $user->password = Hash::make('123456789') ;
-        $user->rol_id = $rol_admin[0]->id;
         $user->save() ;
 
         // $user = new User() ;
@@ -50,6 +46,6 @@ class UserTableSeeder extends Seeder
         // $user->password = '123' ;
         // $user->rol_id = $rol_empleadoOficina[0]->id;
         // $user->save() ;
-        
+
     }
 }

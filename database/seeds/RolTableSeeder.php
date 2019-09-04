@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Rol ;
+use Caffeinated\Shinobi\Models\Role;
 
 class RolTableSeeder extends Seeder
 {
@@ -12,19 +12,19 @@ class RolTableSeeder extends Seeder
      */
     public function run()
     {
-        $rol = new Rol() ;
-        $rol->nombre = 'ADMIN' ;
-        $rol->descripcion = 'Administrador General' ;
-        $rol->save() ;
+        Role::create([
+            'name'          => 'ADMIN',
+            'slug'          => 'admin',            
+        ]);
 
-        $rol = new Rol() ;
-        $rol->nombre = 'EMPLEADO_PLANTA' ;
-        $rol->descripcion = 'Empleado que trabaja en el sector planta' ;
-        $rol->save() ;
+        Role::create([
+            'name'          => 'EMPLEADO_OFICINA',
+            'slug'          => 'empleado_oficina',            
+        ]);
 
-        $rol = new Rol() ;
-        $rol->nombre = 'EMPLEADO_OFICINA' ;
-        $rol->descripcion = 'Empleado que trabaja en la oficina de la cooperativa' ;
-        $rol->save() ;
+        Role::create([
+            'name'          => 'EMPLEADO_PLANTA',
+            'slug'          => 'empleado_planta',            
+        ]);
     }
 }

@@ -14,7 +14,7 @@
               <img src="{{asset('admin_panel/dist/img/avatar5.png')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-            <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+            <a href="{{ route('users.show' , auth()->user()->id) }}" class="d-block">{{ auth()->user()->name }}</a>
             </div>
           </div>
 
@@ -32,6 +32,14 @@
                         <i class="right fas fa-angle-left"></i>
                       </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('productos.index') }}" class="nav-link">
+                                    <i class="fas fa-cube nav-icon"></i>
+                                    <p>Ingresos</p>
+                                </a>
+                            </li>
+                    </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('productos.index') }}" class="nav-link">

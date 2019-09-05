@@ -3,7 +3,7 @@
 @section('content')
 
 <form class="form-group " method="POST" action="/proveedores/{{$proveedor->id}}" >
-    @method('PATCH')
+    @method('PUT')
     @include('proveedores.form')
     <div class="text-right">
             <input type="reset" value="Limpiar" class="btn btn-secondary">

@@ -53,11 +53,15 @@ Route::middleware(['auth'])->group(function(){
     //roles
     Route::get('roles','RoleController@index')->name('roles.index')->middleware('permission:roles_index')  ;
     Route::get('roles/create','RoleController@create')->name('roles.create')->middleware('permission:roles_create')  ;
+    Route::post('roles','RoleController@store')->name('roles.store')->middleware('permission:roles_store')  ;
+    Route::get('roles/{id}','RoleController@show')->name('roles.show')->middleware('permission:roles_show')  ;
     Route::get('roles/{id}/edit','RoleController@edit')->name('roles.edit')->middleware('permission:roles_edit')  ;
-
     Route::put('roles/{roles}' , 'RoleController@update')->name('roles.update')->middleware('permission:roles_update')  ;
+    Route::delete('roles/{id}' , 'RoleController@destroy')->name('roles.destroy')->middleware('permission:roles_destroy') ;
 
 }) ;
+
+
 
 
 

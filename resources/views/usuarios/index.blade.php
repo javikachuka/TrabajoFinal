@@ -14,6 +14,7 @@
                   <tr>
                     <th>Apellido</th>
                     <th>Nombre</th>
+                    <th>Roles</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
@@ -23,6 +24,11 @@
                         <tr>
                             <td>{{$user->apellido}}</td>
                             <td>{{$user->name}}</td>
+                            <td>
+                                @foreach ($user->roles as $rol)
+                                    <span class="badge badge-info">{{$rol->name}}</span>
+                                @endforeach
+                            </td>
                             <td width ="200px">
                                 <form method="POST" action="users/{{$user->id}}">
                                     @can('users_edit')

@@ -22,7 +22,6 @@ class User extends Authenticatable
     //     'name'
     //     // 'apellido',
     //     // 'dni',
-    //     // 'rol_id' ,
     //     // 'domicilio_id',
     //     // 'fecha_ingreso',
     //     // 'telefono',

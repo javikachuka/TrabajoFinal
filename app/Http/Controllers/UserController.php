@@ -8,6 +8,7 @@ use App\Domicilio ;
 use App\User ;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -20,7 +21,8 @@ class UserController extends Controller
     public function index()
     {
         $usuarios = User::all() ;
-        return view('usuarios.index' , compact('usuarios')) ;
+        $roles = Role::all() ;
+        return view('usuarios.index' , compact('usuarios','roles')) ;
     }
 
     /**
@@ -44,6 +46,7 @@ class UserController extends Controller
      */
     public function store(Request $request, User $user)
     {
+
         $domicilio = new Domicilio();
         $domicilio->barrio_id = $request->barrio_id ;
         $domicilio->calle = $request->calle ;
@@ -53,13 +56,15 @@ class UserController extends Controller
         $user->name = $request->name ;
         $user->apellido = $request->apellido ;
         $user->dni = $request->dni ;
-        $user->rol_id = $request->rol_id;
         $user->telefono = $request->telefono ;
         $user->fecha_ingreso = $request->fecha_ingreso;
         $user->domicilio_id = $domicilio->id ;
         $user->email = $request->email ;
-        $user->password = Hash::make($request->password) ;
+        $user->password = Hash::make('12345678');
         $user->save() ;
+
+        // $user = User::create($request->all()) ;
+        $user->roles()->sync($request->input('roles',[])) ;
 
         return redirect('/users') ;
     }
@@ -70,9 +75,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
-        return 'holis proband' ;
+        $user = User::find($id) ;
+        return view('usuarios.show' , compact('user')) ;
     }
 
     /**
@@ -99,11 +105,12 @@ class UserController extends Controller
     public function update(Request $request , $id)
     {
         $user = User::find($id) ;
-        $user->fill($request->only(['name' , 'apellido' , 'dni' , 'fecha_ingreso' ,'rol_id' , 'telefono' , 'email'])) ;
+        $user->fill($request->only(['name' , 'apellido' , 'dni' , 'fecha_ingreso' , 'telefono' , 'email'])) ;
         $domicilio = $user->domicilio ;
         $domicilio->fill($request->only(['barrio_id' , 'calle' , 'altura'])) ;
         $domicilio->save() ;
         $user->save() ;
+        $user->roles()->sync($request->input('roles',[])) ;
         return redirect('/users');
     }
 

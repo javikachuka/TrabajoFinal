@@ -7,50 +7,65 @@
     <div class="form-group col-md-8">
         <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('roles.create') }}'">Crear Rol</button>
     </div>
-    <div class="form-group text-right">
-    <form method="GET" action="#">
-    <input type="search" name="search" class="" value="{{ old('search') }}">
-            <button type="submit" class="btn btn-primary">Buscar</button>
 
-        </form>
+<div class="card">
+    <div class="card-body">
+            <div class="table-responsive">
+                <table id="proveedores" class="table table-bordered table-striped table-hover datatable">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Permisos</th>
+                        <th>Accion</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($roles as $rol)
+
+                            <tr>
+                                <td>{{$rol->id}}</td>
+                                <td>{{$rol->name}}</td>
+                                <td width="250px">{{$rol->description}}</td>
+                                <td>
+                                    @foreach ($rol->permissions as $permiso)
+                                            <span class="badge badge-info">{{$permiso->name}}</span>
+                                    @endforeach
+                                </td>
+                                <td width ="150px">
+                                    <form method="POST" action="roles/{{$rol->id}}">
+                                        @can('roles_edit')
+                                            <a href="{{ route('roles.edit', $rol->id) }}" class="btn btn-sm btn-xs btn-secondary"> Editar </a>
+                                        @endcan
+                                        @csrf
+                                        @method('DELETE')
+                                        @can('roles_destroy')
+                                            <button type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">Borrar</button>
+                                        @endcan
+                                    </form>
+                                </td>
+                              </tr>
+
+                          @endforeach
+                          {{-- {{$proveedores->links()}} --}}
+                    </tbody>
+                </table>
+            </div>
     </div>
-
-
-
-<table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripcion</th>
-        <th>Accion</th>
-      </tr>
-    </thead>
-    <tbody>
-        @foreach($roles as $rol)
-
-            <tr>
-                <td>{{$rol->id}}</td>
-                <td>{{$rol->name}}</td>
-                <td>{{$rol->description}}</td>
-                <td width ="200px">
-                    <form method="POST" action="roles/{{$rol->id}}">
-                        @can('roles_edit')
-                            <a href="{{ route('roles.edit', $rol->id) }}" class="btn btn-sm btn-xs btn-secondary"> Editar </a>
-                        @endcan
-                        @csrf
-                        @method('DELETE')
-                        @can('roles_destroy')
-                            <button type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">Borrar</button>
-                        @endcan
-                    </form>
-                </td>
-              </tr>
-
-          @endforeach
-          {{-- {{$proveedores->links()}} --}}
-    </tbody>
-</table>
-
-
+</div>
 @endsection
+@push('scripts')
+<script>
+        $(function () {
+          $('#proveedores').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": false,
+            "autoWidth": false,
+          });
+        });
+</script>
+@endpush

@@ -16,8 +16,8 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all() ;
-
-        return view('roles.index', compact('roles')) ;
+        $permisos= Permission::all() ;
+        return view('roles.index', compact('roles', 'permisos')) ;
     }
 
     /**
@@ -27,7 +27,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $rol = new Role() ;
+        $permisos = Permission::all()->pluck('name' , 'id') ;
+        return view('roles.create' , compact('rol' , 'permisos')) ;
     }
 
     /**
@@ -36,9 +38,12 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Role $rol)
     {
-        //
+        $rol->fill($request->all()) ;
+        $rol->save() ;
+        $rol->permissions()->sync($request->input('permisos',[])) ;
+        return redirect('/roles');
     }
 
     /**
@@ -61,7 +66,7 @@ class RoleController extends Controller
     public function edit($id)
     {
         $rol = Role::find($id) ;
-        $permisos = Permission::all() ;
+        $permisos = Permission::all()->pluck('name' , 'id') ;
 
         return view('roles.edit' , compact('rol' , 'permisos'));
     }
@@ -73,9 +78,13 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request , $id)
     {
-        return $request ;
+        $rol = Role::find($id) ;
+        $rol->fill($request->all()) ;
+        $rol->save() ;
+        $rol->permissions()->sync($request->input('permisos',[])) ;
+        return redirect('/roles');
     }
 
     /**

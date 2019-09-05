@@ -27,7 +27,7 @@
                             <td>{{$producto->nombre}}</td>
                             <td>{{$producto->codigo}}</td>
                             <td>{{$producto->cantidad}}</td>
-                            <td>{{$producto->categoria->nombre}}</td>
+                            <td>{{$producto->rubro->nombre}}</td>
                             <td width ="200px">
                                 <form method="POST" action="productos/{{$producto->id}}">
                                     @can('proveedores_edit')

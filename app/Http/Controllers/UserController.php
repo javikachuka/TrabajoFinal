@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Barrio;
-use App\Domicilio ;
+use App\Zona;
+use App\Direccion ;
 use App\User ;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Hash;
@@ -34,8 +34,8 @@ class UserController extends Controller
     {
         $user = new User() ;
         $roles = Role::all()->pluck('name' , 'id') ;
-        $barrios = Barrio::all() ;
-        return view('usuarios.registro' ,  compact('roles' ,'barrios','user')) ;
+        $zonas = Zona::all() ;
+        return view('usuarios.registro' ,  compact('roles' ,'zonas','user')) ;
     }
 
     /**
@@ -47,20 +47,20 @@ class UserController extends Controller
     public function store(Request $request, User $user)
     {
 
-        $domicilio = new Domicilio();
-        $domicilio->barrio_id = $request->barrio_id ;
-        $domicilio->calle = $request->calle ;
-        $domicilio->altura = $request->altura ;
-        $domicilio->save() ;
+        $direccion = new Direccion();
+        $direccion->zona_id = $request->zona_id ;
+        $direccion->calle = $request->calle ;
+        $direccion->altura = $request->altura ;
+        $direccion->save() ;
 
         $user->name = $request->name ;
         $user->apellido = $request->apellido ;
         $user->dni = $request->dni ;
         $user->telefono = $request->telefono ;
         $user->fecha_ingreso = $request->fecha_ingreso;
-        $user->domicilio_id = $domicilio->id ;
+        $user->direccion_id = $direccion->id ;
         $user->email = $request->email ;
-        $user->password = Hash::make('12345678');
+        $user->password = Hash::make('123456789');
         $user->save() ;
 
         // $user = User::create($request->all()) ;
@@ -75,9 +75,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::find($id) ;
+        //$user = User::find($id) ;
         return view('usuarios.show' , compact('user')) ;
     }
 
@@ -91,8 +91,8 @@ class UserController extends Controller
     {
         $user = User::find($id) ;
         $roles = Role::all()->pluck('name' , 'id') ;
-        $barrios = Barrio::all() ;
-        return view('usuarios.edit' , compact('user','roles','barrios'));
+        $zonas = Zona::all() ;
+        return view('usuarios.edit' , compact('user','roles','zonas'));
     }
 
     /**
@@ -106,9 +106,9 @@ class UserController extends Controller
     {
         $user = User::find($id) ;
         $user->fill($request->only(['name' , 'apellido' , 'dni' , 'fecha_ingreso' , 'telefono' , 'email'])) ;
-        $domicilio = $user->domicilio ;
-        $domicilio->fill($request->only(['barrio_id' , 'calle' , 'altura'])) ;
-        $domicilio->save() ;
+        $direccion = $user->direccion ;
+        $direccion->fill($request->only(['zona_id' , 'calle' , 'altura'])) ;
+        $direccion->save() ;
         $user->save() ;
         $user->roles()->sync($request->input('roles',[])) ;
         return redirect('/users');

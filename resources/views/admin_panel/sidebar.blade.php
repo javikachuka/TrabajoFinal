@@ -39,17 +39,12 @@
                                     <p>Ingresos</p>
                                 </a>
                             </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('productos.index') }}" class="nav-link">
-                                <i class="fas fa-cube nav-icon"></i>
-                                <p>Productos</p>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('productos.index') }}" class="nav-link">
+                                    <i class="fas fa-cube nav-icon"></i>
+                                    <p>Productos</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="{{ route('proveedores.index') }}" class="nav-link">
                                     <i class="fas fa-people-carry nav-icon"></i>
@@ -58,7 +53,7 @@
                             </li>
                     </ul>
 
-                  </li>
+                </li>
 
               <li class="nav-item has-treeview ">
                 <a href="#" class="nav-link active">
@@ -68,32 +63,29 @@
                       <i class="right fas fa-angle-left"></i>
                     </p>
                   </a>
-                  @can('users_index')
+
                       <ul class="nav nav-treeview">
+                        @can('users_index')
                         <li class="nav-item">
                           <a href="{{ route('users.index') }}" class="nav-link">
                             <i class="far fa-user nav-icon"></i>
                             <p>Usuarios</p>
                           </a>
                         </li>
+                        @endcan
+                        <li class="nav-item">
+                          <a href="{{ route('roles.index') }}" class="nav-link">
+                            <i class="fas fa-user-lock nav-icon"></i>
+                            <p>Roles</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                        <a href="{{route('permisos.index')}}" class="nav-link">
+                            <i class="fas fa-user-tag nav-icon"></i>
+                            <p>Permisos</p>
+                          </a>
+                        </li>
                       </ul>
-                  @endcan
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="{{ route('roles.index') }}" class="nav-link">
-                        <i class="fas fa-user-lock nav-icon"></i>
-                        <p>Roles</p>
-                      </a>
-                    </li>
-                  </ul>
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="#" class="nav-link">
-                        <i class="fas fa-user-tag nav-icon"></i>
-                        <p>Permisos</p>
-                      </a>
-                    </li>
-                  </ul>
               </li>
 
             </ul>

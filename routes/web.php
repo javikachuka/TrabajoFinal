@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('users','UserController@index')->name('users.index')->middleware('permission:users_index')  ;
     Route::get('users/create','UserController@create')->name('users.create')->middleware('permission:users_create')  ;
     Route::post('users','UserController@store')->name('users.store')->middleware('permission:users_store')  ;
-    Route::get('users/{id}','UserController@show')->name('users.show')->middleware('permission:users_show')  ;
+    Route::get('users/{user}','UserController@show')->name('users.show')->middleware('permission:users_show')  ;
     Route::get('users/{id}/edit' , 'UserController@edit')->name('users.edit')->middleware('permission:users_edit')  ;
     Route::put('users/{user}' , 'UserController@update')->name('users.update')->middleware('permission:users_update')  ;
     Route::delete('users/{id}' , 'UserController@destroy')->name('users.destroy')->middleware('permission:users_destroy') ;
@@ -58,6 +58,15 @@ Route::middleware(['auth'])->group(function(){
     Route::get('roles/{id}/edit','RoleController@edit')->name('roles.edit')->middleware('permission:roles_edit')  ;
     Route::put('roles/{roles}' , 'RoleController@update')->name('roles.update')->middleware('permission:roles_update')  ;
     Route::delete('roles/{id}' , 'RoleController@destroy')->name('roles.destroy')->middleware('permission:roles_destroy') ;
+
+    //permisos
+    Route::get('permisos','PermissionController@index')->name('permisos.index')->middleware('permission:permisos_index')  ;
+    Route::get('permisos/create', 'PermissionController@create')->name('permisos.create')->middleware('permission:permisos_create')  ;
+    Route::post('permisos','PermissionController@store')->name('permisos.store')->middleware('permission:permisos_store')  ;
+    Route::get('permisos/{permiso}', 'PermissionController@show')->name('permisos.show')->middleware('permission:permisos_show')  ;
+    Route::get('permisos/{permiso}/edit','PermissionController@edit')->name('permisos.edit')->middleware('permission:permisos_edit')  ;
+    Route::put('permisos/{id}' , 'PermissionController@update')->name('permisos.update')->middleware('permission:permisos_update')  ;
+    Route::delete('permisos/{permiso}' , 'PermissionController@destroy')->name('permisos.destroy')->middleware('permission:permisos_destroy') ;
 
 }) ;
 

@@ -18,6 +18,7 @@
                         <th>Nombre</th>
                         <th>Descripcion</th>
                         <th>Permisos</th>
+                        <th>Permiso Especial</th>
                         <th>Accion</th>
                       </tr>
                     </thead>
@@ -32,6 +33,13 @@
                                     @foreach ($rol->permissions as $permiso)
                                             <span class="badge badge-info">{{$permiso->name}}</span>
                                     @endforeach
+                                </td>
+                                <td>
+                                    @if($rol->special == null)
+                                    <span class="badge badge-warning">No posee</span>
+                                    @else
+                                    <span class="badge badge-info">{{$rol->special}}</span>
+                                    @endif
                                 </td>
                                 <td width ="150px">
                                     <form method="POST" action="roles/{{$rol->id}}">

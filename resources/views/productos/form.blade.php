@@ -24,10 +24,10 @@
         </div>
         <div class="form-group">
                 <label >Categoria</label>
-                <select name="categoria_id" class="form-control" >
+                <select name="rubro_id" class="form-control" >
                     <option value="0" selected >--Seleccione una categoria--</option>
-                        @foreach ($categorias as $categoria)
-                            <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
+                        @foreach ($rubros as $rubro)
+                            <option value="{{$rubro->id}}">{{$rubro->nombre}}</option>
                         @endforeach
                 </select>
         </div>

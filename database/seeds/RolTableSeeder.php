@@ -14,17 +14,21 @@ class RolTableSeeder extends Seeder
     {
         Role::create([
             'name'          => 'ADMIN',
-            'slug'          => 'admin',            
+            'slug'          => 'admin',
+            'desciption'    => 'puede hacer de todo' ,
         ]);
 
         Role::create([
             'name'          => 'EMPLEADO_OFICINA',
-            'slug'          => 'empleado_oficina',            
+            'slug'          => 'empleado_oficina',
+            'desciption'    => 'acceso medio' ,
         ]);
 
         Role::create([
             'name'          => 'EMPLEADO_PLANTA',
-            'slug'          => 'empleado_planta',            
+            'slug'          => 'empleado_planta',
+            'desciption'    => 'acceso medio' ,
         ]);
+
     }
 }

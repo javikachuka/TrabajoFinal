@@ -58,10 +58,10 @@
 
                                 <h3>Domicilio</h2>
                                 <div class="form-group">
-                                        <select name="barrio_id" class="form-control" required>
+                                        <select name="zona_id" class="form-control" required>
                                             <option value="0" selected>--Seleccione un barrio--</option>
-                                                @foreach ($barrios as $barrio)
-                                                    <option value="{{$barrio->id}}">{{$barrio->nombre}}</option>
+                                                @foreach ($zonas as $zona)
+                                                    <option value="{{$zona->id}}">{{$zona->nombre}}</option>
                                                 @endforeach
                                         </select>
                                     </div>
@@ -71,9 +71,9 @@
                                                         <div class="form-group">
                                                             <label for="">Calle</label>
                                                             <div class="input-group">
-                                                                <input name="calle" type="text"  value="{{ old('calle') ?? $user->domicilio->calle }}" required class="form-control" placeholder="Calle">
+                                                                <input name="calle" type="text"  value="{{ old('calle') }}" required class="form-control" placeholder="Calle">
                                                                 <span class="input-group-addon">-</span>
-                                                                <input name="altura"  type="text"  value="{{ old('calle') ?? $user->domicilio->altura }}" required class="form-control col-md-3" placeholder="Altura">
+                                                                <input name="altura"  type="text"  value="{{ old('altura')  }}" required class="form-control col-md-3" placeholder="Altura">
                                                             </div>
                                                         </div>
                                                     </div>

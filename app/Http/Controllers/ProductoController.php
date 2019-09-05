@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Categoria;
 use App\Producto;
+use App\Rubro;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -28,8 +28,8 @@ class ProductoController extends Controller
     public function create()
     {
         $producto = new Producto();
-        $categorias = Categoria::all() ;
-        return view('productos.registro', compact('producto', 'categorias')) ;
+        $rubros = Rubro::all() ;
+        return view('productos.registro', compact('producto', 'rubros')) ;
     }
 
     /**
@@ -66,8 +66,8 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = Producto::find($id) ;
-        $categorias = Categoria::all() ;
-        return view('productos.edit' , compact('producto' , 'categorias')) ;
+        $rubros = Rubro::all() ;
+        return view('productos.edit' , compact('producto' , 'rubros')) ;
     }
 
     /**

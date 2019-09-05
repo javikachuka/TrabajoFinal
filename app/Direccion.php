@@ -4,17 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Domicilio extends Model
+class Direccion extends Model
 {
+    protected $table = 'direcciones' ;
 
     protected $fillable = [
-       'barrio_id' ,
-       'calle' ,
-       'altura' 
-    ] ;
+        'zona_id' ,
+        'calle' ,
+        'altura'
+     ] ;
 
-    public function barrio(){
-        return $this->belongsTo(Barrio::class) ;
+    public function zona(){
+        return $this->belongsTo(Zona::class) ;
     }
 
     public function socios(){
@@ -24,5 +25,4 @@ class Domicilio extends Model
     public function users(){
         return $this->hasMany(User::class) ;
     }
-
 }

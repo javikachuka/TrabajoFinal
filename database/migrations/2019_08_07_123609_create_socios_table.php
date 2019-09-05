@@ -19,10 +19,10 @@ class CreateSociosTable extends Migration
             $table->string('nombre') ;
             $table->integer('dni') ;
             $table->integer('nro_conexion');
-            $table->unsignedBigInteger('domicilio_id') ;
+            $table->unsignedBigInteger('direccion_id') ;
             $table->timestamps();
 
-            $table->foreign('domicilio_id')->references('id')->on('domicilios') ;
+            $table->foreign('direccion_id')->references('id')->on('direcciones') ;
         });
     }
 

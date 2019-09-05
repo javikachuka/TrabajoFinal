@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDomiciliosTable extends Migration
+class CreateDireccionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateDomiciliosTable extends Migration
      */
     public function up()
     {
-        Schema::create('domicilios', function (Blueprint $table) {
+        Schema::create('direcciones', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('barrio_id') ;
+            $table->unsignedBigInteger('zona_id') ;
             $table->string('calle') ;
             $table->integer('altura') ;
             $table->timestamps();
+            $table->foreign('zona_id')->references('id')->on('zonas') ;
 
-            $table->foreign('barrio_id')->references('id')->on('barrios') ;
         });
     }
 
@@ -31,6 +31,6 @@ class CreateDomiciliosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('domicilios');
+        Schema::dropIfExists('direcciones');
     }
 }

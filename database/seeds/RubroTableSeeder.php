@@ -1,9 +1,9 @@
 <?php
 
-use App\Categoria;
+use App\Rubro;
 use Illuminate\Database\Seeder;
 
-class CategoriaTableSeeder extends Seeder
+class RubroTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,15 +12,15 @@ class CategoriaTableSeeder extends Seeder
      */
     public function run()
     {
-        Categoria::create([
+        Rubro::create([
             'nombre'          => 'CAÑOS',
         ]);
 
-        Categoria::create([
+        Rubro::create([
             'nombre'          => 'MANGUERAS',
         ]);
 
-        Categoria::create([
+        Rubro::create([
             'nombre'          => 'MEDIDORES',
         ]);
     }

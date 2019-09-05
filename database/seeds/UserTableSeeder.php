@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User ;
 use App\Rol ;
-use App\Domicilio ;
+use App\Direccion ;
 
 
 class UserTableSeeder extends Seeder
@@ -16,17 +16,17 @@ class UserTableSeeder extends Seeder
     public function run()
     {
 
-        $domicilio = new Domicilio();
-        $domicilio->barrio_id = 1 ;
-        $domicilio->calle = 'null' ;
-        $domicilio->altura = 0 ;
-        $domicilio->save() ;
+        $direccion = new Direccion();
+        $direccion->zona_id = 1 ;
+        $direccion->calle = 'null' ;
+        $direccion->altura = 0 ;
+        $direccion->save() ;
 
         $user = new User() ;
         $user->name = 'admin' ;
         $user->apellido = 'admin' ;
         $user->dni = '0' ;
-        $user->domicilio_id = $domicilio->id ;
+        $user->direccion_id = $direccion->id ;
         $user->fecha_ingreso = new DateTime('now');
         $user->telefono = 0 ;
         $user->email = 'admin@admin.com' ;

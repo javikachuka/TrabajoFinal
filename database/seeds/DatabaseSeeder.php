@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            BarrioTableSeeder::class ,
+            ZonaTableSeeder::class ,
             RolTableSeeder::class,
             PermissionsTableSeeder::class,
             UserTableSeeder::class ,

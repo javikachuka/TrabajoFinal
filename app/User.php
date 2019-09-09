@@ -52,7 +52,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function domicilio(){
-        return $this->belongsTo(Domicilio::class) ;
+    public function direccion(){
+        return $this->belongsTo(Direccion::class) ;
     }
 }

@@ -13,13 +13,13 @@
         </div>
         <div class="form-group">
                 <label>Cantidad</label>
-                <input type="number" name="cantidad" value="{{ old('cantidad') ?? $producto->cantidad }} " min="0" class="form-control">
+                <input type="text" name="cantidad" value="{{ old('cantidad') ?? $producto->cantidad }}"  class="form-control">
                 <div>{{$errors->first('cantidad')}} </div>
         </div>
 
         <div class="form-group">
                 <label>Cantidad Minima</label>
-                <input type="number" name="cantidadMinima" value="{{ old('cantidadMinima') ?? $producto->cantidadMinima }} " min="0" class="form-control">
+                <input type="text" name="cantidadMinima" value="{{ old('cantidadMinima') ?? $producto->cantidadMinima }} "  class="form-control">
                 <div>{{$errors->first('cantidadMinima')}} </div>
         </div>
         <div class="form-group">

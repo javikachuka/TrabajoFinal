@@ -25,4 +25,9 @@ class Direccion extends Model
     public function users(){
         return $this->hasMany(User::class) ;
     }
+
+    public function direccion()
+    {
+        return $this->belongsTo(Almacen::class);
+    }
 }

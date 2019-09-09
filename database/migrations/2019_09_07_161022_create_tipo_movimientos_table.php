@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFlujoTrabajosTable extends Migration
+class CreateTipoMovimientosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateFlujoTrabajosTable extends Migration
      */
     public function up()
     {
-        Schema::create('flujo_trabajos', function (Blueprint $table) {
+        Schema::create('tipo_movimientos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ class CreateFlujoTrabajosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('flujo_trabajos');
+        Schema::dropIfExists('tipo_movimientos');
     }
 }

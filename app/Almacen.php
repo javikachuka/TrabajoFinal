@@ -4,11 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Proveedor extends Model
+class Almacen extends Model
 {
-    protected $table = "proveedores" ;
+    protected $table = 'almacenes' ;
 
-    protected $guarded = [] ;
+    public function direccion()
+    {
+        return $this->hasOne(Direccion::class);
+    }
 
     public function cabecerasMovimiento()
     {

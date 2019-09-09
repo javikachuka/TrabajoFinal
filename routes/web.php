@@ -68,6 +68,22 @@ Route::middleware(['auth'])->group(function(){
     Route::put('permisos/{id}' , 'PermissionController@update')->name('permisos.update')->middleware('permission:permisos_update')  ;
     Route::delete('permisos/{permiso}' , 'PermissionController@destroy')->name('permisos.destroy')->middleware('permission:permisos_destroy') ;
 
+
+    //transiciones
+    Route::get('transiciones','TransicionController@index')->name('transiciones.index') ;
+    Route::get('transiciones/create', 'TransicionController@create')->name('transiciones.create') ;
+    Route::post('transiciones', 'TransicionController@store')->name('transiciones.store') ;
+
+
+    //movimientos
+    Route::get('movimientos','MovimientoController@index')->name('movimientos.index') ;
+    Route::get('movimientos/create', 'MovimientoController@create')->name('movimientos.create') ;
+    // Route::post('movimientos', 'MovimientoController@store')->name('movimientos.store') ;
+    Route::post('movimientos/ingreso','MovimientoController@ingreso')->name('movimientos.ingreso') ;
+    Route::post('movimientos/egreso','MovimientoController@egreso')->name('movimientos.egreso') ;
+
+
+
 }) ;
 
 

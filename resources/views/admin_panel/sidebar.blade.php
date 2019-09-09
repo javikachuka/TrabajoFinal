@@ -34,7 +34,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('productos.index') }}" class="nav-link">
+                                <a href="{{ route('movimientos.index') }}" class="nav-link">
                                     <i class="fas fa-cube nav-icon"></i>
                                     <p>Ingresos</p>
                                 </a>
@@ -87,6 +87,25 @@
                         </li>
                       </ul>
               </li>
+
+              <li class="nav-item has-treeview ">
+                <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-users-cog"></i>
+                    <p>
+                      Flujo de Trabajo
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
+                  </a>
+
+                      <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                          <a href="{{ route('transiciones.index') }}" class="nav-link">
+                            <i class="far fa-user nav-icon"></i>
+                            <p>Transiciones</p>
+                          </a>
+                        </li>
+              </li>
+
 
             </ul>
           </nav>

@@ -98,7 +98,7 @@ class ProductoController extends Controller
             'nombre' => 'required' ,
             'codigo' => 'required' ,
             'cantidad' => 'required' ,
-            'categoria_id' => 'required'
+            'rubro_id' => 'required'
         ]);
     }
 }

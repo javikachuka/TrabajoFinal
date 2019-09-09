@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Estado;
+use App\FlujoTrabajo;
 use App\Transicion;
+use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class TransicionController extends Controller
 {
@@ -14,7 +18,9 @@ class TransicionController extends Controller
      */
     public function index()
     {
-        //
+        $flujosTrabajo = FlujoTrabajo::all() ;
+        $estados = Estado::all() ;
+        return view('transiciones.index' , compact('flujosTrabajo' , 'estados')) ;
     }
 
     /**
@@ -33,9 +39,22 @@ class TransicionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request , Transicion $transicion)
     {
-        //
+        $transicion->nombre = $request->nombre ;
+        $transicion->flujoTrabajo = $request->flujoTrabajo ;
+        $transicion->asignarEstadoInicial($request->estadoInicial );
+        $transiciones = Transicion::all() ;
+
+        if($transicion->asignarEstadoFinal($request->estadoFinal )){
+            foreach($transiciones as $tran){
+                if(($tran->estadoInicial == $transicion->estadoInicial) && ($tran->estadoFinal == $transicion->estadoFinal)){
+                    return redirect('/transiciones')->with('message', ':(') ;
+                }
+            }
+            $transicion->save() ;
+            return redirect('/transiciones')->with('message', 'Success!') ;
+        }
     }
 
     /**
@@ -82,4 +101,5 @@ class TransicionController extends Controller
     {
         //
     }
+
 }

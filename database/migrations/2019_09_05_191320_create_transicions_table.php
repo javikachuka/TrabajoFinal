@@ -15,6 +15,13 @@ class CreateTransicionsTable extends Migration
     {
         Schema::create('transicions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre') ;
+            $table->unsignedBigInteger('flujoTrabajo') ;
+            $table->foreign('flujoTrabajo')->references('id')->on('flujo_trabajos') ;
+            $table->unsignedBigInteger('estadoInicial')  ;
+            $table->foreign('estadoInicial')->references('id')->on('estados') ;
+            $table->unsignedBigInteger('estadoFinal')  ;
+            $table->foreign('estadoFinal')->references('id')->on('estados') ;
             $table->timestamps();
         });
     }

@@ -12,4 +12,20 @@ class Producto extends Model
     public function rubro(){
         return $this->belongsTo(Rubro::class) ;
     }
+
+    public function movimiento()
+    {
+        return $this->belongsTo(Movimiento::class);
+    }
+
+    public function sumarCantidad($cantidad){
+        $this->cantidad += $cantidad;
+    }
+
+    public function restarCantidad($cantidad){
+        if($cantidad <= $this->cantidad){
+            $this->cantidad -= $cantidad;
+        }
+
+    }
 }

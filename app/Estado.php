@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Estado extends Model
 {
     public function tranInicial(){
-        return $this->belongsTo(Transicion::class , 'estadoInicial');
+        return $this->hasMany(Transicion::class , 'estadoInicial_id');
     }
 
     public function tranFinal(){
-        return $this->belongsTo(Transicion::class , 'estadoFinal');
+        return $this->hasMany(Transicion::class , 'estadoFinal_id');
     }
 
 

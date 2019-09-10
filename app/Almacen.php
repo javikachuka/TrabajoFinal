@@ -18,4 +18,9 @@ class Almacen extends Model
         return $this->hasMany(CabeceraMovimiento::class);
     }
 
+    public function productos()
+    {
+        return $this->belongsToMany(Producto::class);
+    }
+
 }

@@ -43,6 +43,9 @@ class RoleController extends Controller
         $rol->fill($request->all()) ;
         $rol->save() ;
         $rol->permissions()->sync($request->input('permisos',[])) ;
+        if($request->special != ""){
+            $rol->permissions()->sync($request->input('special')) ;
+        }
         return redirect('/roles');
     }
 

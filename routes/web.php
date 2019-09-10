@@ -16,6 +16,11 @@ Route::get('/', function(){
     return view('principal.login') ;
 }) ;
 
+
+Route::get('/proveedorPDF', 'PdfController@proveedorPDF')->name('proveedor.pdf') ;
+
+
+
 Route::middleware(['auth'])->group(function(){
     Route::resource('reclamos','ReclamoController') ;
 

@@ -8,26 +8,26 @@ class Transicion extends Model
 {
     public function flujoTrabajo()
     {
-        return $this->belongsTo(FlujoTrabajo::class);
+        return $this->belongsTo(FlujoTrabajo::class , 'flujoTrabajo_id');
     }
 
     public function estadoInicial(){
-        return $this->hasOne(Estado::class);
+        return $this->belongsTo(Estado::class, 'estadoInicial_id');
     }
 
     public function estadoFinal(){
-        return $this->hasOne(Estado::class);
+        return $this->belongsTo(Estado::class, 'estadoFinal_id');
     }
 
     public function asignarEstadoInicial($estado){
 
-        $this->estadoInicial = $estado;
+        $this->estadoInicial_id = $estado;
         return true ;
     }
 
     public function asignarEstadoFinal($estado){
-        if($this->estadoInicial != $estado){
-            $this->estadoFinal = $estado ;
+        if($this->estadoInicial_id != $estado){
+            $this->estadoFinal_id = $estado ;
             return true ;
         }
         return false ;

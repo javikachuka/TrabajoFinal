@@ -18,6 +18,16 @@ class Producto extends Model
         return $this->belongsTo(Movimiento::class);
     }
 
+    public function almacenes()
+    {
+        return $this->belongsToMany(Almacen::class);
+    }
+
+    public function proveedores()
+    {
+        return $this->belongsToMany(Proveedor::class);
+    }
+
     public function sumarCantidad($cantidad){
         $this->cantidad += $cantidad;
     }

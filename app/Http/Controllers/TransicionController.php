@@ -18,9 +18,10 @@ class TransicionController extends Controller
      */
     public function index()
     {
-        $flujosTrabajo = FlujoTrabajo::all() ;
+
         $estados = Estado::all() ;
-        return view('transiciones.index' , compact('flujosTrabajo' , 'estados')) ;
+        // $flujosTrabajo = FlujoTrabajo::all() ;
+        return view('transiciones.multiple' , compact( 'estados')) ;
     }
 
     /**
@@ -39,22 +40,35 @@ class TransicionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request , Transicion $transicion)
+    public function store(Request $request)
     {
-        $transicion->nombre = $request->nombre ;
-        $transicion->flujoTrabajo = $request->flujoTrabajo ;
-        $transicion->asignarEstadoInicial($request->estadoInicial );
-        $transiciones = Transicion::all() ;
+        $flu = FlujoTrabajo::find(1) ;
 
-        if($transicion->asignarEstadoFinal($request->estadoFinal )){
-            foreach($transiciones as $tran){
-                if(($tran->estadoInicial == $transicion->estadoInicial) && ($tran->estadoFinal == $transicion->estadoFinal)){
-                    return redirect('/transiciones')->with('message', ':(') ;
-                }
+        for($i = 0 ; $i < sizeof($request->nombre); $i++){
+            $transicion = new Transicion() ;
+            $transicion->flujoTrabajo_id = $flu->id ;
+            $transicion->nombre = $request->nombre[$i] ;
+            $transicion->estadoInicial_id = $request->estadoInicial[$i];
+            if($transicion->asignarEstadoFinal($request->estadoFinal[$i]) ){
+                $transicion->save() ;
             }
-            $transicion->save() ;
-            return redirect('/transiciones')->with('message', 'Success!') ;
+
         }
+        // $transicion->nombre = $request->nombre ;
+        // $transicion->flujoTrabajo = $request->flujoTrabajo ;
+        // $transicion->asignarEstadoInicial($request->estadoInicial );
+        // $transiciones = Transicion::all() ;
+
+        // if($transicion->asignarEstadoFinal($request->estadoFinal )){
+        //     foreach($transiciones as $tran){
+        //         if(($tran->estadoInicial == $transicion->estadoInicial) && ($tran->estadoFinal == $transicion->estadoFinal)){
+        //             return redirect('/transiciones')->with('message', ':(') ;
+        //         }
+        //     }
+        //     $transicion->save() ;
+        //     return redirect('/transiciones')->with('message', 'Success!') ;
+        // }
+
     }
 
     /**

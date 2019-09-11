@@ -1,5 +1,6 @@
 <?php
 
+use App\Rubro;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +18,8 @@ class DatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             UserTableSeeder::class ,
             EstadosTableSeeder::class ,
+            RubroTableSeeder::class,
+            TipoComprobanteTableSeeder::class ,
         ]);
 
     }

@@ -22,4 +22,8 @@ class CabeceraMovimiento extends Model
     {
         return $this->belongsTo(Almacen::class);
     }
+
+    public function tipoComprobante(){
+        return $this->belongsTo(TipoComprobante::class, 'tipoComprobante_id');
+    }
 }

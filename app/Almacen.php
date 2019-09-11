@@ -23,4 +23,14 @@ class Almacen extends Model
         return $this->belongsToMany(Producto::class);
     }
 
+    public function movimientosOrigen()
+    {
+        return $this->hasMany(Movimiento::class,'almacenOrigen_id');
+    }
+
+    public function movimientosDestino()
+    {
+        return $this->hasMany(Movimiento::class,'almacenDestino_id');
+    }
+
 }

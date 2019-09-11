@@ -82,10 +82,14 @@ Route::middleware(['auth'])->group(function(){
 
     //movimientos
     Route::get('movimientos','MovimientoController@index')->name('movimientos.index') ;
-    Route::get('movimientos/create', 'MovimientoController@create')->name('movimientos.create') ;
-    // Route::post('movimientos', 'MovimientoController@store')->name('movimientos.store') ;
-    Route::post('movimientos/ingreso','MovimientoController@ingreso')->name('movimientos.ingreso') ;
-    Route::post('movimientos/egreso','MovimientoController@egreso')->name('movimientos.egreso') ;
+    Route::get('movimientos/createIngreso', 'MovimientoController@createIngreso')->name('movimientos.createIngreso') ;
+    Route::get('movimientos/createTransferencia', 'MovimientoController@createTransferencia')->name('movimientos.createTransferencia') ;
+    Route::post('movimientos', 'MovimientoController@store')->name('movimientos.store') ;
+
+    Route::get('movimientos/{movimiento}/edit','MovimientoController@edit')->name('movimientos.edit')->middleware('permission:movimientos_edit')  ;
+
+    // Route::post('movimientos/ingreso','MovimientoController@ingreso')->name('movimientos.ingreso') ;
+    // Route::post('movimientos/egreso','MovimientoController@egreso')->name('movimientos.egreso') ;
 
 
 

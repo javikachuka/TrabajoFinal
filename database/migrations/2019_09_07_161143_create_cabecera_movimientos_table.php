@@ -16,10 +16,12 @@ class CreateCabeceraMovimientosTable extends Migration
         Schema::create('cabecera_movimientos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('fecha');
-            $table->unsignedBigInteger('almacen_id');
-            $table->foreign('almacen_id')->references('id')->on('almacenes') ;
-            $table->unsignedBigInteger('proveedor_id');
+            $table->date('fechaComprobante')->nullable();
+            $table->integer('numeroComprobante')->nullable();
+            $table->unsignedBigInteger('proveedor_id')->nullable();
             $table->foreign('proveedor_id')->references('id')->on('proveedores') ;
+            $table->unsignedBigInteger('tipoComprobante_id')->nullable();
+            $table->foreign('tipoComprobante_id')->references('id')->on('tipo_comprobantes') ;
             $table->timestamps();
         });
     }

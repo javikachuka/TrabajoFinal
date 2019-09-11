@@ -7,10 +7,10 @@
     <div class="form-group col-md-8">
         <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('proveedores.create') }}'">Registrar Proveedor</button>
     </div>
-<div class="card">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table id="proveedores" class="table table-bordered table-striped table-hover datatable">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="proveedores" class="table table-bordered table-striped table-hover datatable">
                 <thead>
                   <tr>
                     <th>Nombre</th>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTipoMovimientosTable extends Migration
+class CreateTipoComprobantesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateTipoMovimientosTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_movimientos', function (Blueprint $table) {
+        Schema::create('tipo_comprobantes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre');
-            $table->boolean('operacion');
+            $table->string('nombre') ;
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateTipoMovimientosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_movimientos');
+        Schema::dropIfExists('tipo_comprobantes');
     }
 }

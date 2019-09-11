@@ -26,28 +26,28 @@
 
               <li class="nav-item has-treeview  ">
                     <a href="#" class="nav-link active">
-                      <i class="nav-icon fas fa-warehouse"></i>
+                      <i class="nav-icon fal fa-warehouse"></i>
                       <p>
                         Gestion Almacen
-                        <i class="right fas fa-angle-left"></i>
+                        <i class="right fal fa-angle-left"></i>
                       </p>
                     </a>
                     <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('movimientos.index') }}" class="nav-link">
-                                    <i class="fas fa-tags nav-icon"></i>
-                                    <p>Ingresos</p>
+                                    <i class="fal fa-dolly nav-icon"></i>
+                                    <p>Movimientos</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('productos.index') }}" class="nav-link">
-                                    <i class="fas fa-cube nav-icon"></i>
+                                    <i class="fal fa-cube nav-icon"></i>
                                     <p>Productos</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('proveedores.index') }}" class="nav-link">
-                                    <i class="fas fa-people-carry nav-icon"></i>
+                                    <i class="fal fa-people-carry nav-icon"></i>
                                     <p>Proveedores</p>
                                 </a>
                             </li>
@@ -57,10 +57,10 @@
 
               <li class="nav-item has-treeview ">
                 <a href="#" class="nav-link active">
-                    <i class="nav-icon fas fa-users-cog"></i>
+                    <i class="nav-icon fal fa-users-cog"></i>
                     <p>
                       Gestion Usuarios
-                      <i class="right fas fa-angle-left"></i>
+                      <i class="right fal fa-angle-left"></i>
                     </p>
                   </a>
 
@@ -68,20 +68,20 @@
                         @can('users_index')
                         <li class="nav-item">
                           <a href="{{ route('users.index') }}" class="nav-link">
-                            <i class="far fa-user nav-icon"></i>
+                            <i class="fal fa-user nav-icon"></i>
                             <p>Usuarios</p>
                           </a>
                         </li>
                         @endcan
                         <li class="nav-item">
                           <a href="{{ route('roles.index') }}" class="nav-link">
-                            <i class="fas fa-user-lock nav-icon"></i>
+                            <i class="fal fa-user-lock nav-icon"></i>
                             <p>Roles</p>
                           </a>
                         </li>
                         <li class="nav-item">
                         <a href="{{route('permisos.index')}}" class="nav-link">
-                            <i class="fas fa-user-tag nav-icon"></i>
+                            <i class="fal fa-user-tag nav-icon"></i>
                             <p>Permisos</p>
                           </a>
                         </li>
@@ -89,17 +89,36 @@
               </li>
               <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">
-                        <i class="nav-icon fas fa-file-pdf"></i>
+                        <i class="nav-icon fal fa-users-cog"></i>
+                        <p>
+                          Flujo de Trabajo
+                          <i class="right fal fa-angle-left"></i>
+                        </p>
+                      </a>
+
+                          <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                              <a href="{{ route('transiciones.index') }}" class="nav-link">
+                                <i class="fal fa-user nav-icon"></i>
+                                <p>Transiciones</p>
+                              </a>
+                            </li>
+                        </ul>
+                  </li>
+
+              <li class="nav-item has-treeview ">
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fal fa-file-pdf"></i>
                         <p>
                           Reportes
-                          <i class="right fas fa-angle-left"></i>
+                          <i class="right fal fa-angle-left"></i>
                         </p>
                       </a>
 
                           <ul class="nav nav-treeview">
                             <li class="nav-item">
                               <a href="{{ route('proveedor.pdf') }}" class="nav-link">
-                                <i class="far fa-user nav-icon"></i>
+                                <i class="fal fa-user nav-icon"></i>
                                 <p>Proveedores</p>
                               </a>
                             </li>
@@ -107,24 +126,7 @@
                             </ul>
                   </li>
 
-                  <li class="nav-item has-treeview ">
-                        <a href="#" class="nav-link active">
-                            <i class="nav-icon fas fa-users-cog"></i>
-                            <p>
-                              Flujo de Trabajo
-                              <i class="right fas fa-angle-left"></i>
-                            </p>
-                          </a>
 
-                              <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                  <a href="{{ route('transiciones.index') }}" class="nav-link">
-                                    <i class="far fa-user nav-icon"></i>
-                                    <p>Transiciones</p>
-                                  </a>
-                                </li>
-                            </ul>
-                      </li>
 
 
 

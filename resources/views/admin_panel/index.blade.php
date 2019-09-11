@@ -9,7 +9,7 @@
   <title>ReCoop</title>
 
   <!-- Font Awesome Icons -->
-<link rel="stylesheet" href="{{ asset('admin_panel/plugins/fontawesome-free/css/all.min.css') }}">
+<link rel="stylesheet" href="{{ asset('admin_panel/plugins/fontawesome/css/all.min.css') }}">
   <!-- IonIcons -->
   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}

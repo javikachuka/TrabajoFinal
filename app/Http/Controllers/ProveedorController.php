@@ -46,7 +46,7 @@ class ProveedorController extends Controller
 
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
-        return redirect('/proveedores') ;
+        return redirect('/proveedores')->with('confirmar', 'Guardsdsado!') ;
 
     }
 
@@ -90,7 +90,7 @@ class ProveedorController extends Controller
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
 
-        return redirect('/proveedores') ;
+        return redirect('/proveedores')->with('confirmar' , 'asdfa'); ;
     }
 
     /**
@@ -113,7 +113,7 @@ class ProveedorController extends Controller
             'nombre' => 'required' ,
             'cuit' => 'required' ,
             'email' => 'required|email' ,
-            'telefono' => 'required'
+            'telefono' => 'numeric|required'
         ]);
     }
 }

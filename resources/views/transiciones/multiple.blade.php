@@ -27,7 +27,6 @@
                                 </td>
                                 <td>
                                     <select name="estadoInicial[]" class="form-control" required>
-                                            <option value="0" selected>--Seleccione un estado--</option>
                                                 @foreach ($estados as $estado)
                                                     <option value="{{$estado->id}}">{{$estado->nombre}}</option>
                                                 @endforeach
@@ -35,13 +34,12 @@
                                 </td>
                                 <td>
                                     <select name="estadoFinal[]" class="form-control" required>
-                                            <option value="0" selected>--Seleccione un estado--</option>
                                                     @foreach ($estados as $estado)
                                                         <option value="{{$estado->id}}">{{$estado->nombre}}</option>
                                                     @endforeach
                                     </select>
                                 </td>
-                                <td><a href="#" class="btn btn-danger remove"><i class="fas fa-minus"></i></a></td>
+                                <td><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>
                             </tr>
 
                         </tbody>

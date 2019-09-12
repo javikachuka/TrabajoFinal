@@ -15,6 +15,8 @@
   {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('admin_panel/dist/css/adminlte.min.css') }}">
+
+  <link rel="stylesheet" href="{{asset('admin_panel/plugins/sweetalert2/sweetalert2.min.css')}}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link href="{{asset('admin_panel/plugins/select2/css/select2.css')}}" rel="stylesheet">
@@ -88,7 +90,34 @@
     <script src="{{asset('admin_panel/plugins/select2/js/select2.js')}}"></script>
 
     <!-- OPTIONAL SCRIPTS -->
+    <script src="{{asset('admin_panel/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
+    <script>
+        const Confirmar = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 3000,
+        type: 'success',
+        title: 'Guardado!',
+        })
+        const Cancelar = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 3000,
+        type: 'error',
+        title: 'No es posible la accion',
+        })
+        const Alerta = Swal.mixin({
+        toast: false,
+        showConfirmButton: true,
+        type: 'alert',
+        title: 'Verifique los campos',
+        })
+    </script>
+
     <script src="{{asset('admin_panel/plugins/chart.js/Chart.min.js')}}"></script>
+
 
     <script src="{{asset('admin_panel/dist/js/demo.js')}}"></script>
     @stack('scripts')

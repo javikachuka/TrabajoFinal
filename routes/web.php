@@ -15,6 +15,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', function(){
     return view('principal.login') ;
 }) ;
+Route::get('/prueba', function(){
+    return view('prueba') ;
+}) ;
 
 
 Route::get('/proveedorPDF', 'PdfController@proveedorPDF')->name('proveedor.pdf') ;
@@ -47,10 +50,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('productos','ProductoController@index')->name('productos.index')->middleware('permission:productos_index')  ;
     Route::get('productos/create','ProductoController@create')->name('productos.create')->middleware('permission:productos_create')  ;
     Route::post('productos','ProductoController@store')->name('productos.store')->middleware('permission:productos_store')  ;
-    Route::get('productos/{id}','ProductoController@show')->name('productos.show')->middleware('permission:productos_show')  ;
+    Route::get('productos/{producto}','ProductoController@show')->name('productos.show')->middleware('permission:productos_show')  ;
     Route::get('productos/{id}/edit' , 'ProductoController@edit')->name('productos.edit')->middleware('permission:productos_edit')  ;
     Route::put('productos/{producto}' , 'ProductoController@update')->name('productos.update')->middleware('permission:productos_update')  ;
-    Route::delete('productos/{id}' , 'ProductoController@destroy')->name('productos.destroy')->middleware('permission:productos_destroy') ;
+    Route::delete('productos/{producto}' , 'ProductoController@destroy')->name('productos.destroy')->middleware('permission:productos_destroy') ;
 
     //socios
     Route::resource('socios' , 'SocioController') ;
@@ -84,7 +87,9 @@ Route::middleware(['auth'])->group(function(){
     Route::get('movimientos','MovimientoController@index')->name('movimientos.index') ;
     Route::get('movimientos/createIngreso', 'MovimientoController@createIngreso')->name('movimientos.createIngreso') ;
     Route::get('movimientos/createTransferencia', 'MovimientoController@createTransferencia')->name('movimientos.createTransferencia') ;
-    Route::post('movimientos', 'MovimientoController@store')->name('movimientos.store') ;
+    Route::post('movimientos/ingreso', 'MovimientoController@storeIngreso')->name('movimientos.storeIngreso') ;
+    Route::post('movimientos/transferencia', 'MovimientoController@storeTransferencia')->name('movimientos.storeTransferencia') ;
+
 
     Route::get('movimientos/{movimiento}/edit','MovimientoController@edit')->name('movimientos.edit')->middleware('permission:movimientos_edit')  ;
 

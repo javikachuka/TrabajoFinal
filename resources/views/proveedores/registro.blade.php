@@ -11,3 +11,10 @@
 </form>
 
 @endsection
+@push('scripts')
+<script>
+        @if (session('alert'))
+            Alerta.fire("{{ session('alert') }}");
+        @endif
+    </script>
+@endpush

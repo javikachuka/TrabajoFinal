@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Existencia;
 use App\Producto;
 use App\Rubro;
 use Illuminate\Http\Request;
@@ -54,7 +55,8 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        //
+        $exis = $producto->existencias ;
+        return view('productos.show' , compact('producto', 'exis')) ;
     }
 
     /**
@@ -79,7 +81,10 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //
+        $this->validar();
+        $producto->fill($request->all()) ;
+        $producto->update() ;
+        return redirect('/productos')->with('confirmar' , 'asdf') ;
     }
 
     /**
@@ -90,15 +95,17 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        $producto->delete() ;
+
+        return redirect()->back() ;
     }
 
     public function validar(){
         $data = request()->validate([
             'nombre' => 'required' ,
-            'codigo' => 'required' ,
-            'cantidad' => 'required' ,
-            'rubro_id' => 'required'
+            'codigo' => 'required|numeric' ,
+            'cantidadMinima' => 'required|numeric' ,
+            'rubro_id' => 'required',
         ]);
     }
 }

@@ -8,9 +8,15 @@
                 <div class="col-md-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
-                            <form class="form-group " method="POST" action="/movimientos" >
+                            <form class="form-group " method="POST" action="/movimientos/ingreso" >
                                 <div class="row">
-
+                                    @if (session()->has('message'))
+                                        <div class="alert alert-danger">
+                                            @foreach ($errors->all() as $error)
+                                                {{ $error }}<br/>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <div class="col-md-2">
                                         <label for="">Proveedor</label>
                                         <div class="form-group">
@@ -57,7 +63,7 @@
                                     </div>
                                     <div class="col-md-2.5">
                                             <div class="form-group">
-                                                <label for="">Fecha del Comprob.</label>
+                                                <label for="">Fecha del Comprobante</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">
@@ -87,18 +93,18 @@
                                                     </div>
                                                     <div class=" col-sm-2">
                                                             <label>Cantidad</label>
-                                                            <input type="text" id="cantidad" name="cantidad" required value=""  class="form-control" placeholder="Mayor a 0">
+                                                            <input type="text" id="cantidad" name="cantidad"  value=""  class="form-control" placeholder="Mayor a 0">
                                                             <div>{{$errors->first('cantidad')}} </div>
                                                     </div>
 
                                                     <div class=" col-sm-2">
 
                                                             <label>Precio Unitario</label>
-                                                            <input type="text" name="precio" id="precio" required value=""  class="form-control" placeholder="$">
+                                                            <input type="text" name="precio" id="precio"  value=""  class="form-control" placeholder="$">
                                                             <div>{{$errors->first('precio')}} </div>
                                                     </div>
 
-                                                    <div class=" col-sm-2">
+                                                    <div class=" col-sm-3">
                                                             <label for="">Almacen</label>
                                                             <select name="almacenDestino_id" id="almacenDestino_id" class=" js-example-basic-single form-control" required>
                                                                     @foreach ($almacenes as $almacen)
@@ -107,8 +113,9 @@
                                                             </select>
                                                     </div>
 
-                                                    <div class="col-2 ">
-                                                        <a href="#"  class="addRow btn btn-primary btn-xs"><i class="fas fa-plus"></i></a>
+                                                    <div class="col-sm-2 ">
+                                                        <br>
+                                                        <a href="#"  class="addRow btn btn-primary btn-sm"><i class="fas fa-plus"></i></a>
                                                     </div>
 
 
@@ -137,7 +144,7 @@
                                                 </div>
 
                                                 </div>
-                                                <div class="text-left">
+                                                <div class="text-right">
                                                         <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
                                                         <button type="submit" class="btn btn-success btn-sm">Guardar</button>
                                                 </div>
@@ -166,17 +173,22 @@
         producto = $("#producto_id option:selected").text();
         cantidad = $("#cantidad").val();
         precio = $("#precio").val();
-        almacen_id = $("#almacenDestino_id").val();
-        almacen = $("#almacen_id option:selected").text();
+        almacenDestino_id = $("#almacenDestino_id").val();
+        almacenDestino = $("#almacenDestino_id option:selected").text();
 
-        var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
-                    '<td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
-                    '<td><input type="hidden" name="precio[]" value="'+precio+'">'+precio+' </td>'+
-                    '<td><input type="hidden" name="almacenDestino_id[]" value="'+almacen_id+'">'+almacen+'</td>' +
-                    '<td><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
-                    '</tr>' ;
+        if(producto_id != "" && cantidad > 0 && precio > 0){
+            var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
+                        '<td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
+                        '<td><input type="hidden" name="precio[]" value="'+precio+'">'+precio+' </td>'+
+                        '<td><input type="hidden" name="almacenDestino_id[]" value="'+almacenDestino_id+'">'+almacenDestino+'</td>' +
+                        '<td><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
+                        '</tr>' ;
 
-        $('tbody').append(fila) ;
+            $('tbody').append(fila) ;
+        }else{
+            Alerta.fire('Alerta!' , 'Verifique los campos')
+        }
+
     }
 
     $('body').on('click', '.remove',function(){

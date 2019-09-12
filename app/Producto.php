@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Producto extends Model
 {
@@ -13,14 +14,14 @@ class Producto extends Model
         return $this->belongsTo(Rubro::class) ;
     }
 
-    public function movimiento()
+    public function movimientos()
     {
-        return $this->belongsTo(Movimiento::class);
+        return $this->hasMany(Movimiento::class);
     }
 
-    public function almacenes()
+    public function existencias()
     {
-        return $this->belongsToMany(Almacen::class);
+        return $this->hasMany(Existencia::class);
     }
 
     public function proveedores()
@@ -28,14 +29,23 @@ class Producto extends Model
         return $this->belongsToMany(Proveedor::class);
     }
 
-    public function sumarCantidad($cantidad){
-        $this->cantidad += $cantidad;
-    }
 
-    public function restarCantidad($cantidad){
-        if($cantidad <= $this->cantidad){
-            $this->cantidad -= $cantidad;
+    public function cantidadTotal(){
+        $exis = $this->existencias;
+        $can = 0;
+        foreach($exis as $e){
+            $can += $e->cantidad ;
         }
 
+        return $can ;
+    }
+
+    public function cantidadAlmacen($almacen_id){
+        $exis = $this->existencias;
+        foreach($exis as $e){
+            if($e->almacen_id == $almacen_id){
+                return $e->cantidad ;
+            }
+        }
     }
 }

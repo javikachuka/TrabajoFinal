@@ -3,7 +3,7 @@
 @section('content')
 
 <form class="form-group " method="POST" action="/productos/{{$producto->id}}" >
-    @method('PATCH')
+    @method('PUT')
     @include('productos.form')
     <div class="text-right">
             <input type="reset" value="Limpiar" class="btn btn-secondary">
@@ -12,4 +12,10 @@
 </form>
 
 @endsection
-
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+</script>
+@endpush

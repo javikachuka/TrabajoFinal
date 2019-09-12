@@ -62,4 +62,12 @@
           });
         });
 </script>
+
+    <script>
+        @if(session('confirmar'))
+            Confirmar.fire() ;
+        @elseif(session('cancelar'))
+            Cancelar.fire();
+        @endif
+    </script>
 @endpush

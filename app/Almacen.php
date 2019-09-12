@@ -10,7 +10,7 @@ class Almacen extends Model
 
     public function direccion()
     {
-        return $this->hasOne(Direccion::class);
+        return $this->belongsTo(Direccion::class);
     }
 
     public function cabecerasMovimiento()
@@ -18,9 +18,9 @@ class Almacen extends Model
         return $this->hasMany(CabeceraMovimiento::class);
     }
 
-    public function productos()
+    public function existencias()
     {
-        return $this->belongsToMany(Producto::class);
+        return $this->hasMany(Existencia::class);
     }
 
     public function movimientosOrigen()
@@ -31,6 +31,41 @@ class Almacen extends Model
     public function movimientosDestino()
     {
         return $this->hasMany(Movimiento::class,'almacenDestino_id');
+    }
+
+    public function existeProducto($prod_id){
+        $exis = $this->existencias;
+
+        foreach($exis as $e){
+            if($e->producto->id == $prod_id){
+                return true ;
+            }
+        }
+        return false ;
+    }
+
+    public function sumarExistencia($prod_id , $cant){
+        $exis = $this->existencias;
+
+        foreach($exis as $e){
+            if($e->producto->id == $prod_id){
+                $e->cantidad += $cant ;
+                $e->update() ;
+                return true ;
+            }
+        }
+
+        return false ;
+    }
+
+    public function getCantidadProd($prod_id){
+        $exis = $this->existencias;
+
+        foreach($exis as $e){
+            if($e->producto_id == $prod_id){
+                return $e->cantidad ;
+            }
+        }
     }
 
 }

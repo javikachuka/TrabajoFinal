@@ -8,44 +8,26 @@
                 <div class="col-md-12">
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
-                            <form class="form-group " method="POST" action="/movimientos" >
+                            <form class="form-group " method="POST" action="/movimientos/transferencia" >
                                 <div class="row">
-
-                                    <div class="col-md-3">
+                                    @if (session()->has('msg'))
+                                        <div class="alert alert-danger">
+                                            @foreach ($errors->all() as $error)
+                                                {{ $error }}<br/>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="">Fecha de Transferencia</label>
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fal fa-calendar-alt"></i>
                                                 </span>
+                                                <input type="date" name="fecha" required value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ Carbon\Carbon::now()->addDay()->format('Y-m-d') }}" id="">
                                             </div>
-                                            <input type="date" name="fecha" required value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ Carbon\Carbon::now()->addDay()->format('Y-m-d') }}" id="">
                                         </div>
                                     </div>
-
-                                    <div class="col-md-2">
-                                            <label for="">Almacen Origen</label>
-                                            <div class="form-group">
-                                                    <select class="js-example-basic-single form-control" name="tipoComprobante_id">
-                                                            @foreach ($tiposComprobantes as $tipoComprobante)
-                                                                <option value="{{$tipoComprobante->id}}">{{$tipoComprobante->nombre}}</option>
-                                                            @endforeach
-                                                    </select>
-                                            </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                            <label for="">Almacen Destino</label>
-                                            <div class="form-group">
-                                                    <select class="js-example-basic-single form-control" name="tipoComprobante_id">
-                                                            @foreach ($tiposComprobantes as $tipoComprobante)
-                                                                <option value="{{$tipoComprobante->id}}">{{$tipoComprobante->nombre}}</option>
-                                                            @endforeach
-                                                    </select>
-                                            </div>
-                                    </div>
-
-
 
                                 </div>
                                 <br>
@@ -54,7 +36,7 @@
                                     <div class="card">
                                             <div class="form-group">
                                                 <div class="row">
-                                                    <div class=" col-sm-3">
+                                                    <div class=" col-sm-2">
                                                             <label for="">Producto</label>
                                                                 <select name="producto_id" id="producto_id" class="js-example-basic-single form-control" required>
                                                                         @foreach ($productos as $producto)
@@ -68,23 +50,25 @@
                                                             <div>{{$errors->first('cantidad')}} </div>
                                                     </div>
 
-                                                    <div class=" col-sm-2">
-
-                                                            <label>Precio</label>
-                                                            <input type="text" name="precio" id="precio" required value=""  class="form-control" placeholder="$">
-                                                            <div>{{$errors->first('precio')}} </div>
-                                                    </div>
-
-                                                    <div class=" col-sm-2">
-                                                            <label for="">Almacen</label>
-                                                            <select name="almacen_id" id="almacen_id" class=" js-example-basic-single form-control" required>
+                                                    <div class=" col-sm-3">
+                                                            <label for="">Almacen de Origen</label>
+                                                            <select name="otro" id="almacenOrigen_id" class=" js-example-basic-single form-control" required>
                                                                     @foreach ($almacenes as $almacen)
                                                                         <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
                                                                     @endforeach
                                                             </select>
                                                     </div>
 
-                                                    <div class="col-2 ">
+                                                    <div class=" col-sm-3">
+                                                            <label for="">Almacen de Destino</label>
+                                                            <select name="otro2" id="almacenDestino_id" class=" js-example-basic-single form-control" required>
+                                                                    @foreach ($almacenes as $almacen)
+                                                                        <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
+                                                                    @endforeach
+                                                            </select>
+                                                    </div>
+
+                                                    <div class="col-1.5 ">
                                                         <a href="#"  class="addRow btn btn-primary btn-xs"><i class="fas fa-plus"></i></a>
                                                     </div>
 
@@ -94,8 +78,8 @@
                                                                 <thead style="background-color: #A9D0F5">
                                                                     <th>Producto</th>
                                                                     <th>Cantidad</th>
-                                                                    <th>Precio</th>
-                                                                    <th>Almacen</th>
+                                                                    <th>Desde</th>
+                                                                    <th>Hasta</th>
                                                                     <th>Opciones</th>
                                                                     {{-- <th>Subtotal</th> --}}
                                                                 </thead>
@@ -142,18 +126,23 @@
         producto_id = $('#producto_id').val() ;
         producto = $("#producto_id option:selected").text();
         cantidad = $("#cantidad").val();
-        precio = $("#precio").val();
-        almacen_id = $("#almacen_id").val();
-        almacen = $("#almacen_id option:selected").text();
+        almacenOrigen_id = $("#almacenOrigen_id").val();
+        almacenOrigen = $("#almacenOrigen_id option:selected").text();
+        almacenDestino_id = $("#almacenDestino_id").val();
+        almacenDestino = $("#almacenDestino_id option:selected").text();
 
-        var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
-                    '<td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
-                    '<td><input type="hidden" name="precio[]" value="'+precio+'">'+precio+' </td>'+
-                    '<td><input type="hidden" name="almacen_id[]" value="'+almacen_id+'">'+almacen+'</td>' +
-                    '<td><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
-                    '</tr>' ;
+        if(almacenOrigen_id != almacenDestino_id && cantidad>0){
+            var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
+                        '<td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
+                        '<td><input type="hidden" name="almacenOrigen_id[]" value="'+almacenOrigen_id+'"><span class="badge badge-info">'+almacenOrigen+'</span></td>' +
+                        '<td><input type="hidden" name="almacenDestino_id[]" value="'+almacenDestino_id+'"><span class="badge badge-info">'+almacenDestino+'</span></td>' +
+                        '<td><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
+                        '</tr>' ;
 
-        $('tbody').append(fila) ;
+            $('tbody').append(fila) ;
+        }else{
+            Alerta.fire('Alerta!', 'Verifique los campos.')
+        }
     }
 
     $('body').on('click', '.remove',function(){

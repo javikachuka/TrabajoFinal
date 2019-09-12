@@ -26,8 +26,8 @@ class Direccion extends Model
         return $this->hasMany(User::class) ;
     }
 
-    public function direccion()
+    public function almacen()
     {
-        return $this->belongsTo(Almacen::class);
+        return $this->hasOne(Almacen::class);
     }
 }

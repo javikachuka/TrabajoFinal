@@ -17,7 +17,6 @@ class CreateProductosTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre') ;
             $table->string('codigo') ;
-            $table->integer('cantidad') ;
             $table->integer('cantidadMinima') ;
             $table->unsignedBigInteger('rubro_id');
             $table->foreign('rubro_id')->references('id')->on('rubros') ;

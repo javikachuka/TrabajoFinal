@@ -18,6 +18,7 @@
                         <th>Nº</th>
                         <th>Tipo de Movimiento</th>
                         <th>Fecha de Movimiento</th>
+                        <th>Producto</th>
                         <th>Almacen Origen</th>
                         <th>Almacen Destino</th>
                         <th>Accion</th>
@@ -30,15 +31,17 @@
                                 <td>{{$movimiento->id}}</td>
                                 <td>{{$movimiento->tipoMovimiento->nombre}}</td>
                                 <td>{{$movimiento->cabeceraMovimiento->fecha}}</td>
+                                <td>{{$movimiento->producto->nombre}}</td>
                                 <td>
                                     @if ($movimiento->almacenOrigen == null)
                                     <span class="badge badge-warning">N/A</span>
                                     @else
-                                    <span class="badge badge-info">{{$movimiento->almacenDestino->denominacion}}</span>
+                                    <span class="badge badge-info">{{$movimiento->almacenOrigen->denominacion}}</span>
                                     @endif
                                 </td>
                                 <td><span class="badge badge-info">{{$movimiento->almacenDestino->denominacion}}</span></td>
-                                <td width ="200px">
+                                <td width ="150px">
+                                    <a href="#" class="btn btn-xs btn-primary">Ver mas</a>
                                     @can('movimientos_edit')
                                         <a href="{{ route('movimientos.edit', $movimiento->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
                                     @endcan
@@ -49,6 +52,8 @@
                                             <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
                                         @endcan
                                     </form>
+
+
                                 </td>
                               </tr>
 

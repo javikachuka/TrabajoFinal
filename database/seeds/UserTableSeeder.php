@@ -18,14 +18,14 @@ class UserTableSeeder extends Seeder
 
         $direccion = new Direccion();
         $direccion->zona_id = 1 ;
-        $direccion->calle = 'null' ;
-        $direccion->altura = 0 ;
+        $direccion->calle = 'Las Heras' ;
+        $direccion->altura = 115 ;
         $direccion->save() ;
 
         $user = new User() ;
-        $user->name = 'admin' ;
-        $user->apellido = 'admin' ;
-        $user->dni = '0' ;
+        $user->name = 'Javier' ;
+        $user->apellido = 'Kachuka' ;
+        $user->dni = '40565646' ;
         $user->direccion_id = $direccion->id ;
         $user->fecha_ingreso = new DateTime('now');
         $user->telefono = 0 ;

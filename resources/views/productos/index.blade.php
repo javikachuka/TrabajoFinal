@@ -30,13 +30,13 @@
                             <td>{{$producto->rubro->nombre}}</td>
                             <td width ="200px">
                                 <a href="{{route('productos.show', $producto)}}" class="btn btn-xs btn-primary">Ver mas</a>
-                                @can('proveedores_edit')
+                                @can('productos_edit')
                                     <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
                                 @endcan
                                 <form method="POST" action="productos/{{$producto->id}}" onsubmit="return confirm('Desea borrar a {{$producto->nombre}}')" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    @can('proveedores_destroy')
+                                    @can('productos_destroy')
                                         <button type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">Borrar</button>
                                     @endcan
                                 </form>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTransicionsTable extends Migration
+class CreateTipoReclamosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateTransicionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transicions', function (Blueprint $table) {
+        Schema::create('tipo_reclamos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre') ;
-            $table->integer('orden')->unsigned() ;
-            $table->unsignedBigInteger('flujoTrabajo_id') ;
+            $table->string('detalle')->nullable() ;
+            $table->boolean('trabajo') ;
+            $table->unsignedBigInteger('flujoTrabajo_id')->nullable() ;
             $table->foreign('flujoTrabajo_id')->references('id')->on('flujo_trabajos') ;
-            $table->unsignedBigInteger('estadoInicial_id')  ;
-            $table->foreign('estadoInicial_id')->references('id')->on('estados') ;
-            $table->unsignedBigInteger('estadoFinal_id')  ;
-            $table->foreign('estadoFinal_id')->references('id')->on('estados') ;
+            $table->unsignedBigInteger('prioridad_id') ;
+            $table->foreign('prioridad_id')->references('id')->on('prioridades') ;
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ class CreateTransicionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transicions');
+        Schema::dropIfExists('tipo_reclamos');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Estado;
 use App\FlujoTrabajo;
+use App\Reclamo;
 use App\Transicion;
 use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class TransicionController extends Controller
 
         $estados = Estado::all() ;
         // $flujosTrabajo = FlujoTrabajo::all() ;
-        return view('transiciones.multiple' , compact( 'estados')) ;
+        return view('transiciones.index' , compact( 'estados')) ;
     }
 
     /**
@@ -29,9 +30,11 @@ class TransicionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(FlujoTrabajo $flujoTrabajo)
     {
-        //
+
+        $estados = Estado::all() ;
+        return view('transiciones.index' , compact( 'estados','flujoTrabajo')) ;
     }
 
     /**
@@ -40,20 +43,29 @@ class TransicionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $flujoTrabajo_id)
     {
-        $flu = FlujoTrabajo::find(1) ;
-
-        for($i = 0 ; $i < sizeof($request->nombre); $i++){
+        $flujoTrabajo = FlujoTrabajo::find($flujoTrabajo_id) ;
+        for($i = 0 ; $i < sizeof($request->nombre) ; $i++){
             $transicion = new Transicion() ;
-            $transicion->flujoTrabajo_id = $flu->id ;
+            foreach($flujoTrabajo->transiciones as $tran){
+                if(($tran->estadoInicial->id == $request->estadoInicial_id[$i]) && ($tran->estadoFinal->id == $request->estadoFinal_id[$i])){
+                    return redirect()->back()->with('cancelar' , 'asdf') ;
+                }
+            }
+            $transicion->flujoTrabajo_id = $flujoTrabajo->id ;
             $transicion->nombre = $request->nombre[$i] ;
-            $transicion->estadoInicial_id = $request->estadoInicial[$i];
-            if($transicion->asignarEstadoFinal($request->estadoFinal[$i]) ){
+            $transicion->estadoInicial_id = $request->estadoInicial_id[$i];
+            if($transicion->asignarEstadoFinal($request->estadoFinal_id[$i]) ){
+                $transicion->orden = sizeof($flujoTrabajo->transiciones)+1 ;
                 $transicion->save() ;
             }
-
+            else{
+                return redirect()->back()->with('cancelar' , 'asdf') ;  ;
+            }
         }
+        return redirect('/flujoTrabajos')->with('confirmar' , 'asdf') ;
+
         // $transicion->nombre = $request->nombre ;
         // $transicion->flujoTrabajo = $request->flujoTrabajo ;
         // $transicion->asignarEstadoInicial($request->estadoInicial );
@@ -69,6 +81,10 @@ class TransicionController extends Controller
         //     return redirect('/transiciones')->with('message', 'Success!') ;
         // }
 
+    }
+
+    public function ordenar(Request $request){
+        return $request ;
     }
 
     /**
@@ -113,7 +129,9 @@ class TransicionController extends Controller
      */
     public function destroy(Transicion $transicion)
     {
-        //
+        return $transicion ;
+        $transicion->delete() ;
+        return redirect()->back() ;
     }
 
 }

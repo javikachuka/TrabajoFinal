@@ -97,18 +97,27 @@
                                                             <div>{{$errors->first('cantidad')}} </div>
                                                     </div>
 
-                                                    <div class=" col-sm-2">
+                                                    <div class=" col-sm-1">
 
-                                                            <label>Precio Unitario</label>
+                                                            <label>Precio U.</label>
                                                             <input type="text" name="precio" id="precio"  value=""  class="form-control" placeholder="$">
                                                             <div>{{$errors->first('precio')}} </div>
                                                     </div>
 
-                                                    <div class=" col-sm-3">
+                                                    <div class=" col-sm-2">
                                                             <label for="">Almacen</label>
                                                             <select name="almacenDestino_id" id="almacenDestino_id" class=" js-example-basic-single form-control" required>
                                                                     @foreach ($almacenes as $almacen)
                                                                         <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
+                                                                    @endforeach
+                                                            </select>
+                                                    </div>
+
+                                                    <div class=" col-sm-2">
+                                                            <label for="">Tipo de Movimiento</label>
+                                                            <select name="tipoMovimiento_id" id="tipoMovimiento" class=" js-example-basic-single form-control" required>
+                                                                    @foreach ($tipoMovimientos as $tipoMov)
+                                                                        <option value="{{$tipoMov->id}}">{{$tipoMov->nombre}}</option>
                                                                     @endforeach
                                                             </select>
                                                     </div>
@@ -175,12 +184,15 @@
         precio = $("#precio").val();
         almacenDestino_id = $("#almacenDestino_id").val();
         almacenDestino = $("#almacenDestino_id option:selected").text();
+        tipoMov_id = $("#tipoMovimiento").val();
+        tipoMov = $("#tipoMovimiento option:selected").text();
 
-        if(producto_id != "" && cantidad > 0 && precio > 0){
+        if(producto != "" && cantidad > 0 && precio > 0){
             var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
                         '<td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
                         '<td><input type="hidden" name="precio[]" value="'+precio+'">'+precio+' </td>'+
                         '<td><input type="hidden" name="almacenDestino_id[]" value="'+almacenDestino_id+'">'+almacenDestino+'</td>' +
+                        '<td><input type="hidden" name="tipoMovimiento_id[]" value="'+tipoMov_id+'">'+tipoMov+' </td>'+
                         '<td><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
                         '</tr>' ;
 
@@ -208,4 +220,11 @@
     });
 </script>
 
+<script>
+    @if(session('confirmar'))
+        Confirmar.fire() ;
+    @elseif(session('cancelar'))
+        Cancelar.fire();
+    @endif
+</script>
 @endpush

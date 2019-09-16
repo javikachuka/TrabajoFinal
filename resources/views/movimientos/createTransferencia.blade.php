@@ -29,6 +29,14 @@
                                         </div>
                                     </div>
 
+                                    {{-- <div class="col-md-4">
+                                            <div class="form-group">
+                                                    <label>Tipo de Movimiento</label>
+                                                    <input type="text" id="" name="tipoMovimiento_id" required disabled value="{{$tipoMovimientos[4]->nombre}}"  class="form-control" >
+                                                    <div>{{$errors->first('tipoMovimiento_id')}} </div>
+                                            </div>
+                                    </div> --}}
+
                                 </div>
                                 <br>
                                 <div class="row">
@@ -160,6 +168,14 @@
     $(document).ready(function() {
         $('.js-example-basic-single').select2();
     });
+</script>
+
+<script>
+    @if(session('confirmar'))
+        Confirmar.fire() ;
+    @elseif(session('cancelar'))
+        Cancelar.fire();
+    @endif
 </script>
 
 @endpush

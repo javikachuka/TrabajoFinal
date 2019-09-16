@@ -15,6 +15,9 @@
   {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('admin_panel/dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin_panel/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+
+
 
   <link rel="stylesheet" href="{{asset('admin_panel/plugins/sweetalert2/sweetalert2.min.css')}}">
   <!-- Google Font: Source Sans Pro -->
@@ -85,8 +88,8 @@
     <!-- AdminLTE -->
     <script src="{{asset('admin_panel/dist/js/adminlte.js')}}"></script>
     <!-- DataTables -->
-    <script src="{{asset('admin_panel/plugins/datatables/jquery.dataTables.js')}}"></script>
-    <script src="{{asset('admin_panel/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+    <script src="{{asset('admin_panel/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('admin_panel/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{asset('admin_panel/plugins/select2/js/select2.js')}}"></script>
 
     <!-- OPTIONAL SCRIPTS -->
@@ -117,9 +120,10 @@
     </script>
 
     <script src="{{asset('admin_panel/plugins/chart.js/Chart.min.js')}}"></script>
-
-
     <script src="{{asset('admin_panel/dist/js/demo.js')}}"></script>
+
+
+
     @stack('scripts')
 </body>
 </html>

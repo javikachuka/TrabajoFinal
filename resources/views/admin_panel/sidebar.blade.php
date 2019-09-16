@@ -2,7 +2,7 @@
 <aside class="main-sidebar elevation-4 sidebar-dark-primary">
         <!-- Brand Logo -->
         <a href="/home" class="brand-link">
-
+          {{-- <img src="" alt="Coop Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> --}}
           <span class="brand-text font-weight-bold align-content-center">ReCoop</span>
         </a>
 
@@ -24,6 +24,52 @@
               <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
 
+
+                <li class="nav-item has-treeview ">
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fal fa-clipboard-list"></i>
+                        <p>
+                          Gestion de Reclamos
+                          <i class="right fal fa-angle-left"></i>
+                        </p>
+                      </a>
+
+                      <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                              <a href="{{ route('reclamos.index') }}" class="nav-link">
+                                <i class="fal fa-clipboard nav-icon"></i>
+                                <p>Reclamos</p>
+                              </a>
+                        </li>
+                        <li class="nav-item">
+                              <a href="{{ route('flujoTrabajos.index') }}" class="nav-link">
+                                <i class="fal fa-project-diagram nav-icon"></i>
+                                <p>Flujo de Trabajo</p>
+                              </a>
+                        </li>
+                       </ul>
+
+
+                </li>
+
+                <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link active">
+                            <i class="nav-icon fal fa-forklift"></i>
+                            <p>
+                              Gestion de Trabajos
+                              <i class="right fal fa-angle-left"></i>
+                            </p>
+                          </a>
+
+                          <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                  <a href="{{ route('trabajos.index') }}" class="nav-link">
+                                    <i class="fal fa-user-hard-hat nav-icon"></i>
+                                    <p>Trabajos</p>
+                                  </a>
+                            </li>
+                        </ul>
+                </li>
               <li class="nav-item has-treeview  ">
                     <a href="#" class="nav-link active">
                       <i class="nav-icon fal fa-warehouse"></i>
@@ -87,24 +133,7 @@
                         </li>
                       </ul>
               </li>
-              <li class="nav-item has-treeview ">
-                    <a href="#" class="nav-link active">
-                        <i class="nav-icon fal fa-users-cog"></i>
-                        <p>
-                          Flujo de Trabajo
-                          <i class="right fal fa-angle-left"></i>
-                        </p>
-                      </a>
 
-                          <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                              <a href="{{ route('transiciones.index') }}" class="nav-link">
-                                <i class="fal fa-user nav-icon"></i>
-                                <p>Transiciones</p>
-                              </a>
-                            </li>
-                        </ul>
-                  </li>
 
               <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">
@@ -118,8 +147,14 @@
                           <ul class="nav nav-treeview">
                             <li class="nav-item">
                               <a href="{{ route('proveedor.pdf') }}" class="nav-link">
-                                <i class="fal fa-user nav-icon"></i>
+                                <i class="fal fa-people-carry nav-icon"></i>
                                 <p>Proveedores</p>
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a href="{{ route('movimientos.pdf') }}" class="nav-link">
+                                <i class="fal fa-dolly nav-icon"></i>
+                                <p>Movimientos</p>
                               </a>
                             </li>
 

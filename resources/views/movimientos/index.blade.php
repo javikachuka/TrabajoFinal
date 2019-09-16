@@ -6,6 +6,7 @@
     <div class="form-group col-md-8">
             <a type="submit" href="{{ route('movimientos.createIngreso') }}" class="btn btn-xs btn-success"> Nuevo Ingreso <i class="fas fa-tags nav-icon"></i></a>
             <a type="submit" href="{{ route('movimientos.createTransferencia') }}" class="btn btn-xs btn-success"> Nueva Transferencia <i class="nav-icon fas fa-exchange-alt"></i></a>
+            <a type="submit" href="{{ route('movimientos.pdf') }}" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></a>
     </div>
     <div class="form-group col-md-8">
     </div>
@@ -19,6 +20,7 @@
                         <th>Tipo de Movimiento</th>
                         <th>Fecha de Movimiento</th>
                         <th>Producto</th>
+                        <th>Cantidad</th>
                         <th>Almacen Origen</th>
                         <th>Almacen Destino</th>
                         <th>Accion</th>
@@ -32,6 +34,7 @@
                                 <td>{{$movimiento->tipoMovimiento->nombre}}</td>
                                 <td>{{$movimiento->cabeceraMovimiento->fecha}}</td>
                                 <td>{{$movimiento->producto->nombre}}</td>
+                                <td>{{$movimiento->cantidad}}</td>
                                 <td>
                                     @if ($movimiento->almacenOrigen == null)
                                     <span class="badge badge-warning">N/A</span>
@@ -69,13 +72,17 @@
 <script>
         $(function () {
           $('#movimientos').DataTable({
-            "paging": true,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": false,
-            "autoWidth": false,
+            "order": [[ 0, "desc" ]]
           });
         });
 </script>
+
+<script>
+    @if(session('confirmar'))
+        Confirmar.fire() ;
+    @elseif(session('cancelar'))
+        Cancelar.fire();
+    @endif
+</script>
+
 @endpush

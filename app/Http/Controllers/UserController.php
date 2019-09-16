@@ -7,6 +7,7 @@ use App\Zona;
 use App\Direccion ;
 use App\User ;
 use Caffeinated\Shinobi\Models\Role;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
@@ -124,9 +125,14 @@ class UserController extends Controller
     {
         $user = User::find($id) ;
         if($user != null){
-            $user->delete() ;
+            try{
+                $user->delete() ;
+                return redirect('/users');
+            }catch(Exception $e){
+                report($e) ;
+                return redirect()->back()->with('cancelar' , 'asdf') ;
+            }
         }
-        return redirect('/users');
 
     }
 }

@@ -20,6 +20,8 @@ class CreateProductosTable extends Migration
             $table->integer('cantidadMinima') ;
             $table->unsignedBigInteger('rubro_id');
             $table->foreign('rubro_id')->references('id')->on('rubros') ;
+            $table->unsignedBigInteger('medida_id');
+            $table->foreign('medida_id')->references('id')->on('medidas') ;
             $table->timestamps();
         });
     }

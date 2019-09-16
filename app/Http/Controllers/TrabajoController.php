@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Estado;
+use App\Trabajo;
 use Illuminate\Http\Request;
 
-class EstadoController extends Controller
+class TrabajoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,8 @@ class EstadoController extends Controller
      */
     public function index()
     {
-        //
+        $trabajos = Trabajo::all() ;
+        return view('trabajos.index' , compact('trabajos'));
     }
 
     /**
@@ -24,9 +25,7 @@ class EstadoController extends Controller
      */
     public function create()
     {
-        $estado = new Estado() ;
-        return view('estados.create' , compact('estado')) ;
-
+        //
     }
 
     /**
@@ -35,21 +34,18 @@ class EstadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request , Estado $estado)
+    public function store(Request $request)
     {
-        $estado->fill($request->all());
-        $estado->save() ;
-        return redirect()->back()->with('confirmar' , 'asd') ;
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\Trabajo  $trabajo
      * @return \Illuminate\Http\Response
      */
-    public function show(Estado $estado)
+    public function show(Trabajo $trabajo)
     {
         //
     }
@@ -57,10 +53,10 @@ class EstadoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\Trabajo  $trabajo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Estado $estado)
+    public function edit(Trabajo $trabajo)
     {
         //
     }
@@ -69,10 +65,10 @@ class EstadoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Estado  $estado
+     * @param  \App\Trabajo  $trabajo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estado $estado)
+    public function update(Request $request, Trabajo $trabajo)
     {
         //
     }
@@ -80,10 +76,10 @@ class EstadoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Estado  $estado
+     * @param  \App\Trabajo  $trabajo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Estado $estado)
+    public function destroy(Trabajo $trabajo)
     {
         //
     }

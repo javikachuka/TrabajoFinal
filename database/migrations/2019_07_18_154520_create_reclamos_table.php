@@ -15,8 +15,17 @@ class CreateReclamosTable extends Migration
     {
         Schema::create('reclamos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre') ;
-            $table->string('descripcion') ;
+            $table->date('fecha') ;
+            $table->string('detalle')->nullable() ;
+            $table->unsignedBigInteger('socio_id') ;
+            $table->foreign('socio_id')->references('id')->on('socios') ;
+            $table->unsignedBigInteger('user_id') ;
+            $table->foreign('user_id')->references('id')->on('users') ;
+            $table->unsignedBigInteger('tipoReclamo_id') ;
+            $table->foreign('tipoReclamo_id')->references('id')->on('tipo_reclamos') ;
+            $table->unsignedBigInteger('trabajo_id')->nullable() ;
+            $table->foreign('trabajo_id')->references('id')->on('trabajos') ;
+
             $table->timestamps();
         });
     }

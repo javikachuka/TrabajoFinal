@@ -1,5 +1,6 @@
 <?php
 
+use App\Medida;
 use App\Rubro;
 use Illuminate\Database\Seeder;
 
@@ -23,5 +24,25 @@ class RubroTableSeeder extends Seeder
         Rubro::create([
             'nombre'          => 'MEDIDORES',
         ]);
+
+        //creacion de medidas
+        Medida::create([
+            'nombre'          => 'Neto',
+            'simbolo'         => 'N'
+        ]);
+
+        Medida::create([
+            'nombre'          => 'kilogramo',
+            'simbolo'         => 'Kg',
+        ]);
+        Medida::create([
+            'nombre'          => 'Gramo',
+            'simbolo'         => 'g' ,
+        ]);
+        Medida::create([
+            'nombre'          => 'Litro',
+            'simbolo'         => 'L' ,
+        ]);
+
     }
 }

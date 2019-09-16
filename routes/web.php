@@ -21,11 +21,21 @@ Route::get('/prueba', function(){
 
 
 Route::get('/proveedorPDF', 'PdfController@proveedorPDF')->name('proveedor.pdf') ;
+Route::get('/movimientosPDF', 'PdfController@movimientosPDF')->name('movimientos.pdf') ;
 
 
 
 Route::middleware(['auth'])->group(function(){
-    Route::resource('reclamos','ReclamoController') ;
+
+    //reclamos
+    Route::get('reclamos','ReclamoController@index')->name('reclamos.index')->middleware('permission:reclamos_index')  ;
+    Route::get('reclamos/create','ReclamoController@create')->name('reclamos.create')->middleware('permission:reclamos_create')  ;
+    Route::post('reclamos','ReclamoController@store')->name('reclamos.store')->middleware('permission:reclamos_store')  ;
+    Route::get('reclamos/{reclamo}','ReclamoController@show')->name('reclamos.show')->middleware('permission:reclamos_show')  ;
+    Route::get('reclamos/{reclamo}/edit' , 'ReclamoController@edit')->name('reclamos.edit')->middleware('permission:reclamos_edit')  ;
+    Route::put('reclamos/{user}' , 'ReclamoController@update')->name('reclamos.update')->middleware('permission:reclamos_update')  ;
+    Route::delete('reclamos/{reclamo}' , 'ReclamoController@destroy')->name('reclamos.destroy')->middleware('permission:reclamos_destroy') ;
+
 
     //users
     Route::get('users','UserController@index')->name('users.index')->middleware('permission:users_index')  ;
@@ -77,10 +87,27 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('permisos/{permiso}' , 'PermissionController@destroy')->name('permisos.destroy')->middleware('permission:permisos_destroy') ;
 
 
+    //Flujos de Trabajo
+    Route::get('flujoTrabajos','FlujoTrabajoController@index')->name('flujoTrabajos.index') ;
+    Route::get('flujoTrabajos/create', 'FlujoTrabajoController@create')->name('flujoTrabajos.create') ;
+    Route::post('flujoTrabajos', 'FlujoTrabajoController@store')->name('flujoTrabajos.store') ;
+    Route::delete('flujoTrabajos/{flujoTrabajo}' , 'FlujoTrabajoController@destroy')->name('flujoTrabajos.destroy') ;
+
     //transiciones
     Route::get('transiciones','TransicionController@index')->name('transiciones.index') ;
-    Route::get('transiciones/create', 'TransicionController@create')->name('transiciones.create') ;
-    Route::post('transiciones', 'TransicionController@store')->name('transiciones.store') ;
+    Route::get('transiciones/create/{flujoTrabajo}', 'TransicionController@create')->name('transiciones.create') ;
+    Route::post('transiciones/{id}', 'TransicionController@store')->name('transiciones.store') ;
+    // Route::post('transiciones/orden', 'TransicionController@ordenar')->name('transiciones.ordenar') ;
+    Route::get('transiciones/{transicion}', 'TransicionController@show')->name('transicion.show')->middleware('permission:transiciones_show')  ;
+    Route::get('transiciones/{transicion}/edit','TransicionController@edit')->name('transicion.edit')->middleware('permission:transiciones_edit')  ;
+    Route::put('transiciones/{transicion}' , 'TransicionController@update')->name('transicion.update')->middleware('permission:transiciones_update')  ;
+    Route::delete('transiciones/{transicion}' , 'TransicionController@destroy')->name('transicion.destroy')->middleware('permission:transiciones_destroy') ;
+
+
+
+    //estados
+    Route::get('estados/create', 'EstadoController@create')->name('estados.create') ;
+    Route::post('estados', 'EstadoController@store')->name('estados.store') ;
 
 
     //movimientos
@@ -89,13 +116,20 @@ Route::middleware(['auth'])->group(function(){
     Route::get('movimientos/createTransferencia', 'MovimientoController@createTransferencia')->name('movimientos.createTransferencia') ;
     Route::post('movimientos/ingreso', 'MovimientoController@storeIngreso')->name('movimientos.storeIngreso') ;
     Route::post('movimientos/transferencia', 'MovimientoController@storeTransferencia')->name('movimientos.storeTransferencia') ;
-
-
     Route::get('movimientos/{movimiento}/edit','MovimientoController@edit')->name('movimientos.edit')->middleware('permission:movimientos_edit')  ;
 
     // Route::post('movimientos/ingreso','MovimientoController@ingreso')->name('movimientos.ingreso') ;
     // Route::post('movimientos/egreso','MovimientoController@egreso')->name('movimientos.egreso') ;
 
+    //trabajos
+
+    Route::get('trabajos','TrabajoController@index')->name('trabajos.index')->middleware('permission:trabajos_index')  ;
+    Route::get('trabajos/create', 'TrabajoController@create')->name('trabajos.create')->middleware('permission:trabajos_create')  ;
+    Route::post('trabajos','TrabajoController@store')->name('trabajos.store')->middleware('permission:trabajos_store')  ;
+    Route::get('trabajos/{trabajo}', 'TrabajoController@show')->name('trabajos.show')->middleware('permission:trabajos_show')  ;
+    Route::get('trabajos/{trabajo}/edit','TrabajoController@edit')->name('trabajos.edit')->middleware('permission:trabajos_edit')  ;
+    Route::put('trabajos/{trabajo}' , 'TrabajoController@update')->name('trabajos.update')->middleware('permission:trabajos_update')  ;
+    Route::delete('trabajos/{trabajo}' , 'TrabajoController@destroy')->name('trabajos.destroy')->middleware('permission:trabajos_destroy') ;
 
 
 }) ;

@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             EstadosTableSeeder::class ,
             RubroTableSeeder::class,
             TipoComprobanteTableSeeder::class ,
+            PrioridadTableSeeder::class ,
         ]);
 
     }

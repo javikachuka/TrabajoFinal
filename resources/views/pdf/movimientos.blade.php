@@ -5,7 +5,7 @@
     <table id="titulo">
         <thead>
             <tr>
-                <th id="fac">Listado de Proveedores</th>
+                <th id="fac">Listado de Movimientos</th>
             </tr>
         </thead>
         <tbody>
@@ -37,23 +37,26 @@
         <thead>
             <tr id="fa">
             <th>Nr</th>
-            <th>Nombre</th>
-                <th>Cuit</th>
-                <th>Email</th>
-                <th>Telefono</th>
+            <th>Tipo de Movimiento</th>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Almacen de Origen</th>
+            <th>Almacen de Destino</th>
             </tr>
         </thead>
 
         <tbody>
 
-            @foreach ($proveedores as $prov)
+            @foreach ($movimientos as $mov)
             <tr>
-            <td>{{$prov->id}}</td>
-                <td>{{$prov->nombre}}</td>
-                <td>{{$prov->cuit}}</td>
-                <td>{{$prov->email}}</td>
-                <td>{{$prov->telefono}}</td>
-
+                <td>{{$mov->id}}</td>
+                <td>{{$mov->tipoMovimiento->nombre}}</td>
+                <td>{{$mov->cabeceraMovimiento->fecha}}</td>
+                <td>{{$mov->producto->nombre}}</td>
+                <td>{{$mov->cantidad}}</td>
+                <td>nada</td>
+                <td>{{$mov->almacenDestino->denominacion}}</td>
             </tr>
             @endforeach
         </tbody>

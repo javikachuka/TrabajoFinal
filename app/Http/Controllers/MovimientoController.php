@@ -11,6 +11,7 @@ use App\Proveedor;
 use App\TipoComprobante;
 use App\TipoMovimiento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MovimientoController extends Controller
 {
@@ -39,14 +40,19 @@ class MovimientoController extends Controller
         $tiposComprobantes = TipoComprobante::all() ;
         $movimiento = new Movimiento() ;
         $cabeceraMov = new CabeceraMovimiento() ;
-        return view('movimientos.createIngreso', compact('movimiento','cabeceraMov','almacenes' , 'proveedores' , 'productos' , 'tiposComprobantes')) ;
+        $tipoMovimientos = TipoMovimiento::all() ;
+        foreach($tipoMovimientos as $tm){
+            if(($tm->operacion != true)){
+                $tipoMovimientos->pull($tm->id -1) ;
+            }
+        }
+        return view('movimientos.createIngreso', compact('movimiento','cabeceraMov','almacenes' , 'proveedores' , 'productos' , 'tiposComprobantes' , 'tipoMovimientos')) ;
     }
 
     public function createTransferencia(){
         $almacenes = Almacen::all() ;
         $productos = Producto::all() ;
-
-        return view('movimientos.createTransferencia' , compact('almacenes' , 'productos')) ;
+        return view('movimientos.createTransferencia' , compact('almacenes' , 'productos' , 'tipoMovimientos')) ;
     }
 
     /**
@@ -86,6 +92,7 @@ class MovimientoController extends Controller
                 $existencia->producto_id = $request->producto_id[$i] ;
                 $existencia->cantidad = $request->cantidad[$i] ;
                 $existencia->save() ;
+
             }
         }
         return redirect('/productos') ;
@@ -94,10 +101,11 @@ class MovimientoController extends Controller
 
 
     public function storeTransferencia(Request $request ){
+        DB::beginTransaction() ;
         $cabMov = new CabeceraMovimiento() ;
         $cabMov->fill($request->only('fecha')) ;
         $cabMov->save() ;
-        $msg = null ;
+        $error = false ;
         for($i = 0 ; $i < sizeof($request->cantidad); $i++){
             $movimiento = new Movimiento() ;
             $movimiento->cabecera_movimiento_id = $cabMov->id ;
@@ -110,7 +118,7 @@ class MovimientoController extends Controller
             $almacenOrigen = Almacen::find($request->almacenOrigen_id[$i]) ;
             $almacenDestino = Almacen::find($request->almacenDestino_id[$i]) ;
             if($almacenOrigen->existeProducto($request->producto_id[$i])){
-                if( $request->cantidad[$i] <= $almacenOrigen->getCantidadProd($request->cantidad[$i])){
+                if( $request->cantidad[$i] <= $almacenOrigen->getCantidadProd($request->producto_id[$i])){
                     if(!$almacenDestino->existeProducto($request->producto_id[$i])){
                         $exisNueva = new Existencia() ;
                         $exisNueva->setAlmacen($almacenDestino->id) ;
@@ -118,6 +126,7 @@ class MovimientoController extends Controller
                         $exisNueva->setCantidad($request->cantidad[$i]);
                         $exisNueva->save() ;
                     }
+
                     $exis1 = $almacenOrigen->existencias ;
                     foreach($exis1 as $e1){
                         if($e1->producto->id == $request->producto_id[$i]){
@@ -132,17 +141,18 @@ class MovimientoController extends Controller
                             $e2->update() ;
                         }
                     }
-            }else{
-                $msg = 'Cantidad insuficiente! Linea ' ;
-            }
+                }else{
+                    DB::rollBack();
+                    return redirect()->back()->with('cancelar' , 'asdf') ;
+                }
 
+            }else{
+                DB::rollBack();
+                return redirect()->back()->with('cancelar' , 'asdf') ;
             }
         }
-        if($msg == null){
-            return redirect('/productos')->with('confirmar' , 'sdfa') ;
-        }else{
-            return redirect()->back()->with('msg') ;
-        }
+        DB::commit() ;
+        return redirect('/movimientos')->with('confirmar' , 'asdf') ;
     }
 
 

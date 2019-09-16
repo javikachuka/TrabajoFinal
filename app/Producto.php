@@ -29,6 +29,10 @@ class Producto extends Model
         return $this->belongsToMany(Proveedor::class);
     }
 
+    public function medida(){
+        return $this->belongsTo(Medida::class);
+    }
+
 
     public function cantidadTotal(){
         $exis = $this->existencias;

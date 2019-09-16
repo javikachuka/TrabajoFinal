@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\FlujoTrabajo;
+use Exception;
 use Illuminate\Http\Request;
 
 class FlujoTrabajoController extends Controller
@@ -14,7 +15,10 @@ class FlujoTrabajoController extends Controller
      */
     public function index()
     {
-        //
+        $flujoTrabajos = FlujoTrabajo::all() ;
+
+
+        return view('flujoTrabajo.index' , compact('flujoTrabajos')) ;
     }
 
     /**
@@ -24,7 +28,8 @@ class FlujoTrabajoController extends Controller
      */
     public function create()
     {
-        //
+        $flujoTrabajo = new FlujoTrabajo() ;
+        return view('flujoTrabajo.create' , compact('flujoTrabajo')) ;
     }
 
     /**
@@ -33,9 +38,15 @@ class FlujoTrabajoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request , FlujoTrabajo $flujoTrabajo)
     {
-        //
+        $this->validar();
+        $flujoTrabajo->fill($request->all()) ;
+        $flujoTrabajo->save() ;
+
+        return redirect()->route('transiciones.create' , $flujoTrabajo) ;
+
+
     }
 
     /**
@@ -80,6 +91,18 @@ class FlujoTrabajoController extends Controller
      */
     public function destroy(FlujoTrabajo $flujoTrabajo)
     {
-        //
+        try{
+            $flujoTrabajo->delete() ;
+            return redirect()->back()->with('confirmar' , 'asd') ;
+        }catch(Exception $e){
+            return redirect()->back()->with('cancelar' , 'asdf');
+        }
+
+    }
+
+    public function validar(){
+        $data = request()->validate([
+            'nombre' => 'required|unique:flujo_trabajos,nombre' ,
+        ]);
     }
 }

@@ -16,6 +16,7 @@ class RolTableSeeder extends Seeder
             'name'          => 'ADMIN',
             'slug'          => 'admin',
             'description'    => 'puede hacer de todo' ,
+            'special'       => 'all-access' ,
         ]);
 
         Role::create([

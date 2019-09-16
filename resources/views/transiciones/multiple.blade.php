@@ -5,6 +5,7 @@
 
     <div class="container">
         <h2>Carga de Transiciones a un flujo</h2>
+        <h4>{{$flujoTrabajo->nombre}}</h4>
         <div class="row">
             <form  method="POST" action="/transiciones">
                 <section>

@@ -120,9 +120,44 @@
         border-bottom: 1px solid #FFFFFF;
         }
 
-        #gracias{
-        text-align: center;
+        #footer {
+            bottom: 0;
+            margin: 0 -2cm;
+            border-top: 0pt solid #1BE359FF;
+	    }
+
+        footer {
+                position: fixed;
+                bottom: -50px;
+                left: -5px;
+                right: -5px;
+                height: 50px;
+
+                /** Extra personal styles **/
+                background-color: #FFFFFF;
+                color: black;
+                text-align: right;
+                line-height: 35px;
+            }
+        /* .page-number {
+	        text-align: right;
+	        color: #fff;
+	        margin: -1.4cm 1.5cm;
+	    }
+
+	    .infor {
+	        text-align: center;
+	        color: #fff;
+	    }
+	    .infor p{
+		margin-top: -1.4cm;
+	    } */
+
+
+        .page-number:before {
+             content: "Pag. " counter(page);
         }
+
     </style>
     <body>
         <header>
@@ -152,7 +187,12 @@
         <br>
         <br>
         <div class="izquierda">
-        <p><strong>Total de registros: </strong>10</p>
-    </div>
+            <p><strong>Total de registros: </strong> @yield('cantidad')</p>
+        </div>
+
+        <footer>
+            <div class="page-number"></div>
+        </footer>
+
     </body>
 </html>

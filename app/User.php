@@ -55,4 +55,8 @@ class User extends Authenticatable
     public function direccion(){
         return $this->belongsTo(Direccion::class) ;
     }
+
+    public function reclamos(){
+        return $this->hasMany(Reclamo::class);
+    }
 }

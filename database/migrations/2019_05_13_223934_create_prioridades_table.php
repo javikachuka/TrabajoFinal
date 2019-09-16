@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTipoReclamosTable extends Migration
+class CreatePrioridadesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateTipoReclamosTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_reclamos', function (Blueprint $table) {
+        Schema::create('prioridades', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('reclamo_id') ;
+            $table->integer('nivel') ;
             $table->string('nombre') ;
             $table->timestamps();
-
-            $table->foreign('reclamo_id')->references('id')->on('reclamos');
         });
     }
 
@@ -30,6 +28,6 @@ class CreateTipoReclamosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_reclamos');
+        Schema::dropIfExists('prioridades');
     }
 }

@@ -28,7 +28,7 @@
                             <td>{{$proveedor->cuit}}</td>
                             <td>{{$proveedor->email}}</td>
                             <td>{{$proveedor->telefono}}</td>
-                            <td width ="200px">
+                            <td width ="125px">
                                 @can('proveedores_edit')
                                     <a href="{{ route('proveedores.edit', $proveedor->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
                                 @endcan

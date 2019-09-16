@@ -135,6 +135,7 @@
                                                                     <th>Cantidad</th>
                                                                     <th>Precio</th>
                                                                     <th>Almacen</th>
+                                                                    <th>Tipo Movimiento</th>
                                                                     <th>Opciones</th>
                                                                     {{-- <th>Subtotal</th> --}}
                                                                 </thead>

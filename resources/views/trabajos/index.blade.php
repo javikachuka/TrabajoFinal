@@ -43,13 +43,15 @@
                                 @can('trabajos_edit')
                                     <a href="{{ route('trabajos.edit', $trabajo->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
                                 @endcan
-                                <form method="POST" action="trabajos/{{$trabajo}}" onsubmit="return confirm('Desea borrar el trabajo {{$trabajo->nombre}}')" style="display: inline-block;">
+                                <a href="#" class="btn btn-xs btn-success"> Iniciar <i class="fad fa-play"></i> </a>
+
+                                {{-- <form method="POST" action="trabajos/{{$trabajo}}" onsubmit="return confirm('Desea borrar el trabajo {{$trabajo->nombre}}')" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     @can('trabajos_destroy')
                                         <button type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">Borrar</button>
                                     @endcan
-                                </form>
+                                </form> --}}
                             </td>
                           </tr>
 

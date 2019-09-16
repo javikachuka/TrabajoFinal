@@ -74,7 +74,7 @@
                     <a href="#" class="nav-link active">
                       <i class="nav-icon fal fa-warehouse"></i>
                       <p>
-                        Gestion Almacen
+                        Gestion de Almacen
                         <i class="right fal fa-angle-left"></i>
                       </p>
                     </a>
@@ -95,6 +95,12 @@
                                 <a href="{{ route('proveedores.index') }}" class="nav-link">
                                     <i class="fal fa-people-carry nav-icon"></i>
                                     <p>Proveedores</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('almacenes.index') }}" class="nav-link">
+                                    <i class="fad fa-warehouse nav-icon"></i>
+                                    <p>Almacenes</p>
                                 </a>
                             </li>
                     </ul>

@@ -95,7 +95,7 @@ class MovimientoController extends Controller
 
             }
         }
-        return redirect('/productos') ;
+        return redirect('/movimientos')->with('confirmar', 'asdf') ;
 
     }
 

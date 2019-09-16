@@ -58,10 +58,9 @@
 
                                 <h3>Domicilio</h2>
                                 <div class="form-group">
-                                        <select name="zona_id" class="form-control" required>
-                                            <option value="0" selected>--Seleccione un barrio--</option>
+                                        <select name="zona_id" class="form-control" required >
                                                 @foreach ($zonas as $zona)
-                                                    <option value="{{$zona->id}}">{{$zona->nombre}}</option>
+                                                    <option value="{{$zona->id}}" @if($user->direccion != null) @if ($zona->id == $user->direccion->zona->id) selected="selected" @endif @endif>{{$zona->nombre}}</option>
                                                 @endforeach
                                         </select>
                                     </div>
@@ -71,9 +70,9 @@
                                                         <div class="form-group">
                                                             <label for="">Calle</label>
                                                             <div class="input-group">
-                                                                <input name="calle" type="text"  value="{{ old('calle') }}" required class="form-control" placeholder="Calle">
+                                                                <input name="calle" type="text" @if($user->direccion != null) value="{{ old('calle') ?? $user->direccion->calle}} @endif" required class="form-control" placeholder="Calle">
                                                                 <span class="input-group-addon">-</span>
-                                                                <input name="altura"  type="text"  value="{{ old('altura')  }}" required class="form-control col-md-3" placeholder="Altura">
+                                                                <input name="altura"  type="text" @if($user->direccion != null)  value="{{ old('altura') ?? $user->direccion->altura}} @endif" required class="form-control col-md-3" placeholder="Altura">
                                                             </div>
                                                         </div>
                                                     </div>

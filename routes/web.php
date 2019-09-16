@@ -128,8 +128,19 @@ Route::middleware(['auth'])->group(function(){
     Route::post('trabajos','TrabajoController@store')->name('trabajos.store')->middleware('permission:trabajos_store')  ;
     Route::get('trabajos/{trabajo}', 'TrabajoController@show')->name('trabajos.show')->middleware('permission:trabajos_show')  ;
     Route::get('trabajos/{trabajo}/edit','TrabajoController@edit')->name('trabajos.edit')->middleware('permission:trabajos_edit')  ;
-    Route::put('trabajos/{trabajo}' , 'TrabajoController@update')->name('trabajos.update')->middleware('permission:trabajos_update')  ;
+    Route::put('trabajos/{id}' , 'TrabajoController@update')->name('trabajos.update')->middleware('permission:trabajos_update')  ;
     Route::delete('trabajos/{trabajo}' , 'TrabajoController@destroy')->name('trabajos.destroy')->middleware('permission:trabajos_destroy') ;
+
+
+    //almacenes
+    Route::get('almacenes','AlmacenController@index')->name('almacenes.index')->middleware('permission:almacenes_index')  ;
+    Route::get('almacenes/create', 'AlmacenController@create')->name('almacenes.create')->middleware('permission:almacenes_create')  ;
+    Route::post('almacenes','AlmacenController@store')->name('almacenes.store')->middleware('permission:almacenes_store')  ;
+    Route::get('almacenes/{almacen}', 'AlmacenController@show')->name('almacenes.show')->middleware('permission:almacenes_show')  ;
+    Route::get('almacenes/{almacen}/edit','AlmacenController@edit')->name('almacenes.edit')->middleware('permission:almacenes_edit')  ;
+    Route::put('almacenes/{almacen}' , 'AlmacenController@update')->name('almacenes.update')->middleware('permission:almacenes_update')  ;
+    Route::delete('almacenes/{almacen}' , 'AlmacenController@destroy')->name('almacenes.destroy')->middleware('permission:almacenes_destroy') ;
+
 
 
 }) ;

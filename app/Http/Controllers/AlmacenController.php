@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Almacen;
+use App\Direccion;
+use App\Zona;
 use Illuminate\Http\Request;
 
 class AlmacenController extends Controller
@@ -14,7 +16,9 @@ class AlmacenController extends Controller
      */
     public function index()
     {
-        //
+        $almacenes = Almacen::all() ;
+        $zonas = Zona::all() ;
+        return view('almacenes.index' , compact('almacenes' , 'zonas'));
     }
 
     /**
@@ -35,7 +39,14 @@ class AlmacenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $direccion = new Direccion() ;
+        $direccion->fill($request->all()) ;
+        $direccion->save() ;
+        $almacen = new Almacen() ;
+        $almacen->denominacion = $request->denominacion ;
+        $almacen->direccion_id = $direccion->id ;
+        $almacen->save() ;
+        return redirect()->back()->with('confirmar', 'sasdf') ;
     }
 
     /**
@@ -46,7 +57,7 @@ class AlmacenController extends Controller
      */
     public function show(Almacen $almacen)
     {
-        //
+        return view('almacenes.show' , compact('almacen')) ;
     }
 
     /**
@@ -67,9 +78,15 @@ class AlmacenController extends Controller
      * @param  \App\Almacen  $almacen
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Almacen $almacen)
+    public function update(Request $request, $id)
     {
-        //
+        $almacen = Almacen::find($id) ;
+        $direccion = $almacen->direccion ;
+        $direccion->fill($request->all()) ;
+        $direccion->update();
+        $almacen->denominacion = $request->denominacion ;
+        $almacen->update() ;
+        return redirect()->back()->with('confirmar' , 'asd');
     }
 
     /**

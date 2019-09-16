@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Existencia;
+use App\Medida;
 use App\Producto;
 use App\Rubro;
 use Illuminate\Http\Request;
@@ -30,7 +31,8 @@ class ProductoController extends Controller
     {
         $producto = new Producto();
         $rubros = Rubro::all() ;
-        return view('productos.registro', compact('producto', 'rubros')) ;
+        $medidas = Medida::all() ;
+        return view('productos.registro', compact('producto', 'rubros' , 'medidas')) ;
     }
 
     /**
@@ -69,7 +71,8 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id) ;
         $rubros = Rubro::all() ;
-        return view('productos.edit' , compact('producto' , 'rubros')) ;
+        $medidas = Medida::all() ;
+        return view('productos.edit' , compact('producto' , 'rubros' , 'medidas')) ;
     }
 
     /**

@@ -29,7 +29,7 @@
                 </div>
                 <div class="card-body">
 
-                    <strong><i class="fal fa-file-alt mr-1"></i>Cantidad Disponible: <i class="text-muted">{{$e->cantidad}} ...algo</i></strong>
+                    <strong><i class="fal fa-file-alt mr-1"></i>Cantidad Disponible: <i class="text-muted">{{$e->cantidad}} {{$e->producto->medida->nombre}}</i></strong>
                     <hr>
                     <strong><i class="fal fa-map-marker-alt mr-1"></i>Ubicacion</strong>
                     <p class="text-muted">{{$e->almacen->direccion->calle}}</p>

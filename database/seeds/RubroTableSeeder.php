@@ -26,21 +26,27 @@ class RubroTableSeeder extends Seeder
         ]);
 
         //creacion de medidas
+
         Medida::create([
-            'nombre'          => 'Neto',
-            'simbolo'         => 'N'
+            'nombre'          => 'Metros',
+            'simbolo'         => 'M'
         ]);
 
         Medida::create([
-            'nombre'          => 'kilogramo',
+            'nombre'          => 'Unidades',
+            'simbolo'         => 'P/U'
+        ]);
+
+        Medida::create([
+            'nombre'          => 'Kilogramos',
             'simbolo'         => 'Kg',
         ]);
         Medida::create([
-            'nombre'          => 'Gramo',
+            'nombre'          => 'Gramos',
             'simbolo'         => 'g' ,
         ]);
         Medida::create([
-            'nombre'          => 'Litro',
+            'nombre'          => 'Litros',
             'simbolo'         => 'L' ,
         ]);
 

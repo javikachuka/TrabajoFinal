@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Proveedor;
+use Alert ;
+use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\DB;
@@ -46,7 +48,7 @@ class ProveedorController extends Controller
 
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
-        return redirect('/proveedores')->with('confirmar', 'Guardsdsado!') ;
+        return redirect('/proveedores')->with('confirmar' , 'guardado') ;
 
     }
 
@@ -89,8 +91,7 @@ class ProveedorController extends Controller
         $proveedor = Proveedor::find($id) ;
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
-
-        return redirect('/proveedores')->with('confirmar' , 'asdfa'); ;
+        return redirect('/proveedores')->with('confirmar' , 'guardado') ;
     }
 
     /**
@@ -102,10 +103,15 @@ class ProveedorController extends Controller
     public function destroy($id)
     {
         $proveedor = Proveedor::find($id) ;
-        if($proveedor != null){
-            $proveedor->delete() ;
+        try{
+            if($proveedor != null){
+                $proveedor->delete() ;
+                return redirect()->back()->with('confirmar' , 'guardado') ;
+            }
+        }catch(Exception $e){
+            alert()->error('Error' , 'No es posible eliminar al proveedor') ;
+            return redirect('/proveedores') ;
         }
-        return redirect('/proveedores') ;
     }
 
     public function validar(){

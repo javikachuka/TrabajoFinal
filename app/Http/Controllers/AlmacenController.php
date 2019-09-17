@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Almacen;
 use App\Direccion;
 use App\Zona;
+use Exception;
 use Illuminate\Http\Request;
 
 class AlmacenController extends Controller
@@ -46,7 +47,7 @@ class AlmacenController extends Controller
         $almacen->denominacion = $request->denominacion ;
         $almacen->direccion_id = $direccion->id ;
         $almacen->save() ;
-        return redirect()->back()->with('confirmar', 'sasdf') ;
+        return redirect()->back()->with('confirmar', 'bien') ;
     }
 
     /**
@@ -86,7 +87,7 @@ class AlmacenController extends Controller
         $direccion->update();
         $almacen->denominacion = $request->denominacion ;
         $almacen->update() ;
-        return redirect()->back()->with('confirmar' , 'asd');
+        return redirect()->back()->with('confirmar' , 'bien');
     }
 
     /**
@@ -95,8 +96,16 @@ class AlmacenController extends Controller
      * @param  \App\Almacen  $almacen
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Almacen $almacen)
+    public function destroy($id)
     {
-        //
+        $almacen = Almacen::find($id) ;
+        try{
+            $almacen->delete() ;
+            return redirect()->back()->with('confirmar' , 'guardado') ;
+
+        }catch(Exception $e){
+            alert()->error('Error' , 'No es posible eliminar al proveedor') ;
+            return redirect('/almacenes') ;
+        }
     }
 }

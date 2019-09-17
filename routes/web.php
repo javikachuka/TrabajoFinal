@@ -139,7 +139,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('almacenes/{almacen}', 'AlmacenController@show')->name('almacenes.show')->middleware('permission:almacenes_show')  ;
     Route::get('almacenes/{almacen}/edit','AlmacenController@edit')->name('almacenes.edit')->middleware('permission:almacenes_edit')  ;
     Route::put('almacenes/{almacen}' , 'AlmacenController@update')->name('almacenes.update')->middleware('permission:almacenes_update')  ;
-    Route::delete('almacenes/{almacen}' , 'AlmacenController@destroy')->name('almacenes.destroy')->middleware('permission:almacenes_destroy') ;
+    Route::delete('almacenes/{id}' , 'AlmacenController@destroy')->name('almacenes.destroy')->middleware('permission:almacenes_destroy') ;
 
 
 

@@ -119,11 +119,11 @@
         })
     </script>
 
+    <script src="{{asset('js/sweetalert.min.js')}}"></script>
     <script src="{{asset('admin_panel/plugins/chart.js/Chart.min.js')}}"></script>
     <script src="{{asset('admin_panel/dist/js/demo.js')}}"></script>
 
-
-
+    @include('sweet::alert')
     @stack('scripts')
 </body>
 </html>

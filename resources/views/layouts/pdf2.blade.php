@@ -167,7 +167,7 @@
             </div>
             <div id="datos">
                 <p id="encabezado">
-                    <b>Cooperativa de Agua Potable</b><br>Av. 9 de Julio 1368, San Jose - Misiones, Argentina<br>Telefono:(+54)3758655665<br>Email:coop_agua@gmail.com
+                    <b>COOPERATIVA DE AGUA POTABLE</b><br>Av. 9 de Julio 1368, San Jose - Misiones, Argentina<br>Telefono:(+54)3758655665<br>Email:coop_agua@gmail.com
                 </p>
             </div>
 

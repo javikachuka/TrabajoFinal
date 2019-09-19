@@ -13,8 +13,12 @@ class Socio extends Model
         'dni' ,
         'nro_conexion'] ;
 
-    public function domicilio(){
-        return $this->belongsTo(Domicilio::class) ;
+    public function direccion(){
+        return $this->belongsTo(Direccion::class) ;
+    }
+
+    public function reclamos(){
+        return $this->hasMany(Reclamo::class);
     }
 
     public function getNombreAttribute($value){

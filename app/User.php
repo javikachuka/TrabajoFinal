@@ -6,10 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasRolesAndPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -20,11 +22,10 @@ class User extends Authenticatable
     //     'name'
     //     // 'apellido',
     //     // 'dni',
-    //     // 'rol_id' ,
     //     // 'domicilio_id',
     //     // 'fecha_ingreso',
     //     // 'telefono',
-    //     // 'email', 
+    //     // 'email',
     //     // 'password'
     // ];
 
@@ -51,11 +52,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function rol(){
-        return $this->belongsTo(Rol::class) ;
+    public function direccion(){
+        return $this->belongsTo(Direccion::class) ;
     }
 
-    public function domicilio(){
-        return $this->belongsTo(Domicilio::class) ;
+    public function reclamos(){
+        return $this->hasMany(Reclamo::class);
     }
 }

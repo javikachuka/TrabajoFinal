@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User ;
 use App\Rol ;
-use App\Domicilio ;
+use App\Direccion ;
 
 
 class UserTableSeeder extends Seeder
@@ -15,26 +15,22 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $rol_admin = Rol::where('nombre','admin')->get();
-        // $rol_empleadoPlanta = Rol::where('nombre','empleadoPlanta')->get() ;
-        // $rol_empleadoOficina = Rol::where('nombre','empleadoOficina')->get();
 
-        $domicilio = new Domicilio();
-        $domicilio->barrio_id = 1 ;
-        $domicilio->calle = 'null' ;
-        $domicilio->altura = 0 ;
-        $domicilio->save() ;
+        $direccion = new Direccion();
+        $direccion->zona_id = 1 ;
+        $direccion->calle = 'Las Heras' ;
+        $direccion->altura = 115 ;
+        $direccion->save() ;
 
         $user = new User() ;
-        $user->name = 'admin' ;
-        $user->apellido = 'admin' ;
-        $user->dni = '0' ;
-        $user->domicilio_id = $domicilio->id ;
+        $user->name = 'Javier' ;
+        $user->apellido = 'Kachuka' ;
+        $user->dni = '40565646' ;
+        $user->direccion_id = $direccion->id ;
         $user->fecha_ingreso = new DateTime('now');
         $user->telefono = 0 ;
         $user->email = 'admin@admin.com' ;
         $user->password = Hash::make('123456789') ;
-        $user->rol_id = $rol_admin[0]->id;
         $user->save() ;
 
         // $user = new User() ;
@@ -50,6 +46,6 @@ class UserTableSeeder extends Seeder
         // $user->password = '123' ;
         // $user->rol_id = $rol_empleadoOficina[0]->id;
         // $user->save() ;
-        
+
     }
 }

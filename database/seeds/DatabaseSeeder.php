@@ -1,5 +1,6 @@
 <?php
 
+use App\Rubro;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,10 +13,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            RolTableSeeder::class ,
-            BarrioTableSeeder::class ,
+            ZonaTableSeeder::class ,
+            RolTableSeeder::class,
+            PermissionsTableSeeder::class,
             UserTableSeeder::class ,
-        
+            EstadosTableSeeder::class ,
+            RubroTableSeeder::class,
+            TipoComprobanteTableSeeder::class ,
+            PrioridadTableSeeder::class ,
         ]);
 
     }

@@ -7,13 +7,32 @@ use Illuminate\Database\Eloquent\Model;
 class Reclamo extends Model
 {
 
-	public function tipoReclamos(){
-		return $this->hasMany(TipoReclamo::class);
+    protected $guarded = [] ;
+
+	public function tipoReclamo(){
+		return $this->belongsTo(TipoReclamo::class, 'tipoReclamo_id');
 	}
 
-	public function documentaciones(){
-		return $this->belongsToMany(Documentacion::class) ;
-	}
+	public function controles(){
+		return $this->hasMany(Control::class) ;
+    }
+
+    public function trabajo(){
+        return $this->belongsTo(Trabajo::class);
+    }
+
+    public function socio(){
+        return $this->belongsTo(Socio::class);
+    }
+
+    public function usuario(){
+        return $this->belongsTo(User::class , 'user_id');
+    }
+
+    public function historial(){
+        return $this->hasMany(HistorialEstado::class);
+    }
+
 
     public function setNombreAttribute($value){
     	$this->attributes['nombre'] = strtoupper($value) ;

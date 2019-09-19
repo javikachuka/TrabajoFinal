@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Proveedor;
+use Alert ;
+use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\DB;
@@ -15,18 +17,12 @@ class ProveedorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function search(Request $request){
-        $name = $request->get('search') ;
-        $proveedores = DB::table('proveedores')->where('nombre' , 'like' , '%'.$name.'%')->get() ;
-
-        return view('vw_proveedores.index' , compact('proveedores')) ;
-    }
 
     public function index()
     {
         $proveedores = Proveedor::all() ;
 
-        return view('vw_proveedores.index' , compact('proveedores')) ;
+        return view('proveedores.index' , compact('proveedores')) ;
     }
 
     /**
@@ -37,7 +33,7 @@ class ProveedorController extends Controller
     public function create()
     {
         $proveedor = new Proveedor();
-        return view('vw_proveedores.registro', compact('proveedor')) ;
+        return view('proveedores.registro', compact('proveedor')) ;
     }
 
     /**
@@ -52,7 +48,7 @@ class ProveedorController extends Controller
 
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
-        return redirect('/proveedores') ;
+        return redirect('/proveedores')->with('confirmar' , 'guardado') ;
 
     }
 
@@ -78,7 +74,7 @@ class ProveedorController extends Controller
 
         $proveedor = Proveedor::find($id);
 
-        return view('vw_proveedores.edit' , compact('proveedor'));
+        return view('proveedores.edit' , compact('proveedor'));
 
     }
 
@@ -95,8 +91,7 @@ class ProveedorController extends Controller
         $proveedor = Proveedor::find($id) ;
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
-
-        return redirect('/proveedores') ;
+        return redirect('/proveedores')->with('confirmar' , 'guardado') ;
     }
 
     /**
@@ -108,10 +103,15 @@ class ProveedorController extends Controller
     public function destroy($id)
     {
         $proveedor = Proveedor::find($id) ;
-        if($proveedor != null){
-            $proveedor->delete() ;
+        try{
+            if($proveedor != null){
+                $proveedor->delete() ;
+                return redirect()->back()->with('borrado' , 'guardado') ;
+            }
+        }catch(Exception $e){
+            alert()->error('No es posible eliminar' , 'Error!') ;
+            return redirect('/proveedores') ;
         }
-        return redirect('/proveedores') ;
     }
 
     public function validar(){
@@ -119,7 +119,7 @@ class ProveedorController extends Controller
             'nombre' => 'required' ,
             'cuit' => 'required' ,
             'email' => 'required|email' ,
-            'telefono' => 'required'
+            'telefono' => 'numeric|required'
         ]);
     }
 }

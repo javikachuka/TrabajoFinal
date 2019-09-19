@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Barrio;
-use App\Rol;
-use App\Domicilio ;
+use App\Zona;
+use App\Direccion ;
 use App\User ;
+use Caffeinated\Shinobi\Models\Role;
+use Exception;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -20,7 +22,8 @@ class UserController extends Controller
     public function index()
     {
         $usuarios = User::all() ;
-        return view('vw_usuarios.index' , compact('usuarios')) ;
+        $roles = Role::all() ;
+        return view('usuarios.index' , compact('usuarios','roles')) ;
     }
 
     /**
@@ -31,9 +34,9 @@ class UserController extends Controller
     public function create()
     {
         $user = new User() ;
-        $roles = Rol::all() ;
-        $barrios = Barrio::all() ;
-        return view('vw_usuarios.registro' ,  compact('roles' ,'barrios','user')) ;
+        $roles = Role::all()->pluck('name' , 'id') ;
+        $zonas = Zona::all() ;
+        return view('usuarios.registro' ,  compact('roles' ,'zonas','user')) ;
     }
 
     /**
@@ -44,22 +47,25 @@ class UserController extends Controller
      */
     public function store(Request $request, User $user)
     {
-        $domicilio = new Domicilio();
-        $domicilio->barrio_id = $request->barrio_id ;
-        $domicilio->calle = $request->calle ;
-        $domicilio->altura = $request->altura ;
-        $domicilio->save() ;
+
+        $direccion = new Direccion();
+        $direccion->zona_id = $request->zona_id ;
+        $direccion->calle = $request->calle ;
+        $direccion->altura = $request->altura ;
+        $direccion->save() ;
 
         $user->name = $request->name ;
         $user->apellido = $request->apellido ;
         $user->dni = $request->dni ;
-        $user->rol_id = $request->rol_id;
         $user->telefono = $request->telefono ;
         $user->fecha_ingreso = $request->fecha_ingreso;
-        $user->domicilio_id = $domicilio->id ;
+        $user->direccion_id = $direccion->id ;
         $user->email = $request->email ;
-        $user->password = Hash::make($request->password) ;
+        $user->password = Hash::make('123456789');
         $user->save() ;
+
+        // $user = User::create($request->all()) ;
+        $user->roles()->sync($request->input('roles',[])) ;
 
         return redirect('/users') ;
     }
@@ -70,10 +76,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::find($id) ;
-        return $user ;
+        //$user = User::find($id) ;
+        return view('usuarios.show' , compact('user')) ;
     }
 
     /**
@@ -85,9 +91,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id) ;
-        $roles = Rol::all() ;
-        $barrios = Barrio::all() ;
-        return view('vw_usuarios.edit' , compact('user','roles','barrios'));
+        $roles = Role::all()->pluck('name' , 'id') ;
+        $zonas = Zona::all() ;
+        return view('usuarios.edit' , compact('user','roles','zonas'));
     }
 
     /**
@@ -100,11 +106,12 @@ class UserController extends Controller
     public function update(Request $request , $id)
     {
         $user = User::find($id) ;
-        $user->fill($request->only(['name' , 'apellido' , 'dni' , 'fecha_ingreso' ,'rol_id' , 'telefono' , 'email'])) ;
-        $domicilio = $user->domicilio ;
-        $domicilio->fill($request->only(['barrio_id' , 'calle' , 'altura'])) ;
-        $domicilio->save() ;
+        $user->fill($request->only(['name' , 'apellido' , 'dni' , 'fecha_ingreso' , 'telefono' , 'email'])) ;
+        $direccion = $user->direccion ;
+        $direccion->fill($request->only(['zona_id' , 'calle' , 'altura'])) ;
+        $direccion->save() ;
         $user->save() ;
+        $user->roles()->sync($request->input('roles',[])) ;
         return redirect('/users');
     }
 
@@ -118,9 +125,14 @@ class UserController extends Controller
     {
         $user = User::find($id) ;
         if($user != null){
-            $user->delete() ;
+            try{
+                $user->delete() ;
+                return redirect('/users');
+            }catch(Exception $e){
+                report($e) ;
+                return redirect()->back()->with('cancelar' , 'asdf') ;
+            }
         }
-        return redirect('/users');
 
     }
 }

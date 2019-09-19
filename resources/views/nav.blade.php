@@ -29,7 +29,12 @@
                         <a class="nav-link active" href="{{action("SocioController@index")}}">Socios</a>
                         <a class="nav-link" href="{{action("ReclamoController@index")}}">Reclamos</a>
                         <a class="nav-link" href="#">Trabajos</a>
-                        <a class="nav-link" href="{{route('users.index')}}">Usuarios</a>
+                        @can('users_index')
+                            <a class="nav-link" href="{{route('users.index')}}">Usuarios</a>
+                        @endcan
+                        @can('roles_index')
+                            <a class="nav-link" href=" {{route('roles.index')}} ">Roles</a>
+                        @endcan
                         <a class="nav-link" href="#">Productos</a>
                         <a class="nav-link" href="{{route('proveedores.index')}}">Proveedores</a>
                         <li class="nav-item dropdown">

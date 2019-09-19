@@ -12,6 +12,12 @@
 
 @endsection
 @push('scripts')
+
+<script>
+    $(document).ready(function(){
+        $('#cuit').mask('00-00000000-0');
+    });
+</script>
 <script>
         @if (session('alert'))
             Alerta.fire("{{ session('alert') }}");

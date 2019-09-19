@@ -35,7 +35,7 @@
                             </td>
                             <td width ="200px">
                                 @can('flujoTrabajos_edit')
-                                    <a href="{{ route('transiciones.create', $flujoTrabajo)}}" class="btn btn-xs btn-secondary"> Editar </a>
+                                    <a href="{{ route('flujoTrabajos.edit', $flujoTrabajo)}}" class="btn btn-xs btn-secondary"> Editar </a>
                                 @endcan
                             <form method="POST" action="{{route('flujoTrabajos.destroy' , $flujoTrabajo)}}" onsubmit="return confirm('Desea borrar {{$flujoTrabajo->nombre}}')" style="display: inline-block;">
                                     @csrf

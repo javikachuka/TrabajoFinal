@@ -17,6 +17,7 @@
                     <th>Tipo de Trabajo</th>
                     <th>Fecha</th>
                     <th>Ubicacion</th>
+                    <th>Prioridad</th>
                     <th>Estado</th>
                     <th>Accion</th>
                   </tr>
@@ -31,6 +32,7 @@
                             </td>
                             <td>{{$trabajo->fecha}}</td>
                             <td><p>{{$trabajo->reclamo->socio->direccion->calle}} {{$trabajo->reclamo->socio->direccion->altura}} , {{$trabajo->reclamo->socio->direccion->zona->nombre}}</p> </td>
+                            <td><span class="badge badge-warning">{{$trabajo->reclamo->tipoReclamo->prioridad->nombre}}</span></td>
                             <td>
                                 @if($trabajo->estado != null)
                                     <span class="badge badge-info"> {{$trabajo->estado->nombre}}</span>
@@ -43,7 +45,7 @@
                                 @can('trabajos_edit')
                                     <a href="{{ route('trabajos.edit', $trabajo->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
                                 @endcan
-                                <a href="#" class="btn btn-xs btn-success"> Iniciar <i class="fad fa-play"></i> </a>
+                                <a href="{{route('trabajos.inicio' , $trabajo)}}" class="btn btn-xs btn-success"> Iniciar <i class="fad fa-play"></i> </a>
 
                                 {{-- <form method="POST" action="trabajos/{{$trabajo}}" onsubmit="return confirm('Desea borrar el trabajo {{$trabajo->nombre}}')" style="display: inline-block;">
                                     @csrf

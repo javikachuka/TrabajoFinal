@@ -83,4 +83,14 @@ class TrabajoController extends Controller
     {
         //
     }
+
+    public function inicio(Trabajo $trabajo){
+        return view('trabajos.inicio' , compact('trabajo')) ;
+    }
+
+
+    // public function iniciarTrabajo(Trabajo $trabajo){
+    //     return $trabajo;
+    //     $trabajo->reclamo->tipoReclamo->flujoTrabajo->
+    // }
 }

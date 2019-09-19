@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>DNI</label>
-                                    <input type="text" name="dni" required value="{{ old('dni') ?? $user->dni }}"   class="form-control">
+                                    <input type="text" id="dni" name="dni" required value="{{ old('dni') ?? $user->dni }}"   class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Fecha de Ingreso <input type="date" name="fecha_ingreso" required value="{{ old('fecha_ingreso') ?? $user->fecha_ingreso }}"  id=""></label>

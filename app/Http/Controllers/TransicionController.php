@@ -83,9 +83,6 @@ class TransicionController extends Controller
 
     }
 
-    public function ordenar(Request $request){
-        return $request ;
-    }
 
     /**
      * Display the specified resource.

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Estado;
 use App\FlujoTrabajo;
 use Exception;
 use Illuminate\Http\Request;
@@ -68,7 +69,8 @@ class FlujoTrabajoController extends Controller
      */
     public function edit(FlujoTrabajo $flujoTrabajo)
     {
-        //
+        $estados = Estado::all() ;
+        return view('transiciones.edit' , compact('flujoTrabajo' , 'estados'));
     }
 
     /**
@@ -78,9 +80,29 @@ class FlujoTrabajoController extends Controller
      * @param  \App\FlujoTrabajo  $flujoTrabajo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FlujoTrabajo $flujoTrabajo)
+    public function update(Request $request, $flujoTrabajo_id)
     {
-        //
+        $flujoTrabajo = FlujoTrabajo::find($flujoTrabajo_id) ;
+
+        for($i = 0 ; $i < sizeof($request->nombre) ; $i++){
+            $transicion = new Transicion() ;
+            foreach($flujoTrabajo->transiciones as $tran){
+                if(($tran->estadoInicial->id == $request->estadoInicial_id[$i]) && ($tran->estadoFinal->id == $request->estadoFinal_id[$i])){
+                    return redirect()->back()->with('cancelar' , 'asdf') ;
+                }
+            }
+            $transicion->flujoTrabajo_id = $flujoTrabajo->id ;
+            $transicion->nombre = $request->nombre[$i] ;
+            $transicion->estadoInicial_id = $request->estadoInicial_id[$i];
+            if($transicion->asignarEstadoFinal($request->estadoFinal_id[$i]) ){
+                $transicion->orden = sizeof($flujoTrabajo->transiciones)+1 ;
+                $transicion->save() ;
+            }
+            else{
+                return redirect()->back()->with('cancelar' , 'asdf') ;  ;
+            }
+        }
+        return redirect('/flujoTrabajos')->with('confirmar' , 'asdf') ;
     }
 
     /**

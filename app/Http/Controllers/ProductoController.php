@@ -6,6 +6,7 @@ use App\Existencia;
 use App\Medida;
 use App\Producto;
 use App\Rubro;
+use Exception;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -98,9 +99,14 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        $producto->delete() ;
+        try{
 
-        return redirect()->back() ;
+            $producto->delete() ;
+        }catch(Exception $e){
+
+            return redirect()->back()->with('cancelar' , 'asdf') ;
+        }
+
     }
 
     public function validar(){

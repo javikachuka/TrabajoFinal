@@ -51,7 +51,7 @@ class ReclamoController extends Controller
         $reclamo->fill($request->only(['socio_id' ,'tipoReclamo_id' , 'fecha' , 'detalle'])) ;
         $reclamo->user_id = auth()->user()->id ;
         $reclamo->save() ;
-        if($reclamo->tipoReclamo->trabajo){
+        if($reclamo->tipoReclamo->flujoTrabajo != null){
             $trabajo = new Trabajo() ;
             $trabajo->fecha = $reclamo->fecha ;
             $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoInicial() ;
@@ -63,7 +63,7 @@ class ReclamoController extends Controller
             $historial->estado_id = $trabajo->estado_id ;
             $historial->save() ;
         }
-        return redirect('/reclamos') ;
+        return redirect('/reclamos')->with('confirmar' , 'bien') ;
     }
 
     /**
@@ -85,7 +85,10 @@ class ReclamoController extends Controller
      */
     public function edit(Reclamo $reclamo)
     {
-        //
+        $socios = Socio::all() ;
+        $tipos_reclamos = TipoReclamo::all() ;
+        $reclamos = Reclamo::all() ;
+        return view('reclamos.edit' , compact('reclamo' , 'socios' , 'tipos_reclamos' , 'reclamos')) ;
     }
 
     /**
@@ -97,7 +100,9 @@ class ReclamoController extends Controller
      */
     public function update(Request $request, Reclamo $reclamo)
     {
-        //
+        $reclamo->fill($request->only(['socio_id' ,'tipoReclamo_id' , 'fecha' , 'detalle'])) ;
+        $reclamo->update();
+        return redirect('/reclamos')->with('confirmar' , 'bien') ;
     }
 
     /**

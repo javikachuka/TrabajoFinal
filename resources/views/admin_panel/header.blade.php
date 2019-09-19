@@ -8,9 +8,9 @@
           <li class="nav-item d-none d-sm-inline-block">
             <a href="/home" class="nav-link">Home</a>
           </li>
-          <li class="nav-item d-none d-sm-inline-block">
+          {{-- <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contacto</a>
-          </li>
+          </li> --}}
         </ul>
 
         <!-- SEARCH FORM -->
@@ -86,6 +86,17 @@
             </div>
           </li>
           <!-- Notifications Dropdown Menu -->
+
+            <a class="nav-link" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
+                <i class="fal fa-sign-out nav-icon"></i>
+            </a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+
           {{-- <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
               <i class="far fa-bell"></i>

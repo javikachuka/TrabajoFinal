@@ -40,7 +40,7 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini ">
         <div class="wrapper">
             <!-- Inicio Header -->
             @include('admin_panel/header')
@@ -83,6 +83,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <!-- jQuery -->
     <script src="{{asset('admin_panel/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('admin_panel/plugins/jquery/jquery.mask.min.js')}}"></script>
     <!-- Bootstrap -->
     <script src="{{asset('admin_panel/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- AdminLTE -->
@@ -113,8 +114,8 @@
         })
         const Alerta = Swal.mixin({
         toast: false,
-        showConfirmButton: true,
-        type: 'alert',
+        showConfirmButton: false,
+        type: 'error',
         title: 'Verifique los campos',
         })
     </script>

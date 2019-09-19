@@ -20,4 +20,8 @@ class FlujoTrabajo extends Model
         return $this->transiciones[0]->estadoInicial->id ;
     }
 
+    // public function siguienteEstado(Reclamo $reclamo){
+    //     $this->transiciones($reclamo);
+    // }
+
 }

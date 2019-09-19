@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Estado;
+use Exception;
 use Illuminate\Http\Request;
 
 class EstadoController extends Controller
@@ -14,7 +15,9 @@ class EstadoController extends Controller
      */
     public function index()
     {
-        //
+        $estados = Estado::all() ;
+        return view('estados.index' , compact('estados')) ;
+
     }
 
     /**
@@ -37,9 +40,10 @@ class EstadoController extends Controller
      */
     public function store(Request $request , Estado $estado)
     {
+        $this->validar();
         $estado->fill($request->all());
         $estado->save() ;
-        return redirect()->back()->with('confirmar' , 'asd') ;
+        return redirect()->back()->with('confirmar' , 'bien') ;
 
     }
 
@@ -62,7 +66,7 @@ class EstadoController extends Controller
      */
     public function edit(Estado $estado)
     {
-        //
+
     }
 
     /**
@@ -72,9 +76,13 @@ class EstadoController extends Controller
      * @param  \App\Estado  $estado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Estado $estado)
+    public function update(Request $request,  $id)
     {
-        //
+        $estado = Estado::find($id);
+        $this->validar();
+        $estado->fill($request->all());
+        $estado->update() ;
+        return redirect()->back()->with('confirmar' , 'bien') ;
     }
 
     /**
@@ -85,6 +93,19 @@ class EstadoController extends Controller
      */
     public function destroy(Estado $estado)
     {
-        //
+        try{
+            $estado->delete() ;
+            return redirect()->back()->with('confirmar' , 'borrado') ;
+        }catch(Exception $e){
+            alert()->error('No es posible eliminar el estado' , 'Error') ;
+            return redirect('/estados') ;
+        }
     }
+
+    public function validar(){
+        return  request()->validate([
+            'nombre' => 'required|unique:estados' ,
+        ]);
+    }
+
 }

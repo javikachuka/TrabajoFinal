@@ -47,7 +47,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Num. Comprobante</label>
-                                            <input type="text" name="numero_comprobante" required value=""  class="form-control" placeholder="ejemplo 0001">
+                                            <input type="text" name="numeroComprobante" required value=""  class="form-control" placeholder="ejemplo 0001">
                                             <div>{{$errors->first('numero_comprobante')}} </div>
                                         </div>
                                     </div>

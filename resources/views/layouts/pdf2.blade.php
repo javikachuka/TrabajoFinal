@@ -43,7 +43,7 @@
         font-size: 15px;
         }
 
-        #fact{
+        #fecha{
         /*position: relative;*/
         float: right;
         margin-top: -3%;
@@ -171,7 +171,7 @@
                 </p>
             </div>
 
-            <div id="fact">
+            <div id="fecha">
                 <p>Fecha: {{ \Carbon\Carbon::now()->format('d/m/Y')}}</p>
             </div>
 

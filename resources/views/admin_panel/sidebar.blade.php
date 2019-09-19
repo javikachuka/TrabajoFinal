@@ -41,15 +41,7 @@
                                 <p>Reclamos</p>
                               </a>
                         </li>
-                        <li class="nav-item">
-                              <a href="{{ route('flujoTrabajos.index') }}" class="nav-link">
-                                <i class="fal fa-project-diagram nav-icon"></i>
-                                <p>Flujo de Trabajo</p>
-                              </a>
-                        </li>
                        </ul>
-
-
                 </li>
 
                 <li class="nav-item has-treeview ">
@@ -126,6 +118,12 @@
                         </li>
                         @endcan
                         <li class="nav-item">
+                          <a href="{{ route('users.index') }}" class="nav-link">
+                            <i class="fal fa-tasks nav-icon"></i>
+                            <p>Asistencias</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
                           <a href="{{ route('roles.index') }}" class="nav-link">
                             <i class="fal fa-user-lock nav-icon"></i>
                             <p>Roles</p>
@@ -139,7 +137,32 @@
                         </li>
                       </ul>
               </li>
+              <li class="nav-item has-treeview ">
+                <a href="#" class="nav-link active">
+                    <i class="nav-icon fad fa-project-diagram "></i>
+                    <p>
+                      Gestion de WorkFlow
+                      <i class="right fal fa-angle-left"></i>
+                    </p>
+                  </a>
 
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                          <a href="{{ route('flujoTrabajos.index') }}" class="nav-link">
+                            <i class="fal fa-project-diagram nav-icon"></i>
+                            <p>Flujos de Trabajo</p>
+                          </a>
+                    </li>
+                    <li class="nav-item">
+                          <a href="{{ route('estados.index') }}" class="nav-link">
+                            <i class="fal fa-shield-alt nav-icon"></i>
+                            <p>Estados</p>
+                          </a>
+                    </li>
+                   </ul>
+
+
+                </li>
 
               <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">

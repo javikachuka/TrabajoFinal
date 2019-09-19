@@ -63,7 +63,6 @@ class MovimientoController extends Controller
      */
     public function storeIngreso(Request $request, CabeceraMovimiento $cabeceraMov)
     {
-
         $cabeceraMov->fill($request->only(['fecha' , 'fechaComprobante','proveedor_id','numeroComprobante', 'tipoComprobante_id'])) ;
         $cabeceraMov->save();
         for($i = 0 ; $i < sizeof($request->cantidad); $i++){
@@ -164,7 +163,7 @@ class MovimientoController extends Controller
      */
     public function show(Movimiento $movimiento)
     {
-        //
+        return view('movimientos.show' , compact('movimiento')) ;
     }
 
     /**

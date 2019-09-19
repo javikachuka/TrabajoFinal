@@ -13,4 +13,8 @@
     </form>
 
 @endsection
-
+<script>
+        $(document).ready(function(){
+            $('#dni').mask('00.000.000');
+        });
+</script>

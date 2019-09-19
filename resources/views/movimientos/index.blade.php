@@ -43,8 +43,8 @@
                                     @endif
                                 </td>
                                 <td><span class="badge badge-info">{{$movimiento->almacenDestino->denominacion}}</span></td>
-                                <td width ="150px">
-                                    <a href="#" class="btn btn-xs btn-primary">Ver mas</a>
+                                <td width ="150px" class="text-center">
+                                    <a href="{{route('movimientos.show' , $movimiento)}}" class="btn btn-xs btn-primary">Ver mas</a>
                                     @can('movimientos_edit')
                                         <a href="{{ route('movimientos.edit', $movimiento->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
                                     @endcan

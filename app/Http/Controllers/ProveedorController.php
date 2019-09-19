@@ -109,7 +109,7 @@ class ProveedorController extends Controller
                 return redirect()->back()->with('confirmar' , 'guardado') ;
             }
         }catch(Exception $e){
-            alert()->error('Error' , 'No es posible eliminar al proveedor') ;
+            alert()->error('No es posible eliminar' , 'Error!') ;
             return redirect('/proveedores') ;
         }
     }

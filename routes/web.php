@@ -13,7 +13,7 @@
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', function(){
-    return view('principal.login') ;
+    return view('auth.login') ;
 }) ;
 Route::get('/prueba', function(){
     return view('prueba') ;
@@ -91,23 +91,32 @@ Route::middleware(['auth'])->group(function(){
     Route::get('flujoTrabajos','FlujoTrabajoController@index')->name('flujoTrabajos.index') ;
     Route::get('flujoTrabajos/create', 'FlujoTrabajoController@create')->name('flujoTrabajos.create') ;
     Route::post('flujoTrabajos', 'FlujoTrabajoController@store')->name('flujoTrabajos.store') ;
+    Route::get('flujoTrabajos/{flujoTrabajo}/edit','FlujoTrabajoController@edit')->name('flujoTrabajos.edit') ;
+    Route::put('flujoTrabajos/{id}' , 'FlujoTrabajoController@update')->name('flujoTrabajos.update') ;
     Route::delete('flujoTrabajos/{flujoTrabajo}' , 'FlujoTrabajoController@destroy')->name('flujoTrabajos.destroy') ;
 
     //transiciones
     Route::get('transiciones','TransicionController@index')->name('transiciones.index') ;
-    Route::get('transiciones/create/{flujoTrabajo}', 'TransicionController@create')->name('transiciones.create') ;
+    Route::get('transiciones/create/{id}', 'TransicionController@create')->name('transiciones.create') ;
     Route::post('transiciones/{id}', 'TransicionController@store')->name('transiciones.store') ;
     // Route::post('transiciones/orden', 'TransicionController@ordenar')->name('transiciones.ordenar') ;
     Route::get('transiciones/{transicion}', 'TransicionController@show')->name('transicion.show')->middleware('permission:transiciones_show')  ;
-    Route::get('transiciones/{transicion}/edit','TransicionController@edit')->name('transicion.edit')->middleware('permission:transiciones_edit')  ;
+    Route::get('transiciones/{id}/edit','TransicionController@edit')->name('transicion.edit')->middleware('permission:transiciones_edit')  ;
     Route::put('transiciones/{transicion}' , 'TransicionController@update')->name('transicion.update')->middleware('permission:transiciones_update')  ;
     Route::delete('transiciones/{transicion}' , 'TransicionController@destroy')->name('transicion.destroy')->middleware('permission:transiciones_destroy') ;
 
 
 
     //estados
+    Route::get('estados','EstadoController@index')->name('estados.index') ;
     Route::get('estados/create', 'EstadoController@create')->name('estados.create') ;
     Route::post('estados', 'EstadoController@store')->name('estados.store') ;
+    Route::get('estados/{estado}', 'EstadoController@show')->name('estados.show') ;
+    Route::get('estados/{estado}/edit', 'EstadoController@edit')->name('estados.edit') ;
+    Route::put('estados/{id}' , 'EstadoController@update')->name('estados.update')  ;
+    Route::delete('estados/{estado}' , 'EstadoController@destroy')->name('estados.destroy') ;
+
+
 
 
     //movimientos
@@ -116,6 +125,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('movimientos/createTransferencia', 'MovimientoController@createTransferencia')->name('movimientos.createTransferencia') ;
     Route::post('movimientos/ingreso', 'MovimientoController@storeIngreso')->name('movimientos.storeIngreso') ;
     Route::post('movimientos/transferencia', 'MovimientoController@storeTransferencia')->name('movimientos.storeTransferencia') ;
+    Route::get('movimientos/{movimiento}', 'MovimientoController@show')->name('movimientos.show') ;
     Route::get('movimientos/{movimiento}/edit','MovimientoController@edit')->name('movimientos.edit')->middleware('permission:movimientos_edit')  ;
 
     // Route::post('movimientos/ingreso','MovimientoController@ingreso')->name('movimientos.ingreso') ;
@@ -130,6 +140,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('trabajos/{trabajo}/edit','TrabajoController@edit')->name('trabajos.edit')->middleware('permission:trabajos_edit')  ;
     Route::put('trabajos/{id}' , 'TrabajoController@update')->name('trabajos.update')->middleware('permission:trabajos_update')  ;
     Route::delete('trabajos/{trabajo}' , 'TrabajoController@destroy')->name('trabajos.destroy')->middleware('permission:trabajos_destroy') ;
+    Route::get('/trabajos/inicio/{trabajo}',  'TrabajoController@inicio')->name('trabajos.inicio') ;
+    Route::get('trabajos/iniciarTrabajo/{trabajo}' , 'TrabajoController@iniciarTrabajo')->name('trabajos.iniciarTrabajo') ;
 
 
     //almacenes

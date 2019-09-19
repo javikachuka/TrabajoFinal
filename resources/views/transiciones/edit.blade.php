@@ -74,7 +74,8 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-        <form class="form-group " method="POST" action="/transiciones/{{$flujoTrabajo->id}}" >
+        <form class="form-group " method="POST" action="/flujoTrabajos/{{$flujoTrabajo->id}}" >
+            @method('PUT')
             <table id="users" class="table table-sm table-bordered table-striped table-hover datatable">
                 <thead>
                 <tr>
@@ -86,7 +87,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($flujoTrabajo->transiciones as $tran)
+                    @foreach ($flujoTrabajo->transiciones as $tran)
                         <tr>
                         <td><input type="hidden" name="nombre[]" value="{{$tran->nombre}}">{{$tran->nombre}}</td>
                         <td><input type="hidden" name="estadoInicial_id[]" value="{{$tran->estadoInicial->id}}">{{$tran->estadoInicial->nombre}}</td>
@@ -95,11 +96,11 @@
                             <a href="#" class="up"><i class="fas fa-caret-up"></i></a> <a href="#" class="down"><i class="fas fa-caret-down"></i></a></td>
                         <td width="75px"><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>
                         </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
             <div class="text-right">
-                    <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+                    <button type="submit" class="btn btn-success btn-sm">Guardar Cambios</button>
             </div>
             @csrf
         </form>
@@ -125,7 +126,7 @@
 
 
         if((nombre != "") && (estadoInicial != estadoFinal)){
-            var fila = '<tr> ' +
+            var fila = '<tr>' +
                         '<td><input type="hidden" name="nombre[]" value="'+nombre+'">'+nombre+'</td>'+
                         '<td><input type="hidden" name="estadoInicial_id[]" value="'+estadoInicial_id+'">'+estadoInicial+'</td>' +
                         '<td><input type="hidden" name="estadoFinal_id[]" value="'+estadoFinal_id+'">'+estadoFinal+' </td>'+
@@ -137,8 +138,7 @@
         }else{
             Alerta.fire('Alerta!', 'Verifique los campos.')
         }
-
-        }
+    }
 
 
     $('body').on('click', '.remove',function(){

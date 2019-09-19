@@ -16,6 +16,7 @@
                     <th>#</th>
                     <th>Tipo de Reclamo</th>
                     <th>Fecha</th>
+                    <th>Socio</th>
                     <th>Detalles</th>
                     <th>Estado</th>
                     <th>Accion</th>
@@ -30,6 +31,7 @@
                                 <span>{{$reclamo->tipoReclamo->nombre}} </span>
                             </td>
                             <td>{{$reclamo->fecha}}</td>
+                            <td>{{$reclamo->socio->apellido}} {{$reclamo->socio->nombre}}</td>
                             <td>
                                 @if($reclamo->detalle != null)
                                     <span class="badge badge-light"> {{$reclamo->detalle}}</span>
@@ -47,7 +49,7 @@
                             <td width ="200px">
                                 <a href="{{route('reclamos.show', $reclamo)}}" class="btn btn-xs btn-primary">Ver mas</a>
                                 @can('trabajos_edit')
-                                    <a href="{{ route('reclamos.edit', $reclamo->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
+                                    <a href="{{ route('reclamos.edit', $reclamo) }}" class="btn btn-xs btn-secondary"> Editar </a>
                                 @endcan
                                 <form method="POST" action="reclamos/{{$reclamo->id}}" onsubmit="return confirm('Desea borrar el reclamo {{$reclamo->nombre}}')" style="display: inline-block;">
                                     @csrf
@@ -78,5 +80,11 @@
           });
         });
 </script>
-
+<script>
+    @if(session('confirmar'))
+        Confirmar.fire() ;
+    @elseif(session('cancelar'))
+        Cancelar.fire();
+    @endif
+</script>
 @endpush

@@ -32,7 +32,7 @@
                             <tr>
                                 <td>{{$movimiento->id}}</td>
                                 <td>{{$movimiento->tipoMovimiento->nombre}}</td>
-                                <td>{{$movimiento->cabeceraMovimiento->fecha}}</td>
+                                <td>{{$movimiento->cabeceraMovimiento->getFechaMovimiento()}}</td>
                                 <td>{{$movimiento->producto->nombre}}</td>
                                 <td>{{$movimiento->cantidad}}</td>
                                 <td>

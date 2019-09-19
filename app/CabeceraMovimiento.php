@@ -34,7 +34,7 @@ class CabeceraMovimiento extends Model
     }
 
     public function getFechaMovimiento(){
-        $date = Carbon::create($this->fechaMovimiento)->format('d/m/Y') ;
+        $date = Carbon::create($this->fecha)->format('d/m/Y') ;
         return $date  ;
     }
 }

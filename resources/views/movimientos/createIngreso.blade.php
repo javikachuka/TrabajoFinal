@@ -21,6 +21,7 @@
                                         <label for="">Proveedor</label>
                                         <div class="form-group">
                                                 <select class="js-example-basic-single form-control" name="proveedor_id">
+                                                        <option value="" selected disabled>--Seleccione un Proveedor--</option>
                                                         @foreach ($proveedores as $proveedor)
                                                             <option value="{{$proveedor->id}}">{{$proveedor->nombre}}</option>
                                                         @endforeach
@@ -40,9 +41,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" col-sm-2">
+                                    <div class=" col-sm-3">
                                             <label for="">Almacen Destino</label>
                                             <select name="almacenDestino_id" id="almacenDestino_id" class=" js-example-basic-single form-control" required>
+                                                    <option value="" selected disabled>--Seleccione un almacen--</option>
                                                     @foreach ($almacenes as $almacen)
                                                         <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
                                                     @endforeach
@@ -74,6 +76,7 @@
                                                     <label for="">Tipo de Comprobante</label>
                                                     <div class="form-group">
                                                             <select class="js-example-basic-single form-control" name="tipoComprobante_id">
+                                                                    <option value="" selected disabled>--Seleccione--</option>
                                                                     @foreach ($tiposComprobantes as $tipoComprobante)
                                                                         <option value="{{$tipoComprobante->id}}">{{$tipoComprobante->nombre}}</option>
                                                                     @endforeach

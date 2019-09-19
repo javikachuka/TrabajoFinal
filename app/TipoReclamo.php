@@ -17,4 +17,8 @@ class TipoReclamo extends Model
     public function flujoTrabajo(){
         return $this->belongsTo(FlujoTrabajo::class , 'flujoTrabajo_id');
     }
+
+    public function requisitos(){
+        return $this->belongsToMany(Requisito::class);
+    }
 }

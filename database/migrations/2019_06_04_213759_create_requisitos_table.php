@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDocumentacionesTable extends Migration
+class CreateRequisitosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateDocumentacionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('documentaciones', function (Blueprint $table) {
+        Schema::create('requisitos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
+            $table->string('descripcion')->nullable() ;
             $table->timestamps();
             $table->softDeletes() ;
         });
@@ -28,6 +29,6 @@ class CreateDocumentacionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documentaciones');
+        Schema::dropIfExists('requisitos');
     }
 }

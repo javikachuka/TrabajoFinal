@@ -33,6 +33,7 @@
                                     <div class=" col-sm-3">
                                             <label for="">Almacen de Origen</label>
                                             <select name="almacenOrigen_id" id="almacenOrigen_id" class=" js-example-basic-single form-control" required>
+                                                    <option value="" selected disabled>--Seleccione un almacen--</option>
                                                     @foreach ($almacenes as $almacen)
                                                         <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
                                                     @endforeach
@@ -42,6 +43,7 @@
                                     <div class=" col-sm-3">
                                             <label for="">Almacen de Destino</label>
                                             <select name="almacenDestino_id" id="almacenDestino_id" class=" js-example-basic-single form-control" required>
+                                                    <option value="" selected disabled>--Seleccione un almacen--</option>
                                                     @foreach ($almacenes as $almacen)
                                                         <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
                                                     @endforeach

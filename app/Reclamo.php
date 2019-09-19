@@ -13,9 +13,9 @@ class Reclamo extends Model
 		return $this->belongsTo(TipoReclamo::class, 'tipoReclamo_id');
 	}
 
-	// public function documentaciones(){
-	// 	return $this->belongsToMany(Documentacion::class) ;
-    // }
+	public function controles(){
+		return $this->hasMany(Control::class) ;
+    }
 
     public function trabajo(){
         return $this->belongsTo(Trabajo::class);

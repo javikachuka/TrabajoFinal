@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDocumentacionReclamoTable extends Migration
+class CreateControlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateDocumentacionReclamoTable extends Migration
      */
     public function up()
     {
-        Schema::create('documentacion_reclamo', function (Blueprint $table) {
+        Schema::create('controles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('documentacion_id');
             $table->unsignedBigInteger('reclamo_id');
+            $table->foreign('reclamo_id')->references('id')->on('reclamos') ;
+            $table->unsignedBigInteger('requisito_id');
+            $table->foreign('requisito_id')->references('id')->on('requisitos') ;
+            $table->boolean('recibido') ;
+            $table->date('fecha')->nullable();
             $table->timestamps();
-
-            $table->foreign('documentacion_id')->references('id')->on('documentaciones');
-            $table->foreign('reclamo_id')->references('id')->on('reclamos');
-
         });
     }
 
@@ -32,6 +32,6 @@ class CreateDocumentacionReclamoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documentacion_reclamo');
+        Schema::dropIfExists('controles');
     }
 }

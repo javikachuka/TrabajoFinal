@@ -106,7 +106,7 @@ class ProveedorController extends Controller
         try{
             if($proveedor != null){
                 $proveedor->delete() ;
-                return redirect()->back()->with('confirmar' , 'guardado') ;
+                return redirect()->back()->with('borrado' , 'guardado') ;
             }
         }catch(Exception $e){
             alert()->error('No es posible eliminar' , 'Error!') ;

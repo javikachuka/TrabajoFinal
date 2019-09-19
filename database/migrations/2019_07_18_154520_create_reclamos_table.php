@@ -25,8 +25,8 @@ class CreateReclamosTable extends Migration
             $table->foreign('tipoReclamo_id')->references('id')->on('tipo_reclamos') ;
             $table->unsignedBigInteger('trabajo_id')->nullable() ;
             $table->foreign('trabajo_id')->references('id')->on('trabajos') ;
-
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

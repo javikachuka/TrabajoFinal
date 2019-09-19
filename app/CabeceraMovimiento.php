@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class CabeceraMovimiento extends Model
 {
@@ -15,7 +16,7 @@ class CabeceraMovimiento extends Model
 
     public function proveedor()
     {
-        return $this->belongsTo(Proveedor::class);
+        return $this->belongsTo(Proveedor::class)->withTrashed();
     }
 
     public function almacen()
@@ -25,5 +26,15 @@ class CabeceraMovimiento extends Model
 
     public function tipoComprobante(){
         return $this->belongsTo(TipoComprobante::class, 'tipoComprobante_id');
+    }
+
+    public function getFechaComprobante(){
+        $date = Carbon::create($this->fechaComprobante)->format('d/m/Y') ;
+        return $date  ;
+    }
+
+    public function getFechaMovimiento(){
+        $date = Carbon::create($this->fechaMovimiento)->format('d/m/Y') ;
+        return $date  ;
     }
 }

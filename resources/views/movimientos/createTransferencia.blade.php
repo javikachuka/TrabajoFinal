@@ -9,7 +9,7 @@
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <form class="form-group " method="POST" action="/movimientos/transferencia" >
-                                <div class="row">
+                                <div class="row d-flex justify-content-around">
                                     @if (session()->has('msg'))
                                         <div class="alert alert-danger">
                                             @foreach ($errors->all() as $error)
@@ -17,67 +17,78 @@
                                             @endforeach
                                         </div>
                                     @endif
-                                    <div class="col-md-4">
+                                    <div class="col-md-2.5">
                                         <div class="form-group">
                                             <label for="">Fecha de Transferencia</label>
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="fal fa-calendar-alt"></i>
                                                 </span>
-                                                <input type="date" name="fecha" required value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ Carbon\Carbon::now()->addDay()->format('Y-m-d') }}" id="">
+                                                <input type="date" class="form-control" name="fecha" required value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ Carbon\Carbon::now()->addDay()->format('Y-m-d') }}" id="">
                                             </div>
                                         </div>
                                     </div>
 
-                                    {{-- <div class="col-md-4">
+
+                                    <div class=" col-sm-3">
+                                            <label for="">Almacen de Origen</label>
+                                            <select name="almacenOrigen_id" id="almacenOrigen_id" class=" js-example-basic-single form-control" required>
+                                                    @foreach ($almacenes as $almacen)
+                                                        <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
+                                                    @endforeach
+                                            </select>
+                                    </div>
+
+                                    <div class=" col-sm-3">
+                                            <label for="">Almacen de Destino</label>
+                                            <select name="almacenDestino_id" id="almacenDestino_id" class=" js-example-basic-single form-control" required>
+                                                    @foreach ($almacenes as $almacen)
+                                                        <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
+                                                    @endforeach
+                                            </select>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <label>Tipo de Movimiento</label>
                                             <div class="form-group">
-                                                    <label>Tipo de Movimiento</label>
-                                                    <input type="text" id="" name="tipoMovimiento_id" required disabled value="{{$tipoMovimientos[4]->nombre}}"  class="form-control" >
+                                                    <select name="tipoMovimiento_id" id="tipoMovimiento" class=" js-example-basic-single form-control" required>
+                                                            @foreach ($tipoMovimientos as $tipoMov)
+                                                                <option value="{{$tipoMov->id}}">{{$tipoMov->nombre}}</option>
+                                                            @endforeach
+                                                    </select>
                                                     <div>{{$errors->first('tipoMovimiento_id')}} </div>
                                             </div>
-                                    </div> --}}
+                                    </div>
 
                                 </div>
                                 <br>
                                 <div class="row">
                                 <div class="col-md-12">
                                     <div class="card">
+                                        <div class="card-body">
+
+
                                             <div class="form-group">
                                                 <div class="row">
-                                                    <div class=" col-sm-2">
+                                                    <div class=" col-sm-4">
                                                             <label for="">Producto</label>
-                                                                <select name="producto_id" id="producto_id" class="js-example-basic-single form-control" required>
+                                                                <select name="producto" id="producto_id" class="js-example-basic-single form-control" >
                                                                         @foreach ($productos as $producto)
                                                                             <option value="{{$producto->id}}">{{$producto->nombre}}</option>
                                                                         @endforeach
                                                                 </select>
                                                     </div>
+                                                    <div class="col-md-1"></div>
                                                     <div class=" col-sm-2">
                                                             <label>Cantidad</label>
-                                                            <input type="text" id="cantidad" name="cantidad" required value=""  class="form-control" placeholder="Mayor a 0">
+                                                            <input type="text" id="cantidad" name="cant"  value=""  class="form-control" placeholder="Mayor a 0">
                                                             <div>{{$errors->first('cantidad')}} </div>
                                                     </div>
-
-                                                    <div class=" col-sm-3">
-                                                            <label for="">Almacen de Origen</label>
-                                                            <select name="otro" id="almacenOrigen_id" class=" js-example-basic-single form-control" required>
-                                                                    @foreach ($almacenes as $almacen)
-                                                                        <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
-                                                                    @endforeach
-                                                            </select>
-                                                    </div>
-
-                                                    <div class=" col-sm-3">
-                                                            <label for="">Almacen de Destino</label>
-                                                            <select name="otro2" id="almacenDestino_id" class=" js-example-basic-single form-control" required>
-                                                                    @foreach ($almacenes as $almacen)
-                                                                        <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
-                                                                    @endforeach
-                                                            </select>
-                                                    </div>
-
-                                                    <div class="col-1.5 ">
-                                                        <a href="#"  class="addRow btn btn-primary btn-xs"><i class="fas fa-plus"></i></a>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-sm-2 d-flex align-items-end">
+                                                            <br>
+                                                            <a href="#"  class="addRow btn btn-primary btn-sm"><i class="fas fa-plus"></i></a>
                                                     </div>
 
 
@@ -86,18 +97,9 @@
                                                                 <thead style="background-color: #A9D0F5">
                                                                     <th>Producto</th>
                                                                     <th>Cantidad</th>
-                                                                    <th>Desde</th>
-                                                                    <th>Hasta</th>
-                                                                    <th>Opciones</th>
+                                                                    <th width="125px">Opciones</th>
                                                                     {{-- <th>Subtotal</th> --}}
                                                                 </thead>
-                                                                <tfoot>
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                    <th></th>
-                                                                </tfoot>
                                                                 <tbody>
 
                                                                 </tbody>
@@ -106,11 +108,12 @@
                                                 </div>
 
                                                 </div>
-                                                <div class="text-left">
+                                                <div class="text-right">
                                                         <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
                                                         <button type="submit" class="btn btn-success btn-sm">Guardar</button>
                                                 </div>
                                             </div>
+                                        </div>
                                         </div>
                                     </div>
 
@@ -134,24 +137,26 @@
         producto_id = $('#producto_id').val() ;
         producto = $("#producto_id option:selected").text();
         cantidad = $("#cantidad").val();
-        almacenOrigen_id = $("#almacenOrigen_id").val();
-        almacenOrigen = $("#almacenOrigen_id option:selected").text();
-        almacenDestino_id = $("#almacenDestino_id").val();
-        almacenDestino = $("#almacenDestino_id option:selected").text();
-
-        if(almacenOrigen_id != almacenDestino_id && cantidad>0){
+        if(cantidad>0){
             var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
                         '<td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
-                        '<td><input type="hidden" name="almacenOrigen_id[]" value="'+almacenOrigen_id+'"><span class="badge badge-info">'+almacenOrigen+'</span></td>' +
-                        '<td><input type="hidden" name="almacenDestino_id[]" value="'+almacenDestino_id+'"><span class="badge badge-info">'+almacenDestino+'</span></td>' +
                         '<td><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
                         '</tr>' ;
 
             $('tbody').append(fila) ;
+            limpiar();
         }else{
-            Alerta.fire('Alerta!', 'Verifique los campos.')
+            swal({
+                title: "Error",
+                text: "Ingrese una cantidad valida y mayor a 0",
+                icon: "error",
+            });
         }
     }
+
+    function limpiar(){
+		$("#cantidad").val("");
+	}
 
     $('body').on('click', '.remove',function(){
         // var last=$('tbody tr').length;

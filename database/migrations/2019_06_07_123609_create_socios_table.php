@@ -21,8 +21,9 @@ class CreateSociosTable extends Migration
             $table->integer('nro_conexion');
             $table->unsignedBigInteger('direccion_id') ;
             $table->timestamps();
-
             $table->foreign('direccion_id')->references('id')->on('direcciones') ;
+            $table->softDeletes() ;
+
         });
     }
 

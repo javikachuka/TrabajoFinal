@@ -28,6 +28,8 @@ class CreateMovimientosTable extends Migration
             $table->unsignedBigInteger('almacenDestino_id');
             $table->foreign('almacenDestino_id')->references('id')->on('almacenes') ;
             $table->timestamps();
+            $table->softDeletes() ;
+
         });
     }
 

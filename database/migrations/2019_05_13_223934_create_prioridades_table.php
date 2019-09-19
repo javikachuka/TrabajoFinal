@@ -18,6 +18,8 @@ class CreatePrioridadesTable extends Migration
             $table->integer('nivel') ;
             $table->string('nombre') ;
             $table->timestamps();
+            $table->softDeletes() ;
+
         });
     }
 

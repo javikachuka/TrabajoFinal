@@ -23,6 +23,8 @@ class CreateCabeceraMovimientosTable extends Migration
             $table->unsignedBigInteger('tipoComprobante_id')->nullable();
             $table->foreign('tipoComprobante_id')->references('id')->on('tipo_comprobantes') ;
             $table->timestamps();
+            $table->softDeletes() ;
+
         });
     }
 

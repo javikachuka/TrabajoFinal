@@ -99,13 +99,15 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
+
         try{
-
             $producto->delete() ;
+            return redirect()->back()->with('borrado' , 'guardado') ;
         }catch(Exception $e){
-
-            return redirect()->back()->with('cancelar' , 'asdf') ;
+            alert()->error('No es posible eliminar' , 'Error!') ;
+            return redirect('/proveedores') ;
         }
+
 
     }
 

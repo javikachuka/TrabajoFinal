@@ -119,18 +119,10 @@
                       </div>
 
                       <label for="">Direccion</label>
-                        <div class="form-group">
-                                <select name="zona_id" class="form-control" required >
-                                        @foreach ($zonas as $zona)
-                                            <option value="{{$zona->id}}">{{$zona->nombre}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
                             <div class="form-group">
                                     <div class="row">
                                             <div class="col-xs-12 col-md-8">
                                                 <div class="form-group">
-                                                    <label for="">Calle</label>
                                                     <div class="input-group">
                                                         <input name="calle" type="text"  value="{{ old('calle') }}" required class="form-control" placeholder="Calle">
                                                         <span class="input-group-addon">-</span>
@@ -139,6 +131,14 @@
                                                 </div>
                                             </div>
                                     </div>
+                            </div>
+                            <label for="">Zona</label>
+                            <div class="form-group">
+                                <select name="zona_id" class="form-control" required >
+                                        @foreach ($zonas as $zona)
+                                            <option value="{{$zona->id}}">{{$zona->nombre}}</option>
+                                        @endforeach
+                                </select>
                             </div>
                   </div>
                   <div class="modal-footer">
@@ -171,6 +171,8 @@
             Confirmar.fire() ;
         @elseif(session('cancelar'))
             Cancelar.fire();
+        @elseif(session('borrado'))
+            Borrado.fire();
         @endif
     </script>
 @endpush

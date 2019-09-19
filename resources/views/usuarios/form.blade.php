@@ -56,14 +56,7 @@
 
                                     </div> --}}
 
-                                <h3>Domicilio</h2>
-                                <div class="form-group">
-                                        <select name="zona_id" class="form-control" required >
-                                                @foreach ($zonas as $zona)
-                                                    <option value="{{$zona->id}}" @if($user->direccion != null) @if ($zona->id == $user->direccion->zona->id) selected="selected" @endif @endif>{{$zona->nombre}}</option>
-                                                @endforeach
-                                        </select>
-                                    </div>
+                                    <h3>Domicilio</h2>
                                     <div class="form-group">
                                             <div class="row">
                                                     <div class="col-xs-12 col-md-8">
@@ -77,6 +70,14 @@
                                                         </div>
                                                     </div>
                                             </div>
+                                    </div>
+                                    <label for="">Zona</label>
+                                    <div class="form-group">
+                                        <select name="zona_id" class="form-control" required >
+                                                @foreach ($zonas as $zona)
+                                                    <option value="{{$zona->id}}" @if($user->direccion != null) @if ($zona->id == $user->direccion->zona->id) selected="selected" @endif @endif>{{$zona->nombre}}</option>
+                                                @endforeach
+                                        </select>
                                     </div>
 
                 </div>

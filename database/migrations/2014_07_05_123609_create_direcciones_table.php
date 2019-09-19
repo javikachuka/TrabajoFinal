@@ -20,6 +20,8 @@ class CreateDireccionesTable extends Migration
             $table->integer('altura') ;
             $table->timestamps();
             $table->foreign('zona_id')->references('id')->on('zonas') ;
+            $table->softDeletes() ;
+
 
         });
     }

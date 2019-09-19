@@ -23,6 +23,7 @@ class CreateProductosTable extends Migration
             $table->unsignedBigInteger('medida_id');
             $table->foreign('medida_id')->references('id')->on('medidas') ;
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

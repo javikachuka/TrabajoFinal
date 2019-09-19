@@ -20,6 +20,8 @@ class CreateProductoProveedorTable extends Migration
             $table->unsignedBigInteger('proveedor_id') ;
             $table->foreign('proveedor_id')->references('id')->on('proveedores') ;
             $table->timestamps();
+            $table->softDeletes() ;
+
         });
     }
 

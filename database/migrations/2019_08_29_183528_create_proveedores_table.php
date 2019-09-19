@@ -20,6 +20,7 @@ class CreateProveedoresTable extends Migration
             $table->string('email') ;
             $table->bigInteger('telefono') ;
             $table->timestamps();
+            $table->softDeletes() ;
         });
     }
 

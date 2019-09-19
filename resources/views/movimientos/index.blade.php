@@ -46,7 +46,36 @@
                                 <td width ="150px" class="text-center">
                                     <a href="{{route('movimientos.show' , $movimiento)}}" class="btn btn-xs btn-primary">Ver mas</a>
                                     @can('movimientos_edit')
-                                        <a href="{{ route('movimientos.edit', $movimiento->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
+                                        <a href=""  class="btn btn-secondary btn-xs " data-toggle="modal" data-target="#editar{{$movimiento->id}}" >Editar</a>
+
+                                    <!-- Modal Edit -->
+                                    <div class="modal fade" id="editar{{$movimiento->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Edicion de Movimiento</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form class="form-group " method="POST" action="/movimientos/{{$movimiento->id}}">
+                                                @method('PUT')
+                                                <div class="modal-body">
+                                                    <div class="text-left">
+                                                        <h5 class="">Movimiento Nº {{$movimiento->id}} </h5>
+                                                        <p>Tipo de Movimiento: {{$movimiento->tipoMovimiento->nombre}}</p>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                                                        <button type="submit" class="btn btn-primary btn-sm ">Guardar</button>
+                                                </div>
+                                                @csrf
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
                                     @endcan
                                     <form method="POST" action="movimientos/{{$movimiento->id}}" onsubmit="return confirm('Desea borrar a {{$movimiento->id}}')" style="display: inline-block;">
                                         @csrf
@@ -82,6 +111,8 @@
         Confirmar.fire() ;
     @elseif(session('cancelar'))
         Cancelar.fire();
+    @elseif(session('borrado'))
+        Borrado.fire();
     @endif
 </script>
 

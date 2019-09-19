@@ -10,6 +10,7 @@ use App\Producto;
 use App\Proveedor;
 use App\TipoComprobante;
 use App\TipoMovimiento;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -52,6 +53,7 @@ class MovimientoController extends Controller
     public function createTransferencia(){
         $almacenes = Almacen::all() ;
         $productos = Producto::all() ;
+        $tipoMovimientos = DB::table('tipo_movimientos')->where('operacion' , null)->get();
         return view('movimientos.createTransferencia' , compact('almacenes' , 'productos' , 'tipoMovimientos')) ;
     }
 
@@ -63,46 +65,62 @@ class MovimientoController extends Controller
      */
     public function storeIngreso(Request $request, CabeceraMovimiento $cabeceraMov)
     {
-        $cabeceraMov->fill($request->only(['fecha' , 'fechaComprobante','proveedor_id','numeroComprobante', 'tipoComprobante_id'])) ;
-        $cabeceraMov->save();
-        for($i = 0 ; $i < sizeof($request->cantidad); $i++){
-            $movimiento = new Movimiento() ;
-            $movimiento->cabecera_movimiento_id = $cabeceraMov->id ;
-            $movimiento->cantidad = $request->cantidad[$i] ;
-            $movimiento->precio = $request->precio[$i] ;
-            $movimiento->producto_id = $request->producto_id[$i] ;
-            $movimiento->tipo_movimiento_id = 1 ;
-            $movimiento->almacenOrigen_id = $request->almacenOrigen_id[$i] ;
-            $movimiento->almacenDestino_id = $request->almacenDestino_id[$i] ;
-            $movimiento->save() ;
-            $almacen = Almacen::find($request->almacenDestino_id[$i]) ;
-            if($almacen->existeProducto($request->producto_id[$i])){
-                $exis = $almacen->existencias ;
-                foreach($exis as $e){
-                    if($e->producto->id == $request->producto_id[$i]){
-                        $e->cantidad += $request->cantidad[$i] ;
-                        $e->update() ;
-                    }
-                }
-            }else
-            {
-                $existencia = new Existencia() ;
-                $existencia->almacen_id =  $request->almacenDestino_id[$i] ;
-                $existencia->producto_id = $request->producto_id[$i] ;
-                $existencia->cantidad = $request->cantidad[$i] ;
-                $existencia->save() ;
-
-            }
+        if($request->cantidad == null){
+            alert()->error('Debe cargar la tabla' , 'Error') ;
+            return redirect()->back();
         }
-        return redirect('/movimientos')->with('confirmar', 'asdf') ;
+        DB::beginTransaction();
+        try{
+            $cabeceraMov->fill($request->only(['fecha' , 'fechaComprobante','proveedor_id','numeroComprobante', 'tipoComprobante_id'])) ;
+            $cabeceraMov->save();
+            for($i = 0 ; $i < sizeof($request->cantidad); $i++){
+                $movimiento = new Movimiento() ;
+                $movimiento->cabecera_movimiento_id = $cabeceraMov->id ;
+                $movimiento->cantidad = $request->cantidad[$i] ;
+                $movimiento->precio = $request->precio[$i] ;
+                $movimiento->producto_id = $request->producto_id[$i] ;
+                $movimiento->tipo_movimiento_id = $request->tipoMovimiento_id ;
+                $movimiento->almacenOrigen_id = $request->almacenOrigen_id ;
+                $movimiento->almacenDestino_id = $request->almacenDestino_id ;
+                $movimiento->save() ;
+                $almacen = Almacen::find($request->almacenDestino_id) ;
+                if($almacen->existeProducto($request->producto_id[$i])){
+                    $exis = $almacen->existencias ;
+                    foreach($exis as $e){
+                        if($e->producto->id == $request->producto_id[$i]){
+                            $e->cantidad += $request->cantidad[$i] ;
+                            $e->update() ;
+                        }
+                    }
+                }else
+                {
+                    $existencia = new Existencia() ;
+                    $existencia->almacen_id =  $request->almacenDestino_id ;
+                    $existencia->producto_id = $request->producto_id[$i] ;
+                    $existencia->cantidad = $request->cantidad[$i] ;
+                    $existencia->save() ;
+
+                }
+            }
+            DB::commit();
+            return redirect('/movimientos')->with('confirmar', 'asdf') ;
+        }catch(Exception $e){
+            DB::rollback();
+            alert()->error($e->getMessage());
+            return redirect()->back() ;
+        }
 
     }
 
 
     public function storeTransferencia(Request $request ){
+        if($request->cantidad == null){
+            alert()->error('Debe cargar la tabla' , 'Error') ;
+            return redirect()->back();
+        }
         DB::beginTransaction() ;
         $cabMov = new CabeceraMovimiento() ;
-        $cabMov->fill($request->only('fecha')) ;
+        $cabMov->fill($request->only('fecha' , 'fechaComprobante' , 'numeroComprobante', 'tipoComprobante_id')) ;
         $cabMov->save() ;
         $error = false ;
         for($i = 0 ; $i < sizeof($request->cantidad); $i++){
@@ -110,12 +128,12 @@ class MovimientoController extends Controller
             $movimiento->cabecera_movimiento_id = $cabMov->id ;
             $movimiento->cantidad = $request->cantidad[$i] ;
             $movimiento->producto_id = $request->producto_id[$i] ;
-            $movimiento->tipo_movimiento_id = 3 ;
-            $movimiento->almacenOrigen_id = $request->almacenOrigen_id[$i] ;
-            $movimiento->almacenDestino_id = $request->almacenDestino_id[$i] ;
+            $movimiento->tipo_movimiento_id = $request->tipoMovimiento_id ;
+            $movimiento->almacenOrigen_id = $request->almacenOrigen_id ;
+            $movimiento->almacenDestino_id = $request->almacenDestino_id ;
             $movimiento->save() ;
-            $almacenOrigen = Almacen::find($request->almacenOrigen_id[$i]) ;
-            $almacenDestino = Almacen::find($request->almacenDestino_id[$i]) ;
+            $almacenOrigen = Almacen::find($request->almacenOrigen_id) ;
+            $almacenDestino = Almacen::find($request->almacenDestino_id) ;
             if($almacenOrigen->existeProducto($request->producto_id[$i])){
                 if( $request->cantidad[$i] <= $almacenOrigen->getCantidadProd($request->producto_id[$i])){
                     if(!$almacenDestino->existeProducto($request->producto_id[$i])){
@@ -141,11 +159,13 @@ class MovimientoController extends Controller
                         }
                     }
                 }else{
+                    alert()->error('La cantidad de '.$request->cantidad[$i] .' de '. Producto::find($request->producto_id[$i])->nombre . ' excede a la existente!' , 'Error')->persistent('cerrar') ;
                     DB::rollBack();
-                    return redirect()->back()->with('cancelar' , 'asdf') ;
+                    return redirect()->back();
                 }
 
             }else{
+                alert()->error('No existe el producto '. Producto::find($request->producto_id[$i])->nombre . ' en el almacen de origen '. $almacenOrigen->denominacion , 'Error')->persistent('cerrar') ;
                 DB::rollBack();
                 return redirect()->back()->with('cancelar' , 'asdf') ;
             }
@@ -197,16 +217,45 @@ class MovimientoController extends Controller
      */
     public function destroy(Movimiento $movimiento)
     {
-        //
+        try{
+            if($movimiento->tipoMovimiento->operacion == true){
+                foreach($movimiento->almacenDestino->existencias as $exi){
+                    if($exi->producto->id == $movimiento->producto->id){
+                        $exi->cantidad -= $movimiento->cantidad ;
+                        $exi->update() ;
+                        $movimiento->delete();
+                        return redirect()->back()->with('borrado' , 'ok') ;
+                    }
+                }
+            }elseif($movimiento->tipoMovimiento->operacion == false){
+                foreach($movimiento->almacenDestino->existencias as $exi){
+                    if($exi->producto->id == $movimiento->producto->id){
+                        $exi->cantidad -= $movimiento->cantidad ;
+                        $exi->update() ;
+                        $movimiento->delete();
+                        return redirect()->back()->with('borrado' , 'ok') ;
+                    }
+                }
+                foreach($movimiento->almacenOrigen->existencias as $exi){
+                    if($exi->producto->id == $movimiento->producto->id){
+                        $exi->cantidad += $movimiento->cantidad ;
+                        $exi->update() ;
+                        $movimiento->delete();
+                        return redirect()->back()->with('borrado' , 'ok') ;
+                    }
+                }
+
+            }
+        }catch(Exception $e){
+            alert()->error('No es posible eliminar el Movimiento' , 'Error') ;
+            return redirect('/movimientos') ;
+        }
     }
 
     public function validar(){
-        $data = request()->validate([
-            'almacen_id' => 'required' ,
-            'proveedor_id' => 'required' ,
-            'fecha' => 'required' ,
-            'producto_id' => 'required' ,
-            'cantidad' => 'required|numeric|min:0|not_in:0' ,
+        return request()->validate([
+            'producto_id.*' => 'required' ,
+            'cantidad.*' => 'required|numeric|min:0|not_in:0' ,
         ]);
     }
 

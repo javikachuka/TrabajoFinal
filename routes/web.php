@@ -127,6 +127,8 @@ Route::middleware(['auth'])->group(function(){
     Route::post('movimientos/transferencia', 'MovimientoController@storeTransferencia')->name('movimientos.storeTransferencia') ;
     Route::get('movimientos/{movimiento}', 'MovimientoController@show')->name('movimientos.show') ;
     Route::get('movimientos/{movimiento}/edit','MovimientoController@edit')->name('movimientos.edit')->middleware('permission:movimientos_edit')  ;
+    Route::put('movimientos/{id}' , 'MovimientoController@update')->name('movimientos.update')->middleware('permission:movimientos_update')  ;
+    Route::delete('movimientos/{movimiento}' , 'MovimientoController@destroy')->name('movimientos.destroy')->middleware('permission:movimientos_destroy') ;
 
     // Route::post('movimientos/ingreso','MovimientoController@ingreso')->name('movimientos.ingreso') ;
     // Route::post('movimientos/egreso','MovimientoController@egreso')->name('movimientos.egreso') ;

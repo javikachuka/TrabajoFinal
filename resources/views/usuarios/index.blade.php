@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <h1>Listado de Usuarios</h1>
+    <h1>Listado de Empleados</h1>
     <div class="text-left form-group">
             <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('users.create') }}'">Registrar Empleado</button>
     </div>

@@ -2,7 +2,7 @@
 
 @section('content')
 
-	<h1>Edicion de Usuarios</h1>
+	<h1>Edicion de Empleados</h1>
     <form class="form-group " method="POST" action="/users/{{$user->id}}" >
         @method('PUT')
         @include('usuarios.form')

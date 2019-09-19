@@ -24,6 +24,7 @@ class CreateTransicionsTable extends Migration
             $table->unsignedBigInteger('estadoFinal_id')  ;
             $table->foreign('estadoFinal_id')->references('id')->on('estados') ;
             $table->timestamps();
+            $table->softDeletes() ;
         });
     }
 

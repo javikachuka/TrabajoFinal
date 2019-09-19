@@ -1,7 +1,7 @@
 @extends('admin_panel.index')
 
 @section('content')
-    <h1>Registro de Usuarios</h1>
+    <h1>Registro de Empleados</h1>
     <form class="form-group " method="POST" action="/users" >
         @include('usuarios.form')
         <div class="text-right">

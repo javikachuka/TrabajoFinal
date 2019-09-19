@@ -103,7 +103,7 @@
                 <a href="#" class="nav-link active">
                     <i class="nav-icon fal fa-users-cog"></i>
                     <p>
-                      Gestion Usuarios
+                      Gestion Empleados
                       <i class="right fal fa-angle-left"></i>
                     </p>
                   </a>
@@ -113,7 +113,7 @@
                         <li class="nav-item">
                           <a href="{{ route('users.index') }}" class="nav-link">
                             <i class="fal fa-user nav-icon"></i>
-                            <p>Usuarios</p>
+                            <p>Empleados</p>
                           </a>
                         </li>
                         @endcan

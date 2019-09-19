@@ -98,7 +98,7 @@
     <script>
         const Confirmar = Swal.mixin({
         toast: true,
-        position: 'bottom-end',
+        position: 'top-end',
         showConfirmButton: false,
         timer: 3000,
         type: 'success',
@@ -106,11 +106,19 @@
         })
         const Cancelar = Swal.mixin({
         toast: true,
-        position: 'bottom-end',
+        position: 'top-end',
         showConfirmButton: false,
         timer: 3000,
         type: 'error',
-        title: 'No es posible la accion',
+        title: 'No es posible la accion!',
+        })
+        const Borrado = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        type: 'success',
+        title: 'Borrado!',
         })
         const Alerta = Swal.mixin({
         toast: false,
@@ -118,6 +126,7 @@
         type: 'error',
         title: 'Verifique los campos',
         })
+
     </script>
 
     <script src="{{asset('js/sweetalert.min.js')}}"></script>

@@ -23,6 +23,7 @@ class CreateTipoReclamosTable extends Migration
             $table->unsignedBigInteger('prioridad_id') ;
             $table->foreign('prioridad_id')->references('id')->on('prioridades') ;
             $table->timestamps();
+            $table->softDeletes() ;
         });
     }
 

@@ -101,7 +101,7 @@ class AlmacenController extends Controller
         $almacen = Almacen::find($id) ;
         try{
             $almacen->delete() ;
-            return redirect()->back()->with('confirmar' , 'guardado') ;
+            return redirect()->back()->with('borrado' , 'ok') ;
 
         }catch(Exception $e){
             alert()->error('No es posible eliminar el Almacen' , 'Error') ;

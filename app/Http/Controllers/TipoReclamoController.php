@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\FlujoTrabajo;
+use App\Prioridad;
 use App\TipoReclamo;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,10 @@ class TipoReclamoController extends Controller
      */
     public function index()
     {
-        //
+        $tipoReclamos = TipoReclamo::all() ;
+        $flujosTrabajos = FlujoTrabajo::all() ;
+        $prioridades = Prioridad::all() ;
+        return view('tipoReclamos.index', compact('tipoReclamos' , 'flujosTrabajos' , 'prioridades')) ;
     }
 
     /**
@@ -35,7 +40,14 @@ class TipoReclamoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tipoReclamo = new TipoReclamo();
+        $tipoReclamo->fill($request->only(['nombre' , 'detalle' , 'trabajo' , 'prioridad_id'])) ;
+        if($request->trabajo){
+            $tipoReclamo->flujoTrabajo_id = $request->flujoTrabajo_id ;
+        }
+        $tipoReclamo->save();
+        return redirect('/tipoReclamos')->with('confirmar' , 'bien') ;
+
     }
 
     /**
@@ -67,9 +79,15 @@ class TipoReclamoController extends Controller
      * @param  \App\TipoReclamo  $tipoReclamo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TipoReclamo $tipoReclamo)
+    public function update(Request $request, $id)
     {
-        //
+        $tipoRec = TipoReclamo::find($id) ;
+        $tipoRec->fill($request->only(['nombre' , 'detalle' , 'trabajo' , 'prioridad_id'])) ;
+        if($request->trabajo){
+            $tipoRec->flujoTrabajo_id = $request->flujoTrabajo_id ;
+        }
+        $tipoRec->update();
+        return redirect('/tipoReclamos')->with('confirmar' , 'bien') ;
     }
 
     /**
@@ -78,8 +96,16 @@ class TipoReclamoController extends Controller
      * @param  \App\TipoReclamo  $tipoReclamo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TipoReclamo $tipoReclamo)
+    public function destroy($id)
     {
-        //
+        $tipoReclamo = TipoReclamo::find($id) ;
+        try{
+            $tipoReclamo->delete() ;
+            return redirect()->back()->with('borrado' , 'ok') ;
+
+        }catch(Exception $e){
+            alert()->error('No es posible eliminar el tipo de reclamo' , 'Error') ;
+            return redirect('/almacenes') ;
+        }
     }
 }

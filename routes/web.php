@@ -156,6 +156,14 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('almacenes/{id}' , 'AlmacenController@destroy')->name('almacenes.destroy')->middleware('permission:almacenes_destroy') ;
 
 
+    //tipo de reclamos
+    Route::get('tipoReclamos','TipoReclamoController@index')->name('tipoReclamos.index')->middleware('permission:tipoReclamos_index')  ;
+    Route::get('tipoReclamos/create','TipoReclamoController@create')->name('tipoReclamos.create')->middleware('permission:tipoReclamos_create')  ;
+    Route::post('tipoReclamos','TipoReclamoController@store')->name('tipoReclamos.store')->middleware('permission:tipoReclamos_store')  ;
+    Route::get('tipoReclamos/{tipRec}','TipoReclamoController@show')->name('tipoReclamos.show')->middleware('permission:tipoReclamos_show')  ;
+    Route::get('tipoReclamos/{tipRec}/edit' , 'TipoReclamoController@edit')->name('tipoReclamos.edit')->middleware('permission:tipoReclamos_edit')  ;
+    Route::put('tipoReclamos/{id}' , 'TipoReclamoController@update')->name('tipoReclamos.update')->middleware('permission:tipoReclamos_update')  ;
+    Route::delete('tipoReclamos/{id}' , 'TipoReclamoController@destroy')->name('tipoReclamos.destroy')->middleware('permission:tipoReclamos_destroy') ;
 
 }) ;
 

@@ -51,7 +51,7 @@ class ReclamoController extends Controller
         $reclamo->fill($request->only(['socio_id' ,'tipoReclamo_id' , 'fecha' , 'detalle'])) ;
         $reclamo->user_id = auth()->user()->id ;
         $reclamo->save() ;
-        if($reclamo->tipoReclamo->flujoTrabajo != null){
+        if($reclamo->tipoReclamo->trabajo == true){ // hay un atributo que es boolean (trabajo) y me dice si el reclamo conlleva o no un trabajo
             $trabajo = new Trabajo() ;
             $trabajo->fecha = $reclamo->fecha ;
             $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoInicial() ;

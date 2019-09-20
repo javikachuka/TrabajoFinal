@@ -41,6 +41,12 @@
                                 <p>Reclamos</p>
                               </a>
                         </li>
+                        <li class="nav-item">
+                              <a href="{{ route('tipoReclamos.index') }}" class="nav-link">
+                                <i class="fal fa-list nav-icon"></i>
+                                <p>Tipos de Reclamos</p>
+                              </a>
+                        </li>
                        </ul>
                 </li>
 

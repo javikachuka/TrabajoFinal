@@ -38,7 +38,7 @@ class PrioridadTableSeeder extends Seeder
 
         //creacion de Tipos de reclamos
         TipoReclamo::create([
-            'nombre' => 'Ruptura Caño PBC' ,
+            'nombre' => 'Ruptura Caño PVC' ,
             'trabajo' => 1 ,
             'prioridad_id' => 4 ,
         ]) ;

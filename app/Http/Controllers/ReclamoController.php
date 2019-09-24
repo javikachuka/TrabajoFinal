@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Control;
 use App\HistorialEstado;
 use App\Reclamo;
+use App\Requisito;
 use Illuminate\Http\Request;
 use App\TipoReclamo ;
 use App\Socio ;
 use App\Trabajo;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ReclamoController extends Controller
 {
@@ -47,24 +51,48 @@ class ReclamoController extends Controller
      */
     public function store(Request $request , Reclamo $reclamo)
     {
-        return $request ;
+        // DB::beginTransaction();
+        // try{
+            // return sizeof($request->requisitos) ;
+            $reclamo->fill($request->only(['socio_id' ,'tipoReclamo_id' , 'fecha' , 'detalle'])) ;
+            $reclamo->user_id = auth()->user()->id ;
+            $reclamo->save() ;
+            if($reclamo->tipoReclamo->trabajo == true){ // hay un atributo que es boolean (trabajo) y me dice si el reclamo conlleva o no un trabajo
+                $trabajo = new Trabajo() ;
+                $trabajo->fecha = $reclamo->fecha ;
+                $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoInicial() ;
+                $trabajo->save() ;
+                $reclamo->trabajo_id = $trabajo->id ;
+                $reclamo->update() ;
+                $historial = new HistorialEstado();
+                $historial->reclamo_id = $reclamo->id ;
+                $historial->estado_id = $trabajo->estado_id ;
+                $historial->save() ;
 
-        $reclamo->fill($request->only(['socio_id' ,'tipoReclamo_id' , 'fecha' , 'detalle'])) ;
-        $reclamo->user_id = auth()->user()->id ;
-        $reclamo->save() ;
-        if($reclamo->tipoReclamo->trabajo == true){ // hay un atributo que es boolean (trabajo) y me dice si el reclamo conlleva o no un trabajo
-            $trabajo = new Trabajo() ;
-            $trabajo->fecha = $reclamo->fecha ;
-            $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoInicial() ;
-            $trabajo->save() ;
-            $reclamo->trabajo_id = $trabajo->id ;
-            $reclamo->update() ;
-            $historial = new HistorialEstado();
-            $historial->reclamo_id = $reclamo->id ;
-            $historial->estado_id = $trabajo->estado_id ;
-            $historial->save() ;
-        }
-        return redirect('/reclamos')->with('confirmar' , 'bien') ;
+                if($request->requisitos != null){
+                    for($i = 0 ;  $i < sizeof($request->requisitos) ; $i++){
+                        $control = new Control() ;
+                        $control->reclamo_id = $reclamo->id ;
+                        $control->requisito_id = $request->requisitos[$i] ;
+                        $control->save() ;
+                    }
+                    // if(sizeof($request->requisitos) != sizeof($reclamo->tipoReclamo->requisitos)){
+                    //     $trabajo->estado_id = 6 ; //aqui deberia ir la logica para pasar a un estado faltante
+                    //     $trabajo->update() ;
+                    //     $hisFaltante = new HistorialEstado();
+                    //     $hisFaltante->reclamo_id = $reclamo->id ;
+                    //     $hisFaltante->estado_id = $trabajo->estado_id ;
+                    //     $hisFaltante->save() ;
+                    // }
+                }
+            }
+           // DB::commit();
+            return redirect('/reclamos')->with('confirmar' , 'bien') ;
+
+        // }catch(Exception $e){
+        //     DB::rollback();
+        //     return $e ;
+        // }
     }
 
     /**
@@ -99,10 +127,22 @@ class ReclamoController extends Controller
      * @param  \App\Reclamo  $reclamo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reclamo $reclamo)
+    public function update(Request $request, $id)
     {
+        $reclamo = Reclamo::find($id);
         $reclamo->fill($request->only(['socio_id' ,'tipoReclamo_id' , 'fecha' , 'detalle'])) ;
         $reclamo->update();
+        if($request->requisitos != null){
+            for($i = 0 ;  $i < sizeof($request->requisitos) ; $i++){
+                $req = Requisito::find($request->requisitos[$i]) ;
+                if(!$reclamo->presentoRequisito($req)){
+                    $control = new Control() ;
+                    $control->reclamo_id = $reclamo->id ;
+                    $control->requisito_id = $request->requisitos[$i] ;
+                    $control->save() ;
+                }
+            }
+        }
         return redirect('/reclamos')->with('confirmar' , 'bien') ;
     }
 
@@ -112,9 +152,18 @@ class ReclamoController extends Controller
      * @param  \App\Reclamo  $reclamo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reclamo $reclamo)
+    public function destroy($id)
     {
-        //
+        $reclamo = Reclamo::find($id) ;
+        try{
+            if($reclamo != null){
+                $reclamo->delete() ;
+                return redirect()->back()->with('borrado' , 'ok') ;
+            }
+        }catch(Exception $e){
+            alert()->error('No es posible eliminar' , 'Error!') ;
+            return redirect('/reclamos') ;
+        }
     }
 
 

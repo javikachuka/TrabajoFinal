@@ -17,6 +17,13 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="col-sm-1">
+                <div class="form-group">
+                    <br>
+                        <a href=""  class="btn btn-primary btn-xs " data-toggle="modal" data-target="#buscar" ><i class="fa fa-search"></i></a>
+                </div>
+            </div>
             <div class="col-sm-3">
                     <label for="">Tipo de Reclamo</label>
                     <select class="seleccion form-control" name="tipoReclamo_id" id="tipoReclamo">
@@ -32,7 +39,9 @@
                     <option value="" disabled selected>--Seleccione--</option>
                 </select>
             </div> --}}
+            <div class="col-md-1">
 
+            </div>
 
             <div class="col-md-3">
                 <div class="form-group">
@@ -70,6 +79,54 @@
     </div>
     </div>
 
+
+<!-- Modal Buscar -->
+<div class="modal fade" id="buscar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Buscar Socio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                </div>
+                <hr>
+
+                        <div class="table-responsive">
+                                <table id="socios" class="table table-sm table-bordered table-striped table-hover datatable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Nombre y Apellido</th>
+                                        <th scope="col">DNI</th>
+                                        <th scope="col">Nº de Conexion</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($socios as $socio)
+                                            <tr>
+                                            <td>{{$socio->nombre}} {{$socio->apellido}}</td>
+                                            <td>{{$socio->dni}}</td>
+                                            <td>{{$socio->nro_conexion}}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                        </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary btn-sm ">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -121,5 +178,76 @@
     });
 
 </script>
+
+{{-- <script>
+
+
+$(document).ready(function() {
+    var table = $('#socios').DataTable();
+
+    // Event listener to the two range filtering inputs to redraw on input
+    $('#busc').keyup( function() {
+        $.fn.dataTable.ext.search.push(
+            function( settings, data, dataIndex ) {
+                var dni = parseInt( $('#busc').val(), 10 );
+                var dniTabla = parseInt( data[1] ) || 0; // use data for the age column
+
+                if ( dni <= dniTabla )
+                {
+                    return true;
+                }
+                return false;
+            }
+        );
+        table.draw();
+    } );
+} );
+</script> --}}
+
+<script>
+$(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#socios thead tr').clone(true).appendTo( '#socios thead' );
+    $('#socios thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Buscar por '+title+'" />' );
+
+        $( 'input', this ).on( 'keyup change', function () {
+            if ( table.column(i).search() !== this.value ) {
+                table
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+
+    var table = $('#socios').DataTable( {
+        orderCellsTop: true,
+        fixedHeader: true,
+        "searching": true,
+            "info": false,
+            "autoWidth": false,
+    } );
+
+} );
+</script>
+
+{{-- <script>
+$(document).ready(function() {
+    var table = $('#socios').DataTable();
+
+    $('#socios tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
+} );
+</script> --}}
+
 
 @endpush

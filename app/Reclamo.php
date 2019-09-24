@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reclamo extends Model
 {
 
+    use SoftDeletes ;
     protected $guarded = [] ;
 
 	public function tipoReclamo(){
@@ -40,5 +42,14 @@ class Reclamo extends Model
 
     public function setDescripcionAttribute($value){
     	$this->attributes['descripcion'] = strtolower($value) ;
-	}
+    }
+
+    public function presentoRequisito(Requisito $req){
+        foreach($this->controles as $con){
+            if($con->requisito_id == $req->id){
+                return true ;
+            }
+        }
+        return false ;
+    }
 }

@@ -129,7 +129,7 @@ class TransicionController extends Controller
     public function destroy($id)
     {
         $transicion = Transicion::find($id) ;
-        return $transicion ;
+
         $transicion->delete() ;
         return redirect()->back()->with('borrado' , 'ok') ;
     }

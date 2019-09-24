@@ -68,8 +68,8 @@ class FlujoTrabajoController extends Controller
      */
     public function edit(FlujoTrabajo $flujoTrabajo)
     {
-        $estados = Estado::all() ;
-        return view('transiciones.edit' , compact('flujoTrabajo' , 'estados'));
+
+        return redirect()->route('transiciones.create', $flujoTrabajo->id);
     }
 
     /**

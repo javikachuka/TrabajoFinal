@@ -50,17 +50,15 @@
                                             <th>Fecha y Hora</th>
                                         </tr>
                                     </thead>
+
+                                    <tbody>
+                                        @foreach ($reclamo->historial as $h)
                                         <tr>
-                                            @foreach ($reclamo->historial as $h)
                                                 <td>{{$h->id}}</td>
                                                 <td>{{$h->estado->nombre}}</td>
                                                 <td>{{$h->created_at}}</td>
+                                            </tr>
                                             @endforeach
-                                        </tr>
-
-                                    <tbody>
-
-
                                     </tbody>
                                 </table>
                             </div>

@@ -33,8 +33,8 @@ Route::middleware(['auth'])->group(function(){
     Route::post('reclamos','ReclamoController@store')->name('reclamos.store')->middleware('permission:reclamos_store')  ;
     Route::get('reclamos/{reclamo}','ReclamoController@show')->name('reclamos.show')->middleware('permission:reclamos_show')  ;
     Route::get('reclamos/{reclamo}/edit' , 'ReclamoController@edit')->name('reclamos.edit')->middleware('permission:reclamos_edit')  ;
-    Route::put('reclamos/{user}' , 'ReclamoController@update')->name('reclamos.update')->middleware('permission:reclamos_update')  ;
-    Route::delete('reclamos/{reclamo}' , 'ReclamoController@destroy')->name('reclamos.destroy')->middleware('permission:reclamos_destroy') ;
+    Route::put('reclamos/{id}' , 'ReclamoController@update')->name('reclamos.update')->middleware('permission:reclamos_update')  ;
+    Route::delete('reclamos/{id}' , 'ReclamoController@destroy')->name('reclamos.destroy')->middleware('permission:reclamos_destroy') ;
 
 
     //users

@@ -28,7 +28,10 @@
                     </div>
                 </div>
                 <div class="col-5 ">
-                        <a class="btn btn-primary btn-xs" id="filtrar"><i class="fas fa-filter nav-icon"></i></a>
+                    <div class="form-group">
+                        <br>
+                        <a class="btn btn-primary btn-xs" id="filtrar"><i class="fas fa-filter "></i></a>
+                    </div>
                 </div>
 
                 <div class="col-md-1">

@@ -5,7 +5,7 @@
 <h1>Listado de Trabajos</h1>
 
     <div class="form-group col-md-8">
-        <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('trabajos.create') }}'">Nuevo Trabajo</button>
+        <button type="submit" class="btn btn-primary btn-sm" onclick="location.href = '{{ route('trabajos.create') }}'">Nuevo Trabajo</button>
     </div>
 <div class="card">
     <div class="card-body">

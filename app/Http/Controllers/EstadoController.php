@@ -104,7 +104,7 @@ class EstadoController extends Controller
 
     public function validar(){
         return  request()->validate([
-            'nombre' => 'required|unique:estados' ,
+            'nombre' => 'required' ,
         ]);
     }
 

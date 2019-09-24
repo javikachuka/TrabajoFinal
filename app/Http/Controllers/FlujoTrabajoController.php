@@ -44,8 +44,7 @@ class FlujoTrabajoController extends Controller
         $this->validar();
         $flujoTrabajo->fill($request->all()) ;
         $flujoTrabajo->save() ;
-
-        return redirect()->route('transiciones.create' , $flujoTrabajo) ;
+        return redirect()->route('transiciones.create' , $flujoTrabajo->id) ;
 
 
     }

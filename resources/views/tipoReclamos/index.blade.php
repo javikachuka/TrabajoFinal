@@ -16,6 +16,7 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Detalle</th>
+                    <th>Requisitos</th>
                     <th>Flujo de Trabajo</th>
                     <th>Nivel de Prioridad</th>
                     <th>Accion</th>
@@ -28,6 +29,13 @@
                             <td>{{$tipRec->id}}</td>
                             <td>{{$tipRec->nombre}}</td>
                             <td>{{$tipRec->detalle}}</td>
+                            <td>
+                                <ul>
+                                    @foreach ($tipRec->requisitos as $req)
+                                        <li>{{$req->nombre}}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
                             <td>
                                 @if($tipRec->flujoTrabajo != null)
                                     <span class="badge badge-info">{{$tipRec->flujoTrabajo->nombre}}</span>
@@ -71,6 +79,19 @@
                                                         </div>
 
                                                 </div>
+
+
+                                                <div class="form-group">
+                                                    <label for="">Requisitos Necesarios</label> <br>
+                                                    @foreach ($requisitos as $requisito)
+                                                        <input type="checkbox"  id="checkaa{{$requisito->id}}" value="{{$requisito->id}}" name="requisitos[]" @if($tipRec->requisitos->contains($requisito)) checked @endif> <label for="checkaa{{$requisito->id}}">{{$requisito->nombre}}</label> <br>
+
+                                                    @endforeach
+                                                </div>
+
+
+
+
 
                                                 <div class="form-group">
                                                     <label for="">Flujo de Trabajo</label>
@@ -147,6 +168,16 @@
 
                                 <input type="radio"  id="radNo" value="0" name="trabajo"> <label for="radNo">NO</label>
                             </div>
+                    </div>
+
+                    <div class="form-group">
+                            <label for="">Requisitos Necesarios</label>
+                            @foreach ($requisitos as $requisito)
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="requisitos[]" class="custom-control-input" id="checked2{{$requisito->id}}" value="{{$requisito->id}}">
+                                    <label class="custom-control-label" for="checked2{{$requisito->id}}">{{$requisito->nombre}}</label>
+                                </div>
+                            @endforeach
                     </div>
 
                     <div class="form-group">

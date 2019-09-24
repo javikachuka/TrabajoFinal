@@ -37,4 +37,8 @@ class Movimiento extends Model
     }
 
 
+    public function getFecha(){
+
+        return $this->cabeceraMovimiento->fecha;
+    }
 }

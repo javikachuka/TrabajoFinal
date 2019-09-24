@@ -47,6 +47,7 @@ class ReclamoController extends Controller
      */
     public function store(Request $request , Reclamo $reclamo)
     {
+        return $request ;
 
         $reclamo->fill($request->only(['socio_id' ,'tipoReclamo_id' , 'fecha' , 'detalle'])) ;
         $reclamo->user_id = auth()->user()->id ;

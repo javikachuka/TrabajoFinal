@@ -100,10 +100,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('transiciones/create/{id}', 'TransicionController@create')->name('transiciones.create') ;
     Route::post('transiciones/{id}', 'TransicionController@store')->name('transiciones.store') ;
     // Route::post('transiciones/orden', 'TransicionController@ordenar')->name('transiciones.ordenar') ;
-    Route::get('transiciones/{transicion}', 'TransicionController@show')->name('transicion.show')->middleware('permission:transiciones_show')  ;
-    Route::get('transiciones/{id}/edit','TransicionController@edit')->name('transicion.edit')->middleware('permission:transiciones_edit')  ;
-    Route::put('transiciones/{transicion}' , 'TransicionController@update')->name('transicion.update')->middleware('permission:transiciones_update')  ;
-    Route::delete('transiciones/{transicion}' , 'TransicionController@destroy')->name('transicion.destroy')->middleware('permission:transiciones_destroy') ;
+    Route::get('transiciones/{transicion}', 'TransicionController@show')->name('transiciones.show')->middleware('permission:transiciones_show')  ;
+    Route::get('transiciones/{id}/edit','TransicionController@edit')->name('transiciones.edit')->middleware('permission:transiciones_edit')  ;
+    Route::put('transiciones/{transicion}' , 'TransicionController@update')->name('transiciones.update')->middleware('permission:transiciones_update')  ;
+    Route::delete('transiciones/{id}' , 'TransicionController@destroy')->name('transiciones.destroy')->middleware('permission:transiciones_destroy') ;
 
 
 
@@ -129,6 +129,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('movimientos/{movimiento}/edit','MovimientoController@edit')->name('movimientos.edit')->middleware('permission:movimientos_edit')  ;
     Route::put('movimientos/{id}' , 'MovimientoController@update')->name('movimientos.update')->middleware('permission:movimientos_update')  ;
     Route::delete('movimientos/{movimiento}' , 'MovimientoController@destroy')->name('movimientos.destroy')->middleware('permission:movimientos_destroy') ;
+    Route::post('movimientos/filtro', 'MovimientoController@filtro')->name('movimientos.filtro') ;
 
     // Route::post('movimientos/ingreso','MovimientoController@ingreso')->name('movimientos.ingreso') ;
     // Route::post('movimientos/egreso','MovimientoController@egreso')->name('movimientos.egreso') ;

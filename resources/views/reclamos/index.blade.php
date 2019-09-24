@@ -5,7 +5,7 @@
 <h1>Listado de reclamos</h1>
 
     <div class="form-group col-md-8">
-        <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo reclamo</button>
+        <button type="submit" class="btn btn-primary btn-sm" onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo reclamo</button>
     </div>
 <div class="card">
     <div class="card-body">

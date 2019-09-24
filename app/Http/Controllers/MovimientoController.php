@@ -12,6 +12,7 @@ use App\TipoComprobante;
 use App\TipoMovimiento;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class MovimientoController extends Controller
@@ -257,6 +258,30 @@ class MovimientoController extends Controller
             'producto_id.*' => 'required' ,
             'cantidad.*' => 'required|numeric|min:0|not_in:0' ,
         ]);
+    }
+
+    public function filtro(Request $request){
+
+        // $d1 = Carbon::now() ;
+        // $d2 = Carbon::now() ;
+        // return var_dump($d1->notEqualTo($d2)) ;
+
+        $movimientos = Movimiento::all();
+
+
+        foreach($movimientos as $id => $mov){
+            $f = Carbon::create($mov->cabeceraMovimiento->fecha) ;
+            $fecha1 = Carbon::create($request->input('fecha1')) ;
+            $fecha2 = Carbon::create($request->input('fecha2')) ;
+
+            if (($f->lessThan($fecha1)) || ($f->greaterThan($fecha2))){
+                $movimientos->pull($id) ;
+            }
+
+        }
+
+
+
     }
 
 }

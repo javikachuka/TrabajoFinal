@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\FlujoTrabajo;
 use App\Prioridad;
+use App\Requisito;
 use App\TipoReclamo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TipoReclamoController extends Controller
 {
@@ -19,7 +21,8 @@ class TipoReclamoController extends Controller
         $tipoReclamos = TipoReclamo::all() ;
         $flujosTrabajos = FlujoTrabajo::all() ;
         $prioridades = Prioridad::all() ;
-        return view('tipoReclamos.index', compact('tipoReclamos' , 'flujosTrabajos' , 'prioridades')) ;
+        $requisitos = Requisito::all() ;
+        return view('tipoReclamos.index', compact('tipoReclamos' , 'flujosTrabajos' , 'prioridades' , 'requisitos')) ;
     }
 
     /**
@@ -46,6 +49,7 @@ class TipoReclamoController extends Controller
             $tipoReclamo->flujoTrabajo_id = $request->flujoTrabajo_id ;
         }
         $tipoReclamo->save();
+        $tipoReclamo->requisitos()->sync($request->input('requisitos',[])) ;
         return redirect('/tipoReclamos')->with('confirmar' , 'bien') ;
 
     }
@@ -87,6 +91,7 @@ class TipoReclamoController extends Controller
             $tipoRec->flujoTrabajo_id = $request->flujoTrabajo_id ;
         }
         $tipoRec->update();
+        $tipoRec->requisitos()->sync($request->input('requisitos',[])) ;
         return redirect('/tipoReclamos')->with('confirmar' , 'bien') ;
     }
 
@@ -107,5 +112,9 @@ class TipoReclamoController extends Controller
             alert()->error('No es posible eliminar el tipo de reclamo' , 'Error') ;
             return redirect('/almacenes') ;
         }
+    }
+
+    public function cargarRequisitos($id){
+        return DB::table('requisito_tipo_reclamo')->join('requisitos', 'requisito_tipo_reclamo.requisito_id' , '=', 'requisitos.id')->select('requisitos.id', 'requisitos.nombre')->where('requisito_tipo_reclamo.tipo_reclamo_id', $id)->get();
     }
 }

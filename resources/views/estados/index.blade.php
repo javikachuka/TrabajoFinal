@@ -112,12 +112,13 @@
           });
         });
 </script>
-
-    <script>
+<script>
         @if(session('confirmar'))
             Confirmar.fire() ;
         @elseif(session('cancelar'))
             Cancelar.fire();
+        @elseif(session('borrado'))
+            Borrado.fire();
         @endif
-    </script>
+</script>
 @endpush

@@ -166,6 +166,29 @@ Route::middleware(['auth'])->group(function(){
     Route::put('tipoReclamos/{id}' , 'TipoReclamoController@update')->name('tipoReclamos.update')->middleware('permission:tipoReclamos_update')  ;
     Route::delete('tipoReclamos/{id}' , 'TipoReclamoController@destroy')->name('tipoReclamos.destroy')->middleware('permission:tipoReclamos_destroy') ;
 
+
+    //asistencias
+    Route::get('asistencias','AsistenciaController@index')->name('asistencias.index')  ;
+
+
+    //horarios
+    Route::get('horarios','HorarioController@index')->name('horarios.index')->middleware('permission:horarios_index')  ;
+    Route::get('horarios/create', 'HorarioController@create')->name('horarios.create')->middleware('permission:horarios_create')  ;
+    Route::post('horarios','HorarioController@store')->name('horarios.store')->middleware('permission:horarios_store')  ;
+    Route::get('horarios/{horario}', 'HorarioController@show')->name('horarios.show')->middleware('permission:horarios_show')  ;
+    Route::get('horarios/{horario}/edit','HorarioController@edit')->name('horarios.edit')->middleware('permission:horarios_edit')  ;
+    Route::put('horarios/{horario}' , 'HorarioController@update')->name('horarios.update')->middleware('permission:horarios_update')  ;
+    Route::delete('horarios/{id}' , 'HorarioController@destroy')->name('horarios.destroy')->middleware('permission:horarios_destroy') ;
+
+    //turnos
+    // Route::get('turnos','TurnoController@index')->name('turnos.index')->middleware('permission:turnos_index')  ;
+    Route::get('turnos','TurnoController@index')->name('turnos.index')->middleware('permission:turnos_index')  ;
+    Route::post('turnos/store','TurnoController@store')->name('turnos.store')->middleware('permission:turnos_store')  ;
+    Route::delete('turnos/{id}/{idEmple}' , 'TurnoController@destroy')->name('turnos.destroy')->middleware('permission:turnos_destroy') ;
+
+
+
+
 }) ;
 
 

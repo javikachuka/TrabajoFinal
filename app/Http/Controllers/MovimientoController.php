@@ -54,8 +54,9 @@ class MovimientoController extends Controller
     public function createTransferencia(){
         $almacenes = Almacen::all() ;
         $productos = Producto::all() ;
+        $tiposComprobantes = TipoComprobante::all() ;
         $tipoMovimientos = DB::table('tipo_movimientos')->where('operacion' , null)->get();
-        return view('movimientos.createTransferencia' , compact('almacenes' , 'productos' , 'tipoMovimientos')) ;
+        return view('movimientos.createTransferencia' , compact('almacenes' , 'productos' , 'tipoMovimientos', 'tiposComprobantes')) ;
     }
 
     /**

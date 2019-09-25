@@ -59,4 +59,12 @@ class User extends Authenticatable
     public function reclamos(){
         return $this->hasMany(Reclamo::class);
     }
+
+    public function asistencias(){
+        return $this->hasMany(Asistencia::class);
+    }
+
+    public function turnos(){
+        return $this->belongsToMany(Turno::class);
+    }
 }

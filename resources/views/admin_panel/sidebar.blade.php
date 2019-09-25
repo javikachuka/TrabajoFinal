@@ -105,6 +105,32 @@
 
                 </li>
 
+                <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link active">
+                            <i class="nav-icon fal fa-tasks"></i>
+                            <p>
+                              Gestion de Asistencias
+                              <i class="right fal fa-angle-left"></i>
+                            </p>
+                          </a>
+
+                              <ul class="nav nav-treeview">
+                                  <li class="nav-item">
+                                    <a href="{{ route('turnos.index') }}" class="nav-link">
+                                      <i class="fal fa-tasks nav-icon"></i>
+                                      <p>Turnos</p>
+                                    </a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a href="{{ route('horarios.index') }}" class="nav-link">
+                                      <i class="fal fa-clock nav-icon"></i>
+                                      <p>Horarios</p>
+                                    </a>
+                                  </li>
+
+                              </ul>
+                      </li>
+
               <li class="nav-item has-treeview ">
                 <a href="#" class="nav-link active">
                     <i class="nav-icon fal fa-users-cog"></i>
@@ -123,12 +149,6 @@
                           </a>
                         </li>
                         @endcan
-                        <li class="nav-item">
-                          <a href="{{ route('users.index') }}" class="nav-link">
-                            <i class="fal fa-tasks nav-icon"></i>
-                            <p>Asistencias</p>
-                          </a>
-                        </li>
                         <li class="nav-item">
                           <a href="{{ route('roles.index') }}" class="nav-link">
                             <i class="fal fa-user-lock nav-icon"></i>

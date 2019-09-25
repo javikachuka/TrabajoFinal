@@ -64,6 +64,40 @@
                                     </div>
 
                                 </div>
+                                <div class="row d-flex justify-content-around">
+                                        <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Numero de Comprobante</label>
+                                                    <input type="text" name="numeroComprobante" required value=""  class="form-control" placeholder="Nº">
+                                                    <div>{{$errors->first('numero_comprobante')}} </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                    <label for="">Tipo de Comprobante</label>
+                                                    <div class="form-group">
+                                                            <select class="js-example-basic-single form-control" name="tipoComprobante_id">
+                                                                    <option value="" selected disabled>--Seleccione--</option>
+                                                                    @foreach ($tiposComprobantes as $tipoComprobante)
+                                                                        <option value="{{$tipoComprobante->id}}">{{$tipoComprobante->nombre}}</option>
+                                                                    @endforeach
+                                                            </select>
+                                                    </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="">Fecha del Comprobante</label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">
+                                                                    <i class="fal fa-calendar-alt"></i>
+                                                                </span>
+                                                            </div>
+                                                            <input type="date" class="form-control" name="fechaComprobante" required value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ Carbon\Carbon::now()->addDay()->format('Y-m-d') }}" id="">
+                                                        </div>
+                                                    </div>
+                                            </div>
+
+                                </div>
                                 <br>
                                 <div class="row">
                                 <div class="col-md-12">

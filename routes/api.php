@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 */
 Route::get('/reclamos/create/requisitos/{id}', 'TipoReclamoController@cargarRequisitos') ;
 
+Route::get('turnos/asignacion/{id}' , 'TurnoController@obtenerTurnos') ;
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

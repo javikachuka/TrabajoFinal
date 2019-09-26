@@ -188,6 +188,16 @@ Route::middleware(['auth'])->group(function(){
 
 
 
+    //Rubros
+    Route::get('rubros','RubroController@index')->name('rubros.index') ;
+    Route::get('rubros/create', 'RubroController@create')->name('rubros.create') ;
+    Route::post('rubros', 'RubroController@store')->name('rubros.store') ;
+    Route::get('rubros/{rubro}', 'RubroController@show')->name('rubros.show') ;
+    Route::get('rubros/{rubro}/edit', 'RubroController@edit')->name('rubros.edit') ;
+    Route::put('rubros/{id}' , 'RubroController@update')->name('rubros.update')  ;
+    Route::delete('rubros/{rubro}' , 'RubroController@destroy')->name('rubros.destroy') ;
+
+
 
 }) ;
 

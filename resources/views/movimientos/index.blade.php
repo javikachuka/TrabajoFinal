@@ -1,18 +1,18 @@
 @extends('admin_panel.index')
 
 @section('content')
-    <h2>Movimientos Realizados</h2>
-<br>
-    <div class="form-group col-md-8">
-            <a type="submit" href="{{ route('movimientos.createIngreso') }}" class="btn btn-xs btn-success"> Nuevo Ingreso <i class="fas fa-tags nav-icon"></i></a>
-            <a type="submit" href="{{ route('movimientos.createTransferencia') }}" class="btn btn-xs btn-success"> Nueva Transferencia <i class="nav-icon fas fa-exchange-alt"></i></a>
-    </div>
-    <div class="form-group col-md-8">
 
-
-    </div>
     <div class="card">
         <div class="card-header">
+            <h3>Movimientos Realizados
+                    <span></span>
+                    <button class="btn btn-xs btn-primary" onclick="location.href='{{ route('movimientos.createIngreso')}}'">Nuevo Ingreso <i class="fas fa-tags nav-icon"></i></button>
+                    <button class="btn btn-xs btn-primary" onclick="location.href='{{ route('movimientos.createTransferencia')}}'">Nueva Transferencia <i class="fas fa-exchange-alt "></i></button>
+                    {{-- <a type="button" href="{{ route('movimientos.createIngreso') }}" class="btn btn-xs btn-success"> Nuevo Ingreso <i class="fas fa-tags nav-icon"></i></a> --}}
+                    {{-- <a type="button" href="{{ route('movimientos.createTransferencia') }}" class="btn btn-xs btn-success"> Nueva Transferencia <i class="nav-icon fas fa-exchange-alt"></i></a> --}}
+            </h3>
+            <hr>
+
             <form class="form-group " method="GET" action="{{route('movimientos.pdf')}}">
 
             <div class="row">

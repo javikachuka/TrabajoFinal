@@ -90,6 +90,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('rubros.index') }}" class="nav-link">
+                                    <i class="fal fa-cubes nav-icon"></i>
+                                    <p>Rubros</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('proveedores.index') }}" class="nav-link">
                                     <i class="fal fa-people-carry nav-icon"></i>
                                     <p>Proveedores</p>

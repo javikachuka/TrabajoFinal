@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 class Reclamo extends Model
 {
@@ -51,5 +52,11 @@ class Reclamo extends Model
             }
         }
         return false ;
+    }
+
+
+    public function getFecha(){
+        $date = Carbon::create($this->fecha)->format('d/m/Y') ;
+        return $date  ;
     }
 }

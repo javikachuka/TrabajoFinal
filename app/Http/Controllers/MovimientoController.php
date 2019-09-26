@@ -8,6 +8,7 @@ use App\Existencia;
 use App\Movimiento;
 use App\Producto;
 use App\Proveedor;
+use App\Rubro;
 use App\TipoComprobante;
 use App\TipoMovimiento;
 use Exception;
@@ -25,7 +26,9 @@ class MovimientoController extends Controller
     public function index()
     {
         $movimientos = Movimiento::all() ;
-        return view('movimientos.index', compact('movimientos')) ;
+        $tipoMovimientos = TipoMovimiento::all() ;
+        $productos = Producto::all() ;
+        return view('movimientos.index', compact('movimientos' , 'tipoMovimientos' , 'productos')) ;
     }
 
     /**

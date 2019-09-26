@@ -7,6 +7,11 @@
             <tr>
                 <th id="fac">Listado de Movimientos</th>
             </tr>
+            <tr>
+                <th id="filtros">
+                    {{$filtro}}
+                </th>
+            </tr>
         </thead>
         <tbody>
 {{--

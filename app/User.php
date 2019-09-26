@@ -67,4 +67,8 @@ class User extends Authenticatable
     public function turnos(){
         return $this->belongsToMany(Turno::class);
     }
+
+    public function trabajos(){
+        return $this->belongsToMany(Trabajo::class);
+    }
 }

@@ -70,7 +70,7 @@
         }
 
         #titulo{
-        width: 40%;
+        width: 80%;
         border-collapse: collapse;
         border-spacing: 0;
         margin-bottom: 15px;
@@ -83,6 +83,12 @@
         #fa{
         color: #FFFFFF;
         font-size: 15px;
+        }
+
+        #filtros{
+        color: #000000;
+        font-size: 13px;
+        font-weight: lighter ;
         }
 
         #facliente thead{

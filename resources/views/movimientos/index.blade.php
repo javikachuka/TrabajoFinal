@@ -14,7 +14,26 @@
     <div class="card">
         <div class="card-header">
             <form class="form-group " method="GET" action="{{route('movimientos.pdf')}}">
+
             <div class="row">
+                    <div class=" col-sm-2">
+                            <label for="">Tipo de Movimiento</label>
+                            <select name="tipoMovimiento_id" id="tipoMovimiento" class="form-control" >
+                                <option value="" selected disabled>--Seleccione--</option>
+                                @foreach ($tipoMovimientos as $tipoMov)
+                                    <option value="{{$tipoMov->id}}">{{$tipoMov->nombre}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class=" col-sm-2">
+                            <label for="">Producto</label>
+                            <select name="producto_id" id="producto" class="form-control" >
+                                <option value="" selected disabled>--Seleccione--</option>
+                                @foreach ($productos as $producto)
+                                    <option value="{{$producto->id}}">{{$producto->nombre}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                 <div class="col-md-3">
                     <div class="form-group">
                             <label>Desde</label>
@@ -27,11 +46,8 @@
                         <input type="date" id="max" name="fecha2"  value=""  class="form-control" >
                     </div>
                 </div>
-                <div class="col-5 ">
-                    <div class="form-group">
-                        <br>
-                        <a class="btn btn-primary btn-xs" id="filtrar"><i class="fas fa-filter "></i></a>
-                    </div>
+                <div class="col-md-1">
+
                 </div>
 
                 <div class="col-md-1">
@@ -39,9 +55,16 @@
 
                 </div>
             </div>
-            @csrf
 
+            @csrf
         </form>
+                    <div class="row ">
+                        <div class="col-md-1 offset-4">
+                            <button class="btn btn-secondary btn-xs" id="limpiar">Limpiar <i class="fas fa-clear "></i></button>
+                        </div>
+                        <button class="btn btn-primary btn-xs" id="filtrar">Filtrar <i class="fas fa-filter "></i></button>
+
+                    </div>
         </div>
             <div class="card-body">
                 <div class="table-responsive table-sm">
@@ -153,87 +176,178 @@ $(document).ready(function() {
     var table = $('#movimientos').DataTable();
 
 
+    $('#limpiar').click(function(){
+        $("#tipoMovimiento ").prop("selectedIndex", 0) ;
+        $("#producto ").prop("selectedIndex", 0) ;
+        $('input[type=date]').val('');
+
+        $.fn.dataTable.ext.search.pop(
+            function( settings, data, dataIndex ) {
+                if(1){
+                    return true ;
+                }
+                return false ;
+            }
+        );
+        table.draw() ;
+    }) ;
+
+
+
+
     // Event listener to the two range filtering inputs to redraw on input
     // $('#min, #max').keyup( function() {
     //     table.draw();
     // } );
     $('#filtrar').click(function(){
 
+
         var fec1 =  $('#min').val() ;
         var fec2 =  $('#max').val() ;
+        var filtro1 = $('#tipoMovimiento').val() ;
+        console.log(filtro1);
+        //no olvidarme de volver a poner (pop) las filas
+        var filtro2 = $('#producto').val() ;
+        $.fn.dataTable.ext.search.pop(
+            function( settings, data, dataIndex ) {
+                if(1){
+                    return true ;
+                }
+                return false ;
+            }
+        );
+        table.draw() ;
+
+        if(filtro1 != null){
+            var tipMov = $('#tipoMovimiento option:selected').text() ;
+        }
+        if(filtro2 != null){
+            var prod = $('#producto option:selected').text() ;
+        }
+
+
         if((fec1 != "") && (fec2 != "")){
 
-            $.fn.dataTable.ext.search.push(
-                function( settings, data, dataIndex ) {
-                    var f1 =  $('#min').val() ;
-                    var min = moment(f1)
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+                var f1 =  $('#min').val() ;
+                var min = moment(f1) ;
+                var f2 =  $('#max').val() ;
+                var max = moment(f2) ;
 
-                    var f2 =  $('#max').val() ;
-                    var max = moment(f2) ;
+                var d = data[2]
+                var datearray = d.split("/");
+                var newdate =   datearray[2] + '/'+ datearray[1] + '/' + datearray[0] ;
+                var s = new Date(newdate)
+                var startDate = moment(s)
 
-                    //console.log(moment(min).isSameOrBefore(max)) ;
-                    // console.log(moment(f1).isSameOrBefore(f2)) ;
-
-                    //var min =  new Date("25/08/2019" , "DD/MM/YYYY") ;
-                    //var min = moment(new Date()).format("DD/MM/YYYY")
-                    //var otro = moment(new Date("25/10/2019")).format("DD/MM/YYYY")
-                    // console.log(moment(otro, "DD/MM/YYYY").isSameOrAfter(min, "DD/MM/YYYY"));
-
-
-                    //var max =  new Date("2019-09-25") ;
-                    // console.log(max) ;
-
-                    // var s = new Date(data[2]) // use data for the age column
-                    var d = data[2]
-                    var datearray = d.split("/");
-                    var newdate =   datearray[2] + '/'+ datearray[1] + '/' + datearray[0] ;
-                    var s = new Date(newdate)
-                    var startDate = moment(s)
-                    console.log(startDate)
-
-                    //console.log(newdate) ;
-
-                    // console.log(startDate)
-                    // console.log(moment(startDate).isSameOrAfter(min))
-
-                    // console.log(s1) ;
-                    if  ( ( min == "" || max == "" ) || ( moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) )
+                if(filtro1 == null && filtro2 == null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) )
+                            )
+                        )
                     {
-                        return true;
+
+                        return true ;
+                    }else{
+                        return false;
                     }
-                    return false;
+                }else if(filtro1 != null && filtro2 != null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (tipMov == data[1]) &&
+                                (prod == data[3])
+                            )
+                        )
+                    {
 
-                    // if(min == null && max == null){
-                    //     return false ;
-                    // }
-                    // if(min == null && startDate <= max){
-                    //     return true ;
-                    // }
-                    // if(max == null && startDate >= min){
-                    //     return true ;
-                    // }
-                    // if(startDate<= max && startDate >= min){
-                    //     return true ;
-                    // }
-
-                    // return false ;
-                    // if ( ( isNaN( min ) && isNaN( max ) ) ||
-                    //      ( isNaN( min ) && age <= max ) ||
-                    //      ( min <= s   && isNaN( max ) ) ||
-                    //      ( min <= age   && age <= max ) )
-                    // {
-                    //     return true;
-                    // }
-                    // return false;
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                }else if(filtro1 != null && filtro2 == null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (tipMov == data[1])
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                } else if(filtro1 == null && filtro2 != null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (prod == data[3])
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
                 }
-            );
-            table.draw();
+            }
+
+            $.fn.dataTable.ext.search.push( filtradoTabla )
+
+
+            table.draw()
+
+        }else if(filtro1 != null && filtro2 == null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if  ( tipMov == data[1]){
+                    return true ;
+                }else{
+                    return false;
+                }
+            }
+
+            $.fn.dataTable.ext.search.push( filtradoTabla )
+
+            table.draw()
+
+        }else if(filtro1 == null && filtro2 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if (prod == data[3]) {
+                    return true ;
+                }else{
+                    return false;
+                }
+            }
+
+            $.fn.dataTable.ext.search.push( filtradoTabla )
+
+            table.draw()
+
+        }else if(filtro1 != null && filtro2 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(prod == data[3] && tipMov == data[1]){
+                    return true ;
+                } else{
+                    return false ;
+                }
+            }
+            $.fn.dataTable.ext.search.push( filtradoTabla )
+
+            table.draw()
 
         }else{
-            console.log(fec1)
+
             swal({
             title: "Alerta",
-            text: "Seleccione un rango de fechas!",
+            text: "Seleccione opciones de filtrado!",
 
             });
         }

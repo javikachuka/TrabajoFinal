@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\TipoReclamo ;
 use App\Socio ;
 use App\Trabajo;
+use App\Turno;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -60,7 +62,9 @@ class ReclamoController extends Controller
             if($reclamo->tipoReclamo->trabajo == true){ // hay un atributo que es boolean (trabajo) y me dice si el reclamo conlleva o no un trabajo
                 $trabajo = new Trabajo() ;
                 $trabajo->fecha = $reclamo->fecha ;
+
                 $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoInicial() ;
+
                 $trabajo->save() ;
                 $reclamo->trabajo_id = $trabajo->id ;
                 $reclamo->update() ;
@@ -85,6 +89,21 @@ class ReclamoController extends Controller
                     //     $hisFaltante->save() ;
                     // }
                 }
+
+                $diaSemana = Carbon::create($request->fecha)->dayOfWeek ;
+                //$turnosDisponibles = DB::table('turnos')->where('dia', 3)->get() ;
+
+                $turnos = Turno::all() ;
+
+                $valido = null ;
+                foreach ($turnos as $id => $t){
+                    if($t->dia == $diaSemana ){
+                        $valido = $t ;
+                    }
+                }
+
+                $trabajo->users()->sync($valido->users[0]->id) ;
+
             }
            // DB::commit();
             return redirect('/reclamos')->with('confirmar' , 'bien') ;

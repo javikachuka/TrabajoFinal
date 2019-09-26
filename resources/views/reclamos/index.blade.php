@@ -30,7 +30,7 @@
                             <td>
                                 <span>{{$reclamo->tipoReclamo->nombre}} </span>
                             </td>
-                            <td>{{$reclamo->fecha}}</td>
+                            <td>{{$reclamo->getFecha()}}</td>
                             <td>{{$reclamo->socio->apellido}} {{$reclamo->socio->nombre}}</td>
                             <td>
                                 @if($reclamo->detalle != null)

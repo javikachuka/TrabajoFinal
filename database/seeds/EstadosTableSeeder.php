@@ -14,24 +14,36 @@ class EstadosTableSeeder extends Seeder
     public function run()
     {
         Estado::create([
-            'nombre'          => 'iniciado',
+            'nombre'          => 'En espera',
         ]);
 
         Estado::create([
-            'nombre'          => 'revisado',
+            'nombre'          => 'Recibido',
         ]);
 
         Estado::create([
-            'nombre'          => 'terminado',
+            'nombre'          => 'Iniciado',
+        ]);
+
+        Estado::create([
+            'nombre'          => 'Revisado',
+        ]);
+
+        Estado::create([
+            'nombre'          => 'Terminado',
+        ]);
+
+        Estado::create([
+            'nombre'          => 'Cancelado',
         ]);
 
 
         FlujoTrabajo::create([
-            'nombre'          => 'Pepepee' ,
+            'nombre'          => 'Trabajos' ,
         ]);
 
         FlujoTrabajo::create([
-            'nombre'          => 'Rolando' ,
+            'nombre'          => 'Quejas' ,
         ]);
 
     }

@@ -19,6 +19,7 @@
                     <th>Ubicacion</th>
                     <th>Prioridad</th>
                     <th>Estado</th>
+                    <th>Empleado/s</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
@@ -30,7 +31,7 @@
                             <td>
                                 <span>{{$trabajo->reclamo->tipoReclamo->nombre}} </span>
                             </td>
-                            <td>{{$trabajo->fecha}}</td>
+                            <td>{{$trabajo->getFecha()}}</td>
                             <td><p>{{$trabajo->reclamo->socio->direccion->calle}} {{$trabajo->reclamo->socio->direccion->altura}} , {{$trabajo->reclamo->socio->direccion->zona->nombre}}</p> </td>
                             <td><span class="badge badge-warning">{{$trabajo->reclamo->tipoReclamo->prioridad->nombre}}</span></td>
                             <td>
@@ -39,6 +40,11 @@
                                 @else
                                     <span class="badge badge-light">N/A</span>
                                 @endif
+                            </td>
+                            <td>
+                                @foreach ($trabajo->users as $emple)
+                                    <span class="badge badge-light">{{$emple->name}} {{$emple->apellido}}</span>
+                                @endforeach
                             </td>
                             <td width ="200px">
                                 <a href="{{route('trabajos.show', $trabajo)}}" class="btn btn-xs btn-primary">Ver mas</a>

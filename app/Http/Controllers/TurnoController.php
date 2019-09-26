@@ -41,6 +41,16 @@ class TurnoController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->empleado_id == null){
+            alert()->error('Debe seleccionar un empleado' , 'Error') ;
+            return redirect()->back() ;
+        }
+        if($request->dias == null || $request->horarios == null){
+            alert()->error('Debe asignar dias y horarios' , 'Error') ;
+            return redirect()->back() ;
+        }
+
+
         $empleado = User::find($request->empleado_id);
 
         foreach($request->horarios as $horario){
@@ -107,6 +117,14 @@ class TurnoController extends Controller
 
     public function obtenerTurnos($id){
         $empleado = User::find($id) ;
-        return $empleado->turnos ;
+        $horarios = Horario::all() ;
+
+        return ['turnos' => $empleado->turnos , 'horarios' => $horarios] ;
     }
+
+    // public function validar(){
+    //     $errors = request()->validate([
+    //         'empleado_id' => 'required' ,
+    //     ]);
+    // }
 }

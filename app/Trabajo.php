@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Trabajo extends Model
 {
@@ -17,4 +18,14 @@ class Trabajo extends Model
     public function socio(){
         return $this->belongsTo(Socio::class);
     }
+
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
+
+    public function getFecha(){
+        $date = Carbon::create($this->fecha)->format('d/m/Y') ;
+        return $date  ;
+    }
+
 }

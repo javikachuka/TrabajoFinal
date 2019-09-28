@@ -13,6 +13,7 @@
                         <strong><i class="fal fa-file-alt mr-1"></i>Datos del Comprobante </strong>
                         <br>
                         <div class="row">
+                            @if ($movimiento->tipoMovimiento->operacion == true)
                                 <div class="col-md-4">
                                     <p>
                                     Proveedor: <i class="text-muted">{{$movimiento->cabeceraMovimiento->proveedor->nombre}}</i> <br>
@@ -23,6 +24,7 @@
                                         Cuit: {{$movimiento->cabeceraMovimiento->proveedor->cuit}}
                                     </p>
                                 </div>
+                            @endif
                         </div>
                         <div class="row">
                                 <div class="col-md-4">

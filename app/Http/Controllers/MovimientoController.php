@@ -164,13 +164,13 @@ class MovimientoController extends Controller
                         }
                     }
                 }else{
-                    alert()->error('La cantidad de '.$request->cantidad[$i] .' de '. Producto::find($request->producto_id[$i])->nombre . ' excede a la existente!' , 'Error')->persistent('cerrar') ;
+                    alert()->error('La cantidad de '.$request->cantidad[$i] .' de '. Producto::find($request->producto_id[$i])->nombre . ' excede a la existente!' , 'Error')->persistent('Cerrar') ;
                     DB::rollBack();
                     return redirect()->back();
                 }
 
             }else{
-                alert()->error('No existe el producto '. Producto::find($request->producto_id[$i])->nombre . ' en el almacen de origen '. $almacenOrigen->denominacion , 'Error')->persistent('cerrar') ;
+                alert()->error('No existe el producto '. Producto::find($request->producto_id[$i])->nombre . ' en el almacen de origen '. $almacenOrigen->denominacion , 'Error')->persistent('Cerrar') ;
                 DB::rollBack();
                 return redirect()->back()->with('cancelar' , 'asdf') ;
             }

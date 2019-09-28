@@ -60,7 +60,7 @@
         </form>
                     <div class="row ">
                         <div class="col-md-1 offset-4">
-                            <button class="btn btn-secondary btn-xs" id="limpiar">Limpiar <i class="fas fa-clear "></i></button>
+                            <button class="btn btn-secondary btn-xs" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
                         </div>
                         <button class="btn btn-primary btn-xs" id="filtrar">Filtrar <i class="fas fa-filter "></i></button>
 

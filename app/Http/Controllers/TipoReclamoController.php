@@ -86,7 +86,7 @@ class TipoReclamoController extends Controller
     public function update(Request $request, $id)
     {
         $tipoRec = TipoReclamo::find($id) ;
-        $tipoRec->fill($request->only(['nombre' , 'detalle' , 'trabajo' , 'prioridad_id'])) ;
+        $tipoRec->fill($request->only(['nombre' , 'detalle' , 'trabajo' , 'prioridad_id' , 'flujoTrabajo_id'])) ;
         if($request->trabajo){
             $tipoRec->flujoTrabajo_id = $request->flujoTrabajo_id ;
         }

@@ -17,7 +17,8 @@ class CreateAsistenciasTable extends Migration
             $table->bigIncrements('id');
             $table->date('dia') ;
             $table->time('horaEntrada') ;
-            $table->time('horaSalida') ;
+            $table->string('urlFoto') ;
+            $table->time('horaSalida')->nullable() ;
             $table->boolean('presente') ;
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users') ;

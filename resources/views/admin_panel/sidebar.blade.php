@@ -122,6 +122,12 @@
 
                               <ul class="nav nav-treeview">
                                   <li class="nav-item">
+                                    <a href="{{ route('asistencias.index') }}" class="nav-link">
+                                      <i class="fal fa-tasks nav-icon"></i>
+                                      <p>Asistencias</p>
+                                    </a>
+                                  </li>
+                                  <li class="nav-item">
                                     <a href="{{ route('turnos.index') }}" class="nav-link">
                                       <i class="fal fa-tasks nav-icon"></i>
                                       <p>Turnos</p>

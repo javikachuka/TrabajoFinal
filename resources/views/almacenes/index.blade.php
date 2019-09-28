@@ -41,7 +41,7 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                             </div>
-                                            <form class="form-group " method="POST" action="/almacenes/{{$almacen->id}}">
+                                            <form class="form-group " method="POST" action="{{route('almacenes.update' , $almacen->id)}}">
                                             @method('PUT')
                                             <div class="modal-body">
                                                     <div class="form-group">

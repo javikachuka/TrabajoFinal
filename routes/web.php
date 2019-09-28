@@ -10,14 +10,22 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Auth::routes();
+
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', function(){
-    return view('auth.login') ;
-}) ;
-Route::get('/prueba', function(){
-    return view('prueba') ;
-}) ;
+// Route::get('/login', function(){
+//     return view('auth.login') ;
+// }) ;
+
+// Route::get('/home', function(){
+//     return view('principal.principal') ;
+// }) ;
 
 
 Route::get('/proveedorPDF', 'PdfController@proveedorPDF')->name('proveedor.pdf') ;
@@ -153,7 +161,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('almacenes','AlmacenController@store')->name('almacenes.store')->middleware('permission:almacenes_store')  ;
     Route::get('almacenes/{almacen}', 'AlmacenController@show')->name('almacenes.show')->middleware('permission:almacenes_show')  ;
     Route::get('almacenes/{almacen}/edit','AlmacenController@edit')->name('almacenes.edit')->middleware('permission:almacenes_edit')  ;
-    Route::put('almacenes/{almacen}' , 'AlmacenController@update')->name('almacenes.update')->middleware('permission:almacenes_update')  ;
+    Route::put('almacenes/{id}' , 'AlmacenController@update')->name('almacenes.update')->middleware('permission:almacenes_update')  ;
     Route::delete('almacenes/{id}' , 'AlmacenController@destroy')->name('almacenes.destroy')->middleware('permission:almacenes_destroy') ;
 
 
@@ -169,6 +177,8 @@ Route::middleware(['auth'])->group(function(){
 
     //asistencias
     Route::get('asistencias','AsistenciaController@index')->name('asistencias.index')  ;
+    Route::post('asistencias','AsistenciaController@entrada')->name('asistencias.entrada')  ;
+    // Route::post('asistencias/entrada','AsistenciaController@entrada')->name('asistencias.entrada')  ;
 
 
     //horarios

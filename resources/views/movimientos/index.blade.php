@@ -100,7 +100,7 @@
                                 <td><span class="badge badge-info">{{$movimiento->almacenDestino->denominacion}}</span></td>
                                 <td width ="150px" class="text-center">
                                     <a href="{{route('movimientos.show' , $movimiento)}}" class="btn btn-xs btn-primary">Ver mas</a>
-                                    @can('movimientos_edit')
+                                    {{-- @can('movimientos_edit')
                                         <a href=""  class="btn btn-secondary btn-xs " data-toggle="modal" data-target="#editar{{$movimiento->id}}" >Editar</a>
 
                                     <!-- Modal Edit -->
@@ -131,7 +131,7 @@
                                             </div>
                                             </div>
                                         </div>
-                                    @endcan
+                                    @endcan --}}
                                     <form method="POST" action="movimientos/{{$movimiento->id}}" onsubmit="return confirm('Desea borrar a {{$movimiento->id}}')" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')

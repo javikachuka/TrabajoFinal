@@ -208,6 +208,14 @@ Route::middleware(['auth'])->group(function(){
     Route::delete('rubros/{rubro}' , 'RubroController@destroy')->name('rubros.destroy') ;
 
 
+    //requisitos
+    Route::get('requisitos','RequisitoController@index')->name('requisitos.index') ;
+    Route::post('requisitos','RequisitoController@store')->name('requisitos.store') ;
+    Route::put('requisitos/{requisito}','RequisitoController@update')->name('requisitos.update') ;
+    Route::delete('requisitos/{requisito}','RequisitoController@destroy')->name('requisitos.destroy') ;
+
+
+
 
 }) ;
 

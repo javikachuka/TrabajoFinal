@@ -21,19 +21,24 @@
                                     <input type="text" id="dni" name="dni" required value="{{ old('dni') ?? $user->dni }}"   class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Fecha de Ingreso <input type="date" name="fecha_ingreso" required value="{{ old('fecha_ingreso') ?? $user->fecha_ingreso }}"  id=""></label>
+                                    <label for="">Fecha de Ingreso <input type="date" name="fecha_ingreso" class="form-control" required value="{{ old('fecha_ingreso') ?? $user->fecha_ingreso }}"  id=""></label>
                                 </div>
-                                        <div class="form-group">
-                                            <label>Telefono</label>
-                                            <input type="text" name="telefono" required value="{{ old('telefono') ?? $user->telefono }}"  class="form-control">
-                                        </div>
 
-                                        <div class="form-group">
-                                                <label>Email</label>
-                                                <input type="text" name="email" required  value="{{ old('email') ?? $user->email }}"  class="form-control">
-                                            </div>
+                                <div class="form-group">
+                                        <label for="fotoUser">Foto del Empleado</label>
+                                        <input type="file" class="form-control-file" name="urlFoto" value="{{ old('urlFoto') ?? $user->urlFoto }}" id="fotoUser">
+                                </div>
+                                <div class="form-group">
+                                        <label>Telefono</label>
+                                        <input type="text" name="telefono" required value="{{ old('telefono') ?? $user->telefono }}"  class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="text" name="email" required  value="{{ old('email') ?? $user->email }}"  class="form-control">
+                                </div>
                                 <div class="form-group {{ $errors->has('roles') ? 'has-error' : '' }}">
-                                        <label for="roles">Roles*</label>
+                                        <label for="roles">Roles</label>
                                         <select name="roles[]" id="roles" class="roles-js form-control" multiple="multiple" required>
                                             @foreach($roles as $id => $roles)
                                                 <option value="{{ $id }}" {{ (in_array($id, old('roles', [])) || isset($user) && $user->roles->contains($id)) ? 'selected' : '' }}>{{ $roles }}</option>

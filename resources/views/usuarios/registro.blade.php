@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Registro de Empleados</h1>
-    <form class="form-group " method="POST" action="/users" >
+    <form class="form-group " method="POST" action="{{route('users.store')}}" >
         @include('usuarios.form')
         <div class="text-right">
                 <input type="reset" value="Limpiar" class="btn btn-secondary">

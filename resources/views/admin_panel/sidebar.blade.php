@@ -2,7 +2,7 @@
 <aside class="main-sidebar elevation-4 sidebar-dark-primary">
         <!-- Brand Logo -->
         <a href="/home" class="brand-link">
-          {{-- <img src="" alt="Coop Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> --}}
+          <img src="{{ asset('img/logo.png')}}" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
           <span class="brand-text font-weight-bold align-content-center">ReCoop</span>
         </a>
 
@@ -11,7 +11,13 @@
           <!-- Sidebar user panel (optional) -->
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-              <img src="{{asset('admin_panel/dist/img/avatar5.png')}}" class="img-circle elevation-2" alt="User Image">
+                @if (auth()->user()->urlFoto != null)
+
+                    <img src="{{ asset('img/perfiles/'.auth()->user()->urlFoto) }}" class="img-circle elevation-2" alt="User Image">
+                @else
+                    <img src="{{ asset('img/perfiles/usuario-sin-foto.png')}}" class="img-circle elevation-2" alt="User Image">
+
+                @endif
             </div>
             <div class="info">
             <a href="{{ route('users.show' , auth()->user()->id) }}" class="d-block">{{ auth()->user()->name }}</a>
@@ -45,6 +51,12 @@
                               <a href="{{ route('tipoReclamos.index') }}" class="nav-link">
                                 <i class="fal fa-list nav-icon"></i>
                                 <p>Tipos de Reclamos</p>
+                              </a>
+                        </li>
+                        <li class="nav-item">
+                              <a href="{{ route('requisitos.index') }}" class="nav-link">
+                                <i class="fal fa-list nav-icon"></i>
+                                <p>Requisitos</p>
                               </a>
                         </li>
                        </ul>

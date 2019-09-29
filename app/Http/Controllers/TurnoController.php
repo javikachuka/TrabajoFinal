@@ -52,14 +52,18 @@ class TurnoController extends Controller
 
 
         $empleado = User::find($request->empleado_id);
-
         foreach($request->horarios as $horario){
+            $horarioDisp = Horario::find($horario) ;
             foreach($request->dias as $dia){
-                $turno = new Turno() ;
-                $turno->dia = $dia ;
-                $turno->horario_id = $horario ;
-                $turno->save() ;
-                $turno->users()->sync($empleado) ;
+                if($horarioDisp->existeTurno($dia)){
+                    $horarioDisp->getTurno($dia)->users()->attach($empleado->id) ;
+                }else{
+                    $turno = new Turno() ;
+                    $turno->dia = $dia ;
+                    $turno->horario_id = $horario ;
+                    $turno->save() ;
+                    $turno->users()->sync($empleado) ;
+                }
             }
         }
         return redirect()->back()->with('confirmar' , 'ok') ;
@@ -110,8 +114,8 @@ class TurnoController extends Controller
     {
         $empleado = User::find($idemple) ;
         $empleado->turnos()->detach($idturno) ;
-        $turno = Turno::find($idturno) ;
-        $turno->delete() ;
+        // $turno = Turno::find($idturno) ;
+        // $turno->delete() ;
         return redirect()->back()->with('confirmar' , 'ok') ;
     }
 

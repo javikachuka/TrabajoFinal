@@ -47,7 +47,6 @@ class UserController extends Controller
      */
     public function store(Request $request, User $user)
     {
-
         $direccion = new Direccion();
         $direccion->zona_id = $request->zona_id ;
         $direccion->calle = $request->calle ;
@@ -61,6 +60,12 @@ class UserController extends Controller
         $user->fecha_ingreso = $request->fecha_ingreso;
         $user->direccion_id = $direccion->id ;
         $user->email = $request->email ;
+        if($request->urlFoto != null){
+            $file = $request->file('urlFoto') ;
+            $name = time().$user->name.$user->apellido.'.png';
+            $file->move(public_path('/img/perfiles/') , $name) ;
+            $user->urlFoto = $name ;
+        }
         $user->password = Hash::make('123456789');
         $user->save() ;
 
@@ -107,10 +112,18 @@ class UserController extends Controller
     {
         $user = User::find($id) ;
         $user->fill($request->only(['name' , 'apellido' , 'dni' , 'fecha_ingreso' , 'telefono' , 'email'])) ;
+
+        if($request->urlFoto != null){
+            $file = $request->file('urlFoto') ;
+            $name = time().$user->name.$user->apellido.'.png';
+            $file->move(public_path('/img/perfiles/') , $name) ;
+            $user->urlFoto = $name ;
+        }
+
         $direccion = $user->direccion ;
         $direccion->fill($request->only(['zona_id' , 'calle' , 'altura'])) ;
         $direccion->save() ;
-        $user->save() ;
+        $user->update() ;
         $user->roles()->sync($request->input('roles',[])) ;
         return redirect('/users');
     }

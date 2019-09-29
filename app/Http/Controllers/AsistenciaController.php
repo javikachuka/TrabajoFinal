@@ -96,7 +96,7 @@ class AsistenciaController extends Controller
         $this->validar();
         $encoded_data = $_POST['fotoEntrada'];
         $binary_data = base64_decode( $encoded_data );
-        $name = auth()->user()->name.auth()->user()->apellido.time().".png";
+        $name = time().auth()->user()->name.auth()->user()->apellido.".png";
         $result = file_put_contents( public_path('/img/asistencias/').$name, $binary_data );
         if (!$result) {
             alert()->error('No se pudo almacenar la foto' , 'Error') ;

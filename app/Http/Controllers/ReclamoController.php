@@ -60,19 +60,24 @@ class ReclamoController extends Controller
             $reclamo->user_id = auth()->user()->id ;
             $reclamo->save() ;
             if($reclamo->tipoReclamo->trabajo == true){ // hay un atributo que es boolean (trabajo) y me dice si el reclamo conlleva o no un trabajo
+
+                //generacion de un nuevo trabajo correspondiente al reclamo
                 $trabajo = new Trabajo() ;
                 $trabajo->fecha = $reclamo->fecha ;
-
                 $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoInicial() ;
-
                 $trabajo->save() ;
+
+                //asociacion de trabajo con reclamo
                 $reclamo->trabajo_id = $trabajo->id ;
                 $reclamo->update() ;
+
+                //historial de estados del reclamo
                 $historial = new HistorialEstado();
                 $historial->reclamo_id = $reclamo->id ;
                 $historial->estado_id = $trabajo->estado_id ;
                 $historial->save() ;
 
+                //corresponde a si el reclamo presento o no requisitos
                 if($request->requisitos != null){
                     for($i = 0 ;  $i < sizeof($request->requisitos) ; $i++){
                         $control = new Control() ;
@@ -90,23 +95,30 @@ class ReclamoController extends Controller
                     // }
                 }
 
-                $diaSemana = Carbon::create($request->fecha)->dayOfWeek ;
-                //$turnosDisponibles = DB::table('turnos')->where('dia', 3)->get() ;
+                //asignacion de un trabajo a un empleado
+                if($reclamo->tipoReclamo->prioridad->nivel >0 && $reclamo->tipoReclamo->prioridad->nivel <=3){
 
-                $turnos = Turno::all() ;
+                    $diaSemana = Carbon::create($request->fecha)->dayOfWeek ;
+                    $turnos = Turno::all() ;
+                    $turnito = null ;
 
-                $valido = null ;
-                foreach ($turnos as $id => $t){
-                    if($t->dia == $diaSemana ){
-                        $valido = $t ;
+                    if(count($turnos) > 0){
+                        foreach ($turnos as $t){
+                            if($t->dia == $diaSemana ){
+                                $turnito = $t ;
+                            }
+                        }
+
+                        if($turnito->users != null){
+                            $trabajo->users()->sync($turnito->users[0]->id) ;
+                        }
                     }
+
                 }
 
-                $trabajo->users()->sync($valido->users[0]->id) ;
-
             }
-           // DB::commit();
-            return redirect('/reclamos')->with('confirmar' , 'bien') ;
+            // DB::commit();
+            return redirect()->route('reclamos.index')->with('confirmar', 'asd') ; ;
 
         // }catch(Exception $e){
         //     DB::rollback();
@@ -176,7 +188,9 @@ class ReclamoController extends Controller
         $reclamo = Reclamo::find($id) ;
         try{
             if($reclamo != null){
+                $t = $reclamo->trabajo ;
                 $reclamo->delete() ;
+                $t->delete();
                 return redirect()->back()->with('borrado' , 'ok') ;
             }
         }catch(Exception $e){

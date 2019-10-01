@@ -13,6 +13,7 @@ use App\Trabajo;
 use App\Turno;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class ReclamoController extends Controller
@@ -83,6 +84,8 @@ class ReclamoController extends Controller
                         $control = new Control() ;
                         $control->reclamo_id = $reclamo->id ;
                         $control->requisito_id = $request->requisitos[$i] ;
+                        $control->recibido = true ;
+                        $control->fecha = Carbon::now() ;
                         $control->save() ;
                     }
                     // if(sizeof($request->requisitos) != sizeof($reclamo->tipoReclamo->requisitos)){
@@ -96,25 +99,28 @@ class ReclamoController extends Controller
                 }
 
                 //asignacion de un trabajo a un empleado
-                if($reclamo->tipoReclamo->prioridad->nivel >0 && $reclamo->tipoReclamo->prioridad->nivel <=3){
+                // if($reclamo->tipoReclamo->prioridad->nivel >0 && $reclamo->tipoReclamo->prioridad->nivel <=3){
 
-                    $diaSemana = Carbon::create($request->fecha)->dayOfWeek ;
-                    $turnos = Turno::all() ;
-                    $turnito = null ;
+                //     $diaSemana = Carbon::create($request->fecha)->dayOfWeek ;
+                //     $turnos = Turno::all() ;
+                //     $turnito = null ;
 
-                    if(count($turnos) > 0){
-                        foreach ($turnos as $t){
-                            if($t->dia == $diaSemana ){
-                                $turnito = $t ;
-                            }
-                        }
+                //     if(count($turnos) > 0){
+                //         foreach ($turnos as $t){
+                //             if($t->dia == $diaSemana ){
+                //                 $turnito = $t ;
+                //             }
+                //         }
 
-                        if($turnito->users != null){
-                            $trabajo->users()->sync($turnito->users[0]->id) ;
-                        }
-                    }
+                //         if($turnito->users != null){
+                //             foreach($turnito->users as $emple){
+                //                 if($emple)
+                //             }
+                //             $trabajo->users()->sync($turnito->users[0]->id) ;
+                //         }
+                //     }
 
-                }
+                // }
 
             }
             // DB::commit();
@@ -170,6 +176,8 @@ class ReclamoController extends Controller
                     $control = new Control() ;
                     $control->reclamo_id = $reclamo->id ;
                     $control->requisito_id = $request->requisitos[$i] ;
+                    $control->recibido = true ;
+                    $control->fecha = Carbon::now() ;
                     $control->save() ;
                 }
             }
@@ -190,7 +198,10 @@ class ReclamoController extends Controller
             if($reclamo != null){
                 $t = $reclamo->trabajo ;
                 $reclamo->delete() ;
-                $t->delete();
+                if($t != null){
+
+                    $t->delete();
+                }
                 return redirect()->back()->with('borrado' , 'ok') ;
             }
         }catch(Exception $e){

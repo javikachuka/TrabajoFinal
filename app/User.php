@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -70,5 +71,19 @@ class User extends Authenticatable
 
     public function trabajos(){
         return $this->belongsToMany(Trabajo::class);
+    }
+
+    public function deTurno(){
+        $hoy = Carbon::now() ;
+        $hoy->setTime(0,0,0);
+        $asistencias = $this->asistencias;
+        foreach($asistencias as $asistencia){
+            $otro = Carbon::createFromFormat('Y-m-d',$asistencia->dia) ;
+            $otro->setTime(0,0,0) ;
+            if($otro->equalTo($hoy)){
+                return true ;
+            }
+        }
+        return false ;
     }
 }

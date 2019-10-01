@@ -46,9 +46,9 @@
                     </thead>
 
                 <tbody>
+                    @if(auth()->user()->asistencias != null)
+                        @foreach (auth()->user()->asistencias as $asistencia)
                     <tr>
-                        @if(auth()->user()->asistencias != null)
-                            @foreach (auth()->user()->asistencias as $asistencia)
                                 <td>{{$asistencia->getDia()}}</td>
                                 <td>{{$asistencia->horaEntrada}}</td>
                                 <td>
@@ -58,11 +58,12 @@
                                         Aun no presenta salida.
                                     @endif
                                 </td>
-                            @endforeach
-                        @else
 
-                        @endif
-                    </tr>
+                            </tr>
+                        @endforeach
+                    @else
+
+                    @endif
                 </tbody>
             </table>
         </div>

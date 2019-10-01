@@ -20,6 +20,8 @@ class PdfController extends Controller
         $datos = date('d/m/Y');
         $cant = sizeof($proveedores) ;
         $pdf=PDF::loadView('pdf.proveedor',['proveedores'=>$proveedores, 'datos'=> $datos , 'cant' => $cant]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
         return $pdf->stream('proveedor.pdf');
 
     }
@@ -118,6 +120,8 @@ class PdfController extends Controller
         $cant = sizeof($aux) ;
         $datos = date('d/m/Y');
         $pdf=PDF::loadView('pdf.movimientos',['movimientos'=>$aux, 'datos'=> $datos, 'cant' => $cant , 'filtro' => $filtro]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
         return $pdf->stream('movimientos.pdf');
     }
 }

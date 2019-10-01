@@ -105,7 +105,7 @@ class ProductoController extends Controller
             return redirect()->back()->with('borrado' , 'guardado') ;
         }catch(Exception $e){
             alert()->error('No es posible eliminar' , 'Error!') ;
-            return redirect('/proveedores') ;
+            return redirect('/productos') ;
         }
 
 

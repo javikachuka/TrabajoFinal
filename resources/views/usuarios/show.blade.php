@@ -10,7 +10,13 @@
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <img src="{{asset('admin_panel/dist/img/avatar5.png')}}" alt="">
+                            @if (auth()->user()->urlFoto != null)
+
+                                <img src="{{ asset('img/perfiles/'.auth()->user()->urlFoto) }}" class="img-circle elevation-2" alt="User Image">
+                            @else
+                                <img src="{{ asset('img/perfiles/usuario-sin-foto.png')}}" class="img-circle elevation-2" alt="User Image">
+
+                            @endif
                             <h3 class="profile-username text-center" >{{$user->name . ' ' . $user->apellido}}</h3>
                         </div>
                     </div>

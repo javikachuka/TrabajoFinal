@@ -156,7 +156,7 @@
 <script>
         $(function () {
           $('#movimientos').DataTable({
-            "order": [[ 0, "desc" ]]
+            "order": [[ 0, "desc" ]] ,
           });
         });
 </script>

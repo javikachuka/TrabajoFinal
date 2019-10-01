@@ -25,7 +25,7 @@
                             <td>{{$rubro->id}}</td>
                             <td>{{$rubro->nombre}}</td>
                             <td width ="150px">
-                                <a href="{{route('rubros.show', $rubro)}}" class="btn btn-xs btn-primary">Ver mas</a>
+                                {{-- <a href="{{route('rubros.show', $rubro)}}" class="btn btn-xs btn-primary">Ver mas</a> --}}
                                 @can('rubros_edit')
                                     <a href=""  class="btn btn-secondary btn-xs " data-toggle="modal" data-target="#editar{{$rubro->id}}" >Editar</a>
 

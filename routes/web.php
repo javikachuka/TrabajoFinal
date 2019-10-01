@@ -149,7 +149,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('trabajos','TrabajoController@store')->name('trabajos.store')->middleware('permission:trabajos_store')  ;
     Route::get('trabajos/{trabajo}', 'TrabajoController@show')->name('trabajos.show')->middleware('permission:trabajos_show')  ;
     Route::get('trabajos/{trabajo}/edit','TrabajoController@edit')->name('trabajos.edit')->middleware('permission:trabajos_edit')  ;
-    Route::put('trabajos/{id}' , 'TrabajoController@update')->name('trabajos.update')->middleware('permission:trabajos_update')  ;
+    Route::put('trabajos/{trabajo}' , 'TrabajoController@update')->name('trabajos.update')->middleware('permission:trabajos_update')  ;
     Route::delete('trabajos/{trabajo}' , 'TrabajoController@destroy')->name('trabajos.destroy')->middleware('permission:trabajos_destroy') ;
     Route::get('/trabajos/inicio/{trabajo}',  'TrabajoController@inicio')->name('trabajos.inicio') ;
     Route::get('trabajos/iniciarTrabajo/{trabajo}' , 'TrabajoController@iniciarTrabajo')->name('trabajos.iniciarTrabajo') ;

@@ -20,6 +20,32 @@ class FlujoTrabajo extends Model
         return $this->transiciones[0]->estadoInicial->id ;
     }
 
+    public function getEstados(){
+        $estados = collect() ;
+
+        foreach ($this->transiciones as $transicion){
+            $estado = $transicion->estadoInicial ;
+            if(!$estados->contains($estado)){
+                $estados->push($estado) ;
+            }
+            $estado = $transicion->estadoFinal ;
+            if(!$estados->contains($estado)){
+                $estados->push($estado) ;
+            }
+        }
+
+        return $estados ;
+    }
+
+    public function siguienteEstado(Estado $estado){
+        $transiciones = $this->transiciones;
+        foreach ($transiciones as  $transicion) {
+            if($transicion->estadoInicial == $estado){
+                return $transicion->estadoFinal;
+            }
+        }
+    }
+
     // public function siguienteEstado(Reclamo $reclamo){
     //     $this->transiciones($reclamo);
     // }

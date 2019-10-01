@@ -159,6 +159,9 @@
 		margin-top: -1.4cm;
 	    } */
 
+        /* body.header{
+            position: fixed;
+        } */
 
         .page-number:before {
              content: "Pag. " counter(page);
@@ -166,7 +169,7 @@
 
     </style>
     <body>
-        <header>
+        <header style="position:fixed;">
 
         <div id="logo">
                 <a ><img id="imagen" class="float-left rounded " src="{{public_path('img/logoCoop.jpg')}}"> </a>
@@ -196,9 +199,9 @@
             <p><strong>Total de registros: </strong> @yield('cantidad')</p>
         </div>
 
-        <footer>
+        {{-- <footer>
             <div class="page-number"></div>
-        </footer>
+        </footer> --}}
 
     </body>
 </html>

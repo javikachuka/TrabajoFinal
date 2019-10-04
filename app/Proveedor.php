@@ -11,7 +11,7 @@ class Proveedor extends Model
 
     protected $table = "proveedores" ;
 
-    protected $guarded = [] ;
+    protected $fillable  = ['nombre', 'cuit' , 'email' , 'telefono'] ;
 
     public function cabecerasMovimiento()
     {

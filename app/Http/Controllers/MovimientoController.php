@@ -109,6 +109,9 @@ class MovimientoController extends Controller
 
                 }
             }
+            //asociar productos a proveedores
+            $proveedor = Proveedor::find($request->proveedor_id) ;
+            $proveedor->productos()->attach($request->input('producto_id' , [])) ;
             DB::commit();
             return redirect('/movimientos')->with('confirmar', 'asdf') ;
         }catch(Exception $e){

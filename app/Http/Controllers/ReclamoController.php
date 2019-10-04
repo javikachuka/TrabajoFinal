@@ -196,13 +196,18 @@ class ReclamoController extends Controller
         $reclamo = Reclamo::find($id) ;
         try{
             if($reclamo != null){
-                $t = $reclamo->trabajo ;
-                $reclamo->delete() ;
-                if($t != null){
+                if(sizeof($reclamo->historial)<=1){
+                    $t = $reclamo->trabajo ;
+                    $reclamo->delete() ;
+                    if($t != null){
 
-                    $t->delete();
+                        $t->delete();
+                    }
+                    return redirect()->back()->with('borrado' , 'ok') ;
+                }else{
+                    alert()->error('No es posible eliminar el reclamo debido a que esta siendo tratado' , 'Error!')->persistent('OK') ;
+                    return redirect()->back() ;
                 }
-                return redirect()->back()->with('borrado' , 'ok') ;
             }
         }catch(Exception $e){
             alert()->error('No es posible eliminar' , 'Error!') ;

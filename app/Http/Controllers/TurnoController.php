@@ -66,7 +66,7 @@ class TurnoController extends Controller
                 }
             }
         }
-        return redirect()->back()->with('confirmar' , 'ok') ;
+        return redirect()->back()->withInput()->with('confirmar' , 'ok') ;
 
     }
 
@@ -116,7 +116,7 @@ class TurnoController extends Controller
         $empleado->turnos()->detach($idturno) ;
         // $turno = Turno::find($idturno) ;
         // $turno->delete() ;
-        return redirect()->back()->with('confirmar' , 'ok') ;
+        return redirect()->back()->withInput()->with('confirmar' , 'ok') ;
     }
 
     public function obtenerTurnos($id){

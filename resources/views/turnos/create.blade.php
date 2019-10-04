@@ -15,7 +15,7 @@
                         <select class="seleccion form-control" name="empleado_id" id="empleado">
                             <option value="" disabled selected>--Seleccione--</option>
                             @foreach($empleados as $emple)
-                                <option value="{{$emple->id}}" >{{$emple->apellido . ' ' . $emple->name}}</option>
+                                <option value="{{$emple->id}}" {{old('empleado_id') == $emple->id ? 'selected' : ''}} >{{$emple->apellido . ' ' . $emple->name}}</option>
                             @endforeach
                         </select>
                         <div class="text-danger">{{$errors->first('empleado_id')}} </div>
@@ -141,9 +141,8 @@
 
 <script>
     $(document).ready(function(){
-
-        $('#empleado').change(function(){
-            var emple_id = $(this).val();
+        var emple_id = $('#empleado').val();
+        if(emple_id != null){
             $('#turnos tbody').children().remove();
             // alert(tip_rec_id) ;
             //AJAX
@@ -178,21 +177,96 @@
                             day = "Domingo";
                     }
 
-                        var fila =  '<tr>'+
-                                    '<td>'+day+'</td>' +
-                                    '<td>'+data['horarios'][0].horaEntrada+' - '+data['horarios'][0].horaSalida+'</td>'+
-                                    '<td>'+
-                                    '<form method="POST" action="/turnos/'+data['turnos'][i].id+'/'+emple_id+'" onsubmit="return confirm()" style="display: inline-block;">'+
-                                       '@csrf'+
-                                       ' @method('DELETE')'+
-                                       ' @can('turnos_destroy')'+
-                                            '<input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">'+
-                                       ' @endcan'+
-                                    '</form>'+
-                                    '</td>'+
-                                '</tr>' ;
+                        for (var j = 0; j < data['horarios'].length; j++) {
 
-                        $('#turnos tbody').append(fila);
+                            if(data['turnos'][i].horario_id == data['horarios'][j].id){
+                                var fila =  '<tr>'+
+
+                                            '<td>'+day+'</td>' +
+                                            '<td>'+data['horarios'][j].horaEntrada+' - '+data['horarios'][j].horaSalida+'</td>'+
+                                            '<td>'+
+                                            '<form method="POST" action="/turnos/'+data['turnos'][i].id+'/'+emple_id+'" onsubmit="return confirm()" style="display: inline-block;">'+
+                                            '@csrf'+
+                                            ' @method('DELETE')'+
+                                            ' @can('turnos_destroy')'+
+                                                    '<input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">'+
+                                            ' @endcan'+
+                                            '</form>'+
+                                            '</td>'+
+                                        '</tr>' ;
+
+                                $('#turnos tbody').append(fila);
+
+                            }
+
+                        }
+
+                }
+
+            } else {
+
+            }
+        });
+        }
+
+
+        $('#empleado').change(function(){
+            var emple_id = $('#empleado').val();
+            $('#turnos tbody').children().remove();
+            // alert(tip_rec_id) ;
+            //AJAX
+            // console.log(emple_id);
+
+            $.get('/api/turnos/asignacion/'+emple_id+'', function(data){
+                // $('#lista').html(html_select) ;
+
+                if(data['turnos'].length>0){
+
+                    for(var i = 0 ; i<data['turnos'].length ; i++){
+                        switch (data['turnos'][i].dia) {
+                        case 1:
+                            day = "Lunes";
+                            break;
+                        case 2:
+                            day = "Martes";
+                            break;
+                        case 3:
+                            day = "Miercoles";
+                            break;
+                        case 4:
+                            day = "Jueves";
+                            break;
+                        case 5:
+                            day = "Viernes";
+                            break;
+                        case 6:
+                            day = "Sabado";
+                            break;
+                        case 0:
+                            day = "Domingo";
+                    }
+
+                    for (var j = 0; j < data['horarios'].length; j++) {
+
+                        if(data['turnos'][i].horario_id == data['horarios'][j].id){
+
+                            var fila =  '<tr>'+
+                                        '<td>'+day+'</td>' +
+                                        '<td>'+data['horarios'][j].horaEntrada+' - '+data['horarios'][j].horaSalida+'</td>'+
+                                        '<td>'+
+                                        '<form method="POST" action="/turnos/'+data['turnos'][i].id+'/'+emple_id+'" onsubmit="return confirm()" style="display: inline-block;">'+
+                                        '@csrf'+
+                                        ' @method('DELETE')'+
+                                        ' @can('turnos_destroy')'+
+                                                '<input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">'+
+                                        ' @endcan'+
+                                        '</form>'+
+                                        '</td>'+
+                                    '</tr>' ;
+
+                            $('#turnos tbody').append(fila);
+                        }
+                    }
                 }
 
             } else {

@@ -72,7 +72,7 @@ class UserController extends Controller
         // $user = User::create($request->all()) ;
         $user->roles()->sync($request->input('roles',[])) ;
 
-        return redirect('/users') ;
+        return redirect()->route('users.index')->with('confirmar' , 'ok') ;
     }
 
     /**
@@ -125,7 +125,7 @@ class UserController extends Controller
         $direccion->save() ;
         $user->update() ;
         $user->roles()->sync($request->input('roles',[])) ;
-        return redirect('/users');
+        return redirect()->route('users.index')->with('confirmar' , 'ok') ;
     }
 
     /**

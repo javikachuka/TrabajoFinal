@@ -79,6 +79,8 @@ class MovimientoController extends Controller
             $cabeceraMov->fill($request->only(['fecha' , 'fechaComprobante','proveedor_id','numeroComprobante', 'tipoComprobante_id'])) ;
             $cabeceraMov->save();
             for($i = 0 ; $i < sizeof($request->cantidad); $i++){
+                $request->precio = str_replace(".", "", $request->precio) ;
+                $request->precio = str_replace(",", ".", $request->precio) ;
                 $movimiento = new Movimiento() ;
                 $movimiento->cabecera_movimiento_id = $cabeceraMov->id ;
                 $movimiento->cantidad = $request->cantidad[$i] ;
@@ -111,7 +113,7 @@ class MovimientoController extends Controller
             return redirect('/movimientos')->with('confirmar', 'asdf') ;
         }catch(Exception $e){
             DB::rollback();
-            alert()->error($e->getMessage());
+            alert()->error($e->getMessage())->persistent('ok');
             return redirect()->back() ;
         }
 
@@ -172,7 +174,7 @@ class MovimientoController extends Controller
             }else{
                 alert()->error('No existe el producto '. Producto::find($request->producto_id[$i])->nombre . ' en el almacen de origen '. $almacenOrigen->denominacion , 'Error')->persistent('Cerrar') ;
                 DB::rollBack();
-                return redirect()->back()->with('cancelar' , 'asdf') ;
+                return redirect()->back() ;
             }
         }
         DB::commit() ;

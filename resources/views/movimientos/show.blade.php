@@ -10,8 +10,10 @@
                         <div class="text-center">
                             <h3 class="profile-username text-center">Informacion de Movimiento Nº {{$movimiento->id}} </h3>
                         </div>
-                        <strong><i class="fal fa-file-alt mr-1"></i>Datos del Comprobante </strong>
-                        <br>
+                        @if($movimiento->tipoMovimiento->operacion != false)
+                            <strong><i class="fal fa-file-alt mr-1"></i>Datos del Comprobante </strong>
+                            <br>
+                        @endif
                         <div class="row">
                             @if ($movimiento->tipoMovimiento->operacion == true)
                                 <div class="col-md-4">
@@ -27,6 +29,7 @@
                             @endif
                         </div>
                         <div class="row">
+                            @if($movimiento->tipoMovimiento->operacion != false)
                                 <div class="col-md-4">
                                     <p>Tipo de Comprobante: {{$movimiento->cabeceraMovimiento->tipoComprobante->nombre}}</p>
                                 </div>
@@ -37,6 +40,7 @@
                                 <div class="col-md-4">
                                     <p>Fecha del Comprobante: {{$movimiento->cabeceraMovimiento->getFechaComprobante()}} </p>
                                 </div>
+                            @endif
                         </div>
                         <hr>
                         <strong><i class="fal fa-file-alt mr-1"></i>Datos del Movimiento:  </strong>
@@ -68,7 +72,7 @@
                                         Almacen Destino: {{$movimiento->almacenDestino->denominacion}}
                                     </p>
                                 </div>
-                            @else
+                            @elseif($movimiento->tipoMovimiento->operacion != false)
                                 <div class="col-md-4">
                                     <p>
                                         Desde el almacen: {{$movimiento->almacenOrigen->denominacion}} <br>
@@ -78,6 +82,18 @@
                                 <div class="col-md-4">
                                     <p>
                                         Cantidad Transferida: {{$movimiento->cantidad}} {{$movimiento->producto->medida->nombre}} <br>
+                                    </p>
+                                </div>
+
+                            @else
+                                <div class="col-md-4">
+                                    <p>
+                                        Cantidad Utilizada: {{$movimiento->cantidad}} {{$movimiento->producto->medida->nombre}}
+                                    </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p>
+                                        Almacen Origen: {{$movimiento->almacenOrigen->denominacion}}
                                     </p>
                                 </div>
                             @endif

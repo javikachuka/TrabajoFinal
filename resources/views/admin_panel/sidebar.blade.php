@@ -55,7 +55,7 @@
                         </li>
                         <li class="nav-item">
                               <a href="{{ route('requisitos.index') }}" class="nav-link">
-                                <i class="fal fa-list nav-icon"></i>
+                                <i class="fal fa-file-alt nav-icon"></i>
                                 <p>Requisitos</p>
                               </a>
                         </li>
@@ -135,7 +135,7 @@
                               <ul class="nav nav-treeview">
                                   <li class="nav-item">
                                     <a href="{{ route('asistencias.index') }}" class="nav-link">
-                                      <i class="fal fa-tasks nav-icon"></i>
+                                      <i class="fal fa-user-check nav-icon"></i>
                                       <p>Asistencias</p>
                                     </a>
                                   </li>

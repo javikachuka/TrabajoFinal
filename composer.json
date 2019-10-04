@@ -14,6 +14,7 @@
         "caffeinated/shinobi": "^4.3",
         "fideloper/proxy": "^4.0",
         "igorescobar/jquery-mask-plugin": "^1.14",
+        "intervention/image": "^2.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "laraveles/spanish": "^1.3",

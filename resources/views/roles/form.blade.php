@@ -67,9 +67,8 @@
 
     $(document).ready(function() {
         $('.permisos-js').select2();
-        theme: "classic"
     });
 
 </script>
 @endpush
-    @csrf
+

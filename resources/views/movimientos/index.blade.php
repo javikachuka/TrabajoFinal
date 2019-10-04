@@ -92,12 +92,18 @@
                                 <td>{{$movimiento->cantidad}}</td>
                                 <td>
                                     @if ($movimiento->almacenOrigen == null)
-                                    <span class="badge badge-warning">N/A</span>
+                                        <span class="badge badge-warning">N/A</span>
                                     @else
-                                    <span class="badge badge-info">{{$movimiento->almacenOrigen->denominacion}}</span>
+                                        <span class="badge badge-info">{{$movimiento->almacenOrigen->denominacion}}</span>
                                     @endif
                                 </td>
-                                <td><span class="badge badge-info">{{$movimiento->almacenDestino->denominacion}}</span></td>
+                                <td>
+                                    @if ($movimiento->almacenDestino == null)
+                                        <span class="badge badge-warning">N/A</span>
+                                    @else
+                                        <span class="badge badge-info">{{$movimiento->almacenDestino->denominacion}}</span>
+                                    @endif
+                                </td>
                                 <td width ="150px" class="text-center">
                                     <a href="{{route('movimientos.show' , $movimiento)}}" class="btn btn-xs btn-primary">Ver mas</a>
                                     {{-- @can('movimientos_edit')
@@ -157,6 +163,26 @@
         $(function () {
           $('#movimientos').DataTable({
             "order": [[ 0, "desc" ]] ,
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
           });
         });
 </script>

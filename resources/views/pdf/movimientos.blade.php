@@ -68,7 +68,13 @@
                     @endif
 
                 </td>
-                <td>{{$mov->almacenDestino->denominacion}}</td>
+                <td>
+                    @if($mov->almacenDestino != null)
+                        {{$mov->almacenDestino->denominacion}}
+                    @else
+                        N/A
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>

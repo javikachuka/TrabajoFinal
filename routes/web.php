@@ -151,8 +151,11 @@ Route::middleware(['auth'])->group(function(){
     Route::get('trabajos/{trabajo}/edit','TrabajoController@edit')->name('trabajos.edit')->middleware('permission:trabajos_edit')  ;
     Route::put('trabajos/{trabajo}' , 'TrabajoController@update')->name('trabajos.update')->middleware('permission:trabajos_update')  ;
     Route::delete('trabajos/{trabajo}' , 'TrabajoController@destroy')->name('trabajos.destroy')->middleware('permission:trabajos_destroy') ;
-    Route::get('/trabajos/inicio/{trabajo}',  'TrabajoController@inicio')->name('trabajos.inicio') ;
     Route::get('trabajos/iniciarTrabajo/{trabajo}' , 'TrabajoController@iniciarTrabajo')->name('trabajos.iniciarTrabajo') ;
+    // Route::get('/trabajos/inicio/{trabajo}',  'TrabajoController@iniciarTrabajo')->name('trabajos.inicair') ;
+    Route::get('trabajos/finalizarTrabajo/{trabajo}' , 'TrabajoController@finalizarTrabajo')->name('trabajos.finalizarTrabajo') ;
+    Route::put('trabajos/finalizacion/{trabajo}' , 'TrabajoController@guardarFinalizacion')->name('trabajos.guardarFinalizacion') ;
+
 
 
     //almacenes
@@ -177,8 +180,8 @@ Route::middleware(['auth'])->group(function(){
 
     //asistencias
     Route::get('asistencias','AsistenciaController@index')->name('asistencias.index')  ;
-    Route::post('asistencias','AsistenciaController@entrada')->name('asistencias.entrada')  ;
-    // Route::post('asistencias/entrada','AsistenciaController@entrada')->name('asistencias.entrada')  ;
+    Route::post('asistencias/entrada','AsistenciaController@entrada')->name('asistencias.entrada')  ;
+    Route::post('asistencias/salida','AsistenciaController@salida')->name('asistencias.salida')  ;
 
 
     //horarios

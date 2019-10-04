@@ -19,6 +19,11 @@ class CabeceraMovimiento extends Model
         return $this->belongsTo(Proveedor::class)->withTrashed();
     }
 
+    public function trabajo()
+    {
+        return $this->belongsTo(Trabajo::class)->withTrashed();
+    }
+
     public function almacen()
     {
         return $this->belongsTo(Almacen::class);

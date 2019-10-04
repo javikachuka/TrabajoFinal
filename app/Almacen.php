@@ -60,6 +60,20 @@ class Almacen extends Model
         return false ;
     }
 
+    public function restarExistencia($prod_id , $cant){
+        $exis = $this->existencias;
+
+        foreach($exis as $e){
+            if($e->producto->id == $prod_id){
+                $e->cantidad -= $cant ;
+                $e->update() ;
+                return true ;
+            }
+        }
+
+        return false ;
+    }
+
     public function getCantidadProd($prod_id){
         $exis = $this->existencias;
 

@@ -130,10 +130,10 @@
 
                                                     <div class="col-md-12">
                                                             <table class="table table-bordered" style="margin-top: 10px">
-                                                                <thead style="background-color: #A9D0F5">
+                                                                <thead style="background-color: lightblue">
                                                                     <th>Producto</th>
                                                                     <th>Cantidad</th>
-                                                                    <th width="125px">Opciones</th>
+                                                                    <th width="125px">Accion</th>
                                                                     {{-- <th>Subtotal</th> --}}
                                                                 </thead>
                                                                 <tbody>

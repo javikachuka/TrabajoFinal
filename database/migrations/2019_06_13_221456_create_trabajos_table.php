@@ -19,6 +19,7 @@ class CreateTrabajosTable extends Migration
             $table->dateTime('horaInicio')->nullable() ;
             $table->dateTime('horaFin')->nullable() ;
             $table->string('observacion')->nullable() ;
+            $table->string('urlFoto')->nullable() ;
             $table->unsignedBigInteger('estado_id')->nullable() ;
             $table->foreign('estado_id')->references('id')->on('estados') ;
             $table->timestamps();

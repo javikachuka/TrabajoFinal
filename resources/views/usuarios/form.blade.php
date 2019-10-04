@@ -69,7 +69,9 @@
                                                             <label for="">Calle</label>
                                                             <div class="input-group">
                                                                 <input name="calle" type="text" @if($user->direccion != null) value="{{ old('calle') ?? $user->direccion->calle}} @endif" required class="form-control" placeholder="Calle">
-                                                                <span class="input-group-addon">-</span>
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">-</span>
+                                                                </div>
                                                                 <input name="altura"  type="text" @if($user->direccion != null)  value="{{ old('altura') ?? $user->direccion->altura}} @endif" required class="form-control col-md-3" placeholder="Altura">
                                                             </div>
                                                         </div>

@@ -7,8 +7,8 @@ use Illuminate\Support\Carbon;
 
 class Asistencia extends Model
 {
-    public function usuario(){
-        return $this->belongsTo(User::class);
+    public function empleado(){
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function getDia(){

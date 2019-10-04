@@ -25,7 +25,7 @@ class CreateMovimientosTable extends Migration
             $table->foreign('cabecera_movimiento_id')->references('id')->on('cabecera_movimientos') ;
             $table->unsignedBigInteger('almacenOrigen_id')->nullable();
             $table->foreign('almacenOrigen_id')->references('id')->on('almacenes') ;
-            $table->unsignedBigInteger('almacenDestino_id');
+            $table->unsignedBigInteger('almacenDestino_id')->nullable();
             $table->foreign('almacenDestino_id')->references('id')->on('almacenes') ;
             $table->timestamps();
             $table->softDeletes() ;

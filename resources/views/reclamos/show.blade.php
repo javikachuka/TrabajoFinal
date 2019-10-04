@@ -56,7 +56,7 @@
                                         <tr>
                                                 <td>{{$h->id}}</td>
                                                 <td>{{$h->estado->nombre}}</td>
-                                                <td>{{$h->created_at}}</td>
+                                                <td>{{$h->getFechaHora()}}</td>
                                             </tr>
                                             @endforeach
                                     </tbody>

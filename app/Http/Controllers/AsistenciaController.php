@@ -93,7 +93,30 @@ class AsistenciaController extends Controller
 
     public function entrada(Request $request){
 
-        $this->validar();
+        // $this->validar();
+
+        $asisEmpleado = Asistencia::where('dia', Carbon::now()->format('Y-m-d'))->where('user_id' , auth()->user()->id)->get() ;
+        $horaActual = Carbon::now()->format('H:i:s');
+        if(!empty($asisEmpleado[0])){
+            foreach($asisEmpleado as $asistencia){
+                // && (strtotime($horaActual) <= strtotime($asistencia->horaSalida))
+                if((strtotime($horaActual) >= strtotime($asistencia->horaEntrada)) ){
+                    if($asistencia->horaSalida != null){
+                        if(strtotime($horaActual) <= strtotime($asistencia->horaSalida)){
+                            alert()->info('Usted ya ha marcado su entrada del dia') ;
+                            return redirect()->back() ;
+                        }
+                    }else{
+                        // $horaTrabajoNormal = "08:00:00" ;
+                        // return  (strtotime($horaActual) - strtotime($asistencia->horaEntrada)) /3600 ;
+                        if (((strtotime($horaActual) - strtotime($asistencia->horaEntrada)) / 3600) < 6.5){
+                            alert()->info('Usted ya ha marcado su entrada del dia') ;
+                            return redirect()->back() ;
+                        }
+                    }
+                }
+            }
+        }
         $encoded_data = $_POST['fotoEntrada'];
         $binary_data = base64_decode( $encoded_data );
         $name = time().auth()->user()->name.auth()->user()->apellido.".png";
@@ -112,6 +135,28 @@ class AsistenciaController extends Controller
 
         return redirect()->back()->with('confirmar' , 'ok') ;
 
+    }
+
+    public function salida(){
+        $asisEmpleado = Asistencia::where('dia', Carbon::now()->format('Y-m-d'))->where('user_id' , auth()->user()->id)->get() ;
+        $horaActual = Carbon::now()->format('H:i:s');
+        if(!empty($asisEmpleado[0])){
+            foreach($asisEmpleado as $asistencia){
+                if($asistencia->horaSalida == null){
+                    // return (strtotime($horaActual) - strtotime($asistencia->horaEntrada))/3600 ;
+                    if(((strtotime($horaActual) - strtotime($asistencia->horaEntrada))/3600) <= 8.5){
+                        $asistencia->horaSalida = $horaActual ;
+                        $asistencia->update() ;
+                    }
+                }
+            }
+
+            return redirect()->back()->with('confirmar' , 'ok') ;
+
+        }else{
+            alert()->error('Usted no ha marcado entrada!' , 'Error') ;
+            return redirect()->back() ;
+        }
     }
 
     public function validar(){

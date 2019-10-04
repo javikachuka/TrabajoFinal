@@ -2,12 +2,17 @@
 
 @section('content')
 
-<h1>Listado de Productos</h1>
 
     <div class="form-group col-md-8">
-        <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('productos.create') }}'">Nuevo Producto</button>
     </div>
 <div class="card">
+    <div class="card-header">
+        <h3>Listado de Productos
+            <span></span>
+            <button type="submit" class="btn btn-primary btn-xs" onclick="location.href = '{{ route('productos.create') }}'">Nuevo Producto</button>
+        </h3>
+
+    </div>
     <div class="card-body">
         <div class="table-responsive">
             <table id="productos" class="table table-bordered table-striped table-hover datatable">
@@ -16,7 +21,7 @@
                     <th>Nombre</th>
                     <th>Codigo</th>
                     <th>Cantidad Total</th>
-                    <th>Categoria</th>
+                    <th>Rubro</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
@@ -28,7 +33,7 @@
                             <td>{{$producto->codigo}}</td>
                             <td>{{$producto->cantidadTotal()}}</td>
                             <td>{{$producto->rubro->nombre}}</td>
-                            <td width ="200px">
+                            <td width ="18%">
                                 <a href="{{route('productos.show', $producto)}}" class="btn btn-xs btn-primary">Ver mas</a>
                                 @can('productos_edit')
                                     <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-xs btn-secondary"> Editar </a>

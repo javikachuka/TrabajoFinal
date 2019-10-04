@@ -7,7 +7,7 @@
                 </div>
                 <div class="form-group">
                         <label>Codigo <i class="text-danger">(*)</i></label>
-                        <input type="text" name="codigo" value="{{ old('codigo') ?? $producto->codigo }}" class="form-control">
+                        <input type="text" id="codigo" name="codigo" value="{{ old('codigo') ?? $producto->codigo }}" class="form-control">
                         <div class="text-danger">{{$errors->first('codigo')}} </div>
                 </div>
 
@@ -22,6 +22,7 @@
                     <div class="col-md-4">
                         <label >Medida <i class="text-danger">(*)</i></label>
                         <select name="medida_id" class=" form-control" >
+                            <option value="" selected disabled>--Seleccione--</option>
                             @foreach ($medidas as $medida)
                                 <option value="{{$medida->id}}">{{$medida->nombre}} <i class="text-muted">({{$medida->simbolo}})</i></option>
                             @endforeach
@@ -30,8 +31,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                        <label >Categoria <i class="text-danger">(*)</i></label>
+                        <label >Rubro <i class="text-danger">(*)</i></label>
                         <select name="rubro_id" class=" form-control" >
+
+                            <option value="" selected disabled>--Seleccione--</option>
+
                                 @foreach ($rubros as $rubro)
                                     <option value="{{$rubro->id}}">{{$rubro->nombre}}</option>
                                 @endforeach

@@ -136,9 +136,9 @@ class TrabajoController extends Controller
         $almacenes = Almacen::all() ;
         $empleados = User::all() ;
 
-        foreach($empleados as $key => $empleado){
-            if($empleado->)
-        }
+        // foreach($empleados as $key => $empleado){
+        //     if($empleado->)
+        // }
 
         return view('trabajos.finTrabajo', compact('trabajo', 'productos', 'almacenes', 'empleados'));
     }

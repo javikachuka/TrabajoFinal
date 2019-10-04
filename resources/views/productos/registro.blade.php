@@ -33,4 +33,5 @@
         $('.js-example-basic-single').select2();
     });
 </script>
+
 @endpush

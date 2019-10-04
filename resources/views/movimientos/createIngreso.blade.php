@@ -107,7 +107,8 @@
                                                 <div class="row d-flex justify-content-around">
                                                     <div class=" col-sm-3">
                                                             <label for="">Producto</label>
-                                                                <select name="producto" id="producto_id" class="js-example-basic-single form-control" required>
+                                                                <select name="producto" id="producto_id" class="js-example-basic-single form-control" >
+                                                                        <option value="" selected disabled>--Seleccione--</option>
                                                                         @foreach ($productos as $producto)
                                                                             <option value="{{$producto->id}}">{{$producto->nombre}}</option>
                                                                         @endforeach
@@ -115,15 +116,21 @@
                                                     </div>
                                                     <div class=" col-sm-2">
                                                             <label>Cantidad</label>
+
                                                             <input type="text" id="cantidad" name="cant"  value=""  class="form-control" placeholder="Mayor a 0">
                                                             <div>{{$errors->first('cantidad')}} </div>
                                                     </div>
 
-                                                    <div class=" col-sm-1">
+                                                    <div class=" col-sm-2">
 
                                                             <label>PUM</label>
-                                                            <input type="text" name="pum" id="precio"  value=""  class="form-control" placeholder="$">
-                                                            <div>{{$errors->first('precio')}} </div>
+                                                            <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">$</span>
+                                                                    </div>
+                                                                    <input type="text" name="pum" id="precio"  value=""  class="form-control" placeholder="">
+                                                                    <div>{{$errors->first('precio')}} </div>
+                                                            </div>
                                                     </div>
 
 
@@ -136,11 +143,11 @@
 
                                                     <div class="col-md-12">
                                                             <table class="table table-bordered table-sm" style="margin-top: 10px ">
-                                                                <thead style="background-color: #A9D0F5">
+                                                                <thead style="background-color: lightblue">
                                                                     <th>Producto</th>
                                                                     <th>Cantidad</th>
                                                                     <th>PUM</th>
-                                                                    <th width = "125px">Opciones</th>
+                                                                    <th width = "125px">Accion</th>
                                                                     {{-- <th>Subtotal</th> --}}
                                                                 </thead>
 
@@ -152,15 +159,16 @@
                                                 </div>
 
                                             </div>
-                                            <div class="text-right">
-                                                    <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
-                                                    <button type="submit" class="btn btn-success btn-sm">Guardar</button>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                                 </div>
 
+                                <div class="text-right">
+                                        <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
+                                        <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+                                </div>
                                 </div>
                                 @csrf
                             </form>
@@ -184,7 +192,7 @@
 
         if(producto != "" ){
             if(cantidad > 0){
-                if(precio > 0){
+                // if(precio > 0){
                     var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
                                 '<td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
                                 '<td><input type="hidden" name="precio[]" value="'+precio+'">'+precio+' </td>'+
@@ -193,13 +201,13 @@
 
                     $('tbody').append(fila) ;
                     limpiar();
-                }else{
-                    swal({
-                        title: "Error",
-                        text: "Ingrese un precio valido y mayor a 0",
-                        icon: "error",
-                    });
-                }
+                // }else{
+                //     swal({
+                //         title: "Error",
+                //         text: "Ingrese un precio valido y mayor a 0",
+                //         icon: "error",
+                //     });
+                // }
             }else{
                 swal({
                         title: "Error",
@@ -245,5 +253,11 @@
     @elseif(session('cancelar'))
         Cancelar.fire();
     @endif
+</script>
+
+<script>
+        $(document).ready(function(){
+            $('#precio').mask('000.000.000.000.000,00', {reverse: true});
+        });
 </script>
 @endpush

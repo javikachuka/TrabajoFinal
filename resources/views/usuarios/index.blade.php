@@ -2,11 +2,15 @@
 
 
 @section('content')
-    <h1>Listado de Empleados</h1>
     <div class="text-left form-group">
-            <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('users.create') }}'">Registrar Empleado</button>
     </div>
 <div class="card">
+    <div class="card-header">
+        <h3>Listado de Empleados
+            <button type="submit" class="btn btn-primary btn-xs" onclick="location.href = '{{ route('users.create') }}'">Registrar Empleado</button>
+        </h3>
+
+    </div>
     <div class="card-body">
         <div class="table-responsive">
             <table id="users" class="table table-bordered table-striped table-hover datatable">
@@ -14,6 +18,7 @@
                   <tr>
                     <th>Apellido</th>
                     <th>Nombre</th>
+                    <th>DNI</th>
                     <th>Roles</th>
                     <th>Accion</th>
                   </tr>
@@ -24,6 +29,7 @@
                         <tr>
                             <td>{{$user->apellido}}</td>
                             <td>{{$user->name}}</td>
+                            <td>{{$user->dni}}</td>
                             <td>
                                 @foreach ($user->roles as $rol)
                                     <span class="badge badge-info">{{$rol->name}}</span>
@@ -68,6 +74,8 @@
             Confirmar.fire() ;
         @elseif(session('cancelar'))
             Cancelar.fire();
+        @elseif(session('borrado'))
+            Borrado.fire();
         @endif
     </script>
 @endpush

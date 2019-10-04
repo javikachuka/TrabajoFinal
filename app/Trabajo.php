@@ -22,6 +22,10 @@ class Trabajo extends Model
         return $this->belongsTo(Socio::class);
     }
 
+    public function cabecerasMovimientos(){
+        return $this->hasMany(CabeceraMovimiento::class);
+    }
+
     public function users(){
         return $this->belongsToMany(User::class);
     }
@@ -29,6 +33,11 @@ class Trabajo extends Model
     public function getFecha(){
         $date = Carbon::create($this->fecha)->format('d/m/Y') ;
         return $date  ;
+    }
+
+    public function diferencia(){
+        $inicio = Carbon::create($this->horaInicio) ;
+        return $inicio->diffForHumans() ;
     }
 
 }

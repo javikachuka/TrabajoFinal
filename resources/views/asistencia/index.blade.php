@@ -22,7 +22,7 @@
                 {{-- <button class="btn btn-success" type="submit">MARCAR ENTRADA</button> --}}
 
 
-                <button class="btn btn-danger btn-sm" type="submit">MARCAR SALIDA</button>
+                <button class="btn btn-danger btn-sm" type="submit" data-toggle="modal" data-target="#salida">MARCAR SALIDA</button>
             </div>
             {{-- <div id="my_camera"></div>
 
@@ -70,7 +70,7 @@
     </div>
 
 
-<!-- Modal Create -->
+<!-- Modal Entrada -->
 <div class="modal fade" id="webcam" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -99,6 +99,33 @@
                   <div class="modal-footer">
                     <button type="button" onclick="cerrar()" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
                     <button type="button" onclick="comprobar()" class="btn btn-primary btn-sm ">Continuar</button>
+                  </div>
+            @csrf
+            </form>
+          </div>
+        </div>
+</div>
+
+<!-- Modal Salida-->
+<div class="modal fade" id="salida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Marcar Salida</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <form class="form-group " method="POST" action="{{route('asistencias.salida')}}" enctype="multipart/form-data" id="myform">
+
+            <div class="modal-body">
+
+
+            </div>
+                  <div class="modal-footer">
+                    <button type="button"  class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                    <button type="submit"  class="btn btn-primary btn-sm ">Continuar</button>
                   </div>
             @csrf
             </form>
@@ -155,7 +182,6 @@
         }
     }
 </script>
-
 
     <script>
         @if(session('confirmar'))

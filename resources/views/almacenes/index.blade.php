@@ -2,12 +2,14 @@
 
 @section('content')
 
-<h1>Listado de Almacenes</h1>
-
-    <div class="form-group col-md-8">
-            <a href=""  class="btn btn-primary btn-sm " data-toggle="modal" data-target="#crear">Nuevo almacen</a>
-    </div>
     <div class="card">
+        <div class="card-header">
+
+            <h3>Listado de Almacenes
+                <a href=""  class="btn btn-primary btn-xs " data-toggle="modal" data-target="#crear">Nuevo almacen</a>
+            </h3>
+
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table id="almacenes" class="table table-bordered table-striped table-hover datatable">
@@ -125,7 +127,10 @@
                                                 <div class="form-group">
                                                     <div class="input-group">
                                                         <input name="calle" type="text"  value="{{ old('calle') }}" required class="form-control" placeholder="Calle">
-                                                        <span class="input-group-addon">-</span>
+                                                        <div class="input-group-prepend">
+
+                                                            <span class="input-group-text">-</span>
+                                                        </div>
                                                         <input name="altura"  type="text" value="{{ old('altura') }}" required class="form-control col-md-3" placeholder="Altura">
                                                     </div>
                                                 </div>
@@ -154,6 +159,37 @@
 @endsection
 @push('scripts')
 <script>
+$(function () {
+          $('#almacenes').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": false,
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+
+          });
+        });
+</script>
+{{-- <script>
         $(function () {
           $('#almacenes').DataTable({
             "paging": true,
@@ -164,7 +200,7 @@
             "autoWidth": false,
           });
         });
-</script>
+</script> --}}
 
     <script>
         @if(session('confirmar'))

@@ -54,9 +54,12 @@ class Reclamo extends Model
         return false ;
     }
 
-
     public function getFecha(){
         $date = Carbon::create($this->fecha)->format('d/m/Y') ;
         return $date  ;
+    }
+
+    public function getCantidadEstados(){
+        return sizeof($this->historial);
     }
 }

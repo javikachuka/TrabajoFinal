@@ -81,7 +81,12 @@ class User extends Authenticatable
             $otro = Carbon::createFromFormat('Y-m-d',$asistencia->dia) ;
             $otro->setTime(0,0,0) ;
             if($otro->equalTo($hoy)){
-                return true ;
+                $horaActual = Carbon::now()->format('H:i:s');
+                if($asistencia->horaSalida == null){
+                    if( (strtotime($horaActual) > strtotime($asistencia->horaEntrada)) && ((abs(strtotime($horaActual) - strtotime($asistencia->horaEntrada)) / 3600) < 8.0)){
+                        return true ;
+                    }
+                }
             }
         }
         return false ;

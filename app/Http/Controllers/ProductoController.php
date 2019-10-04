@@ -47,7 +47,7 @@ class ProductoController extends Controller
         $this->validar();
         $producto->fill($request->all()) ;
         $producto->save() ;
-        return redirect('/productos') ;
+        return redirect('/productos')->with('confirmar', 'ok') ;
     }
 
     /**
@@ -114,7 +114,7 @@ class ProductoController extends Controller
     public function validar(){
         $data = request()->validate([
             'nombre' => 'required' ,
-            'codigo' => 'required|numeric' ,
+            'codigo' => 'required|numeric|unique:productos,codigo' ,
             'cantidadMinima' => 'required|numeric' ,
             'rubro_id' => 'required',
         ]);

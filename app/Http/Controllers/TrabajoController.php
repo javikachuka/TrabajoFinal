@@ -62,7 +62,7 @@ class TrabajoController extends Controller
      */
     public function show(Trabajo $trabajo)
     {
-        //
+        return view('trabajos.show' , compact('trabajo'));
     }
 
     /**
@@ -187,11 +187,14 @@ class TrabajoController extends Controller
         $trabajo->estado_id = $siguienteEstado->id ;
         $trabajo->horaInicio = Carbon::now('America/Argentina/Buenos_Aires') ;
 
+        //asociando cabecera a un trabajo
+        $cabMov->trabajo_id = $trabajo->id ;
+
         //subiendo la foto del trabajo
         if($request->hasFile('fotoFin')){
             $file = $request->file('fotoFin') ;
             $name = $request->file('fotoFin')->getClientOriginalName();
-            $img = Image::make($file)->resize(300, 200);
+            $img = Image::make($file)->resize(320, 240);
             $img->save(public_path('/img/trabajos/').$name) ;
             $trabajo->urlFoto = $name ;
             // return $img->response('jpg');

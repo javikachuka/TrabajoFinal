@@ -40,4 +40,16 @@ class Trabajo extends Model
         return $inicio->diffForHumans() ;
     }
 
+    public function ultimoEstado(){
+        return $this->updated_at->diffForHumans() ;
+    }
+
+    public function tiempoDuracion(){
+        $inicio = Carbon::create($this->horaInicio) ;
+        $fin = Carbon::create($this->horaFin) ;
+
+        return $inicio->diffForHumans() ;
+
+    }
+
 }

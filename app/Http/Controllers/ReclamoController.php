@@ -205,7 +205,7 @@ class ReclamoController extends Controller
                     }
                     return redirect()->back()->with('borrado' , 'ok') ;
                 }else{
-                    alert()->error('No es posible eliminar el reclamo debido a que esta siendo tratado' , 'Error!')->persistent('OK') ;
+                    alert()->error('No es posible eliminar el reclamo debido a que ya tuvo un tratamiento!' , 'Error!')->persistent('OK') ;
                     return redirect()->back() ;
                 }
             }

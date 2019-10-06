@@ -59,6 +59,12 @@
                                 <p>Requisitos</p>
                               </a>
                         </li>
+                        <li class="nav-item">
+                              <a href="{{ route('socios.index') }}" class="nav-link">
+                                <i class="fal fa-users nav-icon"></i>
+                                <p>Socios</p>
+                              </a>
+                        </li>
                        </ul>
                 </li>
 

@@ -58,7 +58,7 @@
             <div class="form-group">
                     <label for="">Requisitos Presentados</label>
                     <ul id="lista" style="list-style:none">
-                        @if($reclamo->tipoReclamo->requisitos != null)
+                        @if(!empty($reclamo->tipoReclamo->requisitos[0]))
                             @foreach ($reclamo->tipoReclamo->requisitos as $requisito)
                             <li> <div class="custom-control custom-checkbox">
                                     <input type="checkbox" value="{{$requisito->id}}" class="custom-control-input" name="requisitos[]" id="customCheck{{$requisito->id}}" @if($reclamo->presentoRequisito($requisito)) checked @endif>
@@ -67,7 +67,7 @@
                             </li>
                             @endforeach
                         @else
-                        <li><i class="text-muted">El tipo de reclamo no presenta requisitos necesarios.</i></li>
+                            <li><i class="text-muted">El tipo de reclamo no presenta requisitos necesarios.</i></li>
                         @endif
                     </ul>
              </div>

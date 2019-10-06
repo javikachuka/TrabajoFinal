@@ -219,6 +219,14 @@ Route::middleware(['auth'])->group(function(){
 
 
 
+    //socios
+    Route::get('socios','SocioController@index')->name('socios.index') ;
+    Route::get('socios/create','SocioController@create')->name('socios.create') ;
+    Route::post('socios','SocioController@store')->name('socios.store');
+    Route::get('socios/{socio}','SocioController@show')->name('socios.show') ;
+    Route::get('socios/{socio}/edit','SocioController@edit')->name('socios.edit') ;
+    Route::put('socios/{socio}' , 'SocioController@update')->name('socios.update') ;
+    Route::delete('socios/{socio}' , 'SocioController@destroy')->name('socios.destroy') ;
 
 }) ;
 
@@ -227,12 +235,7 @@ Route::middleware(['auth'])->group(function(){
 
 
 
-// Route::get('socios','SocioController@index')->name('socios.index') ;
-// Route::get('socios/create','SocioController@create')->name('socios.create') ;
-// Route::post('socios','SocioController@store')->name('socios.store');
-// Route::get('socios/{id}','SocioController@show')->name('socios.show') ;
-// Route::get('socios/{id}/edit','SocioController@edit')->name('socios.edit') ;
-// Route::put('socios/{socio}' , 'SocioController@update')->name('socios.update') ;
+
 
 
 

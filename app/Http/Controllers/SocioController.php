@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Socio;
 use App\Barrio;
-use App\Domicilio;
+use App\Direccion;
+use App\Zona;
+use Exception;
 use Illuminate\Http\Request;
 
 class SocioController extends Controller
@@ -18,8 +20,8 @@ class SocioController extends Controller
     public function index()
     {
         $socios = Socio::all();
-        $domicilios = Domicilio::all();
-        return view('socios.index',compact('socios','domicilios')) ;
+        $zonas = Zona::all() ;
+        return view('socios.index',compact('socios','zonas')) ;
     }
 
     /**
@@ -42,20 +44,21 @@ class SocioController extends Controller
      */
     public function store(Request $request)
     {
-        $domicilio = new Domicilio() ;
-        $domicilio->barrio_id = $request->input('domicilio') ;
-        $domicilio->calle = $request->input('calle') ;
-        $domicilio->altura = $request->input('altura') ;
-        $domicilio->save() ;
+        $this->validar();
+        $direccion = new Direccion() ;
+        $direccion->zona_id = $request->input('zona_id') ;
+        $direccion->calle = $request->input('calle') ;
+        $direccion->altura = $request->input('altura') ;
+        $direccion->save() ;
 
         $socio = new Socio() ;
         $socio->apellido = $request->input('apellido') ;
         $socio->nombre = $request->input('nombre');
         $socio->dni = $request->input('dni');
         $socio->nro_conexion = $request->input('nro_conexion');
-        $socio->domicilio_id = $domicilio->id ; ;
+        $socio->direccion_id = $direccion->id ; ;
         $socio->save() ;
-        return redirect('/socios');
+        return redirect()->back()->with('confirmar', 'ok');
 
 
     }
@@ -92,16 +95,16 @@ class SocioController extends Controller
      * @param  \App\Socio  $socio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Socio $socio)
     {
-        $socio = Socio::find($id) ;
+        // $this->validar();
         $socio->fill($request->all());
-        $domicilio = $socio->domicilio ;
-        $domicilio->fill($request->all()) ;
+        $direccion = $socio->direccion ;
+        $direccion->fill($request->all()) ;
         $socio->save() ;
-        $domicilio->save() ;
+        $direccion->save() ;
 
-        return redirect('/socios') ;
+        return redirect()->back()->with('confirmar', 'ok') ;
     }
 
     /**
@@ -112,6 +115,23 @@ class SocioController extends Controller
      */
     public function destroy(Socio $socio)
     {
-        //
+        try{
+            $socio->delete();
+            return redirect()->back()->with('borrado', 'ok');
+        }catch(Exception $e){
+            alert()->error('No se pudo borrar al socio', 'Error') ;
+            return redirect()->back() ;
+        }
+    }
+
+    public function validar(){
+        $data = request()->validate([
+            'nombre' => 'required' ,
+            'apellido' => 'required' ,
+            'dni' => 'required' ,
+            'nro_conexion' => 'required|unique:socios,nro_conexion',
+        ],[
+            'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio' ,
+        ]);
     }
 }

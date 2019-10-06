@@ -12,6 +12,7 @@
   {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
 <link rel="stylesheet" href="{{ asset('admin_panel/plugins/fontawesome/css/all.min.css') }}">
 <link rel="stylesheet" href="{{ asset('admin_panel/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('admin_panel/plugins/datatables-select/css/select.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{asset('admin_panel/plugins/select2/css/select2.css')}}" >
 <link rel="stylesheet" href="{{asset('admin_panel/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}" >
   <!-- IonIcons -->
@@ -95,6 +96,7 @@
     <script src="{{asset('admin_panel/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('admin_panel/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{asset('admin_panel/plugins/select2/js/select2.js')}}"></script>
+    <script src="{{asset('admin_panel/plugins/datatables-select/js/dataTables.select.min.js')}}"></script>
 
     <!-- OPTIONAL SCRIPTS -->
     <script src="{{asset('admin_panel/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>

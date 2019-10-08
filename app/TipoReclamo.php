@@ -12,6 +12,11 @@ class TipoReclamo extends Model
 
     protected $guarded = [] ;
 
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = strtoupper($value);
+    }
+
     public function reclamos(){
         return $this->hasMany(Reclamo::class);
     }

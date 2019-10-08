@@ -17,7 +17,7 @@ class CreateSociosTable extends Migration
             $table->bigIncrements('id');
             $table->string('apellido') ;
             $table->string('nombre') ;
-            $table->integer('dni') ;
+            $table->string('dni') ;
             $table->integer('nro_conexion');
             $table->unsignedBigInteger('direccion_id') ;
             $table->timestamps();

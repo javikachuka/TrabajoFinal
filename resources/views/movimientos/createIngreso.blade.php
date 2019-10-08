@@ -37,7 +37,7 @@
                                                         <i class="fal fa-calendar-alt"></i>
                                                     </span>
                                                 </div>
-                                                <input type="date" name="fecha" class="form-control" required value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ Carbon\Carbon::now()->addDay()->format('Y-m-d') }}" id="">
+                                                <input type="date" name="fecha" class="form-control" required value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ Carbon\Carbon::now()->format('Y-m-d') }}" id="">
                                             </div>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                         <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Numero de Comprobante</label>
-                                                    <input type="text" name="numeroComprobante" required value=""  class="form-control" placeholder="Nº">
+                                                    <input type="number" name="numeroComprobante" required value=""  class="form-control" placeholder="Nº" min="0">
                                                     <div>{{$errors->first('numero_comprobante')}} </div>
                                                 </div>
                                             </div>
@@ -92,7 +92,7 @@
                                                                     <i class="fal fa-calendar-alt"></i>
                                                                 </span>
                                                             </div>
-                                                            <input type="date" class="form-control" name="fechaComprobante" required value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ Carbon\Carbon::now()->addDay()->format('Y-m-d') }}" id="">
+                                                            <input type="date" class="form-control" name="fechaComprobante" required value="{{ Carbon\Carbon::now()->format('Y-m-d') }}" max="{{ Carbon\Carbon::now()->format('Y-m-d') }}" id="">
                                                         </div>
                                                     </div>
                                             </div>
@@ -117,7 +117,7 @@
                                                     <div class=" col-sm-2">
                                                             <label>Cantidad</label>
 
-                                                            <input type="text" id="cantidad" name="cant"  value=""  class="form-control" placeholder="Mayor a 0">
+                                                            <input type="number" id="cantidad" name="cant"  value=""  class="form-control" placeholder="Mayor a 0" min="0">
                                                             <div>{{$errors->first('cantidad')}} </div>
                                                     </div>
 

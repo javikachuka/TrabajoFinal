@@ -113,7 +113,7 @@ class ProductoController extends Controller
 
     public function validar(){
         $data = request()->validate([
-            'nombre' => 'required' ,
+            'nombre' => 'required|unique:productos,nombre' ,
             'codigo' => 'required|numeric|unique:productos,codigo' ,
             'cantidadMinima' => 'required|numeric' ,
             'rubro_id' => 'required',

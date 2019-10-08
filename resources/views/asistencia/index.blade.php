@@ -85,7 +85,7 @@
 
             <div class="modal-body">
                 <div class="text-center">
-                    <div id="my_camera"></div>
+                    <div id="my_camera" class="justify-content-center"></div>
 
                     <input type=button class="btn btn-primary btn-xs" value="Tomar Foto" onClick="take_snapshot()">
 
@@ -120,7 +120,9 @@
             <form class="form-group " method="POST" action="{{route('asistencias.salida')}}" enctype="multipart/form-data" id="myform">
 
             <div class="modal-body">
-
+                    <strong><i class="fal fa-exclamation-circle mr-1"></i>Atencion</strong>
+                    <p>Al marcar salida automaticamente se deslogueara del sistema!
+                    </p>
 
             </div>
                   <div class="modal-footer">

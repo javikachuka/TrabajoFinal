@@ -197,7 +197,7 @@
             "lengthChange": true,
             "searching": true,
             "ordering": true,
-            "order": [[ 0, "desc" ]] ,
+            "order": [[ 5, "asc" ]] ,
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",

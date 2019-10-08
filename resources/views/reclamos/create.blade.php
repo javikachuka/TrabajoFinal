@@ -2,9 +2,12 @@
 
 @section('content')
 
-<h2>Carga de Nuevo Reclamo</h2>
+
 
 <div class="card">
+    <div class="card-header">
+        <h3>Nuevo Reclamo</h3>
+    </div>
     <div class="card-body">
         <form class="form-group " method="POST" action="/reclamos">
             <div class="row">
@@ -132,7 +135,9 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('.seleccion').select2();
+        $('.seleccion').select2({
+
+        });
     });
 </script>
 

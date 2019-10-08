@@ -16,6 +16,7 @@
             <table id="users" class="table table-bordered table-striped table-hover datatable">
                 <thead>
                   <tr>
+                    <th>Perfil</th>
                     <th>Apellido</th>
                     <th>Nombre</th>
                     <th>DNI</th>
@@ -27,6 +28,14 @@
                     @foreach($usuarios as $user)
 
                         <tr>
+                            @if($user->urlFoto != null)
+                                <td><img src="{{asset('img/perfiles'.$user->urlFoto)}}" alt="" class="table-avatar"></td>
+                            @else
+                                <div class="d-flex justify-content-center">
+                                    <td width="10%"><img src="{{asset('img/perfiles/usuario-sin-foto.png')}}" alt="" width="25" height="25" class="table-avatar"></td>
+
+                                </div>
+                            @endif
                             <td>{{$user->apellido}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->dni}}</td>
@@ -35,7 +44,7 @@
                                     <span class="badge badge-info">{{$rol->name}}</span>
                                 @endforeach
                             </td>
-                            <td width ="200px">
+                            <td width ="13%">
                                 <form method="POST" action="users/{{$user->id}}">
                                     @can('users_edit')
                                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
@@ -66,6 +75,9 @@
             "ordering": true,
             "info": false,
             "autoWidth": false,
+            "columnDefs": [
+                {"className": "dt-body-left", "targets": [0]}
+            ],
           });
         });
 </script>

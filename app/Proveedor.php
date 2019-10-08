@@ -13,6 +13,11 @@ class Proveedor extends Model
 
     protected $fillable  = ['nombre', 'cuit' , 'email' , 'telefono'] ;
 
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = strtoupper($value);
+    }
+
     public function cabecerasMovimiento()
     {
         return $this->hasMany(CabeceraMovimiento::class);

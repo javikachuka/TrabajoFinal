@@ -70,7 +70,7 @@
                                         <div class="form-group">
                                             <label>DNI</label>
                                             <input type="text" name="dni" required
-                                                value="{{ $socio->dni ?? old('dni')}}" class="form-control">
+                                                value="{{ $socio->dni ?? old('dni')}}" class="form-control" data-mask="00.000.000">
                                         </div>
                                         <div class="form-group">
                                             <label>Nº de Conexion</label>
@@ -162,7 +162,7 @@
                     </div>
                     <div class="form-group">
                         <label>DNI</label>
-                        <input type="text" name="dni" required value="{{  old('dni')}}" class="form-control">
+                        <input type="text" name="dni" required value="{{  old('dni')}}" class="form-control" data-mask="00.000.000">
                         <div class="text-danger">{{$errors->first('dni')}} </div>
                     </div>
                     <div class="form-group">
@@ -257,5 +257,6 @@
         Borrado.fire();
     @endif
 </script>
+
 
 @endpush

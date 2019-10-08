@@ -17,48 +17,48 @@ class PrioridadTableSeeder extends Seeder
         //creacion de prioridades
         Prioridad::create([
             'nivel' => 1 ,
-            'nombre' => 'Bajo',
+            'nombre' => 'BAJO',
         ]) ;
         Prioridad::create([
             'nivel' => 2 ,
-            'nombre' => 'Medio',
+            'nombre' => 'MEDIO',
         ]) ;
         Prioridad::create([
             'nivel' => 3 ,
-            'nombre' => 'Intermedio',
+            'nombre' => 'INTERMEDIO',
         ]) ;
         Prioridad::create([
             'nivel' => 4 ,
-            'nombre' => 'Alto',
+            'nombre' => 'ALTO',
         ]) ;
         Prioridad::create([
             'nivel' => 5 ,
-            'nombre' => 'Urgente',
+            'nombre' => 'URGENTE',
         ]) ;
 
         //creacion de Tipos de reclamos
         TipoReclamo::create([
-            'nombre' => 'Ruptura Caño PVC' ,
+            'nombre' => 'RUPTURA CAÑO PVC' ,
             'trabajo' => 1 ,
             'prioridad_id' => 4 ,
         ]) ;
         TipoReclamo::create([
-            'nombre' => 'Cambio de Medidor' ,
+            'nombre' => 'CAMBIO DE MEDIDOR' ,
             'trabajo' => 1 ,
             'prioridad_id' => 3 ,
         ]) ;
         TipoReclamo::create([
-            'nombre' => 'Perdida de Manguera' ,
+            'nombre' => 'PERDIDA DE MANGUERA' ,
             'trabajo' => 1 ,
             'prioridad_id' => 2 ,
         ]) ;
         TipoReclamo::create([
-            'nombre' => 'Quejas del Socio' ,
+            'nombre' => 'QUEJAS DEL SOCIO' ,
             'trabajo' => 0 ,
             'prioridad_id' => 1 ,
         ]) ;
         TipoReclamo::create([
-            'nombre' => 'Ruptura de Caño Principal' ,
+            'nombre' => 'RUPTURA DEL CAÑO PRINCIPAL' ,
             'trabajo' => 1 ,
             'prioridad_id' => 5 ,
         ]) ;

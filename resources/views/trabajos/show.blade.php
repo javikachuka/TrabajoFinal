@@ -56,7 +56,11 @@
                                 <i class="text-muted">No hay registros</i>
                             @endif
                             <div class="form-group my-5">
-                                <label for="">Tiempo de duracion: {{$trabajo->tiempoDuracion()}}</label>
+                                @if (($trabajo->horaFin == null) &&($trabajo->horaInicio == null))
+                                    <label for="">Tiempo de duracion estimado: {{$trabajo->tiempoDuracionEstimado($trabajo->reclamo->tipoReclamo->id)}}</label>
+                                @else
+                                    <label for="">Tiempo de duracion real: {{$trabajo->tiempoDuracion()}}</label>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-5">

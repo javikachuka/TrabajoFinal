@@ -43,6 +43,7 @@ class TipoReclamoController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validar();
         $tipoReclamo = new TipoReclamo();
         $tipoReclamo->fill($request->only(['nombre' , 'detalle' , 'trabajo' , 'prioridad_id'])) ;
         if($request->trabajo){
@@ -116,5 +117,12 @@ class TipoReclamoController extends Controller
 
     public function cargarRequisitos($id){
         return DB::table('requisito_tipo_reclamo')->join('requisitos', 'requisito_tipo_reclamo.requisito_id' , '=', 'requisitos.id')->select('requisitos.id', 'requisitos.nombre')->where('requisito_tipo_reclamo.tipo_reclamo_id', $id)->get();
+    }
+
+    public function validar(){
+        $data = request()->validate([
+            'nombre' => 'required|unique:tipo_reclamos,nombre' ,
+
+        ]);
     }
 }

@@ -10,6 +10,12 @@ class Almacen extends Model
     use SoftDeletes ;
     protected $table = 'almacenes' ;
 
+    public function setDenominacionAttribute($value)
+    {
+        $this->attributes['denominacion'] = ucwords($value);
+    }
+
+
     public function direccion()
     {
         return $this->belongsTo(Direccion::class);

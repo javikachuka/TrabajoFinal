@@ -126,7 +126,7 @@ class TrabajoController extends Controller
             $historial->save() ;
             return redirect()->back()->with('confirmar', 'ok') ;
         }else{
-            alert()->error('No es posible comenzar el trabajo debido a que hay documentaciones sin presentar!')->persistent('Ok') ;
+            alert()->error('No es posible comenzar el trabajo debido a que hay requisitos sin presentar!')->persistent('Ok') ;
             return redirect()->route('trabajos.index') ;
         }
     }
@@ -185,10 +185,11 @@ class TrabajoController extends Controller
         //cambiando de estado el trabajo
         $siguienteEstado = $trabajo->reclamo->tipoReclamo->flujoTrabajo->siguienteEstado($trabajo->estado) ;
         $trabajo->estado_id = $siguienteEstado->id ;
-        $trabajo->horaInicio = Carbon::now('America/Argentina/Buenos_Aires') ;
+        // $trabajo->horaInicio = Carbon::now('America/Argentina/Buenos_Aires') ;
 
         //asociando cabecera a un trabajo
         $cabMov->trabajo_id = $trabajo->id ;
+        $cabMov->update();
 
         //subiendo la foto del trabajo
         if($request->hasFile('fotoFin')){

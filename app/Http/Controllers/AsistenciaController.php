@@ -147,11 +147,12 @@ class AsistenciaController extends Controller
                     if(((strtotime($horaActual) - strtotime($asistencia->horaEntrada))/3600) <= 8.5){
                         $asistencia->horaSalida = $horaActual ;
                         $asistencia->update() ;
+                        auth()->logout();
+                        return redirect('/');
                     }
                 }
             }
 
-            return redirect()->back()->with('confirmar' , 'ok') ;
 
         }else{
             alert()->error('Usted no ha marcado entrada!' , 'Error') ;

@@ -2,12 +2,13 @@
 
 @section('content')
 
-<h1>Listado de Tipo de Reclamos</h1>
-
-    <div class="form-group col-md-8">
-        <a href=""  class="btn btn-primary btn-sm " data-toggle="modal" data-target="#crear">Nuevo Tipo de Reclamo</a>
-    </div>
     <div class="card">
+        <div class="card-header">
+            <h3>Listado de Tipo de Reclamos
+                <a href=""  class="btn btn-primary btn-xs " data-toggle="modal" data-target="#crear">Nuevo Tipo de Reclamo</a>
+
+            </h3>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table id="tipoReclamos" class="table table-bordered table-striped table-hover datatable">
@@ -154,7 +155,9 @@
             <div class="modal-body">
                     <div class="form-group">
                             <label>Nombre</label>
-                            <input type="text" name="nombre" required value=""  class="form-control">
+                            {{--style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase(); --}}
+                            <input type="text" name="nombre" required value="{{old('nombre')}}"  class="form-control">
+                            <div class="text-danger">{{$errors->first('nombre')}} </div>
                     </div>
                     <div class="form-group">
                         <label for="">Detalles</label>
@@ -231,6 +234,13 @@
             Cancelar.fire();
         @elseif(session('borrado'))
             Borrado.fire();
+        @endif
+    </script>
+<script>
+        @if($errors->any() )
+            $(function(){
+                $('#crear').modal('show');
+            });
         @endif
     </script>
 @endpush

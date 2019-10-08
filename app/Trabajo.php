@@ -47,9 +47,28 @@ class Trabajo extends Model
     public function tiempoDuracion(){
         $inicio = Carbon::create($this->horaInicio) ;
         $fin = Carbon::create($this->horaFin) ;
+        $resul = round($inicio->diffInMinutes($fin)/60, 2) ;
+        return  str_replace('.', ':' , $resul ) ;
 
-        return $inicio->diffForHumans() ;
+    }
 
+    public function tiempoDuracionEstimado($tipoTrabajo){
+        $trabajos = Trabajo::all();
+        $suma = 0 ;
+        $div = 0;
+        foreach($trabajos as $trabajo){
+            if($trabajo->reclamo->tipoReclamo->id == $tipoTrabajo){
+                if($trabajo->horaFin != null){
+                    $inicio = Carbon::create($trabajo->horaInicio) ;
+                    $fin = Carbon::create($trabajo->horaFin) ;
+                    $suma += $inicio->diffInMinutes($fin)/60 ;
+                    $div += 1 ;
+                }
+            }
+        }
+        $resul = $suma/$div ;
+        $enHoras = round($resul, 2) ;
+        return str_replace('.', ':' , $enHoras ) ;
     }
 
 }

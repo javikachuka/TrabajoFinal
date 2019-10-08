@@ -31,7 +31,7 @@
                         <tr>
                             <td>{{$producto->nombre}}</td>
                             <td>{{$producto->codigo}}</td>
-                            <td>{{$producto->cantidadTotal()}}</td>
+                            <td>{{$producto->cantidadTotal()}} {{$producto->medida->nombre}}</td>
                             <td>{{$producto->rubro->nombre}}</td>
                             <td width ="18%">
                                 <a href="{{route('productos.show', $producto)}}" class="btn btn-xs btn-primary">Ver mas</a>

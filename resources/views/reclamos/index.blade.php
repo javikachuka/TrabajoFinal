@@ -2,12 +2,12 @@
 
 @section('content')
 
-<h1>Listado de reclamos</h1>
-
-    <div class="form-group col-md-8">
-        <button type="submit" class="btn btn-primary btn-sm" onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo reclamo</button>
-    </div>
 <div class="card">
+    <div class="card-header">
+        <h3>Listado de reclamos
+            <button type="submit" class="btn btn-primary btn-xs" onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo reclamo</button>
+        </h3>
+    </div>
     <div class="card-body">
         <div class="table-responsive">
             <table id="reclamos" class="table table-bordered table-striped table-hover datatable">

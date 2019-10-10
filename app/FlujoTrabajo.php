@@ -46,6 +46,17 @@ class FlujoTrabajo extends Model
         }
     }
 
+    public function getPosiblesEstados(Estado $estado){
+        $transiciones = $this->transiciones;
+        $estados = collect();
+        foreach ($transiciones as $key => $transicion) {
+            if($transicion->estadoInicial == $estado){
+                $estados->push($transicion->estadoFinal);
+            }
+        }
+        return $estados;
+    }
+
     // public function siguienteEstado(Reclamo $reclamo){
     //     $this->transiciones($reclamo);
     // }

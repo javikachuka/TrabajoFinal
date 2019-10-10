@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             TipoComprobanteTableSeeder::class ,
             PrioridadTableSeeder::class ,
             RequisitosTableSeeder::class ,
+            ConfigTableSeeder::class,
         ]);
 
     }

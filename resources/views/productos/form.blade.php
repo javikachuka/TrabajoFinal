@@ -24,7 +24,7 @@
                         <select name="medida_id" class=" form-control" >
                             <option value="" selected disabled>--Seleccione--</option>
                             @foreach ($medidas as $medida)
-                                <option value="{{$medida->id}}">{{$medida->nombre}} <i class="text-muted">({{$medida->simbolo}})</i></option>
+                                <option value="{{$medida->id}}" @if($producto->medida != null) @if($producto->medida->id == $medida->id) selected @endif @endif>{{$medida->nombre}} <i class="text-muted">({{$medida->simbolo}})</i></option>
                             @endforeach
                         </select>
                         <div class="text-danger">{{$errors->first('rubro_id')}} </div>
@@ -37,7 +37,7 @@
                             <option value="" selected disabled>--Seleccione--</option>
 
                                 @foreach ($rubros as $rubro)
-                                    <option value="{{$rubro->id}}">{{$rubro->nombre}}</option>
+                                    <option value="{{$rubro->id}}" @if($producto->rubro != null) @if($producto->rubro->id == $rubro->id) selected @endif @endif>{{$rubro->nombre}}</option>
                                 @endforeach
                         </select>
                         <div class="text-danger">{{$errors->first('rubro_id')}} </div>

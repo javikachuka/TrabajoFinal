@@ -66,9 +66,13 @@ class Trabajo extends Model
                 }
             }
         }
-        $resul = $suma/$div ;
-        $enHoras = round($resul, 2) ;
-        return str_replace('.', ':' , $enHoras ) ;
+        if($div != 0){
+            $resul = $suma/$div ;
+            $enHoras = round($resul, 2) ;
+            return str_replace('.', ':' , $enHoras ) ;
+        }else{
+            return 0 ;
+        }
     }
 
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Asistencia;
+use App\Horario;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -158,6 +160,22 @@ class AsistenciaController extends Controller
             alert()->error('Usted no ha marcado entrada!' , 'Error') ;
             return redirect()->back() ;
         }
+    }
+
+    public function control(){
+        $empleados = User::all();
+        $asistencias = Asistencia::all();
+        // $hora = Carbon::create($asistencias[0]->horaEntrada);
+        // $horarios = Horario::all() ;
+        //  $horaE = Carbon::create($horarios[0]->horaEntrada);
+        //  $horaS = Carbon::create($horarios[0]->horaSalida);
+        // if($hora->greaterThanOrEqualTo($horaE) && $hora->lessThanOrEqualTo($horaS)) {
+        //     return 'si0' ;
+
+        // } else{
+        //     return 'no';
+        // }
+        return view('asistencia.control', compact('empleados', 'asistencias')) ;
     }
 
     public function validar(){

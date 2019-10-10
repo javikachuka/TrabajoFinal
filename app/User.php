@@ -91,4 +91,16 @@ class User extends Authenticatable
         }
         return false ;
     }
+
+    public function getHorario(Asistencia $asistencia){
+        $horarios = Horario::all();
+        $horaEntrada = Carbon::create($asistencia->horaEntrada) ;
+        foreach($horarios as $horario){
+            $horaE = Carbon::create($horario->horaEntrada)->subMinutes(15);
+            $horaS = Carbon::create($horario->horaSalida);
+            if(($horaEntrada->greaterThanOrEqualTo($horaE) && $horaEntrada->lessThanOrEqualTo($horaS))){
+                return $horario->nombre ;
+            }
+        }
+    }
 }

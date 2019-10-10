@@ -21,7 +21,7 @@
                                     <input type="text" id="dni" name="dni" required value="{{ old('dni') ?? $user->dni }}"   class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Fecha de Ingreso <input type="date" name="fecha_ingreso" class="form-control" required value="{{ old('fecha_ingreso') ?? $user->fecha_ingreso }}"  id=""></label>
+                                    <label for="">Fecha de Ingreso <input type="date" name="fecha_ingreso" class="form-control" required value="{{ old('fecha_ingreso') ?? $user->fecha_ingreso }}"  id="" max="{{ Carbon\Carbon::now()->format('Y-m-d') }}" ></label>
                                 </div>
 
                                 <div class="form-group">

@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
                     <h4>Turnos asignados</h4>
@@ -116,7 +116,7 @@
                         <thead>
                             <tr>
                                 <th>Dia</th>
-                                <th>Turno</th>
+                                <th>Horario</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -212,12 +212,14 @@
 
         $('#empleado').change(function(){
             var emple_id = $('#empleado').val();
+            var url = "{{ route('turnos.obtener', ":id") }}" ;
+            url = url.replace(':id' , emple_id) ;
+
             $('#turnos tbody').children().remove();
             // alert(tip_rec_id) ;
             //AJAX
             // console.log(emple_id);
-
-            $.get('/api/turnos/asignacion/'+emple_id+'', function(data){
+            $.get(url , function(data){
                 // $('#lista').html(html_select) ;
 
                 if(data['turnos'].length>0){

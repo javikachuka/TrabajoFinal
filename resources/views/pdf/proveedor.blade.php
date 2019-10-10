@@ -1,4 +1,19 @@
 @extends('layouts.pdf2')
+
+@section('logo')
+<a><img id="imagen" class="float-left rounded " src="{{public_path('img/').$config->logo}}"> </a>
+@endsection
+
+@section('datos')
+<p id="encabezado">
+    <b>{{$config->nombre}}</b><br>
+    {{$config->direccion}}<br>
+    Telefono:{{$config->telefono}}<br>
+    Email:{{$config->email}}
+</p>
+@endsection
+
+@section('content')
 @section('content')
 
 <div>

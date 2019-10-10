@@ -34,6 +34,8 @@
 
                             </td>
                             <td width ="200px">
+                                <a href="{{route('flujoTrabajos.show', $flujoTrabajo)}}" class="btn btn-xs btn-primary">Ver mas</a>
+
                                 @can('flujoTrabajos_edit')
                                     <a href="{{ route('flujoTrabajos.edit', $flujoTrabajo)}}" class="btn btn-xs btn-secondary"> Editar </a>
                                 @endcan

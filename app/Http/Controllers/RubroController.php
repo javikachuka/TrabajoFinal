@@ -38,6 +38,7 @@ class RubroController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validar();
         $rubro = new Rubro() ;
         $rubro->fill($request->all()) ;
         $rubro->save() ;
@@ -98,6 +99,14 @@ class RubroController extends Controller
             return redirect()->back() ;
 
         }
+    }
+
+    public function validar(){
+        $data = request()->validate([
+            'nombre' => 'required|unique:rubros,nombre' ,
+        ],[
+            'nombre.unique' => 'El rubro ya existe'
+        ]);
     }
 
 

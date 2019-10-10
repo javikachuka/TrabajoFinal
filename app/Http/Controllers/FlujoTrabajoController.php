@@ -57,7 +57,9 @@ class FlujoTrabajoController extends Controller
      */
     public function show(FlujoTrabajo $flujoTrabajo)
     {
-        //
+
+        return view('flujoTrabajo.show', compact('flujoTrabajo')) ;
+
     }
 
     /**

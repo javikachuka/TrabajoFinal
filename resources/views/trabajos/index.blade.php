@@ -80,17 +80,17 @@
                             </td>
                             <td width ="200px">
                                 <a href="{{route('trabajos.show', $trabajo)}}" class="btn btn-xs btn-primary">Ver mas</a>
-                                @if ($trabajo->reclamo->getCantidadEstados() <= 1)
+                                @if ($trabajo->reclamo->getCantidadEstados() <= 2)
                                     <a href="{{ route('trabajos.edit', $trabajo) }}" class="btn btn-xs btn-secondary"> Asignar a </a>
                                 @else
 
                                 @endif
 
-                                @if ($trabajo->reclamo->getCantidadEstados() <= 1)
+                                @if ($trabajo->reclamo->getCantidadEstados() <= 2)
                                     <button class="btn btn-xs btn-success" data-toggle="modal" data-target="#iniciarTrabajo{{$trabajo->id}}">Iniciar <i class="fad fa-play"></i></button>
-                                @elseif($trabajo->reclamo->getCantidadEstados() == 2)
+                                @elseif($trabajo->reclamo->getCantidadEstados() == 3)
                                     <button class="btn btn-xs btn-danger" onclick="location.href='{{route('trabajos.finalizarTrabajo', $trabajo)}}'">Finalizar <i class="fad fa-window-close"></i></button>
-                                @elseif($trabajo->reclamo->getCantidadEstados() >= 3)
+                                @elseif($trabajo->reclamo->getCantidadEstados() >= 4)
 
                                 @endif
                                 {{-- <a class="btn btn-xs btn-success"  data-toggle="modal" data-target="#iniciarTrabajo"> Iniciar <i class="fad fa-play"></i> </a> --}}

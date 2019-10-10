@@ -7,8 +7,8 @@ use App\HistorialEstado;
 use App\Reclamo;
 use App\Requisito;
 use Illuminate\Http\Request;
-use App\TipoReclamo ;
-use App\Socio ;
+use App\TipoReclamo;
+use App\Socio;
 use App\Trabajo;
 use App\Turno;
 use Carbon\Carbon;
@@ -29,7 +29,7 @@ class ReclamoController extends Controller
 
         $reclamos = Reclamo::all();
 
-        return view('reclamos.index',compact('reclamos'));
+        return view('reclamos.index', compact('reclamos'));
     }
 
     /**
@@ -39,11 +39,11 @@ class ReclamoController extends Controller
      */
     public function create()
     {
-        $reclamo = new Reclamo() ;
-        $socios = Socio::all() ;
-        $tipos_reclamos = TipoReclamo::all() ;
-        $reclamos = Reclamo::all() ;
-        return view('reclamos.create' , compact('reclamo' ,'reclamos' , 'socios' , 'tipos_reclamos')) ;
+        $reclamo = new Reclamo();
+        $socios = Socio::all();
+        $tipos_reclamos = TipoReclamo::all();
+        $reclamos = Reclamo::all();
+        return view('reclamos.create', compact('reclamo', 'reclamos', 'socios', 'tipos_reclamos'));
     }
 
     /**
@@ -52,50 +52,84 @@ class ReclamoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request , Reclamo $reclamo)
+    public function store(Request $request, Reclamo $reclamo)
     {
-        // DB::beginTransaction();
-        // try{
+        // if($reclamo->tipoReclamo->flujoTrabajo_id == null){
+        //     alert()->info('Por favor vaya a "Gestion de Reclamos > Tipo de Reclamos" y configure los tipos de reclamos a un flujo de trabajo.' , 'Atencion')->persistent();
+        // }
+
+        DB::beginTransaction();
+        try {
             // return sizeof($request->requisitos) ;
-            $reclamo->fill($request->only(['socio_id' ,'tipoReclamo_id' , 'fecha' , 'detalle'])) ;
-            $reclamo->user_id = auth()->user()->id ;
-            $reclamo->save() ;
-            if($reclamo->tipoReclamo->trabajo == true){ // hay un atributo que es boolean (trabajo) y me dice si el reclamo conlleva o no un trabajo
+            $reclamo->fill($request->only(['socio_id', 'tipoReclamo_id', 'fecha', 'detalle']));
+            $reclamo->user_id = auth()->user()->id;
+            $reclamo->save();
+            if ($reclamo->tipoReclamo->trabajo == true) { // hay un atributo que es boolean (trabajo) y me dice si el reclamo conlleva o no un trabajo
 
                 //generacion de un nuevo trabajo correspondiente al reclamo
-                $trabajo = new Trabajo() ;
-                $trabajo->fecha = $reclamo->fecha ;
-                $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoInicial() ;
-                $trabajo->save() ;
+                $trabajo = new Trabajo();
+                $trabajo->fecha = $reclamo->fecha;
+                $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoInicial();
+                $trabajo->save();
 
                 //asociacion de trabajo con reclamo
-                $reclamo->trabajo_id = $trabajo->id ;
-                $reclamo->update() ;
+                $reclamo->trabajo_id = $trabajo->id;
+                $reclamo->update();
 
                 //historial de estados del reclamo
                 $historial = new HistorialEstado();
-                $historial->reclamo_id = $reclamo->id ;
-                $historial->estado_id = $trabajo->estado_id ;
-                $historial->save() ;
+                $historial->reclamo_id = $reclamo->id;
+                $historial->estado_id = $trabajo->estado_id;
+                $historial->save();
 
                 //corresponde a si el reclamo presento o no requisitos
-                if($request->requisitos != null){
-                    for($i = 0 ;  $i < sizeof($request->requisitos) ; $i++){
-                        $control = new Control() ;
-                        $control->reclamo_id = $reclamo->id ;
-                        $control->requisito_id = $request->requisitos[$i] ;
-                        $control->recibido = true ;
-                        $control->fecha = Carbon::now() ;
-                        $control->save() ;
+                $posiblesEstados = $reclamo->tipoReclamo->flujoTrabajo->getPosiblesEstados($trabajo->estado); //aqui deberia ir la logica para pasar a un estado faltante
+                if (($request->requisitos != null)) {
+                    for ($i = 0; $i < sizeof($request->requisitos); $i++) {
+                        $control = new Control();
+                        $control->reclamo_id = $reclamo->id;
+                        $control->requisito_id = $request->requisitos[$i];
+                        $control->recibido = true;
+                        $control->fecha = Carbon::now();
+                        $control->save();
                     }
-                    // if(sizeof($request->requisitos) != sizeof($reclamo->tipoReclamo->requisitos)){
-                    //     $trabajo->estado_id = 6 ; //aqui deberia ir la logica para pasar a un estado faltante
-                    //     $trabajo->update() ;
-                    //     $hisFaltante = new HistorialEstado();
-                    //     $hisFaltante->reclamo_id = $reclamo->id ;
-                    //     $hisFaltante->estado_id = $trabajo->estado_id ;
-                    //     $hisFaltante->save() ;
-                    // }
+                    if (sizeof($request->requisitos) != sizeof($reclamo->tipoReclamo->requisitos)) {
+                        foreach ($posiblesEstados as $e) {
+                            if (strpos($e->nombre, 'F') !== false) {
+                                $trabajo->estado_id = $e->id;
+                            }
+                        }
+                    } else {
+                        foreach ($posiblesEstados as $e) {
+                            if (strpos($e->nombre, 'F') === false) {
+                                $trabajo->estado_id = $e->id;
+                            }
+                        }
+                    }
+                    $trabajo->update();
+                    $hisFaltante = new HistorialEstado();
+                    $hisFaltante->reclamo_id = $reclamo->id;
+                    $hisFaltante->estado_id = $trabajo->estado_id;
+                    $hisFaltante->save();
+                } else {
+                    if ($reclamo->tipoReclamo->tieneRequisitos()) {
+                        foreach ($posiblesEstados as $e) {
+                            if (strpos($e->nombre, 'F') !== false) {
+                                $trabajo->estado_id = $e->id;
+                            }
+                        }
+                    } else {
+                        foreach ($posiblesEstados as $e) {
+                            if (strpos($e->nombre, 'F') === false) {
+                                $trabajo->estado_id = $e->id;
+                            }
+                        }
+                    }
+                    $trabajo->update();
+                    $hisFaltante = new HistorialEstado();
+                    $hisFaltante->reclamo_id = $reclamo->id;
+                    $hisFaltante->estado_id = $trabajo->estado_id;
+                    $hisFaltante->save();
                 }
 
                 //asignacion de un trabajo a un empleado
@@ -122,14 +156,15 @@ class ReclamoController extends Controller
 
                 // }
 
-            }
-            // DB::commit();
-            return redirect()->route('reclamos.index')->with('confirmar', 'asd') ; ;
+            } else {
 
-        // }catch(Exception $e){
-        //     DB::rollback();
-        //     return $e ;
-        // }
+            }
+            DB::commit();
+            return redirect()->route('reclamos.index')->with('confirmar', 'asd');;
+        } catch (Exception $e) {
+            DB::rollback();
+            return $e;
+        }
     }
 
     /**
@@ -140,7 +175,7 @@ class ReclamoController extends Controller
      */
     public function show(Reclamo $reclamo)
     {
-        return view('reclamos.show' , compact('reclamo')) ;
+        return view('reclamos.show', compact('reclamo'));
     }
 
     /**
@@ -151,10 +186,10 @@ class ReclamoController extends Controller
      */
     public function edit(Reclamo $reclamo)
     {
-        $socios = Socio::all() ;
-        $tipos_reclamos = TipoReclamo::all() ;
-        $reclamos = Reclamo::all() ;
-        return view('reclamos.edit' , compact('reclamo' , 'socios' , 'tipos_reclamos' , 'reclamos')) ;
+        $socios = Socio::all();
+        $tipos_reclamos = TipoReclamo::all();
+        $reclamos = Reclamo::all();
+        return view('reclamos.edit', compact('reclamo', 'socios', 'tipos_reclamos', 'reclamos'));
     }
 
     /**
@@ -167,22 +202,22 @@ class ReclamoController extends Controller
     public function update(Request $request, $id)
     {
         $reclamo = Reclamo::find($id);
-        $reclamo->fill($request->only(['socio_id' ,'tipoReclamo_id' , 'fecha' , 'detalle'])) ;
+        $reclamo->fill($request->only(['socio_id', 'tipoReclamo_id', 'fecha', 'detalle']));
         $reclamo->update();
-        if($request->requisitos != null){
-            for($i = 0 ;  $i < sizeof($request->requisitos) ; $i++){
-                $req = Requisito::find($request->requisitos[$i]) ;
-                if(!$reclamo->presentoRequisito($req)){
-                    $control = new Control() ;
-                    $control->reclamo_id = $reclamo->id ;
-                    $control->requisito_id = $request->requisitos[$i] ;
-                    $control->recibido = true ;
-                    $control->fecha = Carbon::now() ;
-                    $control->save() ;
+        if ($request->requisitos != null) {
+            for ($i = 0; $i < sizeof($request->requisitos); $i++) {
+                $req = Requisito::find($request->requisitos[$i]);
+                if (!$reclamo->presentoRequisito($req)) {
+                    $control = new Control();
+                    $control->reclamo_id = $reclamo->id;
+                    $control->requisito_id = $request->requisitos[$i];
+                    $control->recibido = true;
+                    $control->fecha = Carbon::now();
+                    $control->save();
                 }
             }
         }
-        return redirect('/reclamos')->with('confirmar' , 'bien') ;
+        return redirect('/reclamos')->with('confirmar', 'bien');
     }
 
     /**
@@ -193,27 +228,25 @@ class ReclamoController extends Controller
      */
     public function destroy($id)
     {
-        $reclamo = Reclamo::find($id) ;
-        try{
-            if($reclamo != null){
-                if(sizeof($reclamo->historial)<=1){
-                    $t = $reclamo->trabajo ;
-                    $reclamo->delete() ;
-                    if($t != null){
+        $reclamo = Reclamo::find($id);
+        try {
+            if ($reclamo != null) {
+                if (sizeof($reclamo->historial) <= 1) {
+                    $t = $reclamo->trabajo;
+                    $reclamo->delete();
+                    if ($t != null) {
 
                         $t->delete();
                     }
-                    return redirect()->back()->with('borrado' , 'ok') ;
-                }else{
-                    alert()->error('No es posible eliminar el reclamo debido a que ya tuvo un tratamiento!' , 'Error!')->persistent('OK') ;
-                    return redirect()->back() ;
+                    return redirect()->back()->with('borrado', 'ok');
+                } else {
+                    alert()->error('No es posible eliminar el reclamo debido a que ya tuvo un tratamiento!', 'Error!')->persistent('OK');
+                    return redirect()->back();
                 }
             }
-        }catch(Exception $e){
-            alert()->error('No es posible eliminar' , 'Error!') ;
-            return redirect('/reclamos') ;
+        } catch (Exception $e) {
+            alert()->error('No es posible eliminar', 'Error!');
+            return redirect('/reclamos');
         }
     }
-
-
 }

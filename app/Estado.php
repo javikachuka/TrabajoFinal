@@ -9,6 +9,11 @@ class Estado extends Model
 
     protected $guarded = [] ;
 
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = strtoupper($value);
+    }
+
     public function tranInicial(){
         return $this->hasMany(Transicion::class , 'estadoInicial_id');
     }

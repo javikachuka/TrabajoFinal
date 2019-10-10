@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Configuracion;
 use App\Movimiento;
 use App\Producto;
 use App\Proveedor;
@@ -19,7 +20,8 @@ class PdfController extends Controller
         $proveedores= Proveedor::all() ;
         $datos = date('d/m/Y');
         $cant = sizeof($proveedores) ;
-        $pdf=PDF::loadView('pdf.proveedor',['proveedores'=>$proveedores, 'datos'=> $datos , 'cant' => $cant]);
+        $config = Configuracion::first();
+        $pdf=PDF::loadView('pdf.proveedor',['proveedores'=>$proveedores, 'datos'=> $datos , 'cant' => $cant , 'config' => $config]);
         $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
         $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
         return $pdf->stream('proveedor.pdf');
@@ -116,10 +118,10 @@ class PdfController extends Controller
         }else{
             $aux = $movimientos ;
         }
-
+        $config = Configuracion::first();
         $cant = sizeof($aux) ;
         $datos = date('d/m/Y');
-        $pdf=PDF::loadView('pdf.movimientos',['movimientos'=>$aux, 'datos'=> $datos, 'cant' => $cant , 'filtro' => $filtro]);
+        $pdf=PDF::loadView('pdf.movimientos',['movimientos'=>$aux, 'datos'=> $datos, 'cant' => $cant , 'filtro' => $filtro, 'config' => $config]);
         $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
         $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
         return $pdf->stream('movimientos.pdf');

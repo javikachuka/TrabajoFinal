@@ -14,11 +14,12 @@ class EstadosTableSeeder extends Seeder
     public function run()
     {
         Estado::create([
-            'nombre'          => 'En espera',
+            'nombre'          => 'Recibido',
         ]);
 
+
         Estado::create([
-            'nombre'          => 'Recibido',
+            'nombre'          => 'En espera',
         ]);
 
         Estado::create([
@@ -26,7 +27,7 @@ class EstadosTableSeeder extends Seeder
         ]);
 
         Estado::create([
-            'nombre'          => 'Revisado',
+            'nombre'          => 'Falta',
         ]);
 
         Estado::create([

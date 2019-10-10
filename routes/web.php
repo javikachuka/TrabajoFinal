@@ -35,6 +35,9 @@ Route::get('/movimientosPDF', 'PdfController@movimientosPDF')->name('movimientos
 
 Route::middleware(['auth'])->group(function(){
 
+    //inicio
+    Route::get('/inicio', 'HomeController@inicio')->name('inicio');
+
     //reclamos
     Route::get('reclamos','ReclamoController@index')->name('reclamos.index')->middleware('permission:reclamos_index')  ;
     Route::get('reclamos/create','ReclamoController@create')->name('reclamos.create')->middleware('permission:reclamos_create')  ;
@@ -99,6 +102,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('flujoTrabajos','FlujoTrabajoController@index')->name('flujoTrabajos.index') ;
     Route::get('flujoTrabajos/create', 'FlujoTrabajoController@create')->name('flujoTrabajos.create') ;
     Route::post('flujoTrabajos', 'FlujoTrabajoController@store')->name('flujoTrabajos.store') ;
+    Route::get('flujoTrabajos/{flujoTrabajo}', 'FlujoTrabajoController@show')->name('flujoTrabajos.show') ;
     Route::get('flujoTrabajos/{flujoTrabajo}/edit','FlujoTrabajoController@edit')->name('flujoTrabajos.edit') ;
     Route::put('flujoTrabajos/{id}' , 'FlujoTrabajoController@update')->name('flujoTrabajos.update') ;
     Route::delete('flujoTrabajos/{flujoTrabajo}' , 'FlujoTrabajoController@destroy')->name('flujoTrabajos.destroy') ;
@@ -182,6 +186,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('asistencias','AsistenciaController@index')->name('asistencias.index')  ;
     Route::post('asistencias/entrada','AsistenciaController@entrada')->name('asistencias.entrada')  ;
     Route::post('asistencias/salida','AsistenciaController@salida')->name('asistencias.salida')  ;
+    Route::get('asistencias/control','AsistenciaController@control')->name('asistencias.control')  ;
 
 
     //horarios
@@ -227,6 +232,11 @@ Route::middleware(['auth'])->group(function(){
     Route::get('socios/{socio}/edit','SocioController@edit')->name('socios.edit') ;
     Route::put('socios/{socio}' , 'SocioController@update')->name('socios.update') ;
     Route::delete('socios/{socio}' , 'SocioController@destroy')->name('socios.destroy') ;
+
+
+    //configuracion
+    Route::get('configuracion', 'ConfiguracionController@index')->name('configuraciones.index');
+    Route::put('configuracion/update', 'ConfiguracionController@update')->name('configuraciones.update');
 
 }) ;
 

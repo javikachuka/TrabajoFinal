@@ -50,13 +50,14 @@ class TurnoController extends Controller
             return redirect()->back() ;
         }
 
-
         $empleado = User::find($request->empleado_id);
         foreach($request->horarios as $horario){
             $horarioDisp = Horario::find($horario) ;
             foreach($request->dias as $dia){
                 if($horarioDisp->existeTurno($dia)){
-                    $horarioDisp->getTurno($dia)->users()->attach($empleado->id) ;
+                    if(!$horarioDisp->getTurno($dia)->users->contains($empleado)){
+                        $horarioDisp->getTurno($dia)->users()->attach($empleado->id) ;
+                    }
                 }else{
                     $turno = new Turno() ;
                     $turno->dia = $dia ;

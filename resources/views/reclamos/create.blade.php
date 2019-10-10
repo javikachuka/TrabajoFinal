@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-sm-3">
                     <label for="">Socio</label>
-                    <select class="seleccion form-control" name="socio_id" id="socio">
+                    <select class="seleccion form-control" name="socio_id" id="socio" required>
                         <option value="" disabled selected>--Seleccione un socio--</option>
                         @foreach($socios as $socio)
                         <option value="{{$socio->id}}">{{$socio->apellido . ' ' . $socio->nombre}}</option>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-sm-3">
                     <label for="">Tipo de Reclamo</label>
-                    <select class="seleccion form-control" name="tipoReclamo_id" id="tipoReclamo">
+                    <select class="seleccion form-control" name="tipoReclamo_id" id="tipoReclamo" required>
                         <option value="" disabled selected>--Seleccione un tipo--</option>
                         @foreach($tipos_reclamos as $tipo_reclamo)
                         <option value="{{$tipo_reclamo->id}}">{{$tipo_reclamo->nombre}}</option>
@@ -136,7 +136,7 @@
 <script>
     $(document).ready(function() {
         $('.seleccion').select2({
-
+            sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
         });
     });
 </script>
@@ -159,10 +159,12 @@
 
         $('#tipoReclamo').change(function(){
             var tip_rec_id = $(this).val();
+            var url = "{{ route('tipoReclamos.cargarRequisitos', ":id") }}" ;
+            url = url.replace(':id' , tip_rec_id) ;
             // alert(tip_rec_id) ;
             //AJAX
 
-            $.get('/api/reclamos/create/requisitos/'+tip_rec_id+'', function(data){
+            $.get(url, function(data){
                 var html_select = '<li> </li>';
                 $('#lista').html(html_select) ;
                 if(data.length>0){

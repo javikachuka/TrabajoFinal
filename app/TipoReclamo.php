@@ -32,4 +32,12 @@ class TipoReclamo extends Model
     public function requisitos(){
         return $this->belongsToMany(Requisito::class);
     }
+
+    public function tieneRequisitos(){
+        if(empty($this->requisitos[0])){
+            return false ;
+        }else{
+            return true;
+        }
+    }
 }

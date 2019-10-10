@@ -113,8 +113,44 @@ jo
                                         {{$comprobante->nombre}}
                                     </td>
                                     <td>
-                                        <a href="#" id="editar"><i class="fal fa-edit"></i></a>
-                                        <a href="#" id="editar"><i class="fal fa-trash-alt"></i></a>
+                                        <a href="#" id="editar" data-toggle="modal"
+                                            data-target="#editar{{$comprobante->id}}"><i class="fal fa-edit"></i></a>
+                                        <!-- Modal Edit -->
+                                        <div class="modal fade" id="editar{{$comprobante->id}}" tabindex="-1"
+                                            role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Nuevo Comprobante
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form class="form-group " method="POST"
+                                                        action="{{route('comprobantes.update' , $comprobante)}}">
+                                                        @method('PUT')
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label>Comprobante</label>
+                                                                <input type="text" name="nombre" required
+                                                                    value="{{ $comprobante->nombre ?? old('nombre')}}"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary btn-sm"
+                                                                data-dismiss="modal">Cerrar</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary btn-sm ">Guardar</button>
+                                                        </div>
+                                                        @csrf
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="#" id="eliminar"><i class="fal fa-trash-alt"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -124,6 +160,35 @@ jo
                 </div>
             </div>
             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create -->
+<div class="modal fade" id="crearComprobante" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Comprobante</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-group " method="POST" action="{{route('comprobantes.store')}}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Comprobante</label>
+                        <input type="text" name="nombre" required value="{{ $comprobante->nombre ?? old('nombre')}}"
+                            class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary btn-sm ">Guardar</button>
+                </div>
+                @csrf
+            </form>
         </div>
     </div>
 </div>
@@ -182,6 +247,14 @@ jo
                     preview.append(image);
                 };
         }
+</script>
+
+<script>
+    @if($errors->any() )
+            $(function(){
+                $('#crearComprobante').modal('show');
+            });
+        @endif
 </script>
 
 @endpush

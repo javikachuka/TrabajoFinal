@@ -7,6 +7,7 @@ use App\Movimiento;
 use App\Producto;
 use App\Proveedor;
 use App\TipoMovimiento;
+use App\Trabajo;
 use Illuminate\Http\Request;
 use PDF ;
 use DB ;
@@ -125,5 +126,23 @@ class PdfController extends Controller
         $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
         $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
         return $pdf->stream('movimientos.pdf');
+    }
+
+    public function trabajosPorHacerPDF(){
+        $trabajos = Trabajo::all();
+        foreach($trabajos as $key => $trabajo){
+            if($trabajo->reclamo->getCantidadEstados() != 2){
+                $trabajos->pull($key) ;
+            }
+            if(sizeof($trabajo->reclamo->tipoReclamo->requisitos) != sizeof($trabajo->reclamo->controles)){
+                $trabajos->pull($key) ;
+            }
+        }
+        $cant = sizeof($trabajos) ;
+        $config = Configuracion::first();
+        $pdf=PDF::loadView('pdf.trabajosPorHacer',['trabajos'=>$trabajos, 'cant' => $cant , 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
+        return $pdf->stream('trabajosPorHacer.pdf');
     }
 }

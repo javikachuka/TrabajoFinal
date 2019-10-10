@@ -30,6 +30,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/proveedorPDF', 'PdfController@proveedorPDF')->name('proveedor.pdf') ;
 Route::get('/movimientosPDF', 'PdfController@movimientosPDF')->name('movimientos.pdf') ;
+Route::get('/trabajosPorHacerPDF', 'PdfController@trabajosPorHacerPDF')->name('trabajosPorHacer.pdf') ;
 
 
 
@@ -237,6 +238,12 @@ Route::middleware(['auth'])->group(function(){
     //configuracion
     Route::get('configuracion', 'ConfiguracionController@index')->name('configuraciones.index');
     Route::put('configuracion/update', 'ConfiguracionController@update')->name('configuraciones.update');
+
+    //comprobantes
+    Route::post('comprobantes','TipoComprobanteController@store')->name('comprobantes.store')->middleware('permission:comprobantes_store')  ;
+    Route::put('comprobantes/{comprobante}','TipoComprobanteController@update')->name('comprobantes.update') ;
+    Route::delete('comprobantes/{comprobantes}' , 'TipoComprobanteController@destroy')->name('comprobantes.destroy') ;
+
 
 }) ;
 

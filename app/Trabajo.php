@@ -40,6 +40,7 @@ class Trabajo extends Model
         return $inicio->diffForHumans() ;
     }
 
+
     public function ultimoEstado(){
         return $this->updated_at->diffForHumans() ;
     }
@@ -72,6 +73,44 @@ class Trabajo extends Model
             return str_replace('.', ':' , $enHoras ) ;
         }else{
             return 0 ;
+        }
+    }
+
+    public function recomendaciones(){
+
+        $trabajos = Trabajo::all();
+        $productos = collect() ;
+        foreach($trabajos as $trabajo){
+            if($trabajo->reclamo->tipoReclamo_id == $this->reclamo->tipoReclamo_id){
+                if($trabajo->estado == $trabajo->reclamo->tipoReclamo->flujoTrabajo->getEstadoFinal()){
+                    foreach($trabajo->cabecerasMovimientos[0]->movimientos as $mov){
+                        if($mov->tipoMovimiento->operacion == false){
+                            if(!$productos->contains('id', $mov->producto->id)){
+                                $productos->add($mov->producto) ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $productos ;
+    }
+
+    public function recomendacionCantidad(Producto $producto){
+        $cantidad = 0;
+        $div = 0 ;
+        foreach($producto->movimientos as $mov){
+            if($mov->tipoMovimiento->operacion == false){
+                $cantidad += $mov->cantidad ;
+                $div += 1;
+            }
+        }
+
+        if($div != 0){
+            $promedio = $cantidad/$div ;
+            return ceil($promedio) ;
+        }else{
+            return 0;
         }
     }
 

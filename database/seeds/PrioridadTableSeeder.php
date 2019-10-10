@@ -41,26 +41,35 @@ class PrioridadTableSeeder extends Seeder
             'nombre' => 'RUPTURA CAÑO PVC' ,
             'trabajo' => 1 ,
             'prioridad_id' => 4 ,
+            'flujoTrabajo_id' => 1,
+
         ]) ;
         TipoReclamo::create([
             'nombre' => 'CAMBIO DE MEDIDOR' ,
             'trabajo' => 1 ,
             'prioridad_id' => 3 ,
+            'flujoTrabajo_id' => 1,
+
         ]) ;
         TipoReclamo::create([
             'nombre' => 'PERDIDA DE MANGUERA' ,
             'trabajo' => 1 ,
             'prioridad_id' => 2 ,
+            'flujoTrabajo_id' => 1,
         ]) ;
         TipoReclamo::create([
             'nombre' => 'QUEJAS DEL SOCIO' ,
             'trabajo' => 0 ,
             'prioridad_id' => 1 ,
+            'flujoTrabajo_id' => 2,
+
         ]) ;
         TipoReclamo::create([
             'nombre' => 'RUPTURA DEL CAÑO PRINCIPAL' ,
             'trabajo' => 1 ,
             'prioridad_id' => 5 ,
+            'flujoTrabajo_id' => 1,
+
         ]) ;
     }
 }

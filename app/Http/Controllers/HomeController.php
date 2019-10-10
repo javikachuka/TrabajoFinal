@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Estado;
 use App\Trabajo;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,11 @@ class HomeController extends Controller
                 $trabajos->pull($key) ;
             }
         }
-        return view('inicio' , compact('trabajos')) ;
+
+        $estadoIniciado = Estado::where('nombre', 'INICIADO')->firstOrFail();
+        $trabajosIniciados = Trabajo::where('estado_id', $estadoIniciado->id)->get() ;
+
+
+        return view('inicio' , compact('trabajos', 'trabajosIniciados')) ;
     }
 }

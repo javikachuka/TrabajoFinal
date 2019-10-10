@@ -15,7 +15,7 @@ class CreateMovimientosTable extends Migration
     {
         Schema::create('movimientos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('cantidad') ;
+            $table->double('cantidad') ;
             $table->double('precio')->nullable() ;
             $table->unsignedBigInteger('producto_id');
             $table->foreign('producto_id')->references('id')->on('productos') ;

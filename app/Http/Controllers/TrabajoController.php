@@ -160,12 +160,12 @@ class TrabajoController extends Controller
             $movimiento->tipo_movimiento_id = 2 ;
             $movimiento->cabecera_movimiento_id = $cabMov->id ;
             $movimiento->almacenOrigen_id = $almacenOrigen->id ;
-            $movimiento->producto_id = $request->producto[$i] ;
-            if($almacenOrigen->existeProducto($request->producto[$i])){
-                if($request->cantidad[$i] <= $almacenOrigen->getCantidadProd($request->producto[$i])){
+            $movimiento->producto_id = $request->producto_id[$i] ;
+            if($almacenOrigen->existeProducto($request->producto_id[$i])){
+                if($request->cantidad[$i] <= $almacenOrigen->getCantidadProd($request->producto_id[$i])){
                     $exis1 = $almacenOrigen->existencias ;
                     foreach($exis1 as $e1){
-                        if($e1->producto->id == $request->producto[$i]){
+                        if($e1->producto->id == $request->producto_id[$i]){
                             $e1->cantidad -= $request->cantidad[$i] ;
                             $e1->update() ;
                         }

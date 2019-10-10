@@ -22,6 +22,7 @@ class UserTableSeeder extends Seeder
         $direccion->altura = 115 ;
         $direccion->save() ;
 
+
         $user = new User() ;
         $user->name = 'Javier' ;
         $user->apellido = 'Kachuka' ;
@@ -32,6 +33,33 @@ class UserTableSeeder extends Seeder
         $user->email = 'admin@admin.com' ;
         $user->password = Hash::make('123456789') ;
         $user->save() ;
+
+        $direccion = new Direccion();
+        $direccion->zona_id = 4 ;
+        $direccion->calle = 'Malvinas' ;
+        $direccion->altura = 87 ;
+        $direccion->save() ;
+
+
+        $direccion = new Direccion();
+        $direccion->zona_id = 5 ;
+        $direccion->calle = 'Av. Centenario' ;
+        $direccion->altura = 695 ;
+        $direccion->save() ;
+
+
+        $direccion = new Direccion();
+        $direccion->zona_id = 2 ;
+        $direccion->calle = 'Av. 9 de Julio' ;
+        $direccion->altura = 8789 ;
+        $direccion->save() ;
+
+
+        $direccion = new Direccion();
+        $direccion->zona_id = 3 ;
+        $direccion->calle = 'Laprida' ;
+        $direccion->altura = 8531;
+        $direccion->save() ;
 
         // $user = new User() ;
         // $user->name = 'emple1' ;

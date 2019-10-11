@@ -11,14 +11,23 @@ class TipoComprobanteController extends Controller
         $this->validar();
         $comprobante = new TipoComprobante() ;
         $comprobante->fill($request->all()) ;
-        return redirect()->back()->with('confirmar', 'bien') ;
+        $comprobante->save();
+        return redirect()->back()->withInput()->with('confirmar', 'bien') ;
     }
 
 
     public function update(Request $request, TipoComprobante $comprobante){
 
         $comprobante->fill($request->all()) ;
+        $comprobante->update();
         return redirect()->back()->with('confirmar', 'bien') ;
+    }
+
+    public function destroy(TipoComprobante $comprobante){
+
+        $comprobante->delete();
+        return redirect()->back()->with('borrado', 'bien') ;
+
     }
 
 

@@ -242,7 +242,12 @@ Route::middleware(['auth'])->group(function(){
     //comprobantes
     Route::post('comprobantes','TipoComprobanteController@store')->name('comprobantes.store')->middleware('permission:comprobantes_store')  ;
     Route::put('comprobantes/{comprobante}','TipoComprobanteController@update')->name('comprobantes.update') ;
-    Route::delete('comprobantes/{comprobantes}' , 'TipoComprobanteController@destroy')->name('comprobantes.destroy') ;
+    Route::delete('comprobantes/{comprobante}' , 'TipoComprobanteController@destroy')->name('comprobantes.destroy') ;
+
+    //tipo de movimientos
+    Route::post('tipoMovimientos','TipoMovimientoController@store')->name('tipoMovimientos.store')->middleware('permission:comprobantes_store')  ;
+    Route::put('tipoMovimientos/{tipoMov}','TipoMovimientoController@update')->name('tipoMovimientos.update') ;
+    Route::delete('tipoMovimientos/{tipoMov}' , 'TipoMovimientoController@destroy')->name('tipoMovimientos.destroy') ;
 
 
 }) ;

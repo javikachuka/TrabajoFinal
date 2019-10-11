@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Configuracion;
 use App\TipoComprobante;
+use App\TipoMovimiento;
 
 class ConfiguracionController extends Controller
 {
@@ -13,7 +14,8 @@ class ConfiguracionController extends Controller
 
         $config = Configuracion::first();
         $comprobantes = TipoComprobante::all() ;
-        return view('configuraciones.configuracion', compact('config' , 'comprobantes'));
+        $tipoMovimientos = TipoMovimiento::all();
+        return view('configuraciones.configuracion', compact('config' , 'comprobantes' , 'tipoMovimientos'));
     }
 
     public function update(Request $request)

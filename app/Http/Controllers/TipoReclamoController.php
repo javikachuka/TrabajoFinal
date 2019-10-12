@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\FlujoTrabajo;
 use App\Prioridad;
+use App\Reclamo;
 use App\Requisito;
 use App\TipoReclamo;
 use Illuminate\Http\Request;
@@ -86,7 +87,15 @@ class TipoReclamoController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $tipoRec = TipoReclamo::find($id) ;
+        $reclamos = Reclamo::all();
+        foreach($reclamos as $r){
+            if(sizeof($r->historial)<= 3){
+                alert()->info('No es posible editar en este momento debido a que existen reclamos en curso. Cuando todos hayan finalizado intente de nuevo', 'Alerta!')->persistent();
+                return redirect()->back() ;
+            }
+        }
         $tipoRec->fill($request->only(['nombre' , 'detalle' , 'trabajo' , 'prioridad_id' , 'flujoTrabajo_id'])) ;
         if($request->trabajo){
             $tipoRec->flujoTrabajo_id = $request->flujoTrabajo_id ;

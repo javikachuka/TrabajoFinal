@@ -72,7 +72,7 @@
                     <td>{{$mov->id}}</td>
                     <td>{{$mov->tipoMovimiento->nombre}}</td>
                     <td>{{$mov->producto->nombre}}</td>
-                    <td>{{$mov->cantidad}}</td>
+                    <td>{{$mov->cantidad}} {{$mov->producto->medida->nombre}}</td>
                     <td>{{$mov->cabeceraMovimiento->getFechaMovimiento()}}</td>
                     <td>
                         @if($mov->almacenOrigen != null)

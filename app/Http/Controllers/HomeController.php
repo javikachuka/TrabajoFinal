@@ -28,21 +28,57 @@ class HomeController extends Controller
         return view('principal.principal');
     }
 
-    public function inicio(){
+    public function inicio()
+    {
         $trabajos = Trabajo::all();
-        foreach($trabajos as $key => $trabajo){
-            if($trabajo->reclamo->getCantidadEstados() != 2){
-                $trabajos->pull($key) ;
+        foreach ($trabajos as $key => $trabajo) {
+            if ($trabajo->estado->nombre != 'EN ESPERA') {
+                $trabajos->pull($key);
             }
-            if(sizeof($trabajo->reclamo->tipoReclamo->requisitos) != sizeof($trabajo->reclamo->controles)){
-                $trabajos->pull($key) ;
+            if (sizeof($trabajo->reclamo->tipoReclamo->requisitos) != sizeof($trabajo->reclamo->controles)) {
+                $trabajos->pull($key);
+            }
+            if (!$trabajo->users->isEmpty()) {
+                if (!$trabajo->users->contains(auth()->user())) {
+                    $trabajos->pull($key);
+                }
+            }
+        }
+
+        $aux = null;
+        $max = 2200;
+        $trabajosOrdenados = collect();
+        foreach ($trabajos as $trabajo) {
+            $trabajosOrdenados->add($trabajo);
+        }
+
+        // for ($i = 0; $i < sizeof($trabajosOrdenados); $i++) {
+
+        //     if ($trabajosOrdenados[$i]->reclamo->tipoReclamo->prioridad->nivel < $max) {
+        //         $max = $trabajosOrdenados[$i]->reclamo->tipoReclamo->prioridad->nivel;
+        //     } else {
+        //         $aux = $trabajosOrdenados[$i - 1];
+        //         $trabajosOrdenados[$i - 1] = $trabajosOrdenados[$i];
+        //         $trabajosOrdenados[$i] = $aux;
+        //     }
+        // }
+
+
+        //burbuja para ordenar los de mayor prioridad
+        for ($i = 1; $i < count($trabajosOrdenados); $i++) {
+            for ($j = 0; $j < count($trabajosOrdenados) - $i; $j++) {
+                if ($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad->nivel < $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad->nivel) {
+                    $k = $trabajosOrdenados[$j + 1];
+                    $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
+                    $trabajosOrdenados[$j] = $k;
+                }
             }
         }
 
         $estadoIniciado = Estado::where('nombre', 'INICIADO')->firstOrFail();
-        $trabajosIniciados = Trabajo::where('estado_id', $estadoIniciado->id)->get() ;
+        $trabajosIniciados = Trabajo::where('estado_id', $estadoIniciado->id)->get();
 
 
-        return view('inicio' , compact('trabajos', 'trabajosIniciados')) ;
+        return view('inicio', compact('trabajosOrdenados', 'trabajosIniciados'));
     }
 }

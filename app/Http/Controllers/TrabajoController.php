@@ -108,7 +108,6 @@ class TrabajoController extends Controller
     }
 
     public function iniciarTrabajo(Trabajo $trabajo){
-
         if(sizeof($trabajo->reclamo->tipoReclamo->requisitos) == sizeof($trabajo->reclamo->controles)){
             if(!empty($trabajo->users[0])){
                 if(!$trabajo->users->contains(auth()->user())) {

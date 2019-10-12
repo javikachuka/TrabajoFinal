@@ -89,7 +89,7 @@
                                 <td>{{$movimiento->tipoMovimiento->nombre}}</td>
                                 <td>{{$movimiento->cabeceraMovimiento->getFechaMovimiento()}}</td>
                                 <td>{{$movimiento->producto->nombre}}</td>
-                                <td>{{$movimiento->cantidad}}</td>
+                                <td>{{$movimiento->cantidad}} {{$movimiento->producto->medida->nombre}}</td>
                                 <td>
                                     @if ($movimiento->almacenOrigen == null)
                                         <span class="badge badge-warning">N/A</span>

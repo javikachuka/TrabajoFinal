@@ -156,9 +156,7 @@ class ReclamoController extends Controller
 
                 // }
 
-            } else {
-
-            }
+            } else { }
             DB::commit();
             return redirect()->route('reclamos.index')->with('confirmar', 'asd');;
         } catch (Exception $e) {
@@ -216,6 +214,17 @@ class ReclamoController extends Controller
                     $control->save();
                 }
             }
+        }
+        if (sizeof($request->requisitos) == sizeof($reclamo->tipoReclamo->requisitos)) {
+            $trabajo =  $reclamo->trabajo ;
+
+            $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->siguienteEstado($trabajo->estado)->id;
+            $trabajo->update();
+
+            $historial = new HistorialEstado();
+            $historial->reclamo_id = $reclamo->id;
+            $historial->estado_id = $reclamo->trabajo->estado_id;
+            $historial->save();
         }
         return redirect('/reclamos')->with('confirmar', 'bien');
     }

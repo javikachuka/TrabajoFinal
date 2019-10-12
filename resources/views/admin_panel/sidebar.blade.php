@@ -233,7 +233,7 @@
 
                 </li>
 
-                <li class="nav-item has-treeview ">
+                {{-- <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fal fa-file-pdf"></i>
                         <p>
@@ -257,7 +257,7 @@
                         </li>
 
                     </ul>
-                </li>
+                </li> --}}
 
                 <li class="nav-item">
                     <a href="{{route('configuraciones.index')}}" class="nav-link">

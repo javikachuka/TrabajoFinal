@@ -1,6 +1,6 @@
 
 //MODULOS INTELIGENTES
-- [ ] Ordenar los trabajos por hacer en base a la prioridad y el tiempo que demandan(mayor tiempo van primero. MODULO INTELIGENTE)
+- [x] Ordenar los trabajos por hacer en base a la prioridad y el tiempo que demandan(mayor tiempo van primero. MODULO INTELIGENTE)
 - [x] Recomendaciones de productos(MODULO INTELIGENTE)
 - [ ] Agregar si hay existencias de los productos y en que almacen para el MODULO INTELIGENTE
 - [ ] Generar un pedido de los productos que serian necesarios para el mes o para una semana

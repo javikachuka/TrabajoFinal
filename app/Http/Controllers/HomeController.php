@@ -68,6 +68,17 @@ class HomeController extends Controller
         for ($i = 1; $i < count($trabajosOrdenados); $i++) {
             for ($j = 0; $j < count($trabajosOrdenados) - $i; $j++) {
                 if ($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad->nivel < $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad->nivel) {
+                        $k = $trabajosOrdenados[$j + 1];
+                        $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
+                        $trabajosOrdenados[$j] = $k;
+                }
+            }
+        }
+
+        //burbuja para los de mayor tiempo segun prioridad de cada uno, si tienen igual prioridad se compara el tiempo de duracion
+        for ($i = 1; $i < count($trabajosOrdenados); $i++) {
+            for ($j = 0; $j < count($trabajosOrdenados) - $i; $j++) {
+                if(($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad == $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad) && ($trabajosOrdenados[$j]->duracionEstimadaReal($trabajosOrdenados[$j]->reclamo->tipoReclamo->id) < $trabajosOrdenados[$j+1]->duracionEstimadaReal($trabajosOrdenados[$j+1]->reclamo->tipoReclamo->id))){
                     $k = $trabajosOrdenados[$j + 1];
                     $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
                     $trabajosOrdenados[$j] = $k;

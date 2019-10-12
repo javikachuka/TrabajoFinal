@@ -40,6 +40,27 @@ class Trabajo extends Model
         return $inicio->diffForHumans() ;
     }
 
+    public function duracionEstimadaReal($tipoTrabajo){
+        $trabajos = Trabajo::all();
+        $suma = 0 ;
+        $div = 0;
+        foreach($trabajos as $trabajo){
+            if($trabajo->reclamo->tipoReclamo->id == $tipoTrabajo){
+                if($trabajo->horaFin != null){
+                    $inicio = Carbon::create($trabajo->horaInicio) ;
+                    $fin = Carbon::create($trabajo->horaFin) ;
+                    $suma += $inicio->diffInMinutes($fin)/60 ;
+                    $div += 1 ;
+                }
+            }
+        }
+        if($div != 0){
+            $resul = $suma/$div ;
+            return round($resul, 2) ;
+        }else{
+            return 0 ;
+        }
+    }
 
     public function ultimoEstado(){
         return $this->updated_at->diffForHumans() ;

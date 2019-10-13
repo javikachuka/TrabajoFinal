@@ -20,7 +20,7 @@
                                     <div class="col-md-3">
                                         <label for="">Proveedor</label>
                                         <div class="form-group">
-                                                <select class="js-example-basic-single form-control" name="proveedor_id">
+                                                <select class="js-example-basic-single form-control" name="proveedor_id" required>
                                                         <option value="" selected disabled>--Seleccione un Proveedor--</option>
                                                         @foreach ($proveedores as $proveedor)
                                                             <option value="{{$proveedor->id}}">{{$proveedor->nombre}}</option>

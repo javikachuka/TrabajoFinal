@@ -28,8 +28,13 @@ class ReclamoController extends Controller
     {
 
         $reclamos = Reclamo::all();
-
-        return view('reclamos.index', compact('reclamos'));
+        $tipoReclamos = TipoReclamo::all();
+        $socios = Socio::all();
+        $estados= collect();
+        if(!$reclamos->isEmpty()){
+            $estados = $reclamos[0]->tipoReclamo->flujoTrabajo->getEstados() ;
+        }
+        return view('reclamos.index', compact('reclamos', 'tipoReclamos', 'socios' , 'estados'));
     }
 
     /**

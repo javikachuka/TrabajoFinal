@@ -4,64 +4,132 @@
 
 <div class="card">
     <div class="card-header">
+        <div class="card-title">
+            Filtros
+        </div>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fal fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-3">
+                <label for="">Tipo de Reclamo</label>
+                <select name="tipoReclamo_id" id="tipoReclamos" class="seleccion form-control">
+                    <option value="" selected disabled>--Seleccione--</option>
+                    @foreach ($tipoReclamos as $tipoRec)
+                    <option value="{{$tipoRec->id}}">{{$tipoRec->nombre}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="">Socios</label>
+                <select name="socio_id" id="socios" class="seleccion form-control">
+                    <option value="" selected disabled>--Seleccione--</option>
+                    @foreach ($socios as $socio)
+                    <option value="{{$socio->id}}">{{$socio->apellido}} {{$socio->nombre}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="">Estados</label>
+                <select name="producto_id" id="estados" class="form-control">
+                    <option value="" selected disabled>--Seleccione--</option>
+                    @foreach ($estados as $estado)
+                    <option value="{{$estado->id}}">{{$estado->nombre}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Desde</label>
+                    <input type="date" id="min" name="fecha1" value="" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Hasta</label>
+                    <input type="date" id="max" name="fecha2" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <button class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
+            <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
+                    class="fas fa-filter "></i></button>
+
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
         <h3>Listado de reclamos
-            <button type="submit" class="btn btn-primary btn-xs" onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo reclamo</button>
+            <button type="submit" class="btn btn-primary btn-xs"
+                onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo reclamo</button>
         </h3>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table id="reclamos" class="table table-bordered table-striped table-hover datatable">
                 <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Tipo de Reclamo</th>
-                    <th>Fecha</th>
-                    <th>Socio</th>
-                    <th>Detalles</th>
-                    <th>Estado</th>
-                    <th>Accion</th>
-                  </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Tipo de Reclamo</th>
+                        <th>Fecha</th>
+                        <th>Socio</th>
+                        <th>Detalles</th>
+                        <th>Estado</th>
+                        <th>Accion</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach($reclamos as $reclamo)
 
-                        <tr>
-                            <td>{{$reclamo->id}}</td>
-                            <td>
-                                <span>{{$reclamo->tipoReclamo->nombre}} </span>
-                            </td>
-                            <td>{{$reclamo->getFecha()}}</td>
-                            <td>{{$reclamo->socio->apellido}} {{$reclamo->socio->nombre}}</td>
-                            <td>
-                                @if($reclamo->detalle != null)
-                                    <span class="badge badge-light"> {{$reclamo->detalle}}</span>
-                                @else
-                                    <span class="badge badge-light">Sin detalle</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($reclamo->trabajo != null)
-                                    <span class="badge badge-info"> {{$reclamo->trabajo->estado->nombre}}</span>
-                                @else
-                                    <span class="badge badge-light">N/A</span>
-                                @endif
-                            </td>
-                            <td width ="200px">
-                                <a href="{{route('reclamos.show', $reclamo)}}" class="btn btn-xs btn-primary">Ver mas</a>
-                                @can('trabajos_edit')
-                                    <a href="{{ route('reclamos.edit', $reclamo) }}" class="btn btn-xs btn-secondary"> Editar </a>
+                    <tr>
+                        <td>{{$reclamo->id}}</td>
+                        <td>
+                            <span>{{$reclamo->tipoReclamo->nombre}}</span>
+                        </td>
+                        <td>{{$reclamo->getFecha()}}</td>
+                        <td>{{$reclamo->socio->apellido}} {{$reclamo->socio->nombre}}</td>
+                        <td>
+                            @if($reclamo->detalle != null)
+                            <span class="badge badge-light"> {{$reclamo->detalle}}</span>
+                            @else
+                            <span class="badge badge-light">Sin detalle</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($reclamo->trabajo != null)
+                            <span class="badge badge-info">{{$reclamo->trabajo->estado->nombre}}</span>
+                            @else
+                            <span class="badge badge-light">N/A</span>
+                            @endif
+                        </td>
+                        <td width="200px">
+                            <a href="{{route('reclamos.show', $reclamo)}}" class="btn btn-xs btn-primary">Ver mas</a>
+                            @can('trabajos_edit')
+                            <a href="{{ route('reclamos.edit', $reclamo) }}" class="btn btn-xs btn-secondary"> Editar
+                            </a>
+                            @endcan
+                            <form method="POST" action="reclamos/{{$reclamo->id}}"
+                                onsubmit="return confirm('Desea borrar el reclamo {{$reclamo->nombre}}')"
+                                style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                @can('reclamos_destroy')
+                                <button type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">Borrar</button>
                                 @endcan
-                                <form method="POST" action="reclamos/{{$reclamo->id}}" onsubmit="return confirm('Desea borrar el reclamo {{$reclamo->nombre}}')" style="display: inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    @can('reclamos_destroy')
-                                        <button type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">Borrar</button>
-                                    @endcan
-                                </form>
-                            </td>
-                          </tr>
+                            </form>
+                        </td>
+                    </tr>
 
-                      @endforeach
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -69,8 +137,16 @@
 </div>
 @endsection
 @push('scripts')
+
 <script>
-        $(function () {
+    $(document).ready(function() {
+            $('.seleccion').select2({
+                sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
+            });
+        });
+</script>
+<script>
+    $(function () {
           $('#reclamos').DataTable({
             "paging": true,
             "lengthChange": true,
@@ -108,5 +184,299 @@
     @elseif(session('borrado'))
         Borrado.fire();
     @endif
+</script>
+
+<script>
+    $(document).ready(function() {
+        var table = $('#reclamos').DataTable();
+
+        $('#limpiar').click(function(){
+            // $("#tipoReclamos ").prop("selectedIndex", 0) ;
+            $("#tipoReclamos").val(null).trigger("change");
+            $("#socios").val(null).trigger("change");
+            $("#estados ").prop("selectedIndex", 0) ;
+            $('input[type=date]').val('');
+
+            $.fn.dataTable.ext.search.pop(
+                function( settings, data, dataIndex ) {
+                    if(1){
+                        return true ;
+                    }
+                    return false ;
+                }
+            );
+            table.draw() ;
+        }) ;
+
+        $('#filtrar').click(function(){
+
+            var fec1 =  $('#min').val() ;
+            var fec2 =  $('#max').val() ;
+            var filtro1 = $('#tipoReclamos').val() ;
+            //no olvidarme de volver a poner (pop) las filas
+            var filtro2 = $('#socios').val() ;
+            var filtro3 = $('#estados').val() ;
+            $.fn.dataTable.ext.search.pop(
+                function( settings, data, dataIndex ) {
+                    if(1){
+                        return true ;
+                    }
+                    return false ;
+                }
+            );
+            table.draw() ;
+
+            if(filtro1 != null){
+                var tipoRec = $('#tipoReclamos option:selected').text() ;
+            }
+            if(filtro2 != null){
+                var socio = $('#socios option:selected').text() ;
+            }
+            if(filtro3 != null){
+                var estado = $('#estados option:selected').text() ;
+            }
+
+
+            if((fec1 != "") && (fec2 != "")){
+
+                var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+                    var f1 =  $('#min').val() ;
+                    var min = moment(f1) ;
+                    var f2 =  $('#max').val() ;
+                    var max = moment(f2) ;
+
+                    var d = data[2]
+
+                    var datearray = d.split("/");
+                    var newdate =   datearray[2] + '/'+ datearray[1] + '/' + datearray[0] ;
+                    var s = new Date(newdate)
+                    var startDate = moment(s)
+
+                    console.log(filtro3 == null)
+
+                    if(filtro1 == null && filtro2 == null && filtro3 == null){
+                        if  (
+                                ( min == "" || max == "" ) ||
+                                (
+                                    (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) )
+                                )
+                            )
+                        {
+                            return true ;
+                        }else{
+                            return false;
+                        }
+                    }else if(filtro1 != null && filtro2 != null && filtro3 == null){
+                        if  (
+                                ( min == "" || max == "" ) ||
+                                (
+                                    (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                    (tipoRec == data[1]) &&
+                                    (socio == data[3])
+                                )
+                            )
+                        {
+
+                            return true ;
+                        }else{
+                            return false;
+                        }
+                    }else if(filtro1 != null && filtro2 == null && filtro3 == null){
+                        if  (
+                                ( min == "" || max == "" ) ||
+                                (
+                                    (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                    (tipoRec == data[1])
+                                )
+                            )
+                        {
+                            return true ;
+                        }else{
+                            return false;
+                        }
+                    } else if(filtro1 == null && filtro2 != null && filtro3 == null ){
+                        if  (
+                                ( min == "" || max == "" ) ||
+                                (
+                                    (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                    (socio == data[3])
+                                )
+                            )
+                        {
+                            return true ;
+                        }else{
+                            return false;
+                        }
+
+                    } else if(filtro1 == null && filtro2 == null && filtro3 != null ){
+                        console.log(estado == data[5])
+                        if  (
+                                ( min == "" || max == "" ) ||
+                                (
+                                    (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                    (estado == data[5])
+                                )
+                            )
+                        {
+                            return true ;
+                        }else{
+                            return false;
+                        }
+                    } else if(filtro1 == null && filtro2 != null && filtro3 != null ){
+                        console.log(estado == data[5])
+                        if  (
+                                ( min == "" || max == "" ) ||
+                                (
+                                    (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                    (socio == data[3]) &&
+                                    (estado == data[5])
+                                )
+                            )
+                        {
+                            return true ;
+                        }else{
+                            return false;
+                        }
+                    } else if(filtro1 != null && filtro2 == null && filtro3 != null ){
+                        console.log(estado == data[5])
+                        if  (
+                                ( min == "" || max == "" ) ||
+                                (
+                                    (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                    (tipoRec == data[1]) &&
+                                    (estado == data[5])
+                                )
+                            )
+                        {
+                            return true ;
+                        }else{
+                            return false;
+                        }
+                    } else if(filtro1 != null && filtro2 != null && filtro3 != null ){
+                        console.log(estado == data[5])
+                        if  (
+                                ( min == "" || max == "" ) ||
+                                (
+                                    (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                    (tipoRec == data[1]) &&
+                                    (socio == data[3]) &&
+                                    (estado == data[5])
+                                )
+                            )
+                        {
+                            return true ;
+                        }else{
+                            return false;
+                        }
+                    }
+                }
+
+                $.fn.dataTable.ext.search.push( filtradoTabla )
+
+
+                table.draw()
+
+            }else if(filtro1 != null && filtro2 == null && filtro3 == null){
+                var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                    if  ( tipoRec == data[1]){
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                }
+
+                $.fn.dataTable.ext.search.push( filtradoTabla )
+
+                table.draw()
+
+            }else if(filtro1 == null && filtro2 != null && filtro3 == null){
+                var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                    if (socio == data[3]) {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                }
+
+                $.fn.dataTable.ext.search.push( filtradoTabla )
+
+                table.draw()
+
+            }else if(filtro1 != null && filtro2 != null && filtro3 == null){
+                var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                    if(socio == data[3] && tipoRec == data[1]){
+                        return true ;
+                    } else{
+                        return false ;
+                    }
+                }
+                $.fn.dataTable.ext.search.push( filtradoTabla )
+
+                table.draw()
+            }else if(filtro1 == null && filtro2 == null && filtro3 != null){
+                var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                    if(estado == data[5]){
+                        return true ;
+                    } else{
+                        return false ;
+                    }
+                }
+                $.fn.dataTable.ext.search.push( filtradoTabla )
+
+                table.draw()
+            }else if(filtro1 != null && filtro2 == null && filtro3 != null){
+                var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                    if(estado == data[5] && tipoRec == data[1]){
+                        return true ;
+                    } else{
+                        return false ;
+                    }
+                }
+                $.fn.dataTable.ext.search.push( filtradoTabla )
+
+                table.draw()
+            }else if(filtro1 != null && filtro2 != null && filtro3 != null){
+                var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                    if(estado == data[5] && tipoRec == data[1] && socio == data[3]){
+                        return true ;
+                    } else{
+                        return false ;
+                    }
+                }
+                $.fn.dataTable.ext.search.push( filtradoTabla )
+
+                table.draw()
+            }else if(filtro1 == null && filtro2 != null && filtro3 != null){
+                var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                    if(estado == data[5] &&  socio == data[3]){
+                        return true ;
+                    } else{
+                        return false ;
+                    }
+                }
+                $.fn.dataTable.ext.search.push( filtradoTabla )
+
+                table.draw()
+
+            }else{
+
+                swal({
+                title: "Alerta",
+                text: "Seleccione opciones de filtrado!",
+
+                });
+            }
+
+        }) ;
+    } );
+
+
 </script>
 @endpush

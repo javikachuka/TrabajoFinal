@@ -11,6 +11,9 @@
 
 - [x] Terminar configuracion del sistema(tipos de comprobantes, movimientos)
 - [ ] ABM de prioridades?
+- [ ] ABM de zonas
+- [ ] ABM de medidas
+- [ ] Arreglar cuando guardo configuracion que vuelva a la pestania que estaba
 - [x] arreglar que cuando se cambien los requisitos de un tipo de reclamo no afecte
 a los demas trabajos que existen ya iniciados
 - [ ] agregar las medidas en todos los lugares donde aparezca cantidad

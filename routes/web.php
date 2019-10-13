@@ -31,6 +31,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/proveedorPDF', 'PdfController@proveedorPDF')->name('proveedor.pdf') ;
 Route::get('/movimientosPDF', 'PdfController@movimientosPDF')->name('movimientos.pdf') ;
 Route::get('/trabajosPorHacerPDF', 'PdfController@trabajosPorHacerPDF')->name('trabajosPorHacer.pdf') ;
+Route::get('/reclamosPDF', 'PdfController@reclamosPDF')->name('reclamos.pdf') ;
 
 
 

@@ -14,55 +14,64 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-3">
-                <label for="">Tipo de Reclamo</label>
-                <select name="tipoReclamo_id" id="tipoReclamos" class="seleccion form-control">
-                    <option value="" selected disabled>--Seleccione--</option>
-                    @foreach ($tipoReclamos as $tipoRec)
-                    <option value="{{$tipoRec->id}}">{{$tipoRec->nombre}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="">Socios</label>
-                <select name="socio_id" id="socios" class="seleccion form-control">
-                    <option value="" selected disabled>--Seleccione--</option>
-                    @foreach ($socios as $socio)
-                    <option value="{{$socio->id}}">{{$socio->apellido}} {{$socio->nombre}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label for="">Estados</label>
-                <select name="producto_id" id="estados" class="form-control">
-                    <option value="" selected disabled>--Seleccione--</option>
-                    @foreach ($estados as $estado)
-                    <option value="{{$estado->id}}">{{$estado->nombre}}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Desde</label>
-                    <input type="date" id="min" name="fecha1" value="" class="form-control">
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Hasta</label>
-                    <input type="date" id="max" name="fecha2" value="" class="form-control">
-                </div>
-            </div>
-        </div>
-        <div class="row d-flex justify-content-center">
-            <button class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
-            <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
-                    class="fas fa-filter "></i></button>
+        <form class="form-group " method="GET" action="{{route('reclamos.pdf')}}">
 
-        </div>
+            <div class="row d-flex justify-content-around">
+                <div class="col-md-3">
+                    <label for="">Tipo de Reclamo</label>
+                    <select name="tipoReclamo_id" id="tipoReclamos" class="seleccion form-control">
+                        <option value="" selected disabled>--Seleccione--</option>
+                        @foreach ($tipoReclamos as $tipoRec)
+                        <option value="{{$tipoRec->id}}">{{$tipoRec->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="">Socios</label>
+                    <select name="socio_id" id="socios" class="seleccion form-control">
+                        <option value="" selected disabled>--Seleccione--</option>
+                        @foreach ($socios as $socio)
+                        <option value="{{$socio->id}}">{{$socio->apellido}} {{$socio->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="">Estados</label>
+                    <select name="estado_id" id="estados" class="form-control">
+                        <option value="" selected disabled>--Seleccione--</option>
+                        @foreach ($estados as $estado)
+                        <option value="{{$estado->id}}">{{$estado->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-1 ">
+                    <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
+
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Desde</label>
+                        <input type="date" id="min" name="fecha1" value="" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Hasta</label>
+                        <input type="date" id="max" name="fecha2" value="" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
+                <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
+                        class="fas fa-filter "></i></button>
+
+            </div>
+            @csrf
+        </form>
     </div>
 </div>
 

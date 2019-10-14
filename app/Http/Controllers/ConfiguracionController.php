@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Configuracion;
 use App\TipoComprobante;
 use App\TipoMovimiento;
+use App\Zona;
 
 class ConfiguracionController extends Controller
 {
@@ -15,7 +16,8 @@ class ConfiguracionController extends Controller
         $config = Configuracion::first();
         $comprobantes = TipoComprobante::all() ;
         $tipoMovimientos = TipoMovimiento::all();
-        return view('configuraciones.configuracion', compact('config' , 'comprobantes' , 'tipoMovimientos'));
+        $zonas = Zona::all();
+        return view('configuraciones.configuracion', compact('config' , 'comprobantes' , 'tipoMovimientos' , 'zonas'));
     }
 
     public function update(Request $request)

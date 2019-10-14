@@ -22,8 +22,8 @@ class Trabajo extends Model
         return $this->belongsTo(Socio::class);
     }
 
-    public function cabecerasMovimientos(){
-        return $this->hasMany(CabeceraMovimiento::class);
+    public function cabeceraMovimiento(){
+        return $this->hasOne(CabeceraMovimiento::class);
     }
 
     public function users(){
@@ -104,7 +104,7 @@ class Trabajo extends Model
         foreach($trabajos as $trabajo){
             if($trabajo->reclamo->tipoReclamo_id == $this->reclamo->tipoReclamo_id){
                 if($trabajo->estado == $trabajo->reclamo->tipoReclamo->flujoTrabajo->getEstadoFinal()){
-                    foreach($trabajo->cabecerasMovimientos[0]->movimientos as $mov){
+                    foreach($trabajo->cabeceraMovimiento->movimientos as $mov){
                         if($mov->tipoMovimiento->operacion == false){
                             if(!$productos->contains('id', $mov->producto->id)){
                                 $productos->add($mov->producto) ;
@@ -122,8 +122,10 @@ class Trabajo extends Model
         $div = 0 ;
         foreach($producto->movimientos as $mov){
             if($mov->tipoMovimiento->operacion == false){
-                $cantidad += $mov->cantidad ;
-                $div += 1;
+                if($mov->cabeceraMovimiento->trabajo->reclamo->tipoReclamo->id == $this->reclamo->tipoReclamo->id){
+                    $cantidad += $mov->cantidad ;
+                    $div += 1;
+                }
             }
         }
 
@@ -133,6 +135,18 @@ class Trabajo extends Model
         }else{
             return 0;
         }
+    }
+
+    public function existenciasAlmacen(Producto $p , $cantidad){
+        $almacenes = Almacen::all();
+        $almacenesDisponibles = collect() ;
+        foreach($almacenes as $almacen){
+            $cantidadReal = $almacen->getCantidadProd($p->id) ;
+            if($cantidadReal >= $cantidad){
+                $almacenesDisponibles->add($almacen) ;
+            }
+        }
+        return $almacenesDisponibles ;
     }
 
 }

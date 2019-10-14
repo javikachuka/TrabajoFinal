@@ -27,18 +27,30 @@ jo
         <h3>Configuracion del Sistema</h3>
     </div>
     <div class="card-body">
+        @if ($errors->any())
+        <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach
+        </div>
+        @endif
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
                     aria-selected="true">General</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                    aria-controls="profile" aria-selected="false">Tipos de Comprobantes</a>
+                <a class="nav-link" id="comprobantes-tab" data-toggle="tab" href="#comprobantes" role="tab"
+                    aria-controls="comprobantes" aria-selected="false">Tipos de Comprobantes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                    aria-controls="contact" aria-selected="false">Tipos de Movimientos</a>
+                <a class="nav-link" id="movimientos-tab" data-toggle="tab" href="#movimientos" role="tab"
+                    aria-controls="movimientos" aria-selected="false">Tipos de Movimientos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="zonas-tab" data-toggle="tab" href="#zonas" role="tab" aria-controls="zonas"
+                    aria-selected="false">Zonas</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -91,202 +103,278 @@ jo
                     @csrf
                 </form>
             </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade" id="comprobantes" role="tabpanel" aria-labelledby="comprobantes-tab">
                 <br>
-                @if ($errors->any())
+                {{-- @if ($errors->any())
                 <div class="alert alert-danger" role="alert">
                     {{$errors->first('nombre')}}
-                </div>
-                @endif
-                <div class=" form-group">
-                    <a href="" class="btn btn-link btn-sm " data-toggle="modal" data-target="#crearComprobante">Nuevo <i
-                            class="fal fa-plus"></i></a>
+            </div>
+            @endif --}}
+            <div class=" form-group">
+                <a href="" class="btn btn-link btn-sm " data-toggle="modal" data-target="#crearComprobante">Nuevo <i
+                        class="fal fa-plus"></i></a>
 
-                </div>
-                <div class="row">
+            </div>
+            <div class="row">
 
-                    <div class="col-md-12">
-                        <table class="table table-bordered table-sm" id="tipoComprobantes">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Comprobante</th>
-                                    <th width="10%">Accion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($comprobantes as $comprobante)
-                                <tr>
-                                    <td>
-                                        {{$comprobante->id}}
-                                    </td>
-                                    <td>
-                                        {{$comprobante->nombre}}
-                                    </td>
-                                    <td>
-                                        <a href="#" id="editar" class="btn btn-link" data-toggle="modal"
-                                            data-target="#editar{{$comprobante->id}}"><i class="fal fa-edit"></i></a>
-                                        <!-- Modal Edit -->
-                                        <div class="modal fade" id="editar{{$comprobante->id}}" tabindex="-1"
-                                            role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Nuevo Comprobante
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <form class="form-group " method="POST"
-                                                        action="{{route('comprobantes.update' , $comprobante)}}">
-                                                        @method('PUT')
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label>Comprobante</label>
-                                                                <input type="text" name="nombre" required
-                                                                    value="{{ $comprobante->nombre ?? old('nombre')}}"
-                                                                    class="form-control">
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary btn-sm"
-                                                                data-dismiss="modal">Cerrar</button>
-                                                            <button type="submit"
-                                                                class="btn btn-primary btn-sm ">Guardar</button>
-                                                        </div>
-                                                        @csrf
-                                                    </form>
+                <div class="col-md-12">
+                    <table class="table table-bordered table-sm" id="tipoComprobantes">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Comprobante</th>
+                                <th width="10%">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($comprobantes as $comprobante)
+                            <tr>
+                                <td>
+                                    {{$comprobante->id}}
+                                </td>
+                                <td>
+                                    {{$comprobante->nombre}}
+                                </td>
+                                <td>
+                                    <a href="#" id="editar" class="btn btn-link" data-toggle="modal"
+                                        data-target="#editar{{$comprobante->id}}"><i class="fal fa-edit"></i></a>
+                                    <!-- Modal Edit -->
+                                    <div class="modal fade" id="editar{{$comprobante->id}}" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Comprobante
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
+                                                <form class="form-group " method="POST"
+                                                    action="{{route('comprobantes.update' , $comprobante)}}">
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label>Comprobante</label>
+                                                            <input type="text" name="nombre" required
+                                                                value="{{ $comprobante->nombre ?? old('nombre')}}"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                            data-dismiss="modal">Cerrar</button>
+                                                        <button type="submit"
+                                                            class="btn btn-primary btn-sm ">Guardar</button>
+                                                    </div>
+                                                    @csrf
+                                                </form>
                                             </div>
                                         </div>
-                                        <form id="borrar" method="POST"
-                                            action="{{route('comprobantes.destroy', $comprobante)}}"
-                                            onsubmit="return confirm('Desea borrar a {{$comprobante->nombre}}')"
-                                            style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            @can('comprobantes_destroy')
-                                            {{-- <input value="" type="submit"> --}}
+                                    </div>
+                                    <form id="borrar" method="POST"
+                                        action="{{route('comprobantes.destroy', $comprobante)}}"
+                                        onsubmit="return confirm('Desea borrar a {{$comprobante->nombre}}')"
+                                        style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        @can('comprobantes_destroy')
+                                        {{-- <input value="" type="submit"> --}}
 
-                                            <button type="submit" class="btn btn-link "><i
-                                                    class="fal fa-trash-alt"></i></button>
-                                            {{-- <a  class="btn-delete" href="#" id="eliminar"><i class="fal fa-trash-alt"></i></a> --}}
-                                            @endcan
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                        <button type="submit" class="btn btn-link "><i
+                                                class="fal fa-trash-alt"></i></button>
+                                        {{-- <a  class="btn-delete" href="#" id="eliminar"><i class="fal fa-trash-alt"></i></a> --}}
+                                        @endcan
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                <br>
-                @if ($errors->any())
-                <div class="alert alert-danger" role="alert">
-                    {{$errors->first('nombre')}}
-                </div>
-                @endif
-                <div class=" form-group">
-                    <a href="" class="btn btn-link btn-sm " data-toggle="modal" data-target="#crearMovimiento">Nuevo <i
-                            class="fal fa-plus"></i></a>
+        </div>
+        <div class="tab-pane fade" id="movimientos" role="tabpanel" aria-labelledby="movimientos-tab">
+            <br>
+            <div class=" form-group">
+                <a href="" class="btn btn-link btn-sm " data-toggle="modal" data-target="#crearMovimiento">Nuevo <i
+                        class="fal fa-plus"></i></a>
 
-                </div>
-                <div class="row">
+            </div>
+            <div class="row">
 
-                    <div class="col-md-12">
-                        <table class="table table-bordered table-sm" id="tipoMovimientos">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tipo de Movimiento</th>
-                                    <th>Operacion</th>
-                                    <th width="10%">Accion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($tipoMovimientos as $tipoMov)
-                                <tr>
-                                    <td>
-                                        {{$tipoMov->id}}
-                                    </td>
-                                    <td>
-                                        {{$tipoMov->nombre}}
-                                    </td>
-                                    <td>
-                                        @if ($tipoMov->operacion === null)
-                                        <div class="badge badge-info">Suma y Resta</div>
-                                        @elseif($tipoMov->operacion == true)
-                                        <div class="badge badge-info">Suma</div>
-                                        @else
-                                        <div class="badge badge-info">Resta</div>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="#" id="editar" class="btn btn-link" data-toggle="modal"
-                                            data-target="#editarMov{{$tipoMov->id}}"><i class="fal fa-edit"></i></a>
-                                        <!-- Modal Edit -->
-                                        <div class="modal fade" id="editarMov{{$tipoMov->id}}" tabindex="-1"
-                                            role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Nuevo Comprobante
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <form class="form-group " method="POST"
-                                                        action="{{route('tipoMovimientos.update' , $tipoMov)}}">
-                                                        @method('PUT')
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label>Comprobante</label>
-                                                                <input type="text" name="nombre" required
-                                                                    value="{{ $tipoMov->nombre ?? old('nombre')}}"
-                                                                    class="form-control">
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary btn-sm"
-                                                                data-dismiss="modal">Cerrar</button>
-                                                            <button type="submit"
-                                                                class="btn btn-primary btn-sm ">Guardar</button>
-                                                        </div>
-                                                        @csrf
-                                                    </form>
+                <div class="col-md-12">
+                    <table class="table table-bordered table-sm" id="tipoMovimientos">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tipo de Movimiento</th>
+                                <th>Operacion</th>
+                                <th width="10%">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tipoMovimientos as $tipoMov)
+                            <tr>
+                                <td>
+                                    {{$tipoMov->id}}
+                                </td>
+                                <td>
+                                    {{$tipoMov->nombre}}
+                                </td>
+                                <td>
+                                    @if ($tipoMov->operacion === null)
+                                    <div class="badge badge-info">Suma y Resta</div>
+                                    @elseif($tipoMov->operacion == true)
+                                    <div class="badge badge-info">Suma</div>
+                                    @else
+                                    <div class="badge badge-info">Resta</div>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="#" id="editar" class="btn btn-link" data-toggle="modal"
+                                        data-target="#editarMov{{$tipoMov->id}}"><i class="fal fa-edit"></i></a>
+                                    <!-- Modal Edit -->
+                                    <div class="modal fade" id="editarMov{{$tipoMov->id}}" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Comprobante
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
+                                                <form class="form-group " method="POST"
+                                                    action="{{route('tipoMovimientos.update' , $tipoMov)}}">
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label>Comprobante</label>
+                                                            <input type="text" name="nombre" required
+                                                                value="{{ $tipoMov->nombre ?? old('nombre')}}"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                            data-dismiss="modal">Cerrar</button>
+                                                        <button type="submit"
+                                                            class="btn btn-primary btn-sm ">Guardar</button>
+                                                    </div>
+                                                    @csrf
+                                                </form>
                                             </div>
                                         </div>
-                                        <form id="borrar" method="POST"
-                                            action="{{route('tipoMovimientos.destroy', $tipoMov)}}"
-                                            onsubmit="return confirm('Desea borrar a {{$tipoMov->nombre}}')"
-                                            style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            @can('tipoMoviientos_destroy')
-                                            {{-- <input value="" type="submit"> --}}
+                                    </div>
+                                    <form id="borrar" method="POST"
+                                        action="{{route('tipoMovimientos.destroy', $tipoMov)}}"
+                                        onsubmit="return confirm('Desea borrar a {{$tipoMov->nombre}}')"
+                                        style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        @can('tipoMoviientos_destroy')
+                                        {{-- <input value="" type="submit"> --}}
 
-                                            <button type="submit" class="btn btn-link "><i
-                                                    class="fal fa-trash-alt"></i></button>
-                                            {{-- <a  class="btn-delete" href="#" id="eliminar"><i class="fal fa-trash-alt"></i></a> --}}
-                                            @endcan
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                        <button type="submit" class="btn btn-link "><i
+                                                class="fal fa-trash-alt"></i></button>
+                                        {{-- <a  class="btn-delete" href="#" id="eliminar"><i class="fal fa-trash-alt"></i></a> --}}
+                                        @endcan
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade " id="zonas" role="tabpanel" aria-labelledby="zonas-tab">
+            <br>
+            <div class=" form-group">
+                <a href="" class="btn btn-link btn-sm " data-toggle="modal" data-target="#crearZona">Nuevo <i
+                        class="fal fa-plus"></i></a>
+
+            </div>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <table class="table table-bordered table-sm" id="zonas">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Zonas</th>
+                                <th width="10%">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($zonas as $zona)
+                            <tr>
+                                <td>
+                                    {{$zona->id}}
+                                </td>
+                                <td>
+                                    {{$zona->nombre}}
+                                </td>
+                                <td>
+                                    <a href="#" id="editar" class="btn btn-link" data-toggle="modal"
+                                        data-target="#editarzona{{$zona->id}}"><i class="fal fa-edit"></i></a>
+                                    <!-- Modal Edit -->
+                                    <div class="modal fade" id="editarzona{{$zona->id}}" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Nueva Zona
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form class="form-group " method="POST"
+                                                    action="{{route('zonas.update' , $zona)}}">
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label>Zona</label>
+                                                            <input type="text" name="nombre" required
+                                                                value="{{ $zona->nombre ?? old('nombre')}}"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary btn-sm"
+                                                            data-dismiss="modal">Cerrar</button>
+                                                        <button type="submit"
+                                                            class="btn btn-primary btn-sm ">Guardar</button>
+                                                    </div>
+                                                    @csrf
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form id="borrar" method="POST" action="{{route('zonas.destroy', $zona)}}"
+                                        onsubmit="return confirm('Desea borrar a {{$zona->nombre}}')"
+                                        style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-link "><i
+                                                class="fal fa-trash-alt"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- Modal Create Comprobante -->
@@ -335,16 +423,48 @@ jo
                         <input type="text" name="nombre" required value="{{ old('nombre')}}" class="form-control">
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="operacion" value="1" class="custom-control-input" required>
+                        <input type="radio" id="customRadio1" name="operacion" value="1" class="custom-control-input"
+                            required>
                         <label class="custom-control-label" for="customRadio1">Realiza una suma en el stock</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio2" name="operacion" value="0" class="custom-control-input" required>
+                        <input type="radio" id="customRadio2" name="operacion" value="0" class="custom-control-input"
+                            required>
                         <label class="custom-control-label" for="customRadio2">Realiza una resta en el stock</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio3" name="operacion" value="" class="custom-control-input" required>
-                        <label class="custom-control-label" for="customRadio3">Realiza ambas operaciones a la vez</label>
+                        <input type="radio" id="customRadio3" name="operacion" value="" class="custom-control-input"
+                            required>
+                        <label class="custom-control-label" for="customRadio3">Realiza ambas operaciones a la
+                            vez</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary btn-sm ">Guardar</button>
+                </div>
+                @csrf
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create Zona -->
+<div class="modal fade" id="crearZona" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Zona</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-group " method="POST" action="{{route('zonas.store')}}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Zona</label>
+                        <input type="text" name="nombre" required value="Bº {{ old('nombre')}}" class="form-control" >
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -413,6 +533,11 @@ jo
         }
 </script>
 
+<script>
+    $(document).ready(function () {
+  $('#myTab a[href="#{{ old('tab') }}"]').tab('show')
+});
+</script>
 {{-- <script>
     @if($errors->any() )
             $(function(){

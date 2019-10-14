@@ -60,13 +60,14 @@ class UserController extends Controller
         $user->fecha_ingreso = $request->fecha_ingreso;
         $user->direccion_id = $direccion->id ;
         $user->email = $request->email ;
+        $user->password = Hash::make($request->password) ;
         if($request->urlFoto != null){
             $file = $request->file('urlFoto') ;
             $name = time().$user->name.$user->apellido.'.png';
             $file->move(public_path('/img/perfiles/') , $name) ;
             $user->urlFoto = $name ;
         }
-        $user->password = Hash::make('123456789');
+        // $user->password = Hash::make('123456789');
         $user->save() ;
 
         // $user = User::create($request->all()) ;
@@ -112,6 +113,10 @@ class UserController extends Controller
     {
         $user = User::find($id) ;
         $user->fill($request->only(['name' , 'apellido' , 'dni' , 'fecha_ingreso' , 'telefono' , 'email'])) ;
+
+        if($request->password != null){
+            $user->password = Hash::make($request->password) ;
+        }
 
         if($request->urlFoto != null){
             $file = $request->file('urlFoto') ;

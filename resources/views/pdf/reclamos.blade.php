@@ -57,7 +57,9 @@
                 <tr id="fa">
                     <th>Nr</th>
                     <th>Tipo</th>
+                    <th>Socio</th>
                     <th>Fecha</th>
+                    <th>Estado Actual</th>
                 </tr>
             </thead>
 
@@ -67,7 +69,9 @@
                 <tr>
                     <td>{{$rec->id}}</td>
                     <td>{{$rec->tipoReclamo->nombre}}</td>
+                    <td>{{$rec->socio->apellido}} {{$rec->socio->nombre}}</td>
                     <td>{{$rec->getFecha()}}</td>
+                    <td>{{$rec->trabajo->estado->nombre}}</td>
 
                 </tr>
                 @endforeach

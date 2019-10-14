@@ -41,7 +41,7 @@
                 </div>
                 <div class=" col-sm-2">
                     <label>Cantidad</label>
-                    <input type="text" id="cantidad" name="cant" value="" class="form-control" placeholder="Mayor a 0">
+                    <input type="number" id="cantidad" name="cant" value="" class="form-control" placeholder="Mayor a 0">
                     <div>{{$errors->first('cantidad')}} </div>
                 </div>
 
@@ -51,7 +51,7 @@
 
 
                 <table class="table table-sm table-bordered my-3 " id="egreso">
-                    <thead style="background-color: lightblue">
+                    <thead style="background-color: lightblue ; text-align: center">
                         <tr>
                             <th>Producto</th>
                             <th width="20%">Cantidad</th>
@@ -93,6 +93,8 @@
         </div>
         <div class="card-footer">
             <div class="text-right">
+                <a href="javascript:history.back()" class="btn btn-primary btn-sm">Volver</a>
+
                 {{-- <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm"> --}}
                 <button type="submit" class="btn btn-success btn-sm">Terminar</button>
             </div>
@@ -120,8 +122,8 @@
         if(producto != "" ){
             if(cantidad > 0){
                 var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
-                            '<td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
-                            '<td><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
+                            '<td style=" text-align: right"><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
+                            '<td style = " text-align: center"><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
                             '</tr>' ;
 
                 $('tbody').append(fila) ;

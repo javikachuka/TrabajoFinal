@@ -75,7 +75,8 @@
                 <textarea name="detalle" class="form-control" id="" cols="10" rows="3"></textarea>
             </div>
 
-            <div class="text-left">
+            <div class="text-right">
+                <a href="javascript:history.back()" class="btn btn-primary btn-sm">Volver</a>
                 <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
                 <button type="submit" class="btn btn-success btn-sm">Generar Reclamo</button>
             </div>

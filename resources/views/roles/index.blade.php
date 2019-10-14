@@ -2,13 +2,14 @@
 
 @section('content')
 
-<h1>Listado de Roles</h1>
-
-    <div class="form-group col-md-8">
-        <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('roles.create') }}'">Crear Rol</button>
-    </div>
 
 <div class="card">
+    <div class="card-header">
+        <h3>Listado de Roles
+            <button type="submit" class="btn btn-primary btn-xs" onclick="location.href = '{{ route('roles.create') }}'">Crear Rol</button>
+        </h3>
+
+    </div>
     <div class="card-body">
             <div class="table-responsive">
                 <table id="proveedores" class="table table-bordered table-striped table-hover datatable">

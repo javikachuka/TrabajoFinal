@@ -38,7 +38,7 @@
                             @endif
                             <td>{{$user->apellido}}</td>
                             <td>{{$user->name}}</td>
-                            <td>{{$user->dni}}</td>
+                            <td style="text-align: right">{{$user->dni}}</td>
                             <td>
                                 @foreach ($user->roles as $rol)
                                     <span class="badge badge-info">{{$rol->name}}</span>

@@ -103,4 +103,31 @@ class User extends Authenticatable
             }
         }
     }
+
+    public function marcoEntrada(){
+        $turnos = $this->turnos;
+        $hoy = Carbon::now()->dayOfWeek ;
+        $horaActual = Carbon::now();
+        foreach($turnos as $t){
+            if($t->dia = $hoy){
+                $horaEntrada =  Carbon::create($t->horario->horaEntrada)->subMinutes(15) ;
+                $horaSalida =  Carbon::create($t->horario->horaSalida)->addMinutes(15) ;
+                if($horaActual->greaterThanOrEqualTo($horaEntrada) && $horaActual->lessThanOrEqualTo($horaSalida)){
+                    $asisEmpleado = Asistencia::where('dia', Carbon::now()->format('Y-m-d'))->where('user_id' , auth()->user()->id)->get() ;
+                    if(!$asisEmpleado->isEmpty()){
+                        foreach($asisEmpleado as $a){
+                            $entrada = Carbon::create($a->horaEntrada) ;
+                            $salida = Carbon::create($a->horaSalida) ;
+                            if($horaActual->greaterThanOrEqualTo($entrada) && $horaActual->lessThanOrEqualTo($salida)){
+                                return true ;
+                            }
+                        }
+                    }else{
+                        return false;
+                    }
+                }
+            }
+        }
+        return null ;
+    }
 }

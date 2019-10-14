@@ -2,13 +2,13 @@
 
 @section('content')
 
-<form class="form-group " method="POST" action="/productos" >
+<form class="form-group " method="POST" action="/productos">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card card-success">
                     <div class="card-header">
-                            <h2 class="card-title">Datos del Producto</h2>
+                        <h2 class="card-title">Datos del Producto</h2>
                     </div>
                     <div class="card-body">
                         @include('productos.form')
@@ -16,8 +16,9 @@
                     <div class="card-footer">
                         <p><i class="text-danger">(*)</i>Los campos son requeridos</p>
                         <div class="text-right">
-                                <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
-                                <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+                            <a href="javascript:history.back()" class="btn btn-primary btn-sm">Volver</a>
+                            <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
+                            <button type="submit" class="btn btn-success btn-sm">Guardar</button>
                         </div>
                     </div>
                 </div>

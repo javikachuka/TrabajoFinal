@@ -250,6 +250,11 @@ Route::middleware(['auth'])->group(function(){
     Route::put('tipoMovimientos/{tipoMov}','TipoMovimientoController@update')->name('tipoMovimientos.update') ;
     Route::delete('tipoMovimientos/{tipoMov}' , 'TipoMovimientoController@destroy')->name('tipoMovimientos.destroy') ;
 
+    //zonas
+    Route::post('zonas','ZonaController@store')->name('zonas.store')  ;
+    Route::put('zonas/{zona}','ZonaController@update')->name('zonas.update') ;
+    Route::delete('zonas/{zona}' , 'ZonaController@destroy')->name('zonas.destroy') ;
+
 
 }) ;
 

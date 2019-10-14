@@ -45,21 +45,22 @@
                         <div class="col-md-7">
                             <strong>Personal Encargado:</strong>
                             @if(!empty($trabajo->users[0]))
-                                <ul>
-                                    @foreach ($trabajo->users as $user)
-                                    <li>{{$user->name}} {{$user->apellido}}</li>
-                                    @endforeach
-                                </ul>
+                            <ul>
+                                @foreach ($trabajo->users as $user)
+                                <li>{{$user->name}} {{$user->apellido}}</li>
+                                @endforeach
+                            </ul>
 
                             @else
-                                <br>
-                                <i class="text-muted">No hay registros</i>
+                            <br>
+                            <i class="text-muted">No hay registros</i>
                             @endif
                             <div class="form-group my-5">
                                 @if (($trabajo->horaFin == null) &&($trabajo->horaInicio == null))
-                                    <label for="">Tiempo de duracion estimado: {{$trabajo->tiempoDuracionEstimado($trabajo->reclamo->tipoReclamo->id)}}</label>
+                                <label for="">Tiempo de duracion estimado:
+                                    {{$trabajo->tiempoDuracionEstimado($trabajo->reclamo->tipoReclamo->id)}}</label>
                                 @else
-                                    <label for="">Tiempo de duracion real: {{$trabajo->tiempoDuracion()}}</label>
+                                <label for="">Tiempo de duracion real: {{$trabajo->tiempoDuracion()}}</label>
                                 @endif
                             </div>
                         </div>
@@ -87,24 +88,27 @@
                                 </thead>
 
                                 <tbody>
-                                    @if(!empty($trabajo->cabecerasMovimientos[0]))
-                                        @foreach ($trabajo->cabecerasMovimientos[0]->movimientos as $movimiento)
-                                        <tr>
-                                            <td>{{$movimiento->producto->nombre}}</td>
-                                            <td>{{$movimiento->cantidad}} {{$movimiento->producto->medida->nombre}}</td>
-                                        </tr>
-                                        @endforeach
+                                    @if($trabajo->cabeceraMovimiento != null)
+                                    @foreach ($trabajo->cabeceraMovimiento->movimientos as $movimiento)
+                                    <tr>
+                                        <td>{{$movimiento->producto->nombre}}</td>
+                                        <td>{{$movimiento->cantidad}} {{$movimiento->producto->medida->nombre}}</td>
+                                    </tr>
+                                    @endforeach
                                     @else
-                                        <tr>
-                                            <td colspan="2">
-                                                <i class="text-muted">Aun no se han utilizado productos en este trabajo</i>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <i class="text-muted">Aun no se han utilizado productos en este trabajo</i>
+                                        </td>
+                                    </tr>
                                     @endif
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
+                <div class="card-header d-flex justify-content-center">
+                    <a href="javascript:history.back()" class="btn btn-primary btn-sm">Volver</a>
                 </div>
             </div>
         </div>

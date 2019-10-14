@@ -33,8 +33,8 @@
             <tr>
                 <td>{{$socio->apellido}}</td>
                 <td>{{$socio->nombre}}</td>
-                <td>{{$socio->dni}}</td>
-                <td>{{$socio->nro_conexion}}</td>
+                <td style="text-align: right">{{$socio->dni}}</td>
+                <td style="text-align: right">{{$socio->nro_conexion}}</td>
 
                 <td>{{$socio->direccion->calle}} {{$socio->direccion->altura}}, {{$socio->direccion->zona->nombre}}
                 </td>

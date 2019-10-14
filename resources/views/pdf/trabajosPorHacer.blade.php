@@ -75,7 +75,12 @@
                             @foreach ($trabajo->recomendaciones() as $p)
                             <li>{{$p->nombre}},
                                 {{$trabajo->recomendacionCantidad($p)}}
-                                {{$p->medida->nombre}}
+                                {{$p->medida->nombre}} <br>
+                                (@foreach($trabajo->existenciasAlmacen($p ,$trabajo->recomendacionCantidad($p)) as
+                                $almacen)
+                                {{$almacen->denominacion}}.
+                                @endforeach
+                                )
                             </li>
                             @endforeach
                             @else

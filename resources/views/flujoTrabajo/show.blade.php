@@ -45,6 +45,10 @@
                     </table>
                 </div>
             </div>
+            <div class="card-footer d-flex justify-content-center">
+                <a href="javascript:history.back()" class="btn btn-primary btn-sm">Volver</a>
+
+            </div>
         </div>
     </div>
 </div>

@@ -3,33 +3,36 @@
 @section('content')
 
 <br>
-<form class="form-group " method="POST" action="{{route('trabajos.update' , $trabajo)}}" >
-        @method('PUT')
-<div class="row">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h3>Asignacion de Trabajo</h3>
-            </div>
-            <div class="card-body">
-                <p>
-                    <strong>Detalles del trabajo:</strong> {{$trabajo->reclamo->tipoReclamo->nombre}}
-                    <div class="text-inline">
-                        <strong> Nivel de Prioridad:</strong> <div class="badge badge-info">{{$trabajo->reclamo->tipoReclamo->prioridad->nombre}} </div>
-                    </div>
-                    <br>
-                    <strong> Ubicacion: </strong>  {{$trabajo->reclamo->socio->direccion->calle}} Nº {{$trabajo->reclamo->socio->direccion->altura}}, {{$trabajo->reclamo->socio->direccion->zona->nombre}}
-                </p>
+<form class="form-group " method="POST" action="{{route('trabajos.update' , $trabajo)}}">
+    @method('PUT')
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Asignacion de Trabajo</h3>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>Detalles del trabajo:</strong> {{$trabajo->reclamo->tipoReclamo->nombre}}
+                        <div class="text-inline">
+                            <strong> Nivel de Prioridad:</strong>
+                            <div class="badge badge-info">{{$trabajo->reclamo->tipoReclamo->prioridad->nombre}} </div>
+                        </div>
+                        <br>
+                        <strong> Ubicacion: </strong> {{$trabajo->reclamo->socio->direccion->calle}} Nº
+                        {{$trabajo->reclamo->socio->direccion->altura}},
+                        {{$trabajo->reclamo->socio->direccion->zona->nombre}}
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h3>Personal Disponible</h3>
-            </div>
-            <div class="card-body">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Personal Disponible</h3>
+                </div>
+                <div class="card-body">
                     {{-- <div class="col-md-6">
                         <label for="">Filtro</label>
                         <select class="seleccion form-control" name="user_id" id="filtroEmpleado">
@@ -52,7 +55,9 @@
                             <tr>
                                 <td width="75px">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" value="{{$empleado->id}}" class="custom-control-input" name="empleados[]" id="customCheck{{$empleado->id}}" @if($empleado->trabajos->contains($trabajo)) checked @endif>
+                                        <input type="checkbox" value="{{$empleado->id}}" class="custom-control-input"
+                                            name="empleados[]" id="customCheck{{$empleado->id}}"
+                                            @if($empleado->trabajos->contains($trabajo)) checked @endif>
                                         <label class="custom-control-label" for="customCheck{{$empleado->id}}"></label>
                                     </div>
                                 </td>
@@ -61,9 +66,9 @@
                                 </td>
                                 <td>
                                     @if ($empleado->deTurno())
-                                        SI
+                                    SI
                                     @else
-                                        NO
+                                    NO
                                     @endif
                                 </td>
                             </tr>
@@ -73,7 +78,8 @@
                 </div>
                 <div class="card-footer">
                     <div class="float-right">
-                        <button type="submit" class=" btn btn-primary btn-sm">Guardar</button>
+                        <a href="javascript:history.back()" class="btn btn-primary btn-sm">Volver</a>
+                        <button type="submit" class=" btn btn-success btn-sm">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -82,4 +88,3 @@
     @csrf
 </form>
 @endsection
-

@@ -131,6 +131,16 @@
         type: 'error',
         title: 'Verifique los campos',
         })
+        const Eliminar = Swal.mixin({
+        title: 'Seguro que deseas eliminar?',
+        text: "No hay vuelva atras.",
+        toast: false,
+        showConfirmButton: true,
+        showCancelButton: true,
+        type: 'warning',
+        confirmButtonText: 'Si, borrar!',
+        })
+
 
     </script>
 

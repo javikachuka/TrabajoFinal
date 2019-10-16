@@ -12,6 +12,7 @@ use App\Socio;
 use App\TipoMovimiento;
 use App\TipoReclamo;
 use App\Trabajo;
+use App\User;
 use Illuminate\Http\Request;
 use PDF ;
 use DB ;
@@ -299,6 +300,33 @@ class PdfController extends Controller
         $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
         $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
         return $pdf->stream('reclamos.pdf');
+
+    }
+
+    public function asistenciasPDF(Request $request ,User $empleado){
+        $aux = collect() ;
+        $filtro = "" ;
+        if($request->fecha1 != null && $request->fecha2 != null){
+            foreach($empleado->asistencias as $a){
+                $f = Carbon::create($a->dia) ;
+                $fecha1 = Carbon::create($request->input('fecha1')) ;
+                $fecha2 = Carbon::create($request->input('fecha2')) ;
+
+                if (($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))){
+                    $aux->push($a) ;
+                }
+            }
+            $filtro = "Filtros aplicados: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') ;
+        }else{
+            $aux = $empleado->asistencias ;
+        }
+        $config = Configuracion::first();
+        $cant = sizeof($aux) ;
+        $datos = date('d/m/Y');
+        $pdf=PDF::loadView('pdf.asistencias',['asistencias' => $aux, 'datos'=> $datos ,'empleado' => $empleado , 'cant' => $cant , 'filtro' => $filtro, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
+        return $pdf->stream('asistencias.pdf');
 
     }
 }

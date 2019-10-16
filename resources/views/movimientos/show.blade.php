@@ -21,7 +21,7 @@
                                     Proveedor: <i class="text-muted">{{$movimiento->cabeceraMovimiento->proveedor->nombre}}</i> <br>
                                     </p>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <p>
                                         Cuit: {{$movimiento->cabeceraMovimiento->proveedor->cuit}}
                                     </p>

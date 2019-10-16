@@ -144,8 +144,13 @@ class UserController extends Controller
         $user = User::find($id) ;
         if($user != null){
             try{
-                $user->delete() ;
-                return redirect('/users');
+                if(!$user->id == 1){
+                    $user->delete() ;
+                    return redirect('/users');
+                }else{
+                    alert()->error('No es posible eliminar al administrador' , 'Error') ;
+                    return redirect()->back() ;
+                }
             }catch(Exception $e){
                 report($e) ;
                 return redirect()->back()->with('cancelar' , 'asdf') ;

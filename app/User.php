@@ -8,11 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     use Notifiable;
     use HasRolesAndPermissions;
+    Use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -71,6 +76,10 @@ class User extends Authenticatable
 
     public function trabajos(){
         return $this->belongsToMany(Trabajo::class);
+    }
+
+    public function pedidos(){
+        return $this->hasMany(Pedido::class);
     }
 
     public function deTurno(){

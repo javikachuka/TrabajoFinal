@@ -42,6 +42,10 @@ class Producto extends Model
         return $this->belongsTo(Medida::class);
     }
 
+    public function detalles(){
+        return $this->hasMany(Detalle::class);
+    }
+
 
     public function cantidadTotal()
     {

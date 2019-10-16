@@ -5,6 +5,8 @@
 - [x] Agregar si hay existencias de los productos y en que almacen para el MODULO INTELIGENTE
 - [ ] Generar un pedido de los productos que serian necesarios para el mes o para una semana
 
+//regla de 3 simple viendo el primer uso de un producto, hasta quedar sin stock .
+
 
 //GENERAL
 - [ ] registro de cuando un empleado no viene a la empresa 
@@ -16,11 +18,13 @@ marco o si no lo hizo todavia
 - [ ] ABM de prioridades?
 - [x] ABM de zonas
 - [ ] ABM de medidas
-- [ ] agregar mejor alerta para eliminar
+- [ ] agregar mejor alerta para eliminar (almaces ya tiene incorporado. copiar de ahi)
 - [x] Arreglar cuando guardo configuracion que vuelva a la pestania que estaba
 - [x] arreglar que cuando se cambien los requisitos de un tipo de reclamo no afecte
 a los demas trabajos que existen ya iniciados
 - [ ] agregar las medidas en todos los lugares donde aparezca cantidad
+
+- [x] implementar auditoria
 
 
 MODULO ALMACEN (faltantes)
@@ -29,7 +33,7 @@ MODULO ALMACEN (faltantes)
 
 
 MODULO DE ENTRADA Y SALIDA
-- [ ] informe de asistencias por empleado (puedo agregar rango de fechas)
+- [x] informe de asistencias por empleado (puedo agregar rango de fechas)
 
 
 MODULO DE TRABAJO
@@ -41,3 +45,7 @@ MODULO RECLAMOS
 
 
 
+//PREGUNTAS
+hace falta agregar un cron para generar los registros de los empleados que faltan?
+
+como genero el pedido o provision de productos? Espero una respuesta del proveedor?

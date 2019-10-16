@@ -4,52 +4,35 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>Listado de Asistencia de Empleados</h3>
+        <h3>Seleccion de Empleado</h3>
     </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-5">
-                <label for="">Empleado</label>
-                <select class="seleccion form-control " name="empleado_id" id="empleado">
-                    <option value="" disabled selected>--Seleccione--</option>
-                    @foreach($empleados as $emple)
-                    <option value="{{$emple->id}}" {{old('empleado_id') == $emple->id ? 'selected' : ''}}>
-                        {{$emple->apellido . ' ' . $emple->name}}</option>
-                    @endforeach
-                </select>
-                <div class="text-danger">{{$errors->first('empleado_id')}} </div>
+    <form class="form-group" method="GET" action="{{route('asistencias.obtenerAsistencias')}}">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <label for="">Empleado</label>
+                    <select class="seleccion form-control " name="empleado_id" id="empleado">
+                        <option value="" disabled selected>--Seleccione--</option>
+                        @foreach($empleados as $emple)
+                        <option value="{{$emple->id}}" {{old('empleado_id') == $emple->id ? 'selected' : ''}}>
+                            {{$emple->apellido . ' ' . $emple->name}}</option>
+                        @endforeach
+                    </select>
+                    <div class="text-danger">{{$errors->first('empleado_id')}} </div>
+
+                </div>
+                <div class="col-md-1 d-flex align-items-end ">
+                    <button class="btn btn-primary btn-sm"
+                        onclick="location.href='{{route('asistencias.obtenerAsistencias')}}'">Seleccionar</button>
+                    {{-- <a class="btn btn-primary btn-sm" onclick="{{route('asistencias.obtenerAsistencias')}}"
+                    id="seleccionar">Seleccionar</a> --}}
+                </div>
 
             </div>
-            <div class="col-md-1 d-flex align-items-end ">
-                <button class="btn btn-primary btn-sm" id="">Seleccionar</button>
-            </div>
         </div>
-        <br>
-        <div class="table-responsive">
-            <table id="asistencias" class="table table-bordered table-striped table-hover datatable">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Hora de Entrada</th>
-                        <th>Hora de Salida</th>
-                        <th>Turno</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($asistencias as $asistencia)
 
-                    <tr>
-                        <td>{{$asistencia->getNombreDia()}} {{$asistencia->getDia()}}</td>
-                        <td>{{$asistencia->horaEntrada}}</td>
-                        <td>{{$asistencia->horaSalida}}</td>
-                        <td>{{$asistencia->empleado->getHorario($asistencia)}}</td>
-                    </tr>
-
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+        @csrf
+    </form>
 </div>
 
 @endsection
@@ -62,7 +45,7 @@
 </script>
 
 <script>
- $(function () {
+    $(function () {
           $('#asistencias').DataTable({
 
                 language: {
@@ -89,4 +72,34 @@
         });
 
 </script>
-@endpush
+
+{{-- <script>
+    $('#seleccionar').on('click',function(){
+        cargarAsistencias();
+    });
+
+    function cargarAsistencias(){
+        var t = $('#asistencias') ;
+
+
+    }
+
+
+
+</script> --}}
+{{-- <script>
+    $('#seleccionar').on('click',function(){
+        cargarAsistencias();
+    });
+
+    function cargarAsistencias(){
+        var t = $('#asistencias').DataTable() ;
+        var emple_id = $('#empleado').val();
+        var url = "{{ route('asistencias.obtener', ":id") }}" ;
+url = url.replace(':id' , emple_id) ;
+t.rows().remove().draw();
+$.get(url , function(data){
+if(data['asistencias'].length>0){
+for (var i = 0; i < data['asistencias'].length; i++) { t.row.add( [ data['fechas'][i] ,
+    data['asistencias'][i].horaEntrada , data['asistencias'][i].horaSalida, ] ).draw(false) ; }; }; }); } </script> --}}
+    @endpush

@@ -28,6 +28,10 @@ class Proveedor extends Model
         return $this->belongsToMany(Producto::class);
     }
 
+    public function pedidos(){
+        return $this->hasMany(Pedido::class);
+    }
+
 
 
 }

@@ -32,6 +32,7 @@ Route::get('/proveedorPDF', 'PdfController@proveedorPDF')->name('proveedor.pdf')
 Route::get('/movimientosPDF', 'PdfController@movimientosPDF')->name('movimientos.pdf') ;
 Route::get('/trabajosPorHacerPDF', 'PdfController@trabajosPorHacerPDF')->name('trabajosPorHacer.pdf') ;
 Route::get('/reclamosPDF', 'PdfController@reclamosPDF')->name('reclamos.pdf') ;
+Route::get('/asistenciasPDF/{empleado}', 'PdfController@asistenciasPDF')->name('asistencias.pdf') ;
 
 
 
@@ -189,6 +190,8 @@ Route::middleware(['auth'])->group(function(){
     Route::post('asistencias/entrada','AsistenciaController@entrada')->name('asistencias.entrada')  ;
     Route::post('asistencias/salida','AsistenciaController@salida')->name('asistencias.salida')  ;
     Route::get('asistencias/control','AsistenciaController@control')->name('asistencias.control')  ;
+    Route::get('asistencias/obtenerAsistencias','AsistenciaController@obtenerAsistencias')->name('asistencias.obtenerAsistencias')  ;
+    Route::get('asistencias/{empleado}','AsistenciaController@show')->name('asistencias.show')  ;
 
 
     //horarios
@@ -254,6 +257,21 @@ Route::middleware(['auth'])->group(function(){
     Route::post('zonas','ZonaController@store')->name('zonas.store')  ;
     Route::put('zonas/{zona}','ZonaController@update')->name('zonas.update') ;
     Route::delete('zonas/{zona}' , 'ZonaController@destroy')->name('zonas.destroy') ;
+
+
+    //pedidos
+    Route::get('pedidos','PedidoController@index')->name('pedidos.index') ;
+    Route::get('pedidos/create', 'PedidoController@create')->name('pedidos.create') ;
+    Route::post('pedidos', 'PedidoController@store')->name('pedidos.store') ;
+    Route::get('pedidos/{pedido}', 'PedidoController@show')->name('pedidos.show') ;
+    Route::get('pedidos/{pedido}/edit', 'PedidoController@edit')->name('pedidos.edit') ;
+    Route::put('pedidos/{pedido}' , 'PedidoController@update')->name('pedidos.update')  ;
+    Route::delete('pedidos/{pedido}' , 'PedidoController@destroy')->name('pedidos.destroy') ;
+
+    //auditoria
+    Route::get('auditoria', 'AuditoriaController@index')->name('auditoria.index');
+    Route::get('auditoria/movimientos/{auditoria}', 'AuditoriaController@showMov')->name('auditoria.showMov');
+    Route::get('auditoria/users/{auditoria}', 'AuditoriaController@showUser')->name('auditoria.showUser');
 
 
 }) ;

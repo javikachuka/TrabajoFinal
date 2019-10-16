@@ -109,6 +109,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('pedidos.index') }}" class="nav-link">
+                                <i class="fal fa-cart-plus nav-icon"></i>
+                                <p>Pedidos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('productos.index') }}" class="nav-link">
                                 <i class="fal fa-cube nav-icon"></i>
                                 <p>Productos</p>
@@ -259,6 +265,12 @@
                     </ul>
                 </li> --}}
 
+                <li class="nav-item">
+                    <a href="{{route('auditoria.index')}}" class="nav-link">
+                        <i class="fal fa-search nav-icon"></i>
+                        <p>Auditoria</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{{route('configuraciones.index')}}" class="nav-link">
                         <i class="fal fa-cogs nav-icon"></i>

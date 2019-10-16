@@ -138,8 +138,9 @@
                                                                 <li>{{$p->nombre}},
                                                                     {{$trabajo->recomendacionCantidad($p)}}
                                                                     {{$p->medida->nombre}}
-                                                                    (@foreach($trabajo->existenciasAlmacen($p ,$trabajo->recomendacionCantidad($p)) as $almacen)
-                                                                        {{$almacen->denominacion}}.
+                                                                    (@foreach($trabajo->existenciasAlmacen($p
+                                                                    ,$trabajo->recomendacionCantidad($p)) as $almacen)
+                                                                    {{$almacen->denominacion}}.
                                                                     @endforeach
                                                                     )
                                                                 </li>
@@ -183,6 +184,8 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        @if (!$trabajosIniciados->isEmpty())
+
                         <table class="table table-sm">
                             <thead>
                                 <tr>
@@ -207,6 +210,11 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        @else
+                        <div class="justify-content-center">
+                            No hay trabajos iniciados!
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

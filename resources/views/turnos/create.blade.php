@@ -13,18 +13,14 @@
                     <div class="col-md-5">
 
                         <select class="seleccion form-control" name="empleado_id" id="empleado">
-                            <option value="" disabled selected>--Seleccione--</option>
+                            <option value="" disabled selected>--Seleccione un empleado--</option>
                             @foreach($empleados as $emple)
                                 <option value="{{$emple->id}}" {{old('empleado_id') == $emple->id ? 'selected' : ''}} >{{$emple->apellido . ' ' . $emple->name}}</option>
                             @endforeach
                         </select>
                         <div class="text-danger">{{$errors->first('empleado_id')}} </div>
                     </div>
-                    <div class="col-md-2 offset-3">
-                        <div class="form-group">
-                            <button class="btn btn-primary  btn-sm">Configurar Turnos</button>
-                        </div>
-                    </div>
+
                 </div>
 
         </div>

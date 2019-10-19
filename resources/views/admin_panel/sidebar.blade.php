@@ -2,7 +2,7 @@
 <aside class="main-sidebar elevation-4 sidebar-dark-primary">
     <!-- Brand Logo -->
     <a href="/home" class="brand-link">
-        <img src="{{ asset('img/logo.png')}}" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="{{ asset('img/logo4.png')}}" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-bold align-content-center">ReCoop</span>
     </a>
 

@@ -25,19 +25,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('principal.principal');
+        // return view('principal.principal');
+        return redirect()->route('inicio');
     }
 
     public function inicio()
     {
-        $trabajos = Trabajo::all();
+        $trabajos = Trabajo::all()->where('estado_id', 2);
         foreach ($trabajos as $key => $trabajo) {
-            if ($trabajo->estado->nombre != 'EN ESPERA') {
-                $trabajos->pull($key);
-            }
-            if (sizeof($trabajo->reclamo->tipoReclamo->requisitos) != sizeof($trabajo->reclamo->controles)) {
-                $trabajos->pull($key);
-            }
+            // if ($trabajo->estado->nombre != 'EN ESPERA') {
+            //     $trabajos->pull($key);
+            // }
+            // if (sizeof($trabajo->reclamo->tipoReclamo->requisitos) != sizeof($trabajo->reclamo->controles)) {
+            //     $trabajos->pull($key);
+            // }
             if (!$trabajo->users->isEmpty()) {
                 if (!$trabajo->users->contains(auth()->user())) {
                     $trabajos->pull($key);

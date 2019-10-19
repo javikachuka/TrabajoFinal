@@ -291,7 +291,7 @@
                 var newdate =   datearray[2] + '/'+ datearray[1] + '/' + datearray[0] ;
                 var s = new Date(newdate)
                 var startDate = moment(s)
-
+                console.log(startDate) ;
                 if(filtro1 == null && filtro2 == null){
                     if  (
                             ( min == "" || max == "" ) ||

@@ -39,6 +39,10 @@ class EstadosTableSeeder extends Seeder
             'nombre'          => 'Cancelado',
         ]);
 
+        Estado::create([
+            'nombre'          => 'Sin Existencias',
+        ]);
+
 
         FlujoTrabajo::create([
             'nombre'          => 'Trabajos' ,
@@ -86,6 +90,22 @@ class EstadosTableSeeder extends Seeder
             'orden' => 5,
             'flujoTrabajo_id' => 1,
             'estadoInicial_id' => 4,
+            'estadoFinal_id' => 2,
+        ]) ;
+
+        Transicion::create([
+            'nombre' => 'Faltante De Productos Para Llevar A Cabo El Trabajo',
+            'orden' => 6,
+            'flujoTrabajo_id' => 1,
+            'estadoInicial_id' => 1,
+            'estadoFinal_id' => 7,
+        ]) ;
+
+        Transicion::create([
+            'nombre' => 'Ingreso De Insumos',
+            'orden' => 7,
+            'flujoTrabajo_id' => 1,
+            'estadoInicial_id' => 7,
             'estadoFinal_id' => 2,
         ]) ;
 

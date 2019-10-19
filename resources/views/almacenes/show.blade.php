@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="content-fluid">
-    <H2>Datos del Almacen</H2>
         <div class="row  justify-content-center">
             <div class="col-md-10">
                 <div class="card card-primary card-outline">
@@ -37,7 +36,7 @@
                                                 <td>{{$exis->id}}</td>
                                                 <td>{{$exis->producto->nombre}}</td>
                                                 <td>{{$exis->producto->rubro->nombre}}</td>
-                                                <td>{{$exis->cantidad}}</td>
+                                                <td>{{$exis->cantidad}} {{$exis->producto->medida->nombre}}</td>
                                             </tr>
                                     @endforeach
 

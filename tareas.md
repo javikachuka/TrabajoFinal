@@ -26,6 +26,10 @@ a los demas trabajos que existen ya iniciados
 
 - [x] implementar auditoria
 
+- [ ] Agregar una sugerencia mas grande para recomendacion de productos a utilizar 
+- [ ] Agregar eliminacion de pedidos
+- [ ] generar pdf de pedidos
+
 
 MODULO ALMACEN (faltantes)
 - [ ] Informe de productos mas utilizados por almacen
@@ -40,7 +44,8 @@ MODULO DE TRABAJO
 - [ ] Informe de los trabajos que demandan mas tiempo, junto con recursos utilizados y tipos de trabajos mas frecuentes.
 
 MODULO RECLAMOS
-- [x] Informe zonas con mas reclamos, y algun otro filtro
+- [x] Informes con filtros
+- [ ] Informe zonas con mas reclamos
 
 
 

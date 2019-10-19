@@ -71,13 +71,13 @@ class FlujoTrabajoController extends Controller
      */
     public function edit(FlujoTrabajo $flujoTrabajo)
     {
-        $reclamos = Reclamo::all();
-        foreach($reclamos as $r){
-            if($r->tipoReclamo->flujoTrabajo == $flujoTrabajo){
-                alert()->info('No es posible editar el flujo debido a existen reclamos y trabajos en curso!');
-                return redirect()->back();
-            }
-        }
+        // $reclamos = Reclamo::all();
+        // foreach($reclamos as $r){
+        //     if($r->tipoReclamo->flujoTrabajo == $flujoTrabajo){
+        //         alert()->info('No es posible editar el flujo debido a existen reclamos y trabajos en curso!');
+        //         return redirect()->back();
+        //     }
+        // }
         return redirect()->route('transiciones.create', $flujoTrabajo->id);
     }
 

@@ -30,11 +30,11 @@ class ReclamoController extends Controller
         $reclamos = Reclamo::all();
         $tipoReclamos = TipoReclamo::all();
         $socios = Socio::all();
-        $estados= collect();
-        if(!$reclamos->isEmpty()){
-            $estados = $reclamos[0]->tipoReclamo->flujoTrabajo->getEstados() ;
+        $estados = collect();
+        if (!$reclamos->isEmpty()) {
+            $estados = $reclamos[0]->tipoReclamo->flujoTrabajo->getEstados();
         }
-        return view('reclamos.index', compact('reclamos', 'tipoReclamos', 'socios' , 'estados'));
+        return view('reclamos.index', compact('reclamos', 'tipoReclamos', 'socios', 'estados'));
     }
 
     /**
@@ -105,9 +105,39 @@ class ReclamoController extends Controller
                             }
                         }
                     } else {
-                        foreach ($posiblesEstados as $e) {
-                            if (strpos($e->nombre, 'F') === false) {
-                                $trabajo->estado_id = $e->id;
+                        //traemos todos los trabajos en un estado que no sea terminado , en falta de doc o recibido.
+                        $trabajos = Trabajo::all()->where('estado_id', '<>', 5)->where('estado_id', '<>', 4)->where('estado_id', '<>', 1);
+                        $hayStock = true;
+                        if (!$trabajo->recomendaciones()->isEmpty()) {
+                            foreach ($trabajo->recomendaciones() as $productoRecomendado) {
+                                if ($trabajo->recomendacionCantidad($productoRecomendado) <= $productoRecomendado->cantidadTotal()) {
+                                    $cantidadAcumulada = 0;
+                                    foreach ($trabajos as $t) {
+                                        foreach ($t->recomendaciones() as $r) {
+                                            if ($r->id == $productoRecomendado->id) {
+                                                $cantidadAcumulada += $t->recomendacionCantidad($r);
+                                            }
+                                        }
+                                    }
+                                    if ( $trabajo->recomendacionCantidad($productoRecomendado) > ( $productoRecomendado->cantidadTotal() - $cantidadAcumulada )) {
+                                        $hayStock = false;
+                                    }
+                                } else {
+                                    $hayStock = false;
+                                }
+                            }
+                        }
+                        if ($hayStock) {
+                            foreach ($posiblesEstados as $e) {
+                                if ($e->nombre == 'EN ESPERA') {
+                                    $trabajo->estado_id = $e->id;
+                                }
+                            }
+                        } else {
+                            foreach ($posiblesEstados as $e) {
+                                if ($e->nombre == 'SIN EXISTENCIAS') {
+                                    $trabajo->estado_id = $e->id;
+                                }
                             }
                         }
                     }
@@ -123,10 +153,41 @@ class ReclamoController extends Controller
                                 $trabajo->estado_id = $e->id;
                             }
                         }
+                        //segunda comparacion para ver los reclamos que no tienen requisitos y si hay stock
                     } else {
-                        foreach ($posiblesEstados as $e) {
-                            if (strpos($e->nombre, 'F') === false) {
-                                $trabajo->estado_id = $e->id;
+                        $trabajos = Trabajo::all()->where('estado_id', '<>', 5)->where('estado_id', '<>', 4)->where('estado_id', '<>', 1);
+                        $hayStock = true;
+                        if (!$trabajo->recomendaciones()->isEmpty()) {
+                            // return $trabajo->recomendaciones();
+                            foreach ($trabajo->recomendaciones() as $productoRecomendado) {
+                                if ($trabajo->recomendacionCantidad($productoRecomendado) <= $productoRecomendado->cantidadTotal()) {
+                                    $cantidadAcumulada = 0;
+                                    foreach ($trabajos as $t) {
+                                        foreach ($t->recomendaciones() as $r) {
+                                            if ($r->id == $productoRecomendado->id) {
+                                                $cantidadAcumulada += $t->recomendacionCantidad($r);
+                                            }
+                                        }
+                                    }
+                                    if ( $trabajo->recomendacionCantidad($productoRecomendado) > ( $productoRecomendado->cantidadTotal() - $cantidadAcumulada )) {
+                                        $hayStock = false;
+                                    }
+                                } else {
+                                    $hayStock = false;
+                                }
+                            }
+                        }
+                        if ($hayStock) {
+                            foreach ($posiblesEstados as $e) {
+                                if ($e->nombre == 'EN ESPERA') {
+                                    $trabajo->estado_id = $e->id;
+                                }
+                            }
+                        } else {
+                            foreach ($posiblesEstados as $e) {
+                                if ($e->nombre == 'SIN EXISTENCIAS') {
+                                    $trabajo->estado_id = $e->id;
+                                }
                             }
                         }
                     }
@@ -221,7 +282,7 @@ class ReclamoController extends Controller
             }
         }
         if (sizeof($request->requisitos) == sizeof($reclamo->tipoReclamo->requisitos)) {
-            $trabajo =  $reclamo->trabajo ;
+            $trabajo =  $reclamo->trabajo;
 
             $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->siguienteEstado($trabajo->estado)->id;
             $trabajo->update();

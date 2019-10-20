@@ -125,6 +125,23 @@
                     </tr>
 
                     @endforeach
+                    @foreach($auditoriasProd as $auditoria)
+                    <tr>
+                        <td>{{$auditoria->auditable_id}}</td>
+                        <td>EMPLEADOS</td>
+                        <td style="text-transform:uppercase">{{$auditoria->event}}</td>
+                        <td>{{$auditoria->created_at->format('d/m/Y')}}</td>
+                        <td>{{$auditoria->created_at->format('H:i:s')}}</td>
+                        <td>{{$auditoria->user->apellido}} {{$auditoria->user->name}}</td>
+                        <td width="150px" class="text-center">
+                            <a href="{{route('auditoria.showProd' , $auditoria->auditable_id)}}"
+                                class="btn btn-xs btn-primary">Ver
+                                mas</a>
+
+                        </td>
+                    </tr>
+
+                    @endforeach
                 </tbody>
             </table>
         </div>

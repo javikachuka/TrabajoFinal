@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Movimiento;
+use App\Producto;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,8 @@ class AuditoriaController extends Controller
 
         $movs = Movimiento::withTrashed()->get();
         $users = User::withTrashed()->get();
+        $productos = Producto::withTrashed()->get();
+        $auditoriasProd = collect();
         $auditoriasMov = collect();
         $auditoriasUser = collect();
         foreach ($movs as $mov) {
@@ -31,10 +34,16 @@ class AuditoriaController extends Controller
             }
         }
 
+        foreach ($productos as $p) {
+            if (!$p->audits->isEmpty()) {
+                $auditoriasProd->add($p->audits()->latest()->first());
+            }
+        }
 
 
 
-        return view('auditoria.index', compact('auditoriasMov', 'auditoriasUser' , 'users'));
+
+        return view('auditoria.index', compact('auditoriasMov', 'auditoriasUser' , 'auditoriasProd' , 'users'));
     }
 
     public function showMov($id){
@@ -61,4 +70,17 @@ class AuditoriaController extends Controller
             }
         }
     }
+
+    public function showProd($id){
+        $tabla = 'PRODUCTOS';
+        $productos = Producto::withTrashed()->get() ;
+        foreach($productos as $p){
+            if($p->id == $id){
+                $auditoria = $p->audits()->latest()->first();
+                // dd($auditoria->getModified());
+                return view('auditoria.show' , compact('auditoria' , 'tabla')) ;
+            }
+        }
+    }
+
 }

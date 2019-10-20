@@ -3,10 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Producto extends Model
+class Producto extends Model implements Auditable
 {
+
+    use \OwenIt\Auditing\Auditable;
+    use SoftDeletes;
 
     protected $guarded = [];
 

@@ -272,6 +272,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('auditoria', 'AuditoriaController@index')->name('auditoria.index');
     Route::get('auditoria/movimientos/{auditoria}', 'AuditoriaController@showMov')->name('auditoria.showMov');
     Route::get('auditoria/users/{auditoria}', 'AuditoriaController@showUser')->name('auditoria.showUser');
+    Route::get('auditoria/productos/{auditoria}', 'AuditoriaController@showProd')->name('auditoria.showProd');
 
 
 }) ;

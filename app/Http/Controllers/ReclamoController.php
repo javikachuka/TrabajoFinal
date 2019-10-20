@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Control;
+use App\Detalle;
 use App\HistorialEstado;
+use App\Pedido;
 use App\Reclamo;
 use App\Requisito;
 use Illuminate\Http\Request;
@@ -106,8 +108,10 @@ class ReclamoController extends Controller
                         }
                     } else {
                         //traemos todos los trabajos en un estado que no sea terminado , en falta de doc o recibido.
+                        //serian los trabajos que estan en espera, iniciados o sin existencias
                         $trabajos = Trabajo::all()->where('estado_id', '<>', 5)->where('estado_id', '<>', 4)->where('estado_id', '<>', 1);
                         $hayStock = true;
+
                         if (!$trabajo->recomendaciones()->isEmpty()) {
                             foreach ($trabajo->recomendaciones() as $productoRecomendado) {
                                 if ($trabajo->recomendacionCantidad($productoRecomendado) <= $productoRecomendado->cantidadTotal()) {
@@ -119,11 +123,41 @@ class ReclamoController extends Controller
                                             }
                                         }
                                     }
-                                    if ( $trabajo->recomendacionCantidad($productoRecomendado) > ( $productoRecomendado->cantidadTotal() - $cantidadAcumulada )) {
+                                    if ($trabajo->recomendacionCantidad($productoRecomendado) > ($productoRecomendado->cantidadTotal() - $cantidadAcumulada)) {
                                         $hayStock = false;
+                                    }
+                                    if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
+                                        $pedido = Pedido::where('generado', false)->firstOrFail();
+                                        if ($pedido == null) {
+                                            $pedido = new Pedido();
+                                            $pedido->fecha = Carbon::now();
+                                            $pedido->save();
+                                        }
+                                        if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                            $detalle = new Detalle();
+                                            $detalle->pedido_id = $pedido->siguienteId();
+                                            $detalle->producto_id = $productoRecomendado->id;
+                                            $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                            $detalle->save();
+                                        }
                                     }
                                 } else {
                                     $hayStock = false;
+                                    if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
+                                        $pedido = Pedido::where('generado', false)->firstOrFail();
+                                        if ($pedido == null) {
+                                            $pedido = new Pedido();
+                                            $pedido->fecha = Carbon::now();
+                                            $pedido->save();
+                                        }
+                                        if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                            $detalle = new Detalle();
+                                            $detalle->pedido_id = $pedido->siguienteId();
+                                            $detalle->producto_id = $productoRecomendado->id;
+                                            $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                            $detalle->save();
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -155,6 +189,8 @@ class ReclamoController extends Controller
                         }
                         //segunda comparacion para ver los reclamos que no tienen requisitos y si hay stock
                     } else {
+                        //traemos todos los trabajos en un estado que no sea terminado , en falta de doc o recibido.
+                        //serian los trabajos que estan en espera, iniciados o sin existencias
                         $trabajos = Trabajo::all()->where('estado_id', '<>', 5)->where('estado_id', '<>', 4)->where('estado_id', '<>', 1);
                         $hayStock = true;
                         if (!$trabajo->recomendaciones()->isEmpty()) {
@@ -169,11 +205,41 @@ class ReclamoController extends Controller
                                             }
                                         }
                                     }
-                                    if ( $trabajo->recomendacionCantidad($productoRecomendado) > ( $productoRecomendado->cantidadTotal() - $cantidadAcumulada )) {
+                                    if ($trabajo->recomendacionCantidad($productoRecomendado) > ($productoRecomendado->cantidadTotal() - $cantidadAcumulada)) {
                                         $hayStock = false;
+                                    }
+                                    if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
+                                        $pedido = Pedido::where('generado', false)->firstOrFail();
+                                        if ($pedido == null) {
+                                            $pedido = new Pedido();
+                                            $pedido->fecha = Carbon::now();
+                                            $pedido->save();
+                                        }
+                                        if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                            $detalle = new Detalle();
+                                            $detalle->pedido_id = $pedido->siguienteId();
+                                            $detalle->producto_id = $productoRecomendado->id;
+                                            $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                            $detalle->save();
+                                        }
                                     }
                                 } else {
                                     $hayStock = false;
+                                    if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
+                                        $pedido = Pedido::where('generado', false)->firstOrFail();
+                                        if ($pedido == null) {
+                                            $pedido = new Pedido();
+                                            $pedido->fecha = Carbon::now();
+                                            $pedido->save();
+                                        }
+                                        if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                            $detalle = new Detalle();
+                                            $detalle->pedido_id = $pedido->siguienteId();
+                                            $detalle->producto_id = $productoRecomendado->id;
+                                            $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                            $detalle->save();
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -281,10 +347,41 @@ class ReclamoController extends Controller
                 }
             }
         }
+        $posiblesEstados = $reclamo->tipoReclamo->flujoTrabajo->getPosiblesEstados($reclamo->trabajo->estado); //aqui deberia ir la logica para pasar a un estado faltante
         if (sizeof($request->requisitos) == sizeof($reclamo->tipoReclamo->requisitos)) {
             $trabajo =  $reclamo->trabajo;
+            //traemos todos los trabajos en un estado que no sea terminado , en falta de doc o recibido.
+            //serian los trabajos que estan en espera, iniciados o sin existencias
+            $trabajos = Trabajo::all()->where('estado_id', '<>', 5)->where('estado_id', '<>', 4)->where('estado_id', '<>', 1);
+            $hayStock = true;
+            if (!$trabajo->recomendaciones()->isEmpty()) {
+                // return $trabajo->recomendaciones();
+                foreach ($trabajo->recomendaciones() as $productoRecomendado) {
+                    if ($trabajo->recomendacionCantidad($productoRecomendado) <= $productoRecomendado->cantidadTotal()) {
+                        $cantidadAcumulada = 0;
+                        foreach ($trabajos as $t) {
+                            foreach ($t->recomendaciones() as $r) {
+                                if ($r->id == $productoRecomendado->id) {
+                                    $cantidadAcumulada += $t->recomendacionCantidad($r);
+                                }
+                            }
+                        }
+                        if ($trabajo->recomendacionCantidad($productoRecomendado) > ($productoRecomendado->cantidadTotal() - $cantidadAcumulada)) {
+                            $hayStock = false;
+                        }
+                    } else {
+                        $hayStock = false;
+                    }
+                }
+            }
+            if ($hayStock) {
+                foreach ($posiblesEstados as $e) {
+                    if ($e->nombre == 'EN ESPERA') {
+                        $trabajo->estado_id = $e->id;
+                    }
+                }
+            }
 
-            $trabajo->estado_id = $reclamo->tipoReclamo->flujoTrabajo->siguienteEstado($trabajo->estado)->id;
             $trabajo->update();
 
             $historial = new HistorialEstado();

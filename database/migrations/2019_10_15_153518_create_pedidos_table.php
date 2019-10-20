@@ -18,6 +18,7 @@ class CreatePedidosTable extends Migration
             $table->date('fecha');
             $table->unsignedBigInteger('proveedor_id')->nullable();
             $table->foreign('proveedor_id')->references('id')->on('proveedores') ;
+            $table->boolean('generado')->default(FALSE);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users') ;
             $table->timestamps();

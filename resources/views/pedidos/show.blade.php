@@ -12,12 +12,16 @@
                     <br>
                     <div class="row justify-content-around">
                         <div class="col-md-6">
-                            <strong><i class="fal fa-file-alt mr-1"></i>Detalles del Pedido:  </strong><br>
+                            <strong><i class="fal fa-file-alt mr-1"></i>Datos del Proveedor:  </strong><br>
                                 <p>
+                                    @if($pedido->proveedor != null)
                                     Proveedor: <i class="text-muted"> {{$pedido->proveedor->nombre}}</i><br>
                                     CUIT: {{$pedido->proveedor->cuit}} <br>
                                     Email: {{$pedido->proveedor->email}} <br>
                                     Telefono: {{$pedido->proveedor->telefono}} <br>
+                                    @else
+                                        <i class="text-muted">Sin Asignar</i>
+                                    @endif
                                 </p>
 
                         </div>

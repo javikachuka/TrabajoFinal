@@ -26,4 +26,13 @@ class Pedido extends Model
         $date = Carbon::create($this->fecha)->format('d/m/Y') ;
         return $date  ;
     }
+
+    public function siguienteId(){
+        $pedidos = Pedido::all() ;
+        if(!$pedidos->isEmpty()){
+            return $pedidos->last()->id ;
+        }else{
+            return 1 ;
+        }
+    }
 }

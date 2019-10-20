@@ -33,6 +33,7 @@ class UserTableSeeder extends Seeder
         $user->email = 'admin@admin.com' ;
         $user->password = Hash::make('123456789') ;
         $user->save() ;
+        $user->roles()->sync(1);
 
         $direccion = new Direccion();
         $direccion->zona_id = 4 ;

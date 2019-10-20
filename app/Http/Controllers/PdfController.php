@@ -134,18 +134,46 @@ class PdfController extends Controller
     }
 
     public function trabajosPorHacerPDF(){
-        $trabajos = Trabajo::all();
-        foreach($trabajos as $key => $trabajo){
-            if($trabajo->reclamo->getCantidadEstados() != 2){
-                $trabajos->pull($key) ;
-            }
-            if(sizeof($trabajo->reclamo->tipoReclamo->requisitos) != sizeof($trabajo->reclamo->controles)){
-                $trabajos->pull($key) ;
+        $trabajos = Trabajo::all()->where('estado_id', 2);
+        foreach ($trabajos as $key => $trabajo) {
+            if (!$trabajo->users->isEmpty()) {
+                if (!$trabajo->users->contains(auth()->user())) {
+                    $trabajos->pull($key);
+                }
             }
         }
-        $cant = sizeof($trabajos) ;
+
+        $aux = null;
+        $max = 2200;
+        $trabajosOrdenados = collect();
+        foreach ($trabajos as $trabajo) {
+            $trabajosOrdenados->add($trabajo);
+        }
+
+        //burbuja para ordenar los de mayor prioridad
+        for ($i = 1; $i < count($trabajosOrdenados); $i++) {
+            for ($j = 0; $j < count($trabajosOrdenados) - $i; $j++) {
+                if ($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad->nivel < $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad->nivel) {
+                        $k = $trabajosOrdenados[$j + 1];
+                        $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
+                        $trabajosOrdenados[$j] = $k;
+                }
+            }
+        }
+
+        //burbuja para los de mayor tiempo segun prioridad de cada uno, si tienen igual prioridad se compara el tiempo de duracion
+        for ($i = 1; $i < count($trabajosOrdenados); $i++) {
+            for ($j = 0; $j < count($trabajosOrdenados) - $i; $j++) {
+                if(($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad == $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad) && ($trabajosOrdenados[$j]->duracionEstimadaReal($trabajosOrdenados[$j]->reclamo->tipoReclamo->id) < $trabajosOrdenados[$j+1]->duracionEstimadaReal($trabajosOrdenados[$j+1]->reclamo->tipoReclamo->id))){
+                    $k = $trabajosOrdenados[$j + 1];
+                    $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
+                    $trabajosOrdenados[$j] = $k;
+                }
+            }
+        }
+        $cant = sizeof($trabajosOrdenados) ;
         $config = Configuracion::first();
-        $pdf=PDF::loadView('pdf.trabajosPorHacer',['trabajos'=>$trabajos, 'cant' => $cant , 'config' => $config]);
+        $pdf=PDF::loadView('pdf.trabajosPorHacer',['trabajos'=>$trabajosOrdenados, 'cant' => $cant , 'config' => $config]);
         $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
         $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
         return $pdf->stream('trabajosPorHacer.pdf');

@@ -95,8 +95,21 @@
                     <tr>
                         <td>{{$pedido->id}}</td>
                         <td>{{$pedido->getFecha()}}</td>
-                        <td>{{$pedido->proveedor->nombre}}</td>
-                        <td><span class="badge badge-info">{{$pedido->user->apellido}} {{$pedido->user->name}}</span></td>
+                        <td>
+                            @if($pedido->proveedor != null)
+                            {{$pedido->proveedor->nombre}}
+                            @else
+                            <div class="badge badge-light">Sin asignar</div>
+                            @endif
+
+                        </td>
+                        <td>
+                            @if($pedido->user != null)
+                            <span class="badge badge-info">{{$pedido->user->apellido}} {{$pedido->user->name}}</span>
+                            @else
+                            <div class="badge badge-secondary">Sistema</div>
+                            @endif
+                        </td>
                         <td width="150px" class="text-center">
                             <a href="{{route('pedidos.show' , $pedido)}}" class="btn btn-xs btn-primary">Ver
                                 mas</a>

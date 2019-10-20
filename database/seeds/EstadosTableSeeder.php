@@ -18,7 +18,6 @@ class EstadosTableSeeder extends Seeder
             'nombre'          => 'Recibido',
         ]);
 
-
         Estado::create([
             'nombre'          => 'En espera',
         ]);
@@ -107,6 +106,14 @@ class EstadosTableSeeder extends Seeder
             'flujoTrabajo_id' => 1,
             'estadoInicial_id' => 7,
             'estadoFinal_id' => 2,
+        ]) ;
+
+        Transicion::create([
+            'nombre' => 'Reclamo En Condiciones, Pero No Hay Existencias',
+            'orden' => 8,
+            'flujoTrabajo_id' => 1,
+            'estadoInicial_id' => 4,
+            'estadoFinal_id' => 7,
         ]) ;
 
     }

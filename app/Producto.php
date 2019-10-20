@@ -67,4 +67,12 @@ class Producto extends Model
             }
         }
     }
+
+    public function isCantidadMinima($cantidad){
+        if(($this->cantidadTotal()-$cantidad) <= $this->cantidadMinima){
+            return true ;
+        } else {
+            return false ;
+        }
+    }
 }

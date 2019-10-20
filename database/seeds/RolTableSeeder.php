@@ -31,5 +31,17 @@ class RolTableSeeder extends Seeder
             'description'    => 'acceso medio' ,
         ]);
 
+        Role::create([
+            'name'          => 'ENCARGADO_COMPRAS',
+            'slug'          => 'encargado_compras',
+            'description'    => 'solamente seccion pedidos y movimientos' ,
+        ]);
+
+        Role::create([
+            'name'          => 'AUDITOR',
+            'slug'          => 'auditor',
+            'description'    => 'detalles a nivel de base de datos, pistas, logs de auditoria' ,
+        ]);
+
     }
 }

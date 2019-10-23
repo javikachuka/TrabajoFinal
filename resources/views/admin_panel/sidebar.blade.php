@@ -91,6 +91,12 @@
                                 <p>Trabajos</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('estadistica.trabajos') }}" class="nav-link">
+                                <i class="fal fa-chart-pie nav-icon"></i>
+                                <p>Estadistica</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview  ">

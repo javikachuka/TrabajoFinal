@@ -28,6 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // }) ;
 
 
+
 Route::get('/proveedorPDF', 'PdfController@proveedorPDF')->name('proveedor.pdf') ;
 Route::get('/movimientosPDF', 'PdfController@movimientosPDF')->name('movimientos.pdf') ;
 Route::get('/trabajosPorHacerPDF', 'PdfController@trabajosPorHacerPDF')->name('trabajosPorHacer.pdf') ;
@@ -166,6 +167,8 @@ Route::middleware(['auth'])->group(function(){
 
 
 
+
+
     //almacenes
     Route::get('almacenes','AlmacenController@index')->name('almacenes.index')->middleware('permission:almacenes_index')  ;
     Route::get('almacenes/create', 'AlmacenController@create')->name('almacenes.create')->middleware('permission:almacenes_create')  ;
@@ -275,7 +278,8 @@ Route::middleware(['auth'])->group(function(){
     Route::get('auditoria/users/{auditoria}', 'AuditoriaController@showUser')->name('auditoria.showUser');
     Route::get('auditoria/productos/{auditoria}', 'AuditoriaController@showProd')->name('auditoria.showProd');
 
-
+    //estadisticas
+    Route::get('estadistica/trabajos', 'EstadisticaController@trabajo')->name('estadistica.trabajos');
 }) ;
 
 

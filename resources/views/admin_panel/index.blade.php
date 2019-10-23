@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="{{ asset('admin_panel/plugins/datatables-select/css/select.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{asset('admin_panel/plugins/select2/css/select2.css')}}" >
 <link rel="stylesheet" href="{{asset('admin_panel/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}" >
+<link rel="stylesheet" href="{{asset('admin_panel/plugins/chart.js/Chart.min.css')}}" >
   <!-- IonIcons -->
   {{-- <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}
   <!-- Theme style -->
@@ -149,6 +150,7 @@
     <script src="{{asset('admin_panel/plugins/moment/moment-with-locales.min.js')}}"></script>
     <script src="{{asset('admin_panel/plugins/chart.js/Chart.min.js')}}"></script>
     <script src="{{asset('admin_panel/dist/js/demo.js')}}"></script>
+
 
     @include('sweet::alert')
     @stack('scripts')

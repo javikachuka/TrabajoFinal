@@ -35,7 +35,7 @@
 <div class="content">
     <div class="content-fuid">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
@@ -54,7 +54,8 @@
                                     <th>Tipo de Trabajo</th>
                                     <th>Ubicacion</th>
                                     <th>Prioridad</th>
-                                    <th width="17%">Accion</th>
+                                    <th>Duracion Estimada</th>
+                                    <th width="20%">Accion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,6 +69,9 @@
                                     </td>
                                     <td>
                                         {{$trabajo->reclamo->tipoReclamo->prioridad->nombre}}
+                                    </td>
+                                    <td style="text-align: start">
+                                        {{$trabajo->tiempoDuracionEstimado($trabajo->reclamo->tipoReclamo->id)}} hs
                                     </td>
                                     <td>
                                         <button class="btn btn-xs btn-success" data-toggle="modal"
@@ -114,7 +118,7 @@
                                             </div>
                                         </div>
                                         <a href="#" class="btn btn-xs btn-warning" data-toggle="modal"
-                                            data-target="#recomendacion{{$trabajo->id}}"> <i
+                                            data-target="#recomendacion{{$trabajo->id}}">Recomendaciones <i
                                                 class="fas fa-exclamation-square"></i></a>
                                         <!-- Modal Recomendacion -->
                                         <div class="modal fade" id="recomendacion{{$trabajo->id}}" tabindex="-1"
@@ -174,7 +178,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">

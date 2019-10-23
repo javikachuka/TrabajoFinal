@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Configuracion;
 use App\Estado;
 use App\Movimiento;
+use App\Pedido;
 use App\Producto;
 use App\Proveedor;
 use App\Reclamo;
@@ -14,8 +15,8 @@ use App\TipoReclamo;
 use App\Trabajo;
 use App\User;
 use Illuminate\Http\Request;
-use PDF ;
-use DB ;
+use PDF;
+use DB;
 use Illuminate\Support\Carbon;
 
 class PdfController extends Controller
@@ -23,117 +24,111 @@ class PdfController extends Controller
 
     public function proveedorPDF()
     {
-        $proveedores= Proveedor::all() ;
+        $proveedores = Proveedor::all();
         $datos = date('d/m/Y');
-        $cant = sizeof($proveedores) ;
+        $cant = sizeof($proveedores);
         $config = Configuracion::first();
-        $pdf=PDF::loadView('pdf.proveedor',['proveedores'=>$proveedores, 'datos'=> $datos , 'cant' => $cant , 'config' => $config]);
-        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
-        $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
+        $pdf = PDF::loadView('pdf.proveedor', ['proveedores' => $proveedores, 'datos' => $datos, 'cant' => $cant, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
         return $pdf->stream('proveedor.pdf');
-
     }
 
-    public function movimientosPDF(Request $request){
+    public function movimientosPDF(Request $request)
+    {
 
-        $movimientos = Movimiento::all() ;
-        $aux = collect() ;
-        $filtro = "" ;
-        if(($request->fecha1 != null && $request->fecha2 != null) && $request->producto_id == null && $request->tipoMovimiento_id == null){
-            foreach($movimientos as $mov){
-                $f = Carbon::create($mov->cabeceraMovimiento->fecha) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
+        $movimientos = Movimiento::all();
+        $aux = collect();
+        $filtro = "";
+        if (($request->fecha1 != null && $request->fecha2 != null) && $request->producto_id == null && $request->tipoMovimiento_id == null) {
+            foreach ($movimientos as $mov) {
+                $f = Carbon::create($mov->cabeceraMovimiento->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-                if (($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))){
-                    $aux->push($mov) ;
+                if (($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) {
+                    $aux->push($mov);
                 }
             }
-            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') ;
-        } elseif(($request->fecha1 != null && $request->fecha2 != null) && $request->producto_id != null && $request->tipoMovimiento_id == null){
-            foreach($movimientos as $mov){
-                $f = Carbon::create($mov->cabeceraMovimiento->fecha) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
+            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y');
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->producto_id != null && $request->tipoMovimiento_id == null) {
+            foreach ($movimientos as $mov) {
+                $f = Carbon::create($mov->cabeceraMovimiento->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($mov->producto->id == $request->producto_id)){
-                    $aux->push($mov) ;
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($mov->producto->id == $request->producto_id)) {
+                    $aux->push($mov);
                 }
-
             }
-            $prod = Producto::find($request->producto_id) ;
-            $filtro = "Filtros: ". $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . ' y ' . $prod->nombre ;
+            $prod = Producto::find($request->producto_id);
+            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . ' y ' . $prod->nombre;
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->producto_id == null && $request->tipoMovimiento_id != null) {
+            foreach ($movimientos as $mov) {
+                $f = Carbon::create($mov->cabeceraMovimiento->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-        }elseif(($request->fecha1 != null && $request->fecha2 != null) && $request->producto_id == null && $request->tipoMovimiento_id != null){
-            foreach($movimientos as $mov){
-                $f = Carbon::create($mov->cabeceraMovimiento->fecha) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
-
-                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($mov->tipoMovimiento->id == $request->tipoMovimiento_id)){
-                    $aux->push($mov) ;
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($mov->tipoMovimiento->id == $request->tipoMovimiento_id)) {
+                    $aux->push($mov);
                 }
-
             }
             $tipM = TipoMovimiento::find($request->tipoMovimiento_id);
-            $filtro = "Filtros: ". $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . ' e ' . $tipM->nombre ;
+            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . ' e ' . $tipM->nombre;
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->producto_id != null && $request->tipoMovimiento_id != null) {
+            foreach ($movimientos as $mov) {
+                $f = Carbon::create($mov->cabeceraMovimiento->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-        }elseif(($request->fecha1 != null && $request->fecha2 != null) && $request->producto_id != null && $request->tipoMovimiento_id != null){
-            foreach($movimientos as $mov){
-                $f = Carbon::create($mov->cabeceraMovimiento->fecha) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
-
-                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($mov->tipoMovimiento->id == $request->tipoMovimiento_id) && ($mov->producto->id == $request->producto_id)){
-                    $aux->push($mov) ;
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($mov->tipoMovimiento->id == $request->tipoMovimiento_id) && ($mov->producto->id == $request->producto_id)) {
+                    $aux->push($mov);
                 }
-
             }
-            $prod = Producto::find($request->producto_id) ;
+            $prod = Producto::find($request->producto_id);
             $tipM = TipoMovimiento::find($request->tipoMovimiento_id);
-            $filtro = "Filtros: ". $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " , " . $tipM->nombre . " y " . $prod->nombre;
-
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->producto_id != null && $request->tipoMovimiento_id != null){
-            foreach($movimientos as $mov){
-                if (($mov->tipoMovimiento->id == $request->tipoMovimiento_id) && ($mov->producto->id == $request->producto_id)){
-                    $aux->push($mov) ;
+            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " , " . $tipM->nombre . " y " . $prod->nombre;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->producto_id != null && $request->tipoMovimiento_id != null) {
+            foreach ($movimientos as $mov) {
+                if (($mov->tipoMovimiento->id == $request->tipoMovimiento_id) && ($mov->producto->id == $request->producto_id)) {
+                    $aux->push($mov);
                 }
             }
 
-            $prod = Producto::find($request->producto_id) ;
+            $prod = Producto::find($request->producto_id);
             $tipM = TipoMovimiento::find($request->tipoMovimiento_id);
             $filtro = "Filtros: " . $tipM->nombre . " y " . $prod->nombre;
-
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->producto_id == null && $request->tipoMovimiento_id != null){
-            foreach($movimientos as $mov){
-                if ($mov->tipoMovimiento->id == $request->tipoMovimiento_id){
-                    $aux->push($mov) ;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->producto_id == null && $request->tipoMovimiento_id != null) {
+            foreach ($movimientos as $mov) {
+                if ($mov->tipoMovimiento->id == $request->tipoMovimiento_id) {
+                    $aux->push($mov);
                 }
             }
             $tipM = TipoMovimiento::find($request->tipoMovimiento_id);
             $filtro = "Filtros: " . $tipM->nombre;
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->producto_id != null && $request->tipoMovimiento_id == null){
-            foreach($movimientos as $mov){
-                if ($mov->producto->id == $request->producto_id){
-                    $aux->push($mov) ;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->producto_id != null && $request->tipoMovimiento_id == null) {
+            foreach ($movimientos as $mov) {
+                if ($mov->producto->id == $request->producto_id) {
+                    $aux->push($mov);
                 }
             }
 
-            $prod = Producto::find($request->producto_id) ;
+            $prod = Producto::find($request->producto_id);
             $filtro = "Filtros: " .  $prod->nombre;
-        }else{
-            $aux = $movimientos ;
+        } else {
+            $aux = $movimientos;
         }
         $config = Configuracion::first();
-        $cant = sizeof($aux) ;
+        $cant = sizeof($aux);
         $datos = date('d/m/Y');
-        $pdf=PDF::loadView('pdf.movimientos',['movimientos'=>$aux, 'datos'=> $datos, 'cant' => $cant , 'filtro' => $filtro, 'config' => $config]);
-        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
-        $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
+        $pdf = PDF::loadView('pdf.movimientos', ['movimientos' => $aux, 'datos' => $datos, 'cant' => $cant, 'filtro' => $filtro, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
         return $pdf->stream('movimientos.pdf');
     }
 
-    public function trabajosPorHacerPDF(){
+    public function trabajosPorHacerPDF()
+    {
         $trabajos = Trabajo::all()->where('estado_id', 2);
         foreach ($trabajos as $key => $trabajo) {
             if (!$trabajo->users->isEmpty()) {
@@ -154,9 +149,9 @@ class PdfController extends Controller
         for ($i = 1; $i < count($trabajosOrdenados); $i++) {
             for ($j = 0; $j < count($trabajosOrdenados) - $i; $j++) {
                 if ($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad->nivel < $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad->nivel) {
-                        $k = $trabajosOrdenados[$j + 1];
-                        $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
-                        $trabajosOrdenados[$j] = $k;
+                    $k = $trabajosOrdenados[$j + 1];
+                    $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
+                    $trabajosOrdenados[$j] = $k;
                 }
             }
         }
@@ -164,197 +159,198 @@ class PdfController extends Controller
         //burbuja para los de mayor tiempo segun prioridad de cada uno, si tienen igual prioridad se compara el tiempo de duracion
         for ($i = 1; $i < count($trabajosOrdenados); $i++) {
             for ($j = 0; $j < count($trabajosOrdenados) - $i; $j++) {
-                if(($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad == $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad) && ($trabajosOrdenados[$j]->duracionEstimadaReal($trabajosOrdenados[$j]->reclamo->tipoReclamo->id) < $trabajosOrdenados[$j+1]->duracionEstimadaReal($trabajosOrdenados[$j+1]->reclamo->tipoReclamo->id))){
+                if (($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad == $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad) && ($trabajosOrdenados[$j]->duracionEstimadaReal($trabajosOrdenados[$j]->reclamo->tipoReclamo->id) < $trabajosOrdenados[$j + 1]->duracionEstimadaReal($trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->id))) {
                     $k = $trabajosOrdenados[$j + 1];
                     $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
                     $trabajosOrdenados[$j] = $k;
                 }
             }
         }
-        $cant = sizeof($trabajosOrdenados) ;
+        $cant = sizeof($trabajosOrdenados);
         $config = Configuracion::first();
-        $pdf=PDF::loadView('pdf.trabajosPorHacer',['trabajos'=>$trabajosOrdenados, 'cant' => $cant , 'config' => $config]);
-        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
-        $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
+        $pdf = PDF::loadView('pdf.trabajosPorHacer', ['trabajos' => $trabajosOrdenados, 'cant' => $cant, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
         return $pdf->stream('trabajosPorHacer.pdf');
     }
 
-    public function reclamosPDF(Request $request){
+    public function reclamosPDF(Request $request)
+    {
 
-        $reclamos = Reclamo::all() ;
-        $aux = collect() ;
-        $filtro = "" ;
-        if(($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id == null && $request->socio_id == null  && $request->estado_id == null){
-            foreach($reclamos as $rec){
-                $f = Carbon::create($rec->fecha) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
+        $reclamos = Reclamo::all();
+        $aux = collect();
+        $filtro = "";
+        if (($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id == null && $request->socio_id == null  && $request->estado_id == null) {
+            foreach ($reclamos as $rec) {
+                $f = Carbon::create($rec->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-                if (($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))){
-                    $aux->push($rec) ;
+                if (($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) {
+                    $aux->push($rec);
                 }
             }
-            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') ;
-        } elseif(($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id != null && $request->socio_id == null && $request->estado_id == null){
-            foreach($reclamos as $rec){
-                $f = Carbon::create($rec->fecha) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
+            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y');
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id != null && $request->socio_id == null && $request->estado_id == null) {
+            foreach ($reclamos as $rec) {
+                $f = Carbon::create($rec->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($rec->tipoReclamo->id == $request->tipoReclamo_id)){
-                    $aux->push($rec) ;
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($rec->tipoReclamo->id == $request->tipoReclamo_id)) {
+                    $aux->push($rec);
                 }
-
             }
-            $tipRec = TipoReclamo::find($request->tipoReclamo_id) ;
-            $filtro = "Filtros: ". $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . ' y ' . $tipRec->nombre ;
+            $tipRec = TipoReclamo::find($request->tipoReclamo_id);
+            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . ' y ' . $tipRec->nombre;
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id == null && $request->socio_id != null  && $request->estado_id == null) {
+            foreach ($reclamos as $rec) {
+                $f = Carbon::create($rec->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-        }elseif(($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id == null && $request->socio_id != null  && $request->estado_id == null){
-            foreach($reclamos as $rec){
-                $f = Carbon::create($rec->fecha) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
-
-                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($rec->socio->id == $request->socio_id)){
-                    $aux->push($rec) ;
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($rec->socio->id == $request->socio_id)) {
+                    $aux->push($rec);
                 }
-
             }
             $socio = Socio::find($request->socio_id);
-            $filtro = "Filtros: ". $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " y "  . $socio->apellido . " " . $socio->nombre;
-        }elseif(($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id == null && $request->socio_id == null  && $request->estado_id != null){
-            foreach($reclamos as $rec){
-                $f = Carbon::create($rec->fecha) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
+            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " y "  . $socio->apellido . " " . $socio->nombre;
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id == null && $request->socio_id == null  && $request->estado_id != null) {
+            foreach ($reclamos as $rec) {
+                $f = Carbon::create($rec->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($rec->trabajo->estado->id == $request->estado_id)){
-                    $aux->push($rec) ;
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($rec->trabajo->estado->id == $request->estado_id)) {
+                    $aux->push($rec);
                 }
-
             }
             $estado = Estado::find($request->estado_id);
-            $filtro = "Filtros: ". $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " y " . $estado->nombre ;
+            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " y " . $estado->nombre;
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id != null && $request->socio_id != null  && $request->estado_id != null) {
+            foreach ($reclamos as $rec) {
+                $f = Carbon::create($rec->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-        }elseif(($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id != null && $request->socio_id != null  && $request->estado_id != null){
-            foreach($reclamos as $rec){
-                $f = Carbon::create($rec->fecha) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
-
-                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($rec->tipoReclamo->id == $request->tipoReclamo_id) && ($rec->socio->id == $request->socio_id) && ($rec->trabajo->estado->id == $request->estado_id)){
-                    $aux->push($rec) ;
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($rec->tipoReclamo->id == $request->tipoReclamo_id) && ($rec->socio->id == $request->socio_id) && ($rec->trabajo->estado->id == $request->estado_id)) {
+                    $aux->push($rec);
                 }
-
             }
-            $tipRec = TipoReclamo::find($request->tipoReclamo_id) ;
+            $tipRec = TipoReclamo::find($request->tipoReclamo_id);
             $socio = Socio::find($request->socio_id);
             $estado = Estado::find($request->estado_id);
-            $filtro = "Filtros: ". $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " , " . $tipRec->nombre . " , " . $socio->apellido . " " . $socio->nombre  . " y " . $estado->nombre;
-
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id != null && $request->socio_id == null  && $request->estado_id == null){
-            foreach($reclamos as $rec){
-                if ($rec->tipoReclamo->id == $request->tipoReclamo_id){
-                    $aux->push($rec) ;
+            $filtro = "Filtros: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " , " . $tipRec->nombre . " , " . $socio->apellido . " " . $socio->nombre  . " y " . $estado->nombre;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id != null && $request->socio_id == null  && $request->estado_id == null) {
+            foreach ($reclamos as $rec) {
+                if ($rec->tipoReclamo->id == $request->tipoReclamo_id) {
+                    $aux->push($rec);
                 }
             }
 
-            $tipRec = TipoReclamo::find($request->tipoReclamo_id) ;
-            $filtro = "Filtros: " . $tipRec->nombre ;
-
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id == null && $request->socio_id != null  && $request->estado_id == null){
-            foreach($reclamos as $rec){
-                if ($rec->socio->id == $request->socio_id){
-                    $aux->push($rec) ;
+            $tipRec = TipoReclamo::find($request->tipoReclamo_id);
+            $filtro = "Filtros: " . $tipRec->nombre;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id == null && $request->socio_id != null  && $request->estado_id == null) {
+            foreach ($reclamos as $rec) {
+                if ($rec->socio->id == $request->socio_id) {
+                    $aux->push($rec);
                 }
             }
             $socio = Socio::find($request->socio_id);
             $filtro = "Filtros: " . $socio->apellido . " " . $socio->nombre;
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id == null && $request->socio_id == null  && $request->estado_id != null){
-            foreach($reclamos as $rec){
-                if ($rec->trabajo->estado->id == $request->estado_id){
-                    $aux->push($rec) ;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id == null && $request->socio_id == null  && $request->estado_id != null) {
+            foreach ($reclamos as $rec) {
+                if ($rec->trabajo->estado->id == $request->estado_id) {
+                    $aux->push($rec);
                 }
             }
 
             $estado = Estado::find($request->estado_id);
             $filtro = "Filtros: " .  $estado->nombre;
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id != null && $request->socio_id != null  && $request->estado_id == null){
-            foreach($reclamos as $rec){
-                if (($rec->tipoReclamo->id == $request->tipoReclamo_id) && ($rec->socio->id == $request->socio_id)){
-                    $aux->push($rec) ;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id != null && $request->socio_id != null  && $request->estado_id == null) {
+            foreach ($reclamos as $rec) {
+                if (($rec->tipoReclamo->id == $request->tipoReclamo_id) && ($rec->socio->id == $request->socio_id)) {
+                    $aux->push($rec);
                 }
             }
 
-            $tipRec = TipoReclamo::find($request->tipoReclamo_id) ;
+            $tipRec = TipoReclamo::find($request->tipoReclamo_id);
             $socio = Socio::find($request->socio_id);
             $filtro = "Filtros: " .  $tipRec->nombre . " y " . $socio->apellido . " " . $socio->nombre;
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id != null && $request->socio_id == null  && $request->estado_id != null){
-            foreach($reclamos as $rec){
-                if (($rec->tipoReclamo->id == $request->tipoReclamo_id) && ($rec->trabajo->estado->id == $request->estado_id)){
-                    $aux->push($rec) ;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id != null && $request->socio_id == null  && $request->estado_id != null) {
+            foreach ($reclamos as $rec) {
+                if (($rec->tipoReclamo->id == $request->tipoReclamo_id) && ($rec->trabajo->estado->id == $request->estado_id)) {
+                    $aux->push($rec);
                 }
             }
-            $tipRec = TipoReclamo::find($request->tipoReclamo_id) ;
+            $tipRec = TipoReclamo::find($request->tipoReclamo_id);
             $estado = Estado::find($request->estado_id);
             $filtro = "Filtros: " .  $tipRec->nombre . " y " . $estado->nombre;
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id != null && $request->socio_id != null  && $request->estado_id != null){
-            foreach($reclamos as $rec){
-                if (($rec->tipoReclamo->id == $request->tipoReclamo_id) && ($rec->socio->id == $request->socio_id) && ($rec->trabajo->estado->id == $request->estado_id)){
-                    $aux->push($rec) ;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id != null && $request->socio_id != null  && $request->estado_id != null) {
+            foreach ($reclamos as $rec) {
+                if (($rec->tipoReclamo->id == $request->tipoReclamo_id) && ($rec->socio->id == $request->socio_id) && ($rec->trabajo->estado->id == $request->estado_id)) {
+                    $aux->push($rec);
                 }
             }
-            $tipRec = TipoReclamo::find($request->tipoReclamo_id) ;
+            $tipRec = TipoReclamo::find($request->tipoReclamo_id);
             $socio = Socio::find($request->socio_id);
             $estado = Estado::find($request->estado_id);
-            $filtro = "Filtros: ".  $tipRec->nombre . " , " . $socio->apellido . " " . $socio->nombre  . " y " . $estado->nombre;
-
-        }elseif(($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id == null && $request->socio_id != null  && $request->estado_id != null){
-            foreach($reclamos as $rec){
-                if (($rec->socio->id == $request->socio_id) && ($rec->trabajo->estado->id == $request->estado_id)){
-                    $aux->push($rec) ;
+            $filtro = "Filtros: " .  $tipRec->nombre . " , " . $socio->apellido . " " . $socio->nombre  . " y " . $estado->nombre;
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id == null && $request->socio_id != null  && $request->estado_id != null) {
+            foreach ($reclamos as $rec) {
+                if (($rec->socio->id == $request->socio_id) && ($rec->trabajo->estado->id == $request->estado_id)) {
+                    $aux->push($rec);
                 }
             }
             $socio = Socio::find($request->socio_id);
             $estado = Estado::find($request->estado_id);
-            $filtro = "Filtros: ". $socio->apellido . " " . $socio->nombre  . " y " . $estado->nombre;
-        }else{
-            $aux = $reclamos ;
+            $filtro = "Filtros: " . $socio->apellido . " " . $socio->nombre  . " y " . $estado->nombre;
+        } else {
+            $aux = $reclamos;
         }
         $config = Configuracion::first();
-        $cant = sizeof($aux) ;
+        $cant = sizeof($aux);
         $datos = date('d/m/Y');
-        $pdf=PDF::loadView('pdf.reclamos',['reclamos'=>$aux, 'datos'=> $datos, 'cant' => $cant , 'filtro' => $filtro, 'config' => $config]);
-        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
-        $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
+        $pdf = PDF::loadView('pdf.reclamos', ['reclamos' => $aux, 'datos' => $datos, 'cant' => $cant, 'filtro' => $filtro, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
         return $pdf->stream('reclamos.pdf');
-
     }
 
-    public function asistenciasPDF(Request $request ,User $empleado){
-        $aux = collect() ;
-        $filtro = "" ;
-        if($request->fecha1 != null && $request->fecha2 != null){
-            foreach($empleado->asistencias as $a){
-                $f = Carbon::create($a->dia) ;
-                $fecha1 = Carbon::create($request->input('fecha1')) ;
-                $fecha2 = Carbon::create($request->input('fecha2')) ;
+    public function asistenciasPDF(Request $request, User $empleado)
+    {
+        $aux = collect();
+        $filtro = "";
+        if ($request->fecha1 != null && $request->fecha2 != null) {
+            foreach ($empleado->asistencias as $a) {
+                $f = Carbon::create($a->dia);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
 
-                if (($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))){
-                    $aux->push($a) ;
+                if (($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) {
+                    $aux->push($a);
                 }
             }
-            $filtro = "Filtros aplicados: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') ;
-        }else{
-            $aux = $empleado->asistencias ;
+            $filtro = "Filtros aplicados: " . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y');
+        } else {
+            $aux = $empleado->asistencias;
         }
         $config = Configuracion::first();
-        $cant = sizeof($aux) ;
+        $cant = sizeof($aux);
         $datos = date('d/m/Y');
-        $pdf=PDF::loadView('pdf.asistencias',['asistencias' => $aux, 'datos'=> $datos ,'empleado' => $empleado , 'cant' => $cant , 'filtro' => $filtro, 'config' => $config]);
-        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35 ;
-        $pdf->getDomPDF()->get_canvas()->page_text(500, $y , "Pagina {PAGE_NUM} de {PAGE_COUNT}", null , 10 , array(0,0,0)) ;
+        $pdf = PDF::loadView('pdf.asistencias', ['asistencias' => $aux, 'datos' => $datos, 'empleado' => $empleado, 'cant' => $cant, 'filtro' => $filtro, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
         return $pdf->stream('asistencias.pdf');
+    }
 
+    public function pedidoPDF(Pedido $pedido)
+    {
+        $config = Configuracion::first();
+        $cant = sizeof($pedido->detalles);
+        $pdf = PDF::loadView('pdf.pedidos', ['pedido' => $pedido, 'cant' => $cant, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
+        return $pdf->stream('pedidos.pdf');
     }
 }

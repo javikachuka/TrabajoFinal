@@ -18,7 +18,7 @@ class TipoReclamo extends Model
     }
 
     public function reclamos(){
-        return $this->hasMany(Reclamo::class);
+        return $this->hasMany(Reclamo::class, 'tipoReclamo_id');
     }
 
     public function prioridad(){

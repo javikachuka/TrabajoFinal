@@ -28,6 +28,14 @@ class TipoMovimientoController extends Controller
 
     public function update(Request $request, TipoMovimiento $tipoMov){
 
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|unique:tipo_movimientos,nombre,' . $tipoMov->id,
+        ],['nombre.unique' => 'El tipo de movimiento ya existe']);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput(['tab'=>'movimientos']) ;
+        }
+
         $tipoMov->fill($request->all()) ;
         $tipoMov->update();
         return redirect()->back()->withInput(['tab'=>'movimientos'])->with('confirmar', 'bien') ;
@@ -44,10 +52,4 @@ class TipoMovimientoController extends Controller
 
     }
 
-
-    public function validar(){
-        $data = request()->validate([
-            'nombre' => 'required|unique:tipo_movimientos,nombre' ,
-        ]);
-    }
 }

@@ -15,9 +15,8 @@ class EstadoController extends Controller
      */
     public function index()
     {
-        $estados = Estado::all() ;
-        return view('estados.index' , compact('estados')) ;
-
+        $estados = Estado::all();
+        return view('estados.index', compact('estados'));
     }
 
     /**
@@ -27,9 +26,8 @@ class EstadoController extends Controller
      */
     public function create()
     {
-        $estado = new Estado() ;
-        return view('estados.create' , compact('estado')) ;
-
+        $estado = new Estado();
+        return view('estados.create', compact('estado'));
     }
 
     /**
@@ -38,13 +36,12 @@ class EstadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request , Estado $estado)
+    public function store(Request $request, Estado $estado)
     {
         $this->validar();
         $estado->fill($request->all());
-        $estado->save() ;
-        return redirect()->back()->with('confirmar' , 'bien') ;
-
+        $estado->save();
+        return redirect()->back()->with('confirmar', 'bien');
     }
 
     /**
@@ -65,9 +62,7 @@ class EstadoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Estado $estado)
-    {
-
-    }
+    { }
 
     /**
      * Update the specified resource in storage.
@@ -81,8 +76,8 @@ class EstadoController extends Controller
         $estado = Estado::find($id);
         $this->validar();
         $estado->fill($request->all());
-        $estado->update() ;
-        return redirect()->back()->with('confirmar' , 'bien') ;
+        $estado->update();
+        return redirect()->back()->with('confirmar', 'bien');
     }
 
     /**
@@ -93,19 +88,24 @@ class EstadoController extends Controller
      */
     public function destroy(Estado $estado)
     {
-        try{
-            $estado->delete() ;
-            return redirect()->back()->with('confirmar' , 'borrado') ;
-        }catch(Exception $e){
-            alert()->error('No es posible eliminar el estado' , 'Error') ;
-            return redirect('/estados') ;
+        try {
+            if ($estado->tranInicial->isEmpty() && $estado->tranFinal->isEmpty()) {
+                $estado->delete();
+                return redirect()->back()->with('confirmar', 'borrado');
+            } else {
+                alert()->error('No es posible eliminar el estado!', 'Error');
+                return redirect()->back();
+            }
+        } catch (Exception $e) {
+            alert()->error('No es posible eliminar el estado', 'Error');
+            return redirect('/estados');
         }
     }
 
-    public function validar(){
+    public function validar()
+    {
         return  request()->validate([
-            'nombre' => 'required' ,
+            'nombre' => 'required',
         ]);
     }
-
 }

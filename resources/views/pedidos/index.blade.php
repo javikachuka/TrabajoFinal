@@ -82,7 +82,7 @@
             <table id="pedidos" class="table table-bordered table-striped table-hover datatable">
                 <thead>
                     <tr>
-                        <th>Orden de Compra</th>
+                        <th>#</th>
                         <th>Fecha</th>
                         <th>Proveedor</th>
                         <th>Generado Por</th>
@@ -93,8 +93,8 @@
                     @foreach($pedidos as $pedido)
 
                     <tr>
-                        <td>{{$pedido->id}}</td>
-                        <td>{{$pedido->getFecha()}}</td>
+                        <td style="text-align: end" width="5%">{{$pedido->id}}</td>
+                        <td style="text-align: end">{{$pedido->getFecha()}}</td>
                         <td>
                             @if($pedido->proveedor != null)
                             {{$pedido->proveedor->nombre}}
@@ -110,16 +110,23 @@
                             <div class="badge badge-secondary">Sistema</div>
                             @endif
                         </td>
-                        <td width="150px" class="text-center">
+                        <td width="24%" style="text-align: center">
+                            @if($pedido->proveedor != null)
+                            <a href="{{route('pedidos.pdf', $pedido)}}" class="btn btn-xs btn-danger">Generar <i
+                                    class="fal fa-file-pdf"></i></a>
+                            @endif
+
                             <a href="{{route('pedidos.show' , $pedido)}}" class="btn btn-xs btn-primary">Ver
                                 mas</a>
-                            <form method="POST" action="pedidos/{{$pedido->id}}"
-                                onsubmit="return confirm('Desea borrar a {{$pedido->id}}')"
-                                style="display: inline-block;">
+                            @if($pedido->proveedor == null)
+                            <a href="{{route('pedidos.edit' , $pedido)}}" class="btn btn-xs btn-secondary">Finalizar
+                                Pedido</a>
+                            @endif
+                            <form id="form-borrar{{$pedido->id}}" method="POST" action="{{route('pedidos.destroy' , $pedido)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 @can('pedidos_destroy')
-                                <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
+                                <button type="submit" class="btn btn-danger btn-xs btn-almacen" id="{{$pedido->id}}">Borrar</button>
                                 @endcan
                             </form>
 
@@ -173,6 +180,30 @@
         @elseif(session('borrado'))
             Borrado.fire();
         @endif
+</script>
+
+<script>
+    $('.btn-almacen').on('click', function(e){
+            var id = $(this).attr('id');
+        e.preventDefault();
+
+    swal({
+            title: "Cuidado!",
+            text: "Esta seguro que desea eliminar?",
+            icon: "warning",
+            dangerMode: true,
+
+            buttons: {
+            cancel: "Cancelar",
+            confirm: "Aceptar",
+            },
+        })
+        .then ((willDelete) => {
+            if (willDelete) {
+            $("#form-borrar"+id).submit();
+            }
+        });
+     });
 </script>
 
 @endpush

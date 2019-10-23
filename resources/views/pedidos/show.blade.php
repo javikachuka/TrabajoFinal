@@ -3,7 +3,7 @@
 @section('content')
 <div class="content-fluid">
     <div class="row  justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                     <div class="text-center">
@@ -54,7 +54,7 @@
                                     @foreach ($pedido->detalles as $d)
                                     <tr>
                                         <td>{{$d->producto->nombre}}</td>
-                                        <td>{{$d->cantidad}}</td>
+                                        <td>{{$d->cantidad}} {{$d->producto->medida->nombre}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

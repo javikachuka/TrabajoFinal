@@ -77,9 +77,9 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>Listado de reclamos
+        <h3>Listado de Reclamos
             <button type="submit" class="btn btn-primary btn-xs"
-                onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo reclamo</button>
+                onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo Reclamo</button>
         </h3>
     </div>
     <div class="card-body">
@@ -90,6 +90,7 @@
                         <th>#</th>
                         <th>Tipo de Reclamo</th>
                         <th>Fecha</th>
+                        <th>Hora</th>
                         <th>Socio</th>
                         <th>Detalles</th>
                         <th>Estado</th>
@@ -105,6 +106,7 @@
                             <span>{{$reclamo->tipoReclamo->nombre}}</span>
                         </td>
                         <td>{{$reclamo->getFecha()}}</td>
+                        <td>{{$reclamo->created_at->format('H:i:s')}}</td>
                         <td>{{$reclamo->socio->apellido}} {{$reclamo->socio->nombre}}</td>
                         <td>
                             @if($reclamo->detalle != null)
@@ -318,12 +320,12 @@
                         }
 
                     } else if(filtro1 == null && filtro2 == null && filtro3 != null ){
-                        console.log(estado == data[5])
+                        console.log(estado == data[6])
                         if  (
                                 ( min == "" || max == "" ) ||
                                 (
                                     (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
-                                    (estado == data[5])
+                                    (estado == data[6])
                                 )
                             )
                         {
@@ -332,13 +334,13 @@
                             return false;
                         }
                     } else if(filtro1 == null && filtro2 != null && filtro3 != null ){
-                        console.log(estado == data[5])
+                        console.log(estado == data[6])
                         if  (
                                 ( min == "" || max == "" ) ||
                                 (
                                     (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
                                     (socio == data[3]) &&
-                                    (estado == data[5])
+                                    (estado == data[6])
                                 )
                             )
                         {
@@ -347,13 +349,13 @@
                             return false;
                         }
                     } else if(filtro1 != null && filtro2 == null && filtro3 != null ){
-                        console.log(estado == data[5])
+                        console.log(estado == data[6])
                         if  (
                                 ( min == "" || max == "" ) ||
                                 (
                                     (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
                                     (tipoRec == data[1]) &&
-                                    (estado == data[5])
+                                    (estado == data[6])
                                 )
                             )
                         {
@@ -362,14 +364,14 @@
                             return false;
                         }
                     } else if(filtro1 != null && filtro2 != null && filtro3 != null ){
-                        console.log(estado == data[5])
+                        console.log(estado == data[6])
                         if  (
                                 ( min == "" || max == "" ) ||
                                 (
                                     (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
                                     (tipoRec == data[1]) &&
                                     (socio == data[3]) &&
-                                    (estado == data[5])
+                                    (estado == data[6])
                                 )
                             )
                         {
@@ -428,7 +430,7 @@
             }else if(filtro1 == null && filtro2 == null && filtro3 != null){
                 var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
-                    if(estado == data[5]){
+                    if(estado == data[6]){
                         return true ;
                     } else{
                         return false ;
@@ -440,7 +442,7 @@
             }else if(filtro1 != null && filtro2 == null && filtro3 != null){
                 var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
-                    if(estado == data[5] && tipoRec == data[1]){
+                    if(estado == data[6] && tipoRec == data[1]){
                         return true ;
                     } else{
                         return false ;
@@ -452,7 +454,7 @@
             }else if(filtro1 != null && filtro2 != null && filtro3 != null){
                 var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
-                    if(estado == data[5] && tipoRec == data[1] && socio == data[3]){
+                    if(estado == data[6] && tipoRec == data[1] && socio == data[3]){
                         return true ;
                     } else{
                         return false ;
@@ -464,7 +466,7 @@
             }else if(filtro1 == null && filtro2 != null && filtro3 != null){
                 var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
-                    if(estado == data[5] &&  socio == data[3]){
+                    if(estado == data[6] &&  socio == data[3]){
                         return true ;
                     } else{
                         return false ;

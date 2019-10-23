@@ -21,7 +21,7 @@ class PedidoController extends Controller
     public function index()
     {
         $pedidos = Pedido::all();
-        return view('pedidos.index' , compact('pedidos'));
+        return view('pedidos.index', compact('pedidos'));
     }
 
     /**
@@ -34,15 +34,15 @@ class PedidoController extends Controller
         $proveedores = Proveedor::all();
         $productos = Producto::all();
         $pedidos = Pedido::all();
-        $num_pedido = 0 ;
-        if(!$pedidos->isEmpty()){
+        $num_pedido = 0;
+        if (!$pedidos->isEmpty()) {
             $pedidos->last();
-            $num_pedido = $pedidos->last()->id + 1  ;
-        }else{
-            $num_pedido = 1 ;
+            $num_pedido = $pedidos->last()->id + 1;
+        } else {
+            $num_pedido = 1;
         }
 
-        return view('pedidos.create' , compact('proveedores' , 'productos' , 'num_pedido'));
+        return view('pedidos.create', compact('proveedores', 'productos', 'num_pedido'));
     }
 
     /**
@@ -54,30 +54,27 @@ class PedidoController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();
-        try{
-            $pedido = new Pedido() ;
-            $pedido->fecha = $request->fecha ;
-            $pedido->proveedor_id = $request->proveedor_id ;
-            $pedido->user_id = auth()->user()->id ;
-            $pedido->save() ;
+        try {
+            $pedido = new Pedido();
+            $pedido->fecha = $request->fecha;
+            $pedido->proveedor_id = $request->proveedor_id;
+            $pedido->user_id = auth()->user()->id;
+            $pedido->save();
 
-            for ($i=0; $i < sizeof($request->cantidad) ; $i++) {
-                $detalle = new Detalle() ;
-                $detalle->pedido_id = $pedido->id ;
-                $detalle->producto_id = $request->producto_id[$i] ;
-                $detalle->cantidad = $request->cantidad[$i] ;
+            for ($i = 0; $i < sizeof($request->cantidad); $i++) {
+                $detalle = new Detalle();
+                $detalle->pedido_id = $pedido->id;
+                $detalle->producto_id = $request->producto_id[$i];
+                $detalle->cantidad = $request->cantidad[$i];
                 $detalle->save();
             }
             DB::commit();
-            return redirect()->route('pedidos.index')->with('confirmar' , 'ok') ;
-        }catch(Exception $e){
+            return redirect()->route('pedidos.index')->with('confirmar', 'ok');
+        } catch (Exception $e) {
             DB::rollback();
-            alert()->error($e->getMessage() , 'Error') ;
-            return redirect()->back() ;
+            alert()->error($e->getMessage(), 'Error');
+            return redirect()->back();
         }
-
-
-
     }
 
     /**
@@ -88,8 +85,8 @@ class PedidoController extends Controller
      */
     public function show(Pedido $pedido)
     {
-        $config = Configuracion::first() ;
-        return view('pedidos.show' , compact('pedido' , 'config'));
+        $config = Configuracion::first();
+        return view('pedidos.show', compact('pedido', 'config'));
     }
 
     /**
@@ -100,7 +97,9 @@ class PedidoController extends Controller
      */
     public function edit(Pedido $pedido)
     {
-        //
+        $proveedores = Proveedor::all();
+        $productos = Producto::all();
+        return view('pedidos.edit', compact('pedido', 'proveedores', 'productos'));
     }
 
     /**
@@ -112,7 +111,23 @@ class PedidoController extends Controller
      */
     public function update(Request $request, Pedido $pedido)
     {
-        //
+        // return $request;
+        if (sizeof($request->producto_id) > sizeof($pedido->detalles)) {
+            for ($i = 0; $i < sizeof($request->producto_id); $i++) {
+                if (!$pedido->detalles->contains('producto_id', $request->producto_id[$i])) {
+                    $detalle = new Detalle();
+                    $detalle->pedido_id = $pedido->id;
+                    $detalle->producto_id = $request->producto_id[$i];
+                    $detalle->cantidad = $request->cantidad[$i];
+                    $detalle->save();
+                }
+            }
+        }
+        $pedido->proveedor_id = $request->proveedor_id;
+        $pedido->generado = true;
+        $pedido->user_id = auth()->user()->id;
+        $pedido->update();
+        return redirect()->route('pedidos.index')->with('confirmar', 'ok');
     }
 
     /**
@@ -123,6 +138,12 @@ class PedidoController extends Controller
      */
     public function destroy(Pedido $pedido)
     {
-        //
+        try{
+            $pedido->delete();
+            return redirect()->back()->with('borrado', 'ok');
+        }catch(Exception $e){
+            alert()->error('No es posible eliminar' , 'Error') ;
+            return redirect()->back() ;
+        }
     }
 }

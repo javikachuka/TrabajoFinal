@@ -33,6 +33,7 @@ Route::get('/movimientosPDF', 'PdfController@movimientosPDF')->name('movimientos
 Route::get('/trabajosPorHacerPDF', 'PdfController@trabajosPorHacerPDF')->name('trabajosPorHacer.pdf') ;
 Route::get('/reclamosPDF', 'PdfController@reclamosPDF')->name('reclamos.pdf') ;
 Route::get('/asistenciasPDF/{empleado}', 'PdfController@asistenciasPDF')->name('asistencias.pdf') ;
+Route::get('/pedidosPDF/{pedido}', 'PdfController@pedidoPDF')->name('pedidos.pdf') ;
 
 
 

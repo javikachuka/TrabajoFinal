@@ -127,35 +127,51 @@ class ReclamoController extends Controller
                                         $hayStock = false;
                                     }
                                     if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
-                                        $pedido = Pedido::where('generado', false)->firstOrFail();
-                                        if ($pedido == null) {
+                                        $pedido = Pedido::where('generado', false)->get();
+                                        if ($pedido->isEmpty()) {
                                             $pedido = new Pedido();
                                             $pedido->fecha = Carbon::now();
                                             $pedido->save();
-                                        }
-                                        if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
-                                            $detalle = new Detalle();
-                                            $detalle->pedido_id = $pedido->siguienteId();
-                                            $detalle->producto_id = $productoRecomendado->id;
-                                            $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
-                                            $detalle->save();
+                                            if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                                $detalle = new Detalle();
+                                                $detalle->pedido_id = $pedido->siguienteId();
+                                                $detalle->producto_id = $productoRecomendado->id;
+                                                $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                                $detalle->save();
+                                            }
+                                        } else {
+                                            if (!$pedido->first()->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                                $detalle = new Detalle();
+                                                $detalle->pedido_id = $pedido->first()->id;
+                                                $detalle->producto_id = $productoRecomendado->id;
+                                                $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                                $detalle->save();
+                                            }
                                         }
                                     }
                                 } else {
                                     $hayStock = false;
-                                    if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
-                                        $pedido = Pedido::where('generado', false)->firstOrFail();
-                                        if ($pedido == null) {
+                                    if ($productoRecomendado->estaEnCantidadMinima()) {
+                                        $pedido = Pedido::where('generado', false)->get();
+                                        if ($pedido->isEmpty()) {
                                             $pedido = new Pedido();
                                             $pedido->fecha = Carbon::now();
                                             $pedido->save();
-                                        }
-                                        if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
-                                            $detalle = new Detalle();
-                                            $detalle->pedido_id = $pedido->siguienteId();
-                                            $detalle->producto_id = $productoRecomendado->id;
-                                            $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
-                                            $detalle->save();
+                                            if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                                $detalle = new Detalle();
+                                                $detalle->pedido_id = $pedido->siguienteId();
+                                                $detalle->producto_id = $productoRecomendado->id;
+                                                $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                                $detalle->save();
+                                            }
+                                        } else {
+                                            if (!$pedido->first()->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                                $detalle = new Detalle();
+                                                $detalle->pedido_id = $pedido->first()->id;
+                                                $detalle->producto_id = $productoRecomendado->id;
+                                                $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                                $detalle->save();
+                                            }
                                         }
                                     }
                                 }
@@ -209,35 +225,51 @@ class ReclamoController extends Controller
                                         $hayStock = false;
                                     }
                                     if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
-                                        $pedido = Pedido::where('generado', false)->firstOrFail();
-                                        if ($pedido == null) {
+                                        $pedido = Pedido::where('generado', false)->get();
+                                        if ($pedido->isEmpty()) {
                                             $pedido = new Pedido();
                                             $pedido->fecha = Carbon::now();
                                             $pedido->save();
-                                        }
-                                        if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
-                                            $detalle = new Detalle();
-                                            $detalle->pedido_id = $pedido->siguienteId();
-                                            $detalle->producto_id = $productoRecomendado->id;
-                                            $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
-                                            $detalle->save();
+                                            if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                                $detalle = new Detalle();
+                                                $detalle->pedido_id = $pedido->siguienteId();
+                                                $detalle->producto_id = $productoRecomendado->id;
+                                                $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                                $detalle->save();
+                                            }
+                                        } else {
+                                            if (!$pedido->first()->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                                $detalle = new Detalle();
+                                                $detalle->pedido_id = $pedido->first()->id;
+                                                $detalle->producto_id = $productoRecomendado->id;
+                                                $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                                $detalle->save();
+                                            }
                                         }
                                     }
                                 } else {
                                     $hayStock = false;
-                                    if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
-                                        $pedido = Pedido::where('generado', false)->firstOrFail();
-                                        if ($pedido == null) {
+                                    if ($productoRecomendado->estaEnCantidadMinima()) {
+                                        $pedido = Pedido::where('generado', false)->get();
+                                        if ($pedido->isEmpty()) {
                                             $pedido = new Pedido();
                                             $pedido->fecha = Carbon::now();
                                             $pedido->save();
-                                        }
-                                        if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
-                                            $detalle = new Detalle();
-                                            $detalle->pedido_id = $pedido->siguienteId();
-                                            $detalle->producto_id = $productoRecomendado->id;
-                                            $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
-                                            $detalle->save();
+                                            if (!$pedido->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                                $detalle = new Detalle();
+                                                $detalle->pedido_id = $pedido->siguienteId();
+                                                $detalle->producto_id = $productoRecomendado->id;
+                                                $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                                $detalle->save();
+                                            }
+                                        } else {
+                                            if (!$pedido->first()->detalles->contains('producto_id', $productoRecomendado->id)) {
+                                                $detalle = new Detalle();
+                                                $detalle->pedido_id = $pedido->first()->id;
+                                                $detalle->producto_id = $productoRecomendado->id;
+                                                $detalle->cantidad = $productoRecomendado->cantidadMinima * 2;
+                                                $detalle->save();
+                                            }
                                         }
                                     }
                                 }

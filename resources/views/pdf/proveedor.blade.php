@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-{{--
+            {{--
             <tr>
 
                 <th><p id="cliente"> Desde: <br>
@@ -39,45 +39,46 @@
 </section>
 <br>
 <section>
-<div>
+    <div>
 
 
 
-</div>
+    </div>
 </section>
 <br>
 <section>
-<div>
-    <table id="lista">
-        <thead>
-            <tr id="fa">
-            <th>Nr</th>
-            <th>Nombre</th>
-                <th>Cuit</th>
-                <th>Email</th>
-                <th>Telefono</th>
-            </tr>
-        </thead>
+    <div>
+        <table id="lista">
+            <thead>
+                <tr id="fa">
+                    <th>Nr</th>
+                    <th>Nombre</th>
+                    <th>Cuit</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                </tr>
+            </thead>
 
-        <tbody>
+            <tbody>
 
-            @foreach ($proveedores as $prov)
-            <tr>
-            <td>{{$prov->id}}</td>
-                <td>{{$prov->nombre}}</td>
-                <td>{{$prov->cuit}}</td>
-                <td>{{$prov->email}}</td>
-                <td>{{$prov->telefono}}</td>
+                @foreach ($proveedores as $prov)
+                <tr>
+                    <td>{{$prov->id}}</td>
+                    <td>{{$prov->nombre}}</td>
+                    <td>{{$prov->cuit}}</td>
+                    <td>{{$prov->email}}</td>
+                    <td>{{$prov->telefono}}</td>
 
-            </tr>
-            @endforeach
-        </tbody>
-        <tbody>
-        </tbody>
+                </tr>
+                @endforeach
+            </tbody>
+            <tbody>
+            </tbody>
 
-    </table>
-</div>
+        </table>
+    </div>
+</section>
 @section('cantidad')
-    {{$cant}}
+{{$cant}}
 @endsection
 @stop

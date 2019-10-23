@@ -15,9 +15,8 @@ class RubroController extends Controller
      */
     public function index()
     {
-        $rubros = Rubro::all() ;
-        return view('rubros.index', compact('rubros')) ;
-
+        $rubros = Rubro::all();
+        return view('rubros.index', compact('rubros'));
     }
 
     /**
@@ -39,10 +38,10 @@ class RubroController extends Controller
     public function store(Request $request)
     {
         $this->validar();
-        $rubro = new Rubro() ;
-        $rubro->fill($request->all()) ;
-        $rubro->save() ;
-        return redirect()->back()->with('confirmar', 'ok') ;
+        $rubro = new Rubro();
+        $rubro->fill($request->all());
+        $rubro->save();
+        return redirect()->back()->with('confirmar', 'ok');
     }
 
     /**
@@ -76,11 +75,10 @@ class RubroController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rubro = Rubro::find($id) ;
-        $rubro->fill($request->all()) ;
-        $rubro->update() ;
-        return redirect()->back()->with('confirmar', 'ok') ;
-
+        $rubro = Rubro::find($id);
+        $rubro->fill($request->all());
+        $rubro->update();
+        return redirect()->back()->with('confirmar', 'ok');
     }
 
     /**
@@ -91,23 +89,26 @@ class RubroController extends Controller
      */
     public function destroy(Rubro $rubro)
     {
-        try{
-            $rubro->delete() ;
-            return redirect()->back()->with('borrado' , 'ok') ;
-        }catch(Exception $e){
-            alert()->error($e) ;
-            return redirect()->back() ;
-
+        try {
+            if ($rubro->productos->isEmpty()) {
+                $rubro->delete();
+                return redirect()->back()->with('borrado', 'ok');
+            } else {
+                alert()->error('No es posible eliminar el Rubro debido a que esta siendo utilizado por un producto', 'Error');
+                return redirect()->back();
+            }
+        } catch (Exception $e) {
+            alert()->error($e);
+            return redirect()->back();
         }
     }
 
-    public function validar(){
+    public function validar()
+    {
         $data = request()->validate([
-            'nombre' => 'required|unique:rubros,nombre' ,
-        ],[
+            'nombre' => 'required|unique:rubros,nombre',
+        ], [
             'nombre.unique' => 'El rubro ya existe'
         ]);
     }
-
-
 }

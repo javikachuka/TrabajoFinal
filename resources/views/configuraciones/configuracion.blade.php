@@ -241,7 +241,8 @@ jo
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Nuevo Comprobante
+                                                    <h5 class="modal-title" id="exampleModalLabel">Editar Tipo de
+                                                        Movimiento
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
@@ -253,10 +254,38 @@ jo
                                                     @method('PUT')
                                                     <div class="modal-body">
                                                         <div class="form-group">
-                                                            <label>Comprobante</label>
+                                                            <label>Tipo de Movimiento</label>
                                                             <input type="text" name="nombre" required
                                                                 value="{{ $tipoMov->nombre ?? old('nombre')}}"
                                                                 class="form-control">
+                                                        </div>
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="customRadio1" name="operacion"
+                                                                value="1" class="custom-control-input" required
+                                                                @if($tipoMov->operacion == 1)
+                                                            checked
+                                                            @endif>
+                                                            <label class="custom-control-label"
+                                                                for="customRadio1">Realiza una suma en el stock</label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="customRadio2" name="operacion"
+                                                                value="0" class="custom-control-input" required
+                                                                @if($tipoMov->operacion == 0)
+                                                            checked
+                                                            @endif>
+                                                            <label class="custom-control-label"
+                                                                for="customRadio2">Realiza una resta en el stock</label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="customRadio3" name="operacion"
+                                                                value="" class="custom-control-input" required
+                                                                @if($tipoMov->operacion === null)
+                                                                    checked
+                                                                @endif>
+                                                            <label class="custom-control-label"
+                                                                for="customRadio3">Realiza ambas operaciones a la
+                                                                vez</label>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -419,7 +448,7 @@ jo
             <form class="form-group " method="POST" action="{{route('tipoMovimientos.store')}}">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Comprobante</label>
+                        <label>Tipo de Comprobante</label>
                         <input type="text" name="nombre" required value="{{ old('nombre')}}" class="form-control">
                     </div>
                     <div class="custom-control custom-radio">
@@ -464,7 +493,7 @@ jo
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Zona</label>
-                        <input type="text" name="nombre" required value="Bº {{ old('nombre')}}" class="form-control" >
+                        <input type="text" name="nombre" required value="Bº {{ old('nombre')}}" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">

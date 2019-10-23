@@ -91,7 +91,12 @@ class HorarioController extends Controller
     public function destroy($id)
     {
         $horario = Horario::find($id) ;
-        $horario->delete() ;
-        return redirect('/horarios')->with('borrado' , 'ok');
+        if($horario->turnos->isEmpty()){
+            $horario->delete() ;
+            return redirect('/horarios')->with('borrado' , 'ok');
+        }else{
+            alert()->error('No es posible eliminar el horario debido a que esta siendo utilizado!' , 'Error');
+            return redirect()->back() ;
+        }
     }
 }

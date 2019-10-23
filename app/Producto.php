@@ -80,4 +80,12 @@ class Producto extends Model implements Auditable
             return false ;
         }
     }
+
+    public function estaEnCantidadMinima(){
+        if($this->cantidadTotal() <= $this->isCantidadMinima){
+            return true;
+        }else{
+            return false ;
+        }
+    }
 }

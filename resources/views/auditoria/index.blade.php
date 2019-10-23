@@ -23,6 +23,7 @@
                         <option value="" selected disabled>--Seleccione--</option>
                         <option value="1">MOVIMIENTOS</option>
                         <option value="2">EMPLEADOS</option>
+                        <option value="2">PRODUCTOS</option>
 
                     </select>
                 </div>
@@ -128,7 +129,7 @@
                     @foreach($auditoriasProd as $auditoria)
                     <tr>
                         <td>{{$auditoria->auditable_id}}</td>
-                        <td>EMPLEADOS</td>
+                        <td>PRODUCTOS</td>
                         <td style="text-transform:uppercase">{{$auditoria->event}}</td>
                         <td>{{$auditoria->created_at->format('d/m/Y')}}</td>
                         <td>{{$auditoria->created_at->format('H:i:s')}}</td>

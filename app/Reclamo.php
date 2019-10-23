@@ -13,7 +13,7 @@ class Reclamo extends Model
     protected $guarded = [] ;
 
 	public function tipoReclamo(){
-		return $this->belongsTo(TipoReclamo::class, 'tipoReclamo_id');
+		return $this->belongsTo(TipoReclamo::class, 'tipoReclamo_id')->withTrashed();
 	}
 
 	public function controles(){
@@ -58,6 +58,7 @@ class Reclamo extends Model
         $date = Carbon::create($this->fecha)->format('d/m/Y') ;
         return $date  ;
     }
+
 
     public function getCantidadEstados(){
         return sizeof($this->historial);

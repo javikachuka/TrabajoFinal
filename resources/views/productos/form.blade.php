@@ -15,7 +15,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                                 <label>Cantidad Minima <i class="text-danger">(*)</i></label>
-                                <input type="text" name="cantidadMinima" value="{{ old('cantidadMinima') ?? $producto->cantidadMinima }} "  class="form-control">
+                                <input type="text" name="cantidadMinima" value="{{ old('cantidadMinima') ?? $producto->cantidadMinima }}"  class="form-control">
                                 <div class="text-danger">{{$errors->first('cantidadMinima')}} </div>
                         </div>
                     </div>

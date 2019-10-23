@@ -3,7 +3,7 @@
 - [x] Ordenar los trabajos por hacer en base a la prioridad y el tiempo que demandan(mayor tiempo van primero. MODULO INTELIGENTE)
 - [x] Recomendaciones de productos(MODULO INTELIGENTE)
 - [x] Agregar si hay existencias de los productos y en que almacen para el MODULO INTELIGENTE
-- [ ] Generar un pedido de los productos que serian necesarios para el mes o para una semana
+- [x] Generar un pedido de los productos que serian necesarios para el mes o para una semana
 
 //regla de 3 simple viendo el primer uso de un producto, hasta quedar sin stock .
 
@@ -24,16 +24,19 @@ marco o si no lo hizo todavia
 a los demas trabajos que existen ya iniciados
 - [ ] agregar las medidas en todos los lugares donde aparezca cantidad
 
+- [x] arreglar filtros de index de reclamos debido a que agrege una nueva columna
+
 - [x] implementar auditoria
 
-- [ ] Agregar una sugerencia mas grande para recomendacion de productos a utilizar 
-- [ ] Agregar eliminacion de pedidos
-- [ ] generar pdf de pedidos
+- [x] Agregar una sugerencia mas grande para recomendacion de productos a utilizar 
+- [x] Agregar eliminacion de pedidos
+- [x] generar pdf de pedidos
+- [ ] falta en el controlador cuando se edita un pedido y se eliminan cosas que ya estaban en el editar
 
 
 MODULO ALMACEN (faltantes)
 - [ ] Informe de productos mas utilizados por almacen
-- [ ] Generar pedido de productos (podria ser el modulo inteligente o una edicion y luego la generacion)
+- [x] Generar pedido de productos (podria ser el modulo inteligente o una edicion y luego la generacion)
 
 
 MODULO DE ENTRADA Y SALIDA

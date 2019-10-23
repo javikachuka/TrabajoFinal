@@ -84,6 +84,7 @@
 
         </table>
     </div>
+</section>
     @section('cantidad')
     {{$cant}}
     @endsection

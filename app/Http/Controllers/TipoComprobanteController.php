@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Validator;
 
 class TipoComprobanteController extends Controller
 {
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         // if($this->validar()->fails()){
-            // return redirect()->back()->withInput(['tab'=>'comprobantes']) ;
+        // return redirect()->back()->withInput(['tab'=>'comprobantes']) ;
         // }
         // $this->validate($request, [
         //     'nombre' => 'required|unique:tipo_comprobantes,nombre'
@@ -19,31 +20,39 @@ class TipoComprobanteController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|unique:tipo_comprobantes,nombre',
-        ],['nombre.unique' => 'El tipo de comprobante ya existe']);
+        ], ['nombre.unique' => 'El tipo de comprobante ya existe']);
 
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput(['tab'=>'comprobantes']) ;
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(['tab' => 'comprobantes']);
         }
 
-        $comprobante = new TipoComprobante() ;
-        $comprobante->fill($request->all()) ;
+        $comprobante = new TipoComprobante();
+        $comprobante->fill($request->all());
         $comprobante->save();
-        return redirect()->back()->withInput(['tab'=>'comprobantes'])->with('confirmar', 'bien') ;
+        return redirect()->back()->withInput(['tab' => 'comprobantes'])->with('confirmar', 'bien');
     }
 
 
-    public function update(Request $request, TipoComprobante $comprobante){
+    public function update(Request $request, TipoComprobante $comprobante)
+    {
 
-        $comprobante->fill($request->all()) ;
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|unique:tipo_comprobantes,nombre,' . $comprobante->id,
+        ], ['nombre.unique' => 'El tipo de comprobante ya existe']);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(['tab' => 'comprobantes']);
+        }
+        $comprobante->fill($request->all());
         $comprobante->update();
-        return redirect()->back()->withInput(['tab'=>'comprobantes'])->with('confirmar', 'bien') ;
+        return redirect()->back()->withInput(['tab' => 'comprobantes'])->with('confirmar', 'bien');
     }
 
-    public function destroy(TipoComprobante $comprobante){
+    public function destroy(TipoComprobante $comprobante)
+    {
 
         $comprobante->delete();
-        return redirect()->back()->withInput(['tab'=>'comprobantes'])->with('borrado', 'bien') ;
-
+        return redirect()->back()->withInput(['tab' => 'comprobantes'])->with('borrado', 'bien');
     }
 
 

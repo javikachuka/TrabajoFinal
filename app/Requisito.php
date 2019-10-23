@@ -15,6 +15,11 @@ class Requisito extends Model
         return $this->hasMany(Control::class);
     }
 
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = strtoupper($value);
+    }
+
     public function tipoReclamos(){
         return $this->belongsToMany(TipoReclamo::class);
     }

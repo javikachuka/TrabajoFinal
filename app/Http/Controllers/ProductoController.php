@@ -85,7 +85,12 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        $this->validar();
+        request()->validate([
+            'nombre' => 'required|unique:productos,nombre,' . $producto->id,
+            'codigo' => 'required|numeric|unique:productos,codigo,' . $producto->id,
+            'cantidadMinima' => 'required|numeric' ,
+            'rubro_id' => 'required',
+        ]);
         $producto->fill($request->all()) ;
         $producto->update() ;
         return redirect('/productos')->with('confirmar' , 'asdf') ;

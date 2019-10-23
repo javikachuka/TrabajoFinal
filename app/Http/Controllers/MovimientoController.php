@@ -339,23 +339,24 @@ class MovimientoController extends Controller
                         return redirect()->back()->with('borrado', 'ok');
                     }
                 }
-            } elseif ($movimiento->tipoMovimiento->operacion == false) {
+            } elseif ($movimiento->tipoMovimiento->operacion === null) {
                 foreach ($movimiento->almacenDestino->existencias as $exi) {
                     if ($exi->producto->id == $movimiento->producto->id) {
                         $exi->cantidad -= $movimiento->cantidad;
                         $exi->update();
-                        $movimiento->delete();
-                        return redirect()->back()->with('borrado', 'ok');
+
                     }
                 }
                 foreach ($movimiento->almacenOrigen->existencias as $exi) {
                     if ($exi->producto->id == $movimiento->producto->id) {
                         $exi->cantidad += $movimiento->cantidad;
                         $exi->update();
-                        $movimiento->delete();
-                        return redirect()->back()->with('borrado', 'ok');
                     }
                 }
+                $movimiento->delete();
+            } else {
+                alert()->error('No es posible eliminar el movimiento EGRESO debido a que se produjo por un trabajo', 'Error');
+                return redirect()->back() ;
             }
         } catch (Exception $e) {
             alert()->error('No es posible eliminar el Movimiento', 'Error');

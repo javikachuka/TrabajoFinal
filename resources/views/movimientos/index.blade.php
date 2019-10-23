@@ -108,7 +108,8 @@
                         <td>{{$movimiento->tipoMovimiento->nombre}}</td>
                         <td>{{$movimiento->cabeceraMovimiento->getFechaMovimiento()}}</td>
                         <td>{{$movimiento->producto->nombre}}</td>
-                        <td style="text-align: right">{{$movimiento->cantidad}} {{$movimiento->producto->medida->nombre}}</td>
+                        <td style="text-align: right">{{$movimiento->cantidad}}
+                            {{$movimiento->producto->medida->nombre}}</td>
                         <td>
                             @if ($movimiento->almacenOrigen == null)
                             <span class="badge badge-warning">N/A</span>
@@ -162,16 +163,15 @@
                                 </div>
                             </div>
                             @endcan --}}
-                            <form method="POST" action="movimientos/{{$movimiento->id}}"
-                                onsubmit="return confirm('Desea borrar a {{$movimiento->id}}')"
-                                style="display: inline-block;">
+                            <form id="form-borrar{{$movimiento->id}}" method="POST"
+                                action="{{route('movimientos.destroy' , $movimiento->id)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 @can('movimientos_destroy')
-                                <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
+                                <button type="submit" class="btn btn-danger btn-xs btn-almacen"
+                                    id="{{$movimiento->id}}">Borrar</button>
                                 @endcan
                             </form>
-
 
                         </td>
                     </tr>
@@ -408,6 +408,30 @@
 } );
 
 
+</script>
+
+<script>
+    $('.btn-almacen').on('click', function(e){
+                        var id = $(this).attr('id');
+                    e.preventDefault();
+
+                swal({
+                        title: "Cuidado!",
+                        text: "Esta seguro que desea eliminar?",
+                        icon: "warning",
+                        dangerMode: true,
+
+                        buttons: {
+                        cancel: "Cancelar",
+                        confirm: "Aceptar",
+                        },
+                    })
+                    .then ((willDelete) => {
+                        if (willDelete) {
+                        $("#form-borrar"+id).submit();
+                        }
+                    });
+                 });
 </script>
 
 @endpush

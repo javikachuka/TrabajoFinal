@@ -9,33 +9,43 @@ use Illuminate\Support\Facades\Validator;
 
 class ZonaController extends Controller
 {
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|unique:zonas,nombre',
-        ],['nombre.unique' => 'La zona ya existe']);
+        ], ['nombre.unique' => 'La zona ya existe']);
 
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput(['tab'=>'zonas']) ;
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(['tab' => 'zonas']);
         }
 
-        $zona = new Zona() ;
-        $zona->fill($request->all()) ;
+        $zona = new Zona();
+        $zona->fill($request->all());
         $zona->save();
-        return redirect()->back()->withInput(['tab'=>'zonas'])->with('confirmar', 'bien') ;
+        return redirect()->back()->withInput(['tab' => 'zonas'])->with('confirmar', 'bien');
     }
 
 
-    public function update(Request $request, Zona $zona){
+    public function update(Request $request, Zona $zona)
+    {
 
-        $zona->fill($request->all()) ;
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|unique:zonas,nombre,' . $zona->id,
+        ], ['nombre.unique' => 'La zona ya existe']);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(['tab' => 'zonas']);
+        }
+
+        $zona->fill($request->all());
         $zona->update();
-        return redirect()->back()->withInput(['tab'=>'zonas'])->with('confirmar', 'bien') ;
+        return redirect()->back()->withInput(['tab' => 'zonas'])->with('confirmar', 'bien');
     }
 
-    public function destroy(Zona $zona){
+    public function destroy(Zona $zona)
+    {
 
         $zona->delete();
-        return redirect()->back()->withInput(['tab'=>'zonas'])->with('borrado', 'bien') ;
-
+        return redirect()->back()->withInput(['tab' => 'zonas'])->with('borrado', 'bien');
     }
 }

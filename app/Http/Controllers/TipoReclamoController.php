@@ -89,9 +89,8 @@ class TipoReclamoController extends Controller
     {
 
         $tipoRec = TipoReclamo::find($id) ;
-        $reclamos = Reclamo::all();
-        foreach($reclamos as $r){
-            if(sizeof($r->historial)<= 3){
+        foreach($tipoRec->reclamos as $r){
+            if($r->trabajo->estado->id != $r->tipoReclamo->flujoTrabajo->getEstadoFinal()->id){
                 alert()->info('No es posible editar en este momento debido a que existen reclamos en curso. Cuando todos hayan finalizado intente de nuevo', 'Alerta!')->persistent();
                 return redirect()->back() ;
             }
@@ -115,6 +114,12 @@ class TipoReclamoController extends Controller
     {
         $tipoReclamo = TipoReclamo::find($id) ;
         try{
+            foreach($tipoReclamo->reclamos as $r){
+                if($r->trabajo->estado->id != $tipoReclamo->flujoTrabajo->getEstadoFinal()->id){
+                    alert()->error('No es posible eliminar el tipo de reclamo debido a que hay reclamos en curso.' , 'Error') ;
+                    return redirect()->back();
+                }
+            }
             $tipoReclamo->delete() ;
             return redirect()->back()->with('borrado' , 'ok') ;
 

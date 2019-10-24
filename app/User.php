@@ -108,7 +108,7 @@ class User extends Authenticatable implements Auditable
             $horaE = Carbon::create($horario->horaEntrada)->subMinutes(15);
             $horaS = Carbon::create($horario->horaSalida);
             if(($horaEntrada->greaterThanOrEqualTo($horaE) && $horaEntrada->lessThanOrEqualTo($horaS))){
-                return $horario->nombre ;
+                return $horario;
             }
         }
     }

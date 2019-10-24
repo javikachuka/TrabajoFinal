@@ -44,7 +44,9 @@ MODULO DE ENTRADA Y SALIDA
 
 
 MODULO DE TRABAJO
-- [ ] Informe de los trabajos que demandan mas tiempo, junto con recursos utilizados y tipos de trabajos mas frecuentes.
+- [ ] Informe de los trabajos que demandan mas tiempo,
+- [ ] junto con recursos utilizados y 
+- [ ] tipos de trabajos mas frecuentes.
 
 MODULO RECLAMOS
 - [x] Informes con filtros

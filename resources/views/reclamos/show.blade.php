@@ -32,10 +32,14 @@
                             </div>
                         </div>
                         <hr>
-                        <strong><i class="fal fa-map-marker-alt mr-1"></i>Lugar del Incidente</strong>
-                        <p class="text-muted">{{$reclamo->socio->direccion->calle}}  {{$reclamo->socio->direccion->altura}}  <br>
-                            {{$reclamo->socio->direccion->zona->nombre}}
-                        </p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong><i class="fal fa-map-marker-alt mr-1"></i>Lugar del Incidente</strong>
+                                <p class="text-muted">{{$reclamo->socio->direccion->calle}}  {{$reclamo->socio->direccion->altura}},
+                                    {{$reclamo->socio->direccion->zona->nombre}}
+                                </p>
+                            </div>
+                        </div>
                         <hr>
                         <div class="card">
                             <div class="card-header">

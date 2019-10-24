@@ -8,6 +8,11 @@ class Horario extends Model
 {
     protected $guarded = [] ;
 
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = ucwords($value);
+    }
+
     public function turnos(){
         return $this->hasMany(Turno::class);
     }

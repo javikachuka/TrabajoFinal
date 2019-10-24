@@ -73,9 +73,9 @@
                     <tr>
                         <th>Dia</th>
                         <th>Fecha</th>
+                        <th>Horario</th>
                         <th>Hora de Entrada</th>
                         <th>Hora de Salida</th>
-                        <th>Horario</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,9 +84,23 @@
                     <tr>
                         <td>{{$asistencia->getNombreDia()}}</td>
                         <td>{{$asistencia->getDia()}}</td>
-                        <td>{{$asistencia->horaEntrada}}</td>
-                        <td>{{$asistencia->horaSalida}}</td>
-                        <td>{{$asistencia->empleado->getHorario($asistencia)}}</td>
+                        <td width="30%">
+                            {{$asistencia->empleado->getHorario($asistencia)->nombre .', ' . $asistencia->empleado->getHorario($asistencia)->horaEntrada .' - '. $asistencia->empleado->getHorario($asistencia)->horaSalida }}
+                        <td>
+                            @if($asistencia->horaEntrada != null)
+                            {{$asistencia->horaEntrada}}
+                            @else
+                            -
+                            @endif
+                        </td>
+                        <td>
+                            @if ($asistencia->horaSalida)
+                            {{$asistencia->horaSalida}}
+                            @else
+                            -
+                            @endif
+                        </td>
+                        </td>
                     </tr>
 
                     @endforeach
@@ -102,7 +116,7 @@
 <script>
     $(function () {
           $('#asistencias').DataTable({
-
+            "order": [[ 1, "asc" ]] ,
                 language: {
                     "decimal": "",
                     "emptyTable": "No hay información",

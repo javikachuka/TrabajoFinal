@@ -106,8 +106,16 @@ class ProductoController extends Controller
     {
 
         try{
-            $producto->delete() ;
-            return redirect()->back()->with('borrado' , 'guardado') ;
+            if($producto->movimientos->isEmpty()){
+                if($producto->proveedores->isEmpty()){
+                    if($producto->detalles->isEmpty()){
+                        $producto->delete() ;
+                        return redirect()->back()->with('borrado' , 'guardado') ;
+                    }
+                }
+            }
+            alert()->error('No es posible eliminar el producto debido a que esta siendo utilizado!', 'Error')->persistent() ;
+            return redirect()->back() ;
         }catch(Exception $e){
             alert()->error('No es posible eliminar' , 'Error!') ;
             return redirect('/productos') ;

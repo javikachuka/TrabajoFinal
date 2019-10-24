@@ -38,4 +38,5 @@ class Asistencia extends Model
         }
     }
 
+
 }

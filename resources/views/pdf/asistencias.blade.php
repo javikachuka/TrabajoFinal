@@ -60,9 +60,9 @@
                 <tr id="fa">
                     <th>Dia</th>
                     <th>Fecha</th>
+                    <th>Horario</th>
                     <th>Hora Entrada</th>
                     <th>Hora Salida</th>
-                    <th>Horario</th>
                 </tr>
             </thead>
 
@@ -72,10 +72,23 @@
                 <tr>
                     <td>{{$asistencia->getNombreDia()}}</td>
                     <td>{{$asistencia->getDia()}}</td>
-                    <td>{{$asistencia->horaEntrada}}</td>
-                    <td>{{$asistencia->horaSalida}}</td>
-                    <td>{{$asistencia->empleado->getHorario($asistencia)}}</td>
-
+                    <td width="30%">
+                        {{$asistencia->empleado->getHorario($asistencia)->nombre }} <br> {{ $asistencia->empleado->getHorario($asistencia)->horaEntrada .' - '. $asistencia->empleado->getHorario($asistencia)->horaSalida }}
+                    </td>
+                    <td>
+                        @if($asistencia->horaEntrada != null)
+                        {{$asistencia->horaEntrada}}
+                        @else
+                        -
+                        @endif
+                    </td>
+                    <td>
+                        @if ($asistencia->horaSalida)
+                        {{$asistencia->horaSalida}}
+                        @else
+                        -
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -85,7 +98,7 @@
         </table>
     </div>
 </section>
-    @section('cantidad')
-    {{$cant}}
-    @endsection
-    @stop
+@section('cantidad')
+{{$cant}}
+@endsection
+@stop

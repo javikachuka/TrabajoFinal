@@ -58,9 +58,9 @@
                             <div class="form-group my-5">
                                 @if (($trabajo->horaFin == null) &&($trabajo->horaInicio == null))
                                 <label for="">Tiempo de duracion estimado:
-                                    {{$trabajo->tiempoDuracionEstimado($trabajo->reclamo->tipoReclamo->id)}}</label>
+                                    {{$trabajo->tiempoDuracionEstimado($trabajo->reclamo->tipoReclamo->id)}} hs</label>
                                 @else
-                                <label for="">Tiempo de duracion real: {{$trabajo->tiempoDuracion()}}</label>
+                                <label for="">Tiempo de duracion real: {{$trabajo->tiempoDuracion()}} hs</label>
                                 @endif
                             </div>
                         </div>

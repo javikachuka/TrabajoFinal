@@ -72,6 +72,12 @@
                                 <p>Socios</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('estadistica.reclamos') }}" class="nav-link">
+                                <i class="fal fa-chart-pie nav-icon"></i>
+                                <p>Estadistica</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -142,6 +148,12 @@
                             <a href="{{ route('almacenes.index') }}" class="nav-link">
                                 <i class="fad fa-warehouse nav-icon"></i>
                                 <p>Almacenes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('estadistica.almacenes') }}" class="nav-link">
+                                <i class="fal fa-chart-pie nav-icon"></i>
+                                <p>Estadistica</p>
                             </a>
                         </li>
                     </ul>
@@ -257,32 +269,32 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('proveedor.pdf') }}" class="nav-link">
-                                <i class="fal fa-people-carry nav-icon"></i>
-                                <p>Proveedores</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('movimientos.pdf') }}" class="nav-link">
-                                <i class="fal fa-dolly nav-icon"></i>
-                                <p>Movimientos</p>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li> --}}
-
-                <li class="nav-item">
-                    <a href="{{route('auditoria.index')}}" class="nav-link">
-                        <i class="fal fa-search nav-icon"></i>
-                        <p>Auditoria</p>
-                    </a>
+                <i class="fal fa-people-carry nav-icon"></i>
+                <p>Proveedores</p>
+                </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('configuraciones.index')}}" class="nav-link">
-                        <i class="fal fa-cogs nav-icon"></i>
-                        <p>Configuracion</p>
+                    <a href="{{ route('movimientos.pdf') }}" class="nav-link">
+                        <i class="fal fa-dolly nav-icon"></i>
+                        <p>Movimientos</p>
                     </a>
                 </li>
+
+            </ul>
+            </li> --}}
+
+            <li class="nav-item">
+                <a href="{{route('auditoria.index')}}" class="nav-link">
+                    <i class="fal fa-search nav-icon"></i>
+                    <p>Auditoria</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('configuraciones.index')}}" class="nav-link">
+                    <i class="fal fa-cogs nav-icon"></i>
+                    <p>Configuracion</p>
+                </a>
+            </li>
 
 
 

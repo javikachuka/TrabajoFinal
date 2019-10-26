@@ -1,13 +1,15 @@
 @extends('admin_panel.index')
 
 @section('content')
-
+{{--
+<div class="loader"></div> --}}
 <div class="content-header">
     <div class="container-fuid">
         <h3>Inicio</h3>
     </div>
 
 </div>
+
 
 @if(auth()->user()->marcoEntrada() === false)
 <div class="row d-flex justify-content-center">
@@ -34,6 +36,52 @@
 @endif
 <div class="content">
     <div class="content-fuid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <div class="card-title">
+                                Trabajos Iniciados
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (!$trabajosIniciados->isEmpty())
+
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de Trabajo</th>
+                                    <th>Tiempo</th>
+                                    <th>Accion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($trabajosIniciados as $trabIni)
+                                <tr>
+                                    <td>
+                                        {{$trabIni->reclamo->tipoReclamo->nombre}}
+                                    </td>
+                                    <td>{{$trabIni->diferencia()}}</td>
+                                    <td>
+                                        <button class="btn btn-xs btn-danger"
+                                            onclick="location.href='{{route('trabajos.finalizarTrabajo', $trabIni)}}'">Finalizar
+                                            <i class="fad fa-window-close"></i></button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @else
+                        <div class="justify-content-center">
+                            No hay trabajos iniciados!
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -180,52 +228,14 @@
             </div>
         </div>
         <br>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                            <div class="card-title">
-                                Trabajos Iniciados
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        @if (!$trabajosIniciados->isEmpty())
 
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Tipo de Trabajo</th>
-                                    <th>Tiempo</th>
-                                    <th>Accion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($trabajosIniciados as $trabIni)
-                                <tr>
-                                    <td>
-                                        {{$trabIni->reclamo->tipoReclamo->nombre}}
-                                    </td>
-                                    <td>{{$trabIni->diferencia()}}</td>
-                                    <td>
-                                        <button class="btn btn-xs btn-danger"
-                                            onclick="location.href='{{route('trabajos.finalizarTrabajo', $trabIni)}}'">Finalizar
-                                            <i class="fad fa-window-close"></i></button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        @else
-                        <div class="justify-content-center">
-                            No hay trabajos iniciados!
-                        </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection
+@push('scripts')
+{{-- <script type="text/javascript">
+    $(window).load(function() {
+        $(".loader").fadeOut("slow");
+    });
+</script> --}}
+@endpush

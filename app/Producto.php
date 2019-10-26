@@ -82,10 +82,20 @@ class Producto extends Model implements Auditable
     }
 
     public function estaEnCantidadMinima(){
-        if($this->cantidadTotal() <= $this->isCantidadMinima){
+        if($this->cantidadTotal() <= $this->cantidadMinima){
             return true;
         }else{
             return false ;
         }
+    }
+
+    public function getCantidadEgreso(Almacen $a){
+        $cant = 0 ;
+        foreach($a->movimientosOrigen as $m){
+            if($m->producto->id == $this->id){
+                $cant += $m->cantidad ;
+            }
+        }
+        return $cant ;
     }
 }

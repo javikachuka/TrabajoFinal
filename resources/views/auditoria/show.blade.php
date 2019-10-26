@@ -14,6 +14,10 @@
                             <label for="">Tabla</label>
                             <p>{{$tabla}}</p>
                         </div>
+                        <div class="col-md-4">
+                            <label for="">Id</label>
+                            <p>{{$auditoria->auditable_id}}</p>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">

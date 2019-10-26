@@ -65,7 +65,8 @@
                 </div>
             </div>
             <div class="row d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
+                <button type="button" class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i
+                        class="fas fa-redo "></i></button>
                 <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
                         class="fas fa-filter "></i></button>
 
@@ -128,13 +129,13 @@
                             <a href="{{ route('reclamos.edit', $reclamo) }}" class="btn btn-xs btn-secondary"> Editar
                             </a>
                             @endcan
-                            <form method="POST" action="reclamos/{{$reclamo->id}}"
-                                onsubmit="return confirm('Desea borrar el reclamo {{$reclamo->nombre}}')"
-                                style="display: inline-block;">
+                            <form id="form-borrar{{$reclamo->id}}" method="POST"
+                                action="{{route('reclamos.destroy' , $reclamo->id)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 @can('reclamos_destroy')
-                                <button type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">Borrar</button>
+                                <button type="submit" class="btn btn-danger btn-xs btn-almacen"
+                                    id="{{$reclamo->id}}">Borrar</button>
                                 @endcan
                             </form>
                         </td>
@@ -489,5 +490,28 @@
     } );
 
 
+</script>
+<script>
+    $('.btn-almacen').on('click', function(e){
+                                var id = $(this).attr('id');
+                            e.preventDefault();
+
+                        swal({
+                                title: "Cuidado!",
+                                text: "Esta seguro que desea eliminar?",
+                                icon: "warning",
+                                dangerMode: true,
+
+                                buttons: {
+                                cancel: "Cancelar",
+                                confirm: "Aceptar",
+                                },
+                            })
+                            .then ((willDelete) => {
+                                if (willDelete) {
+                                $("#form-borrar"+id).submit();
+                                }
+                            });
+                         });
 </script>
 @endpush

@@ -103,7 +103,8 @@
                                 </div>
                             </div>
                             @endcan
-                            <form id="form-borrar{{$almacen->id}}" method="POST" action="{{route('almacenes.destroy' , $almacen->id)}}"
+                            <form id="form-borrar{{$almacen->id}}" method="POST"
+                                action="{{route('almacenes.destroy' , $almacen->id)}}"
                                 {{-- onsubmit="return confirm('Desea borrar {{$almacen->denominacion}}')" --}}
                                 style="display: inline-block;">
                                 @csrf
@@ -111,8 +112,10 @@
 
                                 @can('almacenes_destroy')
                                 {{-- <button class="btn btn-xs btn-danger" id="eliminar">Borrar</button> --}}
-                                <button type="submit" class="btn btn-danger btn-xs btn-almacen" id="{{$almacen->id}}">Borrar</button>
-                                {{-- <a href="#" class="btn btn-danger btn-xs btn-almacen" id="eliminar{{$almacen->id}}">Borrar</a> --}}
+                                <button type="submit" class="btn btn-danger btn-xs btn-almacen"
+                                    id="{{$almacen->id}}">Borrar</button>
+                                {{-- <a href="#" class="btn btn-danger btn-xs btn-almacen" id="eliminar{{$almacen->id}}">Borrar</a>
+                                --}}
                                 {{-- <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete"> --}}
                                 @endcan
                             </form>
@@ -142,6 +145,7 @@
                     <div class="form-group">
                         <label>Denominacion</label>
                         <input type="text" name="denominacion" required value="" class="form-control">
+                        <div class="text-danger">{{$errors->first('denominacion')}} </div>
                     </div>
 
                     <label for="">Direccion</label>
@@ -165,6 +169,7 @@
                     <label for="">Zona</label>
                     <div class="form-group">
                         <select name="zona_id" class="form-control" required>
+                            <option value="" selected disabled>--Seleccione--</option>
                             @foreach ($zonas as $zona)
                             <option value="{{$zona->id}}">{{$zona->nombre}}</option>
                             @endforeach
@@ -183,6 +188,13 @@
 
 @endsection
 @push('scripts')
+<script>
+    @if($errors->any() )
+                $(function(){
+                    $('#crear').modal('show');
+                });
+            @endif
+</script>
 <script>
     $(function () {
           $('#almacenes').DataTable({
@@ -245,7 +257,7 @@
 </script> --}}
 
 <script>
-        $('.btn-almacen').on('click', function(e){
+    $('.btn-almacen').on('click', function(e){
             var id = $(this).attr('id');
         e.preventDefault();
 
@@ -266,5 +278,5 @@
             }
         });
      });
-    </script>
+</script>
 @endpush

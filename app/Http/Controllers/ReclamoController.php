@@ -13,6 +13,7 @@ use App\TipoReclamo;
 use App\Socio;
 use App\Trabajo;
 use App\Turno;
+use App\Zona;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Date;
@@ -48,9 +49,10 @@ class ReclamoController extends Controller
     {
         $reclamo = new Reclamo();
         $socios = Socio::all();
+        $zonas = Zona::all();
         $tipos_reclamos = TipoReclamo::all();
         $reclamos = Reclamo::all();
-        return view('reclamos.create', compact('reclamo', 'reclamos', 'socios', 'tipos_reclamos'));
+        return view('reclamos.create', compact('reclamo', 'reclamos', 'socios', 'tipos_reclamos' , 'zonas'));
     }
 
     /**

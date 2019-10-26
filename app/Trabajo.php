@@ -49,7 +49,7 @@ class Trabajo extends Model
                 if($trabajo->horaFin != null){
                     $inicio = Carbon::create($trabajo->horaInicio) ;
                     $fin = Carbon::create($trabajo->horaFin) ;
-                    $suma += $inicio->diffInMinutes($fin)/60 ;
+                    $suma += ($inicio->diffInMinutes($fin)-($inicio->diffInMinutes($fin)%60))/60 ;
                     $div += 1 ;
                 }
             }
@@ -60,6 +60,14 @@ class Trabajo extends Model
         }else{
             return 0 ;
         }
+    }
+
+    public function getNivelAttribute(){
+        return $this->reclamo->tipoReclamo->prioridad->nivel;
+    }
+
+    public function getDuracionAttribute(){
+        return $this->duracionEstimadaReal($this->reclamo->tipoReclamo->id);
     }
 
     public function ultimoEstado(){

@@ -7,6 +7,7 @@ use App\CabeceraMovimiento;
 use App\HistorialEstado;
 use App\Movimiento;
 use App\Producto;
+use App\TipoReclamo;
 use App\Trabajo;
 use App\User;
 use Illuminate\Http\Request;
@@ -26,11 +27,12 @@ class TrabajoController extends Controller
     {
         $trabajos = Trabajo::all() ;
         $estados = collect() ;
+        $tipoTrabajos = TipoReclamo::all()->sortBy('nombre');
         if(!empty($trabajos[0])){
             $estados = $trabajos[0]->reclamo->tipoReclamo->flujoTrabajo->getEstados() ;
         }
         $productos = Producto::all() ;
-        return view('trabajos.index' , compact('trabajos', 'estados' , 'productos' ));
+        return view('trabajos.index' , compact('trabajos', 'estados' , 'productos' , 'tipoTrabajos' ));
     }
 
     /**

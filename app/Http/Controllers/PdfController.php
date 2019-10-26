@@ -353,4 +353,39 @@ class PdfController extends Controller
         $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
         return $pdf->stream('pedidos.pdf');
     }
+
+    // public function productosMasUtilizadosPDF()
+    // {
+
+    //     $config = Configuracion::first();
+    //     $cant = sizeof();
+    //     $pdf = PDF::loadView('pdf.pedidos', ['pedido' => $pedido, 'cant' => $cant, 'config' => $config]);
+    //     $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+    //     $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
+    //     return $pdf->stream('pedidos.pdf');
+    // }
+
+    public function trabajosConMayorDuracionPDF(){
+
+        $tipos = TipoReclamo::all()->where('flujoTrabajo_id',  1);
+        $tipos = $tipos->sortByDesc('DuracionReal') ;
+        $config = Configuracion::first();
+        $cant = sizeof($tipos);
+        $pdf = PDF::loadView('pdf.trabajosConMayorDuracion', ['trabajos' => $tipos, 'cant' => $cant, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
+        return $pdf->stream('trabajosConMayorDuracion.pdf');
+    }
+
+    public function trabajosMasFrecuentesPDF(){
+
+        $tipos = TipoReclamo::all()->where('trabajo',  true);
+        $tipos = $tipos->sortByDesc('frecuencia') ;
+        $config = Configuracion::first();
+        $cant = sizeof($tipos);
+        $pdf = PDF::loadView('pdf.trabajosMasFrecuentes', ['trabajos' => $tipos, 'cant' => $cant, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
+        return $pdf->stream('trabajosMasFrecuentes.pdf');
+    }
 }

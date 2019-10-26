@@ -13,7 +13,7 @@ class Zona extends Model
         $this->attributes['nombre'] = ucwords($value);
     }
 
-    public function domicilios(){
-        return $this->hasMany(Domicilio::class) ;
+    public function direcciones(){
+        return $this->hasMany(Direccion::class) ;
     }
 }

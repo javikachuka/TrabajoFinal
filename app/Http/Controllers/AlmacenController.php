@@ -7,6 +7,8 @@ use App\Direccion;
 use App\Zona;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class AlmacenController extends Controller
 {
@@ -40,6 +42,14 @@ class AlmacenController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'denominacion' => 'required|unique:almacenes,denominacion',
+        ],['denominacion.unique' => 'El almacen ya existe']);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator) ;
+        }
+
         $direccion = new Direccion() ;
         $direccion->fill($request->all()) ;
         $direccion->save() ;

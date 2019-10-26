@@ -4,6 +4,7 @@
 - [x] Recomendaciones de productos(MODULO INTELIGENTE)
 - [x] Agregar si hay existencias de los productos y en que almacen para el MODULO INTELIGENTE
 - [x] Generar un pedido de los productos que serian necesarios para el mes o para una semana
+- [ ] Aviso a personal de apoyo cuando ingrese un trabajo con alto nivel de prioridad
 
 //regla de 3 simple viendo el primer uso de un producto, hasta quedar sin stock .
 
@@ -24,6 +25,8 @@ marco o si no lo hizo todavia
 a los demas trabajos que existen ya iniciados
 - [ ] agregar las medidas en todos los lugares donde aparezca cantidad
 
+- [ ] Agregar duracion en el eje Y del chart
+
 - [x] arreglar filtros de index de reclamos debido a que agrege una nueva columna
 
 - [x] implementar auditoria
@@ -31,7 +34,7 @@ a los demas trabajos que existen ya iniciados
 - [x] Agregar una sugerencia mas grande para recomendacion de productos a utilizar 
 - [x] Agregar eliminacion de pedidos
 - [x] generar pdf de pedidos
-- [ ] falta en el controlador cuando se edita un pedido y se eliminan cosas que ya estaban en el editar
+- [x] falta en el controlador cuando se edita un pedido y se eliminan cosas que ya estaban en el editar
 
 
 MODULO ALMACEN (faltantes)
@@ -44,13 +47,13 @@ MODULO DE ENTRADA Y SALIDA
 
 
 MODULO DE TRABAJO
-- [ ] Informe de los trabajos que demandan mas tiempo,
-- [ ] junto con recursos utilizados y 
-- [ ] tipos de trabajos mas frecuentes.
+- [x] Informe de los trabajos que demandan mas tiempo,
+- [ ] junto con tipo recursos utilizados por trabajo
+- [x] tipos de trabajos mas frecuentes.
 
 MODULO RECLAMOS
 - [x] Informes con filtros
-- [ ] Informe zonas con mas reclamos
+- [ ] Informe zonas con mas reclamos (Estadistica hecha)
 
 
 

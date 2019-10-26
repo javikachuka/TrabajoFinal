@@ -63,7 +63,8 @@ class HomeController extends Controller
         //         $trabajosOrdenados[$i] = $aux;
         //     }
         // }
-
+            // dd($trabajos);
+        // $trabajosOrdenados = $trabajosOrdenados->sortByDesc('Nivel') ;
 
         //burbuja para ordenar los de mayor prioridad
         for ($i = 1; $i < count($trabajosOrdenados); $i++) {

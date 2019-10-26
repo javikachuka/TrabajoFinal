@@ -40,4 +40,16 @@ class TipoReclamo extends Model
             return true;
         }
     }
+
+    public function getDuracionRealAttribute(){
+        if(!$this->reclamos->isEmpty()){
+            return $this->reclamos->first()->trabajo->duracionEstimadaReal($this->id);
+        }else{
+            return 0 ;
+        }
+    }
+
+    public function getFrecuenciaAttribute(){
+        return Reclamo::where('tipoReclamo_id', $this->id)->get()->count() ;
+    }
 }

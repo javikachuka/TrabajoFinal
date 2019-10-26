@@ -19,6 +19,7 @@
             <table id="productos" class="table table-bordered table-striped table-hover datatable">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Nombre</th>
                         <th>Codigo</th>
                         <th>Cantidad Minima</th>
@@ -31,11 +32,19 @@
                     @foreach($productos as $producto)
 
                     <tr>
+                        <td>{{$producto->id}}</td>
                         <td>{{$producto->nombre}}</td>
                         <td style="text-align: right">{{$producto->codigo}}</td>
                         <td style="text-align: right">{{$producto->cantidadMinima}} {{$producto->medida->nombre}}</td>
                         <td>{{$producto->rubro->nombre}}</td>
-                        <td style="text-align: right">{{$producto->cantidadTotal()}} {{$producto->medida->nombre}}</td>
+                        <td style="text-align: right">
+                            @if(!$producto->estaEnCantidadMinima())
+                            <div class="badge badge-success">{{$producto->cantidadTotal()}} {{$producto->medida->nombre}}</div>
+                            @else
+                            <div class="badge badge-warning">{{$producto->cantidadTotal()}} {{$producto->medida->nombre}}</div>
+                            @endif
+
+                        </td>
                         <td width="18%">
                             <a href="{{route('productos.show', $producto)}}" class="btn btn-xs btn-primary">Ver mas</a>
                             @can('productos_edit')
@@ -43,8 +52,7 @@
                                 Editar </a>
                             @endcan
                             <form id="form-borrar{{$producto->id}}" method="POST"
-                                action="{{route('productos.destroy' , $producto->id)}}"
-                                style="display: inline-block;">
+                                action="{{route('productos.destroy' , $producto->id)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 @can('productos_destroy')
@@ -72,6 +80,26 @@
             "ordering": true,
             "info": false,
             "autoWidth": false,
+            language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
           });
         });
 </script>

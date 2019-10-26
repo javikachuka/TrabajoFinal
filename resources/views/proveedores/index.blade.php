@@ -2,49 +2,54 @@
 
 @section('content')
 
-    <div class="card">
-        <div class="card-header">
-            <h3>Listado de Proveedores <span></span>
-                <button type="submit" class="btn btn-primary btn-xs" onclick="location.href = '{{ route('proveedores.create') }}'">Registrar Proveedor</button>
-                <button type="button" class="btn btn-xs btn-danger " onclick="location.href = '{{ route('proveedor.pdf')}}'">Generar <i class="fa fa-file-pdf"></i></button>
-            </h3>
+<div class="card">
+    <div class="card-header">
+        <h3>Listado de Proveedores <span></span>
+            <button type="submit" class="btn btn-primary btn-xs"
+                onclick="location.href = '{{ route('proveedores.create') }}'">Registrar Proveedor</button>
+            <button type="button" class="btn btn-xs btn-danger "
+                onclick="location.href = '{{ route('proveedor.pdf')}}'">Generar <i class="fa fa-file-pdf"></i></button>
+        </h3>
 
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="proveedores" class="table table-bordered table-striped table-hover datatable">
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="proveedores" class="table table-bordered table-striped table-hover datatable">
                 <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>CUIT</th>
-                    <th>Email</th>
-                    <th>Telefono</th>
-                    <th>Accion</th>
-                  </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>CUIT</th>
+                        <th>Email</th>
+                        <th>Telefono</th>
+                        <th>Accion</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach($proveedores as $proveedor)
 
-                        <tr>
-                            <td>{{$proveedor->nombre}}</td>
-                            <td style="text-align: right">{{$proveedor->cuit}}</td>
-                            <td>{{$proveedor->email}}</td>
-                            <td style="text-align: right">{{$proveedor->telefono}}</td>
-                            <td width ="125px">
-                                @can('proveedores_edit')
-                                    <a href="{{ route('proveedores.edit', $proveedor->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
+                    <tr>
+                        <td>{{$proveedor->nombre}}</td>
+                        <td style="text-align: right">{{$proveedor->cuit}}</td>
+                        <td>{{$proveedor->email}}</td>
+                        <td style="text-align: right">{{$proveedor->telefono}}</td>
+                        <td width="125px">
+                            @can('proveedores_edit')
+                            <a href="{{ route('proveedores.edit', $proveedor->id) }}" class="btn btn-xs btn-secondary">
+                                Editar </a>
+                            @endcan
+                            <form id="form-borrar{{$proveedor->id}}" method="POST"
+                                action="{{route('proveedores.destroy' , $proveedor->id)}}" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                @can('proveedores_destroy')
+                                <button type="submit" class="btn btn-danger btn-xs btn-almacen"
+                                    id="{{$proveedor->id}}">Borrar</button>
                                 @endcan
-                            <form method="POST" action="proveedores/{{$proveedor->id}}" onsubmit="return confirm('Desea borrar a {{$proveedor->nombre}}')" style="display: inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    @can('proveedores_destroy')
-                                        <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
-                                    @endcan
-                                </form>
-                            </td>
-                          </tr>
+                            </form>
+                        </td>
+                    </tr>
 
-                      @endforeach
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -53,7 +58,7 @@
 @endsection
 @push('scripts')
 <script>
-        $(function () {
+    $(function () {
           $('#proveedores').DataTable({
             language: {
                     "decimal": "",
@@ -80,13 +85,37 @@
         });
 </script>
 
-    <script>
-        @if(session('confirmar'))
+<script>
+    @if(session('confirmar'))
             Confirmar.fire() ;
         @elseif(session('cancelar'))
             Cancelar.fire();
         @elseif(session('borrado'))
             Borrado.fire();
         @endif
-    </script>
+</script>
+
+<script>
+    $('.btn-almacen').on('click', function(e){
+                                var id = $(this).attr('id');
+                            e.preventDefault();
+
+                        swal({
+                                title: "Cuidado!",
+                                text: "Esta seguro que desea eliminar?",
+                                icon: "warning",
+                                dangerMode: true,
+
+                                buttons: {
+                                cancel: "Cancelar",
+                                confirm: "Aceptar",
+                                },
+                            })
+                            .then ((willDelete) => {
+                                if (willDelete) {
+                                $("#form-borrar"+id).submit();
+                                }
+                            });
+                         });
+</script>
 @endpush

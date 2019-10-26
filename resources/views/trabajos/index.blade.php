@@ -17,15 +17,26 @@
         <div class="row d-flex justify-content">
             <div class="col-md-3">
 
+                <label for="">Tipos de Trabajos</label>
+                <select name="tipoTrabajo_id" id="tipoTrabajo" class="form-control">
+                    <option value="" selected disabled>--Seleccione--</option>
+                    @foreach ($tipoTrabajos as $tipoTrabajo)
+                    <option value="{{$tipoTrabajo->id}}">{{$tipoTrabajo->nombre}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-3">
+
                 <label for="">Estados</label>
                 <select name="producto_id" id="estados" class="form-control">
-                    <option value="">--Seleccione--</option>
+                    <option value="" selected disabled>--Seleccione--</option>
                     @foreach ($estados as $estado)
                     <option value="{{$estado->id}}">{{$estado->nombre}}</option>
                     @endforeach
                 </select>
             </div>
         </div>
+        <br>
         <div class="row d-flex justify-content-center">
             <button class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
             <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
@@ -59,9 +70,7 @@
 
                     <tr>
                         <td>{{$trabajo->id}}</td>
-                        <td>
-                            <span>{{$trabajo->reclamo->tipoReclamo->nombre}} </span>
-                        </td>
+                        <td>{{$trabajo->reclamo->tipoReclamo->nombre}}</td>
                         <td>{{$trabajo->getFecha()}}</td>
                         <td>
                             <p>{{$trabajo->reclamo->socio->direccion->calle}}
@@ -263,6 +272,7 @@
 
 
     $('#limpiar').click(function(){
+        $("#tipoTrabajo ").prop("selectedIndex", 0) ;
         $("#estados ").prop("selectedIndex", 0) ;
 
         $.fn.dataTable.ext.search.pop(
@@ -277,8 +287,12 @@
     }) ;
 
     $('#filtrar').click(function(){
-        var filtro1 = $('#estados').val() ;
+        var filtro1 = $('#tipoTrabajo').val() ;
+        var filtro2 = $('#estados').val() ;
         if(filtro1 != null){
+            var nombreTrabajo = $('#tipoTrabajo option:selected').text() ;
+        }
+        if(filtro2 != null){
             var nombreEstado = $('#estados option:selected').text() ;
         }
 
@@ -291,17 +305,44 @@
             }
         );
         table.draw() ;
-        var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+        if(filtro1 != null && filtro2 == null){
+            console.log(nombreTrabajo);
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
-            if(nombreEstado == data[5]){
-                return true ;
-            }else{
-                return false;
-            }
+                if(nombreTrabajo == data[1]){
+                    return true ;
+                }else{
+                    return false;
+                }
 
-        };
-        $.fn.dataTable.ext.search.push( filtradoTabla );
-        table.draw() ;
+            };
+            $.fn.dataTable.ext.search.push( filtradoTabla );
+            table.draw() ;
+        }else if(filtro1 == null && filtro2 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(nombreEstado == data[5]){
+                    return true ;
+                }else{
+                    return false;
+                }
+
+            };
+            $.fn.dataTable.ext.search.push( filtradoTabla );
+            table.draw() ;
+        }else if(filtro1 != null && filtro2 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(nombreEstado == data[5] && nombreTrabajo == data[1]){
+                    return true ;
+                }else{
+                    return false;
+                }
+
+            };
+            $.fn.dataTable.ext.search.push( filtradoTabla );
+            table.draw() ;
+        }
 
     }) ;
 

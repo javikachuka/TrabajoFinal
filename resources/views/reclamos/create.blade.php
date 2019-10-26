@@ -26,6 +26,10 @@
                         <a href="" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#buscar"><i
                                 class="fa fa-search"></i></a>
                     </div>
+                    <div class="form-group ml-1">
+                        <a href="" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#crear"><i
+                                class="fa fa-plus"></i></a>
+                    </div>
                 </div>
                 <div class="col-sm-3">
                     <label for="">Tipo de Reclamo</label>
@@ -131,6 +135,80 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Create -->
+<div class="modal fade" id="crear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Socio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-group " method="POST" action="{{route('socios.store')}}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Apellido</label>
+                        <input type="text" name="apellido" required value="{{ old('apellido')}}" class="form-control">
+                        <div class="text-danger">{{$errors->first('apellido')}} </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre/s</label>
+                        <input type="text" name="nombre" required value="{{  old('nombre')}}" class="form-control">
+                        <div class="text-danger">{{$errors->first('nombre')}} </div>
+                    </div>
+                    <div class="form-group">
+                        <label>DNI</label>
+                        <input type="text" name="dni" required value="{{  old('dni')}}" class="form-control"
+                            data-mask="00.000.000">
+                        <div class="text-danger">{{$errors->first('dni')}} </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nº de Conexion</label>
+                        <input type="text" name="nro_conexion" required value="{{old('nro_conexion')}}"
+                            class="form-control">
+                        <div class="text-danger">{{$errors->first('nro_conexion')}} </div>
+                    </div>
+                    <label for="">Direccion</label>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="">Calle</label>
+                                    <div class="input-group">
+                                        <input name="calle" type="text" value="{{  old('calle') }}" required
+                                            class="form-control" placeholder="Calle">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">-</span>
+                                        </div>
+                                        <input name="altura" type="text" value="{{ old('altura')}}" required
+                                            class="form-control col-md-3" placeholder="Altura">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select name="zona_id" class="form-control" required>
+                            <option value="" selected disabled>--Seleccione--</option>
+                            @foreach ($zonas as $zona)
+                            <option value="{{$zona->id}}" }>{{$zona->nombre}}</option>
+                            @endforeach
+                        </select>
+                        <div class="text-danger">{{$errors->first('zona_id')}} </div>
+                    </div>
+                </div>
+                <input type="hidden" name="modal" id="modalAbierto" value="">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary btn-sm ">Guardar</button>
+                </div>
+                @csrf
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -140,6 +218,22 @@
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
         });
     });
+</script>
+<script>
+        @if($errors->any() )
+                $(function(){
+                    $('#crear').modal('show');
+                });
+            @endif
+    </script>
+<script>
+    @if(session('confirmar'))
+            Confirmar.fire() ;
+        @elseif(session('cancelar'))
+            Cancelar.fire();
+        @elseif(session('borrado'))
+            Borrado.fire();
+        @endif
 </script>
 
 <script>

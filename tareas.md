@@ -53,7 +53,7 @@ MODULO DE TRABAJO
 - [x] Informe de los trabajos que demandan mas tiempo,
 - [ ] junto con tipo recursos utilizados por trabajo
 - [x] tipos de trabajos mas frecuentes.
-- [ ] reporte de trabajos
+- [x] reporte de trabajos
 
 MODULO RECLAMOS
 - [x] Informes con filtros

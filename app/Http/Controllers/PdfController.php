@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use PDF;
 use DB;
 use Illuminate\Support\Carbon;
+use OwenIt\Auditing\Models\Audit;
 
 class PdfController extends Controller
 {
@@ -426,7 +427,7 @@ class PdfController extends Controller
                 $fecha1 = Carbon::create($request->input('fecha1'));
                 $fecha2 = Carbon::create($request->input('fecha2'));
 
-                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($t->users->contains('id' ,$request->empleado_id))) {
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($t->users->contains('id', $request->empleado_id))) {
                     $aux->push($t);
                 }
             }
@@ -450,14 +451,14 @@ class PdfController extends Controller
                 $fecha1 = Carbon::create($request->input('fecha1'));
                 $fecha2 = Carbon::create($request->input('fecha2'));
 
-                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($t->reclamo->tipoReclamo->id == $request->tipoTrabajo_id) && ($t->users->contains('id' ,$request->empleado_id)) && ($t->estado->id == $request->estado_id)) {
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($t->reclamo->tipoReclamo->id == $request->tipoTrabajo_id) && ($t->users->contains('id', $request->empleado_id)) && ($t->estado->id == $request->estado_id)) {
                     $aux->push($t);
                 }
             }
             $tipRec = TipoReclamo::find($request->tipoTrabajo_id);
             $empleado = User::find($request->empleado_id);
             $estado = Estado::find($request->estado_id);
-            $filtro = "Filtros: -Fecha: desde:" . $fecha1->format('d/m/Y') . " hasta:" . $fecha2->format('d/m/Y') . ' -Tipo de Reclamo: ' . $tipRec->nombre . ' -Estado: ' . $estado->nombre .' -Empleado: ' . $empleado->apellido . " " . $empleado->name;
+            $filtro = "Filtros: -Fecha: desde:" . $fecha1->format('d/m/Y') . " hasta:" . $fecha2->format('d/m/Y') . ' -Tipo de Reclamo: ' . $tipRec->nombre . ' -Estado: ' . $estado->nombre . ' -Empleado: ' . $empleado->apellido . " " . $empleado->name;
         } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoTrabajo_id != null && $request->empleado_id == null  && $request->estado_id == null) {
             foreach ($trabajos as $t) {
                 if ($t->reclamo->tipoReclamo->id == $request->tipoTrabajo_id) {
@@ -469,7 +470,7 @@ class PdfController extends Controller
             $filtro = "Filtros: -Tipo de Reclamo: " . $tipRec->nombre;
         } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoTrabajo_id == null && $request->empleado_id != null  && $request->estado_id == null) {
             foreach ($trabajos as $t) {
-                if ($t->users->contains('id' , $request->empleado_id)) {
+                if ($t->users->contains('id', $request->empleado_id)) {
                     $aux->push($t);
                 }
             }
@@ -486,7 +487,7 @@ class PdfController extends Controller
             $filtro = "Filtros: -Estado" .  $estado->nombre;
         } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoTrabajo_id != null && $request->empleado_id != null  && $request->estado_id == null) {
             foreach ($trabajos as $t) {
-                if (($t->reclamo->tipoReclamo->id == $request->tipoTrabajo_id) && ($t->users->contains('id' , $request->empleado_id))) {
+                if (($t->reclamo->tipoReclamo->id == $request->tipoTrabajo_id) && ($t->users->contains('id', $request->empleado_id))) {
                     $aux->push($t);
                 }
             }
@@ -505,7 +506,7 @@ class PdfController extends Controller
             $filtro = "Filtros: -Tipo de Reclamo" .  $tipRec->nombre . " -Estado: " . $estado->nombre;
         } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoTrabajo_id != null && $request->empleado_id != null  && $request->estado_id != null) {
             foreach ($trabajos as $t) {
-                if (($t->reclamo->tipoReclamo->id == $request->tipoTrabajo_id) && ($t->users->contains('id' , $request->empleado_id)) && ($t->estado->id == $request->estado_id)) {
+                if (($t->reclamo->tipoReclamo->id == $request->tipoTrabajo_id) && ($t->users->contains('id', $request->empleado_id)) && ($t->estado->id == $request->estado_id)) {
                     $aux->push($t);
                 }
             }
@@ -515,7 +516,7 @@ class PdfController extends Controller
             $filtro = "Filtros: -Tipo de Reclamo: " .  $tipRec->nombre . " -Empleado: " . $empleado->apellido . " " . $empleado->name  . " -Estado: " . $estado->nombre;
         } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoTrabajo_id == null && $request->empleado_id != null  && $request->estado_id != null) {
             foreach ($trabajos as $t) {
-                if (($t->users->contains('id' , $request->empleado_id)) && ($t->trabajo->estado->id == $request->estado_id)) {
+                if (($t->users->contains('id', $request->empleado_id)) && ($t->trabajo->estado->id == $request->estado_id)) {
                     $aux->push($t);
                 }
             }
@@ -532,5 +533,161 @@ class PdfController extends Controller
         $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
         $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
         return $pdf->stream('trabajos.pdf');
+    }
+
+    public function auditoriaPDF(Request $request)
+    {
+
+        $auditorias = Audit::all();
+        $aux = collect();
+        $filtro = "";
+        if (($request->fecha1 != null && $request->fecha2 != null) && $request->tabla == null && $request->empleado_id == null) {
+            foreach ($auditorias as $a) {
+                $f = ($a->created_at);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
+
+                if (($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) {
+                    $aux->push($a);
+                }
+            }
+            $filtro = "Filtros: -Fecha: desde:" . $fecha1->format('d/m/Y') . " hasta: " . $fecha2->format('d/m/Y');
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->tabla != null && $request->empleado_id == null) {
+            if($request->tabla == 1){
+                $tabla = 'Movimiento' ;
+            }elseif($request->tabla == 2){
+                $tabla = 'User' ;
+
+            }elseif($request->tabla == 3){
+                $tabla = 'Producto' ;
+            }
+            foreach ($auditorias as $a) {
+                $f = $a->created_at;
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && (strpos($a->auditable_type,$tabla) !== false) ) {
+                    $aux->push($a);
+                }
+            }
+            if($request->tabla == 1){
+                $tabla2 = 'MOVIMIENTOS' ;
+            }elseif($request->tabla == 2){
+                $tabla2 = 'EMPLEADOS' ;
+
+            }elseif($request->tabla == 3){
+                $tabla2 = 'PRODUCTOS' ;
+            }
+            $filtro = "Filtros: -Fecha: desde:" . $fecha1->format('d/m/Y') . " hasta: " . $fecha2->format('d/m/Y') . ' -Tabla ' . $tabla2;
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->tabla == null && $request->empleado_id != null) {
+            foreach ($auditorias as $a) {
+                $f = Carbon::create($a->created_at);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
+
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($a->user_id == $request->empleado_id)) {
+                    $aux->push($a);
+                }
+            }
+            $empleado = User::find($request->empleado_id);
+            $filtro = "Filtros: -Fecha: desde:" . $fecha1->format('d/m/Y') . " hasta: " . $fecha2->format('d/m/Y') . ' -Empleado: ' . $empleado->apellido . " " . $empleado->nombre;
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->tabla != null && $request->empleado_id != null) {
+            if($request->tabla == 1){
+                $tabla = 'Movimiento' ;
+            }elseif($request->tabla == 2){
+                $tabla = 'User' ;
+
+            }elseif($request->tabla == 3){
+                $tabla = 'Producto' ;
+            }
+            foreach ($auditorias as $a) {
+                $f = $a->created_at;
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && (strpos($a->auditable_type,$tabla) !== false) && ($a->user_id == $request->empleado_id) ) {
+                    $aux->push($a);
+                }
+            }
+            if($request->tabla == 1){
+                $tabla2 = 'MOVIMIENTOS' ;
+            }elseif($request->tabla == 2){
+                $tabla2 = 'EMPLEADOS' ;
+
+            }elseif($request->tabla == 3){
+                $tabla2 = 'PRODUCTOS' ;
+            }
+            $empleado = User::find($request->empleado_id);
+            $filtro = "Filtros: -Fecha: desde:" . $fecha1->format('d/m/Y') . " hasta: " . $fecha2->format('d/m/Y') . ' -Tabla ' . $tabla2 . ' -Empleado: ' . $empleado->apellido  .' ' . $empleado->name;
+
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tabla != null && $request->empleado_id != null) {
+            if($request->tabla == 1){
+                $tabla = 'Movimiento' ;
+            }elseif($request->tabla == 2){
+                $tabla = 'User' ;
+
+            }elseif($request->tabla == 3){
+                $tabla = 'Producto' ;
+            }
+            foreach ($auditorias as $a) {
+                if ((strpos($a->auditable_type,$tabla) !== false) && ($a->user_id == $request->empleado_id) ) {
+                    $aux->push($a);
+                }
+            }
+            if($request->tabla == 1){
+                $tabla2 = 'MOVIMIENTOS' ;
+            }elseif($request->tabla == 2){
+                $tabla2 = 'EMPLEADOS' ;
+
+            }elseif($request->tabla == 3){
+                $tabla2 = 'PRODUCTOS' ;
+            }
+            $empleado = User::find($request->empleado_id);
+            $filtro = "Filtros: -Tabla " . $tabla2 . ' -Empleado: ' . $empleado->apellido  .' ' . $empleado->name;
+
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tabla == null && $request->empleado_id != null) {
+
+            foreach ($auditorias as $a) {
+                if ( ($a->user_id == $request->empleado_id) ) {
+                    $aux->push($a);
+                }
+            }
+
+            $empleado = User::find($request->empleado_id);
+            $filtro = "Filtros: -Empleado: " . $empleado->apellido  .' ' . $empleado->name;
+
+        } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tabla != null && $request->empleado_id == null) {
+
+            if($request->tabla == 1){
+                $tabla = 'Movimiento' ;
+            }elseif($request->tabla == 2){
+                $tabla = 'User' ;
+
+            }elseif($request->tabla == 3){
+                $tabla = 'Producto' ;
+            }
+            foreach ($auditorias as $a) {
+                if ((strpos($a->auditable_type,$tabla) !== false) ) {
+                    $aux->push($a);
+                }
+            }
+            if($request->tabla == 1){
+                $tabla2 = 'MOVIMIENTOS' ;
+            }elseif($request->tabla == 2){
+                $tabla2 = 'EMPLEADOS' ;
+
+            }elseif($request->tabla == 3){
+                $tabla2 = 'PRODUCTOS' ;
+            }
+            $filtro = "Filtros: -Tabla " . $tabla2 ;
+        } else {
+            $aux = $auditorias;
+        }
+
+        $config = Configuracion::first();
+        $cant = sizeof($aux);
+        $datos = date('d/m/Y');
+        $pdf = PDF::loadView('pdf.auditorias', ['auditorias' => $aux, 'datos' => $datos, 'cant' => $cant, 'filtro' => $filtro, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
+        return $pdf->stream('auditoria.pdf');
     }
 }

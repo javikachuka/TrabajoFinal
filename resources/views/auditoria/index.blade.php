@@ -14,25 +14,25 @@
         </div>
     </div>
     <div class="card-body">
-        <form class="form-group " method="GET" action="{{route('movimientos.pdf')}}">
+        <form class="form-group " method="GET" action="{{route('auditoria.pdf')}}">
 
-            <div class="row">
+            <div class="row d-flex justify-content-around">
                 <div class=" col-sm-2">
                     <label for="">Tabla</label>
                     <select name="tabla" id="tabla" class="form-control">
                         <option value="" selected disabled>--Seleccione--</option>
                         <option value="1">MOVIMIENTOS</option>
                         <option value="2">EMPLEADOS</option>
-                        <option value="2">PRODUCTOS</option>
+                        <option value="3">PRODUCTOS</option>
 
                     </select>
                 </div>
                 <div class=" col-sm-2">
                     <label for="">Usuario</label>
-                    <select name="user" id="user" class="form-control">
+                    <select name="empleado_id" id="user" class="form-control">
                         <option value="" selected disabled>--Seleccione--</option>
                         @foreach ($users as $user)
-                            <option value="{{$user->id}}">{{$user->apellido}} {{$user->name}}</option>
+                        <option value="{{$user->id}}">{{$user->apellido}} {{$user->name}}</option>
                         @endforeach
 
                     </select>
@@ -49,8 +49,8 @@
                         <input type="date" id="max" name="fecha2" value="" class="form-control">
                     </div>
                 </div>
-                <div class="col-md-1">
-
+                <div class="col-md-1 ">
+                    <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
                 </div>
 
                 {{-- <div class="col-md-1">
@@ -154,7 +154,7 @@
 <script>
     $(function () {
           $('#auditorias').DataTable({
-            "order": [[ 3, "asc" ] , [4 , 'desc']] ,
+            "order": [[ 3, "desc" ] , [4 , 'desc']] ,
                 language: {
                     "decimal": "",
                     "emptyTable": "No hay información",

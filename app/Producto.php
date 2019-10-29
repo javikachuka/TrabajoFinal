@@ -98,4 +98,5 @@ class Producto extends Model implements Auditable
         }
         return $cant ;
     }
+
 }

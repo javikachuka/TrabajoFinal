@@ -21,6 +21,8 @@ Route::get('asistencias/{id}', 'AsistenciaController@obtener')->name('asistencia
 
 Route::get('obtenerMedida/{id}', 'ProductoController@obtenerMedida')->name('productos.obtenerMedida');
 
+Route::get('obtenerCantidad/{idProd}/{idAlmacen}/{cantidad}', 'ProductoController@tieneCantidadDisponible')->name('productos.tieneCantidadDisponible');
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

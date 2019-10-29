@@ -120,35 +120,64 @@
 
     function addRow(){
         producto_id = $('#producto_id').val() ;
+        almacen_id = $('#almacen_id').val() ;
         producto = "";
         medida = $("#medida").val();
         if(producto_id != null){
             producto = $("#producto_id option:selected").text();
         }
+        if(almacen_id != null){
+            almacen = $("#almacen_id option:selected").text();
+        }
         cantidad = $("#cantidad").val();
-        if(producto != "" ){
-            if(cantidad > 0){
-                var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
-                            '<td style=" text-align: right"><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
-                            '<td>'+medida+'</td>'+
-                            '<td style = " text-align: center"><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
-                            '</tr>' ;
+        if(almacen_id != null){
+            if(producto != "" ){
+                if(cantidad > 0){
+                    var url = "{{ route('productos.tieneCantidadDisponible', [":idProd", ":idAlmacen" , ":cantidad"]) }}" ;
+                    url = url.replace(':idProd' , producto_id) ;
+                    url = url.replace(':idAlmacen' , almacen_id) ;
+                    url = url.replace(':cantidad' , cantidad) ;
+                    $.get(url, function(data){
+                        if(data == 1){
+                            var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
+                                        '<td style=" text-align: right"><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
+                                        '<td>'+medida+'</td>'+
+                                        '<td style = " text-align: center"><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
+                                        '</tr>' ;
 
-                $('tbody').append(fila) ;
-                limpiar();
+                            $('tbody').append(fila) ;
+                            limpiar();
+                        }else{
+                            swal({
+                                title: "Error",
+                                text: "La cantidad ingresada "+cantidad+" de "+producto+" supera a la existente en el " +almacen,
+                                icon: "error",
+                            });
+                        }
+
+                    });
+
+
+                }else{
+                    swal({
+                            title: "Error",
+                            text: "Ingrese una cantidad valida y mayor a 0",
+                            icon: "error",
+                        });
+                }
             }else{
                 swal({
-                        title: "Error",
-                        text: "Ingrese una cantidad valida y mayor a 0",
-                        icon: "error",
-                    });
+                            title: "Error",
+                            text: "Seleccione un producto",
+                            icon: "error",
+                        });
             }
-        }else{
+        }else {
             swal({
-                        title: "Error",
-                        text: "Seleccione un producto",
-                        icon: "error",
-                    });
+                    title: "Error",
+                    text: "Seleccione un Almacen por favor",
+                    icon: "error",
+            });
         }
     }
 

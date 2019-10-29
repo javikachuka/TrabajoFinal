@@ -195,27 +195,84 @@
 
     function addRow(){
         //Obtener los valores de los inputs
+        almacen_id = $('#almacenOrigen_id').val() ;
+        almacen2_id = $('#almacenDestino_id').val() ;
         producto_id = $('#producto_id').val() ;
-        producto = $("#producto_id option:selected").text();
         cantidad = $("#cantidad").val();
         medida = $("#medida").val();
-
-        if(cantidad>0){
-            var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
-                        '<td style="text-align:right";><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
-                        '<td>'+medida+'</td>'+
-                        '<td style="text-align:center";><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
-                        '</tr>' ;
-
-            $('tbody').append(fila) ;
-            limpiar();
-        }else{
-            swal({
-                title: "Error",
-                text: "Ingrese una cantidad valida y mayor a 0",
-                icon: "error",
-            });
+        if(producto_id != null){
+            producto = $("#producto_id option:selected").text();
         }
+        if(almacen_id != null){
+            aalmacenOrigen = $("#almacenOrigen_id option:selected").text();
+        }
+
+        if(almacen_id != almacen2_id){
+
+            if(almacen_id != null){
+                if(almacen2_id != null){
+                    if(producto != ""){
+                        if(cantidad>0){
+                            var url = "{{ route('productos.tieneCantidadDisponible', [":idProd", ":idAlmacen" , ":cantidad"]) }}" ;
+                            url = url.replace(':idProd' , producto_id) ;
+                            url = url.replace(':idAlmacen' , almacen_id) ;
+                            url = url.replace(':cantidad' , cantidad) ;
+                            $.get(url, function(data){
+                                if(data == 1){
+                                    var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
+                                                '<td style="text-align:right";><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
+                                                '<td>'+medida+'</td>'+
+                                                '<td style="text-align:center";><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
+                                                '</tr>' ;
+
+                                    $('tbody').append(fila) ;
+                                    limpiar();
+                                }else{
+                                    swal({
+                                        title: "Error",
+                                        text: "La cantidad ingresada "+cantidad+" de "+producto+" supera a la existente en el " +almacen_id,
+                                        icon: "error",
+                                    });
+                                }
+
+                            });
+
+                        }else{
+                            swal({
+                                title: "Error",
+                                text: "Ingrese una cantidad valida y mayor a 0",
+                                icon: "error",
+                            });
+                        }
+                    }else{
+                        swal({
+                                title: "Error",
+                                text: "Seleccione un producto",
+                                icon: "error",
+                        });
+                    }
+                }else {
+                    swal({
+                            title: "Error",
+                            text: "Seleccione un Almacen de Destino por favor",
+                            icon: "error",
+                    });
+                }
+
+            }else {
+                swal({
+                        title: "Error",
+                        text: "Seleccione un Almacen de Origen por favor",
+                        icon: "error",
+                });
+            }
+        }else {
+                swal({
+                        title: "Error",
+                        text: "Seleccione distintos almacenes por favor",
+                        icon: "error",
+                });
+            }
     }
 
     function limpiar(){

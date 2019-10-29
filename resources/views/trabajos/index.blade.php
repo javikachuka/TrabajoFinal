@@ -14,35 +14,65 @@
         </div>
     </div>
     <div class="card-body">
-        <div class="row d-flex justify-content">
-            <div class="col-md-3">
+        <form class="form-group " method="GET" action="{{route('trabajos.pdf')}}">
 
-                <label for="">Tipos de Trabajos</label>
-                <select name="tipoTrabajo_id" id="tipoTrabajo" class="form-control">
-                    <option value="" selected disabled>--Seleccione--</option>
-                    @foreach ($tipoTrabajos as $tipoTrabajo)
-                    <option value="{{$tipoTrabajo->id}}">{{$tipoTrabajo->nombre}}</option>
-                    @endforeach
-                </select>
+            <div class="row d-flex justify-content-around">
+                <div class="col-md-3">
+
+                    <label for="">Tipos de Trabajos</label>
+                    <select name="tipoTrabajo_id" id="tipoTrabajo" class="form-control">
+                        <option value="" selected disabled>--Seleccione--</option>
+                        @foreach ($tipoTrabajos as $tipoTrabajo)
+                        <option value="{{$tipoTrabajo->id}}">{{$tipoTrabajo->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+
+                    <label for="">Estados</label>
+                    <select name="estado_id" id="estados" class="form-control">
+                        <option value="" selected disabled>--Seleccione--</option>
+                        @foreach ($estados as $estado)
+                        <option value="{{$estado->id}}">{{$estado->nombre}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+
+                    <label for="">Empleados</label>
+                    <select name="empleado_id" id="empleados" class="form-control">
+                        <option value="" selected disabled>--Seleccione--</option>
+                        @foreach ($empleados as $empleado)
+                        <option value="{{$empleado->id}}">{{$empleado->name}} {{$empleado->apellido}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-1 ">
+                    <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
+                </div>
             </div>
-            <div class="col-md-3">
-
-                <label for="">Estados</label>
-                <select name="producto_id" id="estados" class="form-control">
-                    <option value="" selected disabled>--Seleccione--</option>
-                    @foreach ($estados as $estado)
-                    <option value="{{$estado->id}}">{{$estado->nombre}}</option>
-                    @endforeach
-                </select>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Desde</label>
+                        <input type="date" id="min" name="fecha1" value="" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Hasta</label>
+                        <input type="date" id="max" name="fecha2" value="" class="form-control">
+                    </div>
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="row d-flex justify-content-center">
-            <button class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
-            <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
-                    class="fas fa-filter "></i></button>
+            <div class="row d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo"></i></button>
+                <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
+                        class="fas fa-filter "></i></button>
 
-        </div>
+            </div>
+            @csrf
+        </form>
     </div>
 </div>
 
@@ -274,6 +304,8 @@
     $('#limpiar').click(function(){
         $("#tipoTrabajo ").prop("selectedIndex", 0) ;
         $("#estados ").prop("selectedIndex", 0) ;
+        $("#empleados ").prop("selectedIndex", 0) ;
+        $('input[type=date]').val('');
 
         $.fn.dataTable.ext.search.pop(
             function( settings, data, dataIndex ) {
@@ -287,13 +319,19 @@
     }) ;
 
     $('#filtrar').click(function(){
+        var fec1 =  $('#min').val() ;
+        var fec2 =  $('#max').val() ;
         var filtro1 = $('#tipoTrabajo').val() ;
         var filtro2 = $('#estados').val() ;
+        var filtro3 = $('#empleados').val() ;
         if(filtro1 != null){
             var nombreTrabajo = $('#tipoTrabajo option:selected').text() ;
         }
         if(filtro2 != null){
             var nombreEstado = $('#estados option:selected').text() ;
+        }
+        if(filtro3 != null){
+            var empleado = $('#empleados option:selected').text() ;
         }
 
         $.fn.dataTable.ext.search.pop(
@@ -305,8 +343,142 @@
             }
         );
         table.draw() ;
-        if(filtro1 != null && filtro2 == null){
-            console.log(nombreTrabajo);
+
+        if((fec1 != "") && (fec2 != "")){
+
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+                var f1 =  $('#min').val() ;
+                var min = moment(f1) ;
+                var f2 =  $('#max').val() ;
+                var max = moment(f2) ;
+
+                var d = data[2]
+
+                var datearray = d.split("/");
+                var newdate =   datearray[2] + '/'+ datearray[1] + '/' + datearray[0] ;
+                var s = new Date(newdate)
+                var startDate = moment(s)
+
+                if(filtro1 == null && filtro2 == null && filtro3 == null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) )
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                }else if(filtro1 != null && filtro2 != null && filtro3 == null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (nombreTrabajo == data[1]) &&
+                                (nombreEstado == data[5])
+                            )
+                        )
+                    {
+
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                }else if(filtro1 != null && filtro2 == null && filtro3 == null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (nombreTrabajo == data[1])
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                } else if(filtro1 == null && filtro2 != null && filtro3 == null ){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (nombreEstado == data[5])
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+
+                } else if(filtro1 == null && filtro2 == null && filtro3 != null ){
+
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (data[6].includes(empleado))
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                } else if(filtro1 == null && filtro2 != null && filtro3 != null ){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (nombreEstado == data[5]) &&
+                                (data[6].includes(empleado))
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                } else if(filtro1 != null && filtro2 == null && filtro3 != null ){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (nombreTrabajo == data[1]) &&
+                                (data[6].includes(empleado))
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                } else if(filtro1 != null && filtro2 != null && filtro3 != null ){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (nombreTrabajo == data[1]) &&
+                                (nombreEstado == data[5]) &&
+                                (data[6].includes(empleado))
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                }
+            }
+
+            $.fn.dataTable.ext.search.push( filtradoTabla )
+
+
+            table.draw()
+
+        }else if(filtro1 != null && filtro2 == null && filtro3 == null){
             var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
                 if(nombreTrabajo == data[1]){
@@ -318,7 +490,7 @@
             };
             $.fn.dataTable.ext.search.push( filtradoTabla );
             table.draw() ;
-        }else if(filtro1 == null && filtro2 != null){
+        }else if(filtro1 == null && filtro2 != null && filtro3 == null){
             var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
                 if(nombreEstado == data[5]){
@@ -330,7 +502,7 @@
             };
             $.fn.dataTable.ext.search.push( filtradoTabla );
             table.draw() ;
-        }else if(filtro1 != null && filtro2 != null){
+        }else if(filtro1 != null && filtro2 != null && filtro3 == null){
             var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
                 if(nombreEstado == data[5] && nombreTrabajo == data[1]){
@@ -342,6 +514,65 @@
             };
             $.fn.dataTable.ext.search.push( filtradoTabla );
             table.draw() ;
+
+        }else if(filtro1 == null && filtro2 == null && filtro3 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(data[6].includes(empleado)){
+                    return true ;
+                }else{
+                    return false;
+                }
+
+            };
+            $.fn.dataTable.ext.search.push( filtradoTabla );
+            table.draw() ;
+
+        }else if(filtro1 == null && filtro2 != null && filtro3 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(nombreEstado == data[5] && data[6].includes(empleado)){
+                    return true ;
+                }else{
+                    return false;
+                }
+
+            };
+            $.fn.dataTable.ext.search.push( filtradoTabla );
+            table.draw() ;
+
+        }else if(filtro1 != null && filtro2 == null && filtro3 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(nombreTrabajo == data[1] && data[6].includes(empleado)){
+                    return true ;
+                }else{
+                    return false;
+                }
+
+            };
+            $.fn.dataTable.ext.search.push( filtradoTabla );
+            table.draw() ;
+
+        }else if(filtro1 != null && filtro2 != null && filtro3 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(nombreTrabajo == data[1] && nombreEstado == data[5] && data[6].includes(empleado)){
+                    return true ;
+                }else{
+                    return false;
+                }
+
+            };
+            $.fn.dataTable.ext.search.push( filtradoTabla );
+            table.draw() ;
+        } else{
+
+            swal({
+            title: "Alerta",
+            text: "Seleccione opciones de filtrado!",
+
+            });
         }
 
     }) ;

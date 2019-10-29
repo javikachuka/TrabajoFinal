@@ -31,8 +31,10 @@ class TrabajoController extends Controller
         if(!empty($trabajos[0])){
             $estados = $trabajos[0]->reclamo->tipoReclamo->flujoTrabajo->getEstados() ;
         }
+        $empleados = User::all() ;
+        $empleados = $empleados->sortBy('nombre') ;
         $productos = Producto::all() ;
-        return view('trabajos.index' , compact('trabajos', 'estados' , 'productos' , 'tipoTrabajos' ));
+        return view('trabajos.index' , compact('trabajos', 'estados' , 'productos' , 'tipoTrabajos' ,'empleados'));
     }
 
     /**

@@ -146,8 +146,8 @@ class User extends Authenticatable implements Auditable
                     }else{
                         return false;
                     }
+                    return false ;
                 }
-                return false ;
             }
         }
         return null ;

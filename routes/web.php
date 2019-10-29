@@ -283,6 +283,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reclamosPDF', 'PdfController@reclamosPDF')->name('reclamos.pdf');
     Route::get('/asistenciasPDF/{empleado}', 'PdfController@asistenciasPDF')->name('asistencias.pdf');
     Route::get('/pedidosPDF/{pedido}', 'PdfController@pedidoPDF')->name('pedidos.pdf');
+    Route::get('trabajosPDF', 'PdfController@trabajosPDF')->name('trabajos.pdf');
     Route::get('trabajosConMayorDuracionPDF', 'PdfController@trabajosConMayorDuracionPDF')->name('trabajosConMayorDuracion.pdf');
     Route::get('trabajosMasFrecuentesPDF', 'PdfController@trabajosMasFrecuentesPDF')->name('trabajosMasFrecuentes.pdf');
 });

@@ -10,6 +10,7 @@
 
 
 //GENERAL
+- [ ] Reporte de auditoria
 - [ ] registro de cuando un empleado no viene a la empresa 
 - [x] Inicio muestra o no opcion de asistencia dependiendo si corresponde el dia a un turno, si el empleado ya 
 marco o si no lo hizo todavia

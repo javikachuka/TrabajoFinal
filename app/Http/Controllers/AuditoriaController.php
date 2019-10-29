@@ -23,20 +23,25 @@ class AuditoriaController extends Controller
         $auditoriasUser = collect();
         foreach ($movs as $mov) {
             if (!$mov->audits->isEmpty()) {
-
-                $auditoriasMov->add($mov->audits()->latest()->first());
+                foreach($mov->audits as $a){
+                    $auditoriasMov->add($a);
+                }
             }
         }
 
         foreach ($users as $u) {
             if (!$u->audits->isEmpty()) {
-                $auditoriasUser->add($u->audits()->latest()->first());
+                foreach($u->audits as $a){
+                    $auditoriasUser->add($a);
+                }
             }
         }
 
         foreach ($productos as $p) {
             if (!$p->audits->isEmpty()) {
-                $auditoriasProd->add($p->audits()->latest()->first());
+                foreach($p->audits as $a){
+                    $auditoriasProd->add($a);
+                }
             }
         }
 
@@ -46,12 +51,12 @@ class AuditoriaController extends Controller
         return view('auditoria.index', compact('auditoriasMov', 'auditoriasUser' , 'auditoriasProd' , 'users'));
     }
 
-    public function showMov($id){
+    public function showMov($idMov , $id){
         $tabla = 'MOVIMIENTOS';
         $movs = Movimiento::withTrashed()->get() ;
         foreach($movs as $movi){
-            if($movi->id == $id){
-                $auditoria = $movi->audits()->latest()->first();
+            if($movi->id == $idMov){
+                $auditoria = $movi->audits()->find($id);
                 // dd($auditoria->getModified());
                 // dd(empty($auditoria->old_values)) ;
                 return view('auditoria.show' , compact('auditoria' , 'tabla')) ;
@@ -59,24 +64,24 @@ class AuditoriaController extends Controller
         }
     }
 
-    public function showUser($id){
+    public function showUser($idUser , $id){
         $tabla = 'EMPLEADOS';
         $users = User::withTrashed()->get() ;
         foreach($users as $u){
-            if($u->id == $id){
-                $auditoria = $u->audits()->latest()->first();
+            if($u->id == $idUser){
+                $auditoria = $u->audits()->find($id);
                 // dd($auditoria->getModified());
                 return view('auditoria.show' , compact('auditoria' , 'tabla')) ;
             }
         }
     }
 
-    public function showProd($id){
+    public function showProd($idProd , $id){
         $tabla = 'PRODUCTOS';
         $productos = Producto::withTrashed()->get() ;
         foreach($productos as $p){
-            if($p->id == $id){
-                $auditoria = $p->audits()->latest()->first();
+            if($p->id == $idProd){
+                $auditoria = $p->audits()->find($id);
                 // dd($auditoria->getModified());
                 return view('auditoria.show' , compact('auditoria' , 'tabla')) ;
             }

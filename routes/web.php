@@ -267,9 +267,9 @@ Route::middleware(['auth'])->group(function () {
 
     //auditoria
     Route::get('auditoria', 'AuditoriaController@index')->name('auditoria.index');
-    Route::get('auditoria/movimientos/{auditoria}', 'AuditoriaController@showMov')->name('auditoria.showMov');
-    Route::get('auditoria/users/{auditoria}', 'AuditoriaController@showUser')->name('auditoria.showUser');
-    Route::get('auditoria/productos/{auditoria}', 'AuditoriaController@showProd')->name('auditoria.showProd');
+    Route::get('auditoria/movimientos/{auditoria}-{id}', 'AuditoriaController@showMov')->name('auditoria.showMov');
+    Route::get('auditoria/users/{auditoria}-{id}', 'AuditoriaController@showUser')->name('auditoria.showUser');
+    Route::get('auditoria/productos/{auditoria}-{id}', 'AuditoriaController@showProd')->name('auditoria.showProd');
 
     //estadisticas
     Route::get('estadistica/trabajos', 'EstadisticaController@trabajo')->name('estadistica.trabajos');

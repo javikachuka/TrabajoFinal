@@ -132,4 +132,9 @@ class ProductoController extends Controller
             'rubro_id' => 'required',
         ]);
     }
+
+    public function obtenerMedida($id){
+        $producto = Producto::find($id);
+        return $producto->medida->nombre ;
+    }
 }

@@ -82,12 +82,13 @@ class MovimientoController extends Controller
             $cabeceraMov->fill($request->only(['fecha', 'fechaComprobante', 'proveedor_id', 'numeroComprobante', 'tipoComprobante_id']));
             $cabeceraMov->save();
             for ($i = 0; $i < sizeof($request->cantidad); $i++) {
-                $request->precio = str_replace(".", "", $request->precio);
-                $request->precio = str_replace(",", ".", $request->precio);
+                $valorPrecio = $request->precio[$i] ;
+                $valorPrecio = str_replace(".", "", $valorPrecio);
+                $valorPrecio = str_replace(",", ".", $valorPrecio);
                 $movimiento = new Movimiento();
                 $movimiento->cabecera_movimiento_id = $cabeceraMov->id;
                 $movimiento->cantidad = $request->cantidad[$i];
-                $movimiento->precio = $request->precio[$i];
+                $movimiento->precio = $valorPrecio;
                 $movimiento->producto_id = $request->producto_id[$i];
                 $movimiento->tipo_movimiento_id = $request->tipoMovimiento_id;
                 $movimiento->almacenOrigen_id = $request->almacenOrigen_id;

@@ -76,6 +76,7 @@
                         <th>Horario</th>
                         <th>Hora de Entrada</th>
                         <th>Hora de Salida</th>
+                        <th>Foto</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,6 +87,7 @@
                         <td>{{$asistencia->getDia()}}</td>
                         <td width="30%">
                             {{$asistencia->empleado->getHorario($asistencia)->nombre .', ' . $asistencia->empleado->getHorario($asistencia)->horaEntrada .' - '. $asistencia->empleado->getHorario($asistencia)->horaSalida }}
+                        </td>
                         <td>
                             @if($asistencia->horaEntrada != null)
                             {{$asistencia->horaEntrada}}
@@ -100,6 +102,12 @@
                             -
                             @endif
                         </td>
+                        <td style="text-align: center">
+                            @if($asistencia->urlFoto != null)
+                            <img src="{{asset('img/asistencias/'.$asistencia->urlFoto)}}" alt="" height="60" width="60">
+                            @else
+                            ---
+                            @endif
                         </td>
                     </tr>
 

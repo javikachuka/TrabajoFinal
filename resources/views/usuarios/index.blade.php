@@ -30,7 +30,7 @@
 
                     <tr>
                         @if($user->urlFoto != null)
-                        <td><img src="{{asset('img/perfiles'.$user->urlFoto)}}" alt="" class="table-avatar"></td>
+                        <td style="text-align: center"><img src="{{asset('img/perfiles'.$user->urlFoto)}}" alt="" class="table-avatar"></td>
                         @else
                         <div class="d-flex justify-content-center">
                             <td width="10%"><img src="{{asset('img/perfiles/usuario-sin-foto.png')}}" alt="" width="25"

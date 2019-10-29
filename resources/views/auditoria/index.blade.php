@@ -101,7 +101,7 @@
                         <td>{{$auditoria->user->apellido}} {{$auditoria->user->name}}</td>
 
                         <td width="150px" class="text-center">
-                            <a href="{{route('auditoria.showMov' , $auditoria->auditable_id)}}"
+                            <a href="{{ route('auditoria.showMov', ['auditoria' => $auditoria->auditable_id, 'id' => $auditoria->id])}}"
                                 class="btn btn-xs btn-primary">Ver
                                 mas</a>
 
@@ -118,7 +118,7 @@
                         <td>{{$auditoria->created_at->format('H:i:s')}}</td>
                         <td>{{$auditoria->user->apellido}} {{$auditoria->user->name}}</td>
                         <td width="150px" class="text-center">
-                            <a href="{{route('auditoria.showUser' , $auditoria->auditable_id)}}"
+                            <a href="{{route('auditoria.showUser' , ['auditoria' => $auditoria->auditable_id, 'id' => $auditoria->id])}}"
                                 class="btn btn-xs btn-primary">Ver
                                 mas</a>
 
@@ -135,7 +135,7 @@
                         <td>{{$auditoria->created_at->format('H:i:s')}}</td>
                         <td>{{$auditoria->user->apellido}} {{$auditoria->user->name}}</td>
                         <td width="150px" class="text-center">
-                            <a href="{{route('auditoria.showProd' , $auditoria->auditable_id)}}"
+                            <a href="{{route('auditoria.showProd' , ['auditoria' => $auditoria->auditable_id, 'id' => $auditoria->id])}}"
                                 class="btn btn-xs btn-primary">Ver
                                 mas</a>
 
@@ -154,7 +154,7 @@
 <script>
     $(function () {
           $('#auditorias').DataTable({
-            "order": [[ 0, "desc" ]] ,
+            "order": [[ 3, "asc" ] , [4 , 'desc']] ,
                 language: {
                     "decimal": "",
                     "emptyTable": "No hay información",

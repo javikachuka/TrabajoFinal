@@ -40,8 +40,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Telefono</label>
-                                <input type="text" name="telefono" required
-                                    value="{{ old('telefono') ?? $user->telefono }}" class="form-control">
+                                <input type="number" name="telefono" required
+                                    value="{{ old('telefono') ?? $user->telefono }}" class="form-control" >
                             </div>
 
                             <div class="form-group">

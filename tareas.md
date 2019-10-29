@@ -23,9 +23,11 @@ marco o si no lo hizo todavia
 - [x] Arreglar cuando guardo configuracion que vuelva a la pestania que estaba
 - [x] arreglar que cuando se cambien los requisitos de un tipo de reclamo no afecte
 a los demas trabajos que existen ya iniciados
-- [ ] agregar las medidas en todos los lugares donde aparezca cantidad
+- [x] agregar las medidas en todos los lugares donde aparezca cantidad
 
-- [ ] Agregar duracion en el eje Y del chart
+- [x] Agregar duracion en el eje Y del chart
+
+- [ ] cambiar color de estados en el trabajo
 
 - [x] arreglar filtros de index de reclamos debido a que agrege una nueva columna
 
@@ -50,6 +52,7 @@ MODULO DE TRABAJO
 - [x] Informe de los trabajos que demandan mas tiempo,
 - [ ] junto con tipo recursos utilizados por trabajo
 - [x] tipos de trabajos mas frecuentes.
+- [ ] reporte de trabajos
 
 MODULO RECLAMOS
 - [x] Informes con filtros

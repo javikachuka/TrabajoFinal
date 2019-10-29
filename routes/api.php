@@ -18,6 +18,10 @@ Route::get('turnos/asignacion/{id}' , 'TurnoController@obtenerTurnos')->name('tu
 
 Route::get('asistencias/{id}', 'AsistenciaController@obtener')->name('asistencias.obtener');
 
+
+Route::get('obtenerMedida/{id}', 'ProductoController@obtenerMedida')->name('productos.obtenerMedida');
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

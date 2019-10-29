@@ -41,8 +41,13 @@
                 </div>
                 <div class=" col-sm-2">
                     <label>Cantidad</label>
-                    <input type="number" id="cantidad" name="cant" value="" class="form-control" placeholder="Mayor a 0">
+                    <input type="number" id="cantidad" name="cant" value="" class="form-control"
+                        placeholder="Mayor a 0">
                     <div>{{$errors->first('cantidad')}} </div>
+                </div>
+                <div class=" col-sm-2">
+                    <label>Medida</label>
+                    <input type="text" id="medida" value="" class="form-control" disabled min="0">
                 </div>
 
                 <div class="col-sm-2 d-flex align-items-end">
@@ -55,6 +60,7 @@
                         <tr>
                             <th>Producto</th>
                             <th width="20%">Cantidad</th>
+                            <th width="20%">Medida</th>
                             <th width="10%">Accion</th>
                         </tr>
                     </thead>
@@ -115,6 +121,7 @@
     function addRow(){
         producto_id = $('#producto_id').val() ;
         producto = "";
+        medida = $("#medida").val();
         if(producto_id != null){
             producto = $("#producto_id option:selected").text();
         }
@@ -123,6 +130,7 @@
             if(cantidad > 0){
                 var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
                             '<td style=" text-align: right"><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
+                            '<td>'+medida+'</td>'+
                             '<td style = " text-align: center"><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
                             '</tr>' ;
 
@@ -146,6 +154,7 @@
 
     function limpiar(){
 		$("#cantidad").val("");
+        $("#producto_id").val(null).trigger("change");
 
 	}
 
@@ -159,6 +168,27 @@
         //}
 
     });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#producto_id').change(function(){
+            var producto_id = $(this).val();
+            if(producto_id != null){
+                var url = "{{ route('productos.obtenerMedida', ":id") }}" ;
+                url = url.replace(':id' , producto_id) ;
+                // alert(tip_rec_id) ;
+                //AJAX
+
+                $.get(url, function(data){
+
+                    $('#medida').val(data) ;
+                });
+            } else {
+                $('#medida').val('') ;
+            }
+        });
+    });
+
 </script>
 
 <script>

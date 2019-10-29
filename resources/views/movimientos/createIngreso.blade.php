@@ -131,6 +131,11 @@
                                                         class="form-control" placeholder="Mayor a 0" min="0">
                                                     <div>{{$errors->first('cantidad')}} </div>
                                                 </div>
+                                                <div class=" col-sm-2">
+                                                    <label>Medida</label>
+                                                    <input type="text" id="medida"  value=""
+                                                        class="form-control" disabled min="0">
+                                                </div>
 
                                                 <div class=" col-sm-2">
 
@@ -161,6 +166,7 @@
                                                             style="background-color: lightblue ; text-align: center;">
                                                             <th>Producto</th>
                                                             <th>Cantidad</th>
+                                                            <th>Medida</th>
                                                             <th>PUM</th>
                                                             <th width="125px">Accion</th>
                                                             {{-- <th>Subtotal</th> --}}
@@ -204,6 +210,7 @@
         producto_id = $('#producto_id').val() ;
         producto = $("#producto_id option:selected").text();
         cantidad = $("#cantidad").val();
+        medida = $("#medida").val();
         precio = $("#precio").val();
 
         if(producto_id != null ){
@@ -211,6 +218,7 @@
                 // if(precio > 0){
                     var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
                                 '<td style="text-align:right;"><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
+                                '<td>'+medida+'</td>'+
                                 '<td style="text-align:right;"><input type="hidden" name="precio[]" value="'+precio+'">'+precio+' </td>'+
                                 '<td style="text-align:center;"><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
                                 '</tr>' ;
@@ -258,6 +266,27 @@
         //}
 
     });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#producto_id').change(function(){
+            var producto_id = $(this).val();
+            if(producto_id != null){
+                var url = "{{ route('productos.obtenerMedida', ":id") }}" ;
+                url = url.replace(':id' , producto_id) ;
+                // alert(tip_rec_id) ;
+                //AJAX
+
+                $.get(url, function(data){
+
+                    $('#medida').val(data) ;
+                });
+            } else {
+                $('#medida').val('') ;
+            }
+        });
+    });
+
 </script>
 <script>
     $(document).ready(function() {

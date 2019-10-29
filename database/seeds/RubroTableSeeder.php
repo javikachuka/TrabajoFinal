@@ -33,6 +33,14 @@ class RubroTableSeeder extends Seeder
             'nombre'          => 'LLAVES',
         ]);
 
+        Rubro::create([
+            'nombre'          => 'CANILLAS',
+        ]);
+
+        Rubro::create([
+            'nombre'          => 'AROS DE GOMA',
+        ]);
+
         //creacion de medidas
 
         Medida::create([

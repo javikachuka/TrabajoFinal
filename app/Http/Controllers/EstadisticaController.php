@@ -86,9 +86,55 @@ class EstadisticaController extends Controller
         //     ],
         //   ]);
         $trabajosMasFrecuentes->dataset('Frecuencia', 'bar', $cantidad)->color("rgba(54, 162, 235)")->backgroundColor("rgba(54, 162, 235, 0.2)");
+        $trabajosMasFrecuentes->options([
+            'scales'              => [
+                'xAxes' => [
+                    [
+                        'scaleLabel' => [
+                            'display' => true ,
+                            'labelString' => 'Tipos de Trabajos' ,
+                        ]
+                    ]
+                ],
+                'yAxes' => [
+                    [
+                        'ticks' => [
+                            'beginAtZero' => true,
+                        ],
+                        'scaleLabel' => [
+                            'display' => true ,
+                            'labelString' => 'Frecuencia' ,
+                        ]
+                    ],
+                ],
+            ],
+        ]);
 
         $prueba->labels($nom);
         $prueba->title('Tiempo de Duracion de los Trabajos');
+        $prueba->options([
+            'scales'              => [
+                'xAxes' => [
+                    [
+                        'scaleLabel' => [
+                            'display' => true ,
+                            'labelString' => 'Tipos de Trabajos' ,
+                        ]
+                    ]
+                ],
+                'yAxes' => [
+                    [
+                        'ticks' => [
+                            'beginAtZero' => true,
+                        ],
+                        'scaleLabel' => [
+                            'display' => true ,
+                            'labelString' => 'Horas' ,
+                        ]
+                    ],
+                ],
+            ],
+        ]);
         // $prueba->dataset('My dataset', 'bar', [1, 2, 3, 4]);
         $prueba->dataset('Duracion Real', 'bar', $duracion)->color("rgba(75, 192, 192)")->backgroundColor("rgba(75, 192, 192, 0.2)");
         return view('trabajos.estadistica', compact('prueba', 'trabajosMasFrecuentes'));

@@ -143,6 +143,7 @@ class EstadisticaController extends Controller
     public function almacen()
     {
         $estadisAlmacen = new Estadistica;
+        $almacenes = Almacen::all();
         $estadisAlmacen->title('Productos Utilizados por Almacen');
         $productos = Producto::all();
 
@@ -186,7 +187,7 @@ class EstadisticaController extends Controller
             // $estadisAlmacen->dataset($a->denominacion, 'bar' , $cantidades)->color("rgb(255,99,132)") ;
         }
 
-        return view('almacenes.estadistica', compact('estadisAlmacen'));
+        return view('almacenes.estadistica', compact('estadisAlmacen', 'almacenes'));
     }
 
     public function reclamo()
@@ -200,8 +201,7 @@ class EstadisticaController extends Controller
         foreach ($zonas as $zona) {
             $cantidad = DB::table('zonas')
                 ->join('direcciones', 'zonas.id', '=', 'direcciones.zona_id')
-                ->join('socios', 'direcciones.id', '=', 'socios.direccion_id')
-                ->join('reclamos', 'socios.id', '=', 'reclamos.socio_id')
+                ->join('reclamos', 'direcciones.id', '=', 'reclamos.direccion_id')
                 ->select('zonas.*', 'reclamos.tipoReclamo_id')->where('zonas.id', $zona->id)->get()->count();
             if ($cantidad != 0) {
                 $nombres->add($zona->nombre);

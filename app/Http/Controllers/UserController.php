@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Zona;
-use App\Direccion ;
-use App\User ;
+use App\Direccion;
+use App\User;
 use Caffeinated\Shinobi\Models\Role;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -21,9 +23,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $usuarios = User::all() ;
-        $roles = Role::all() ;
-        return view('usuarios.index' , compact('usuarios','roles')) ;
+        $usuarios = User::all();
+        $roles = Role::all();
+        return view('usuarios.index', compact('usuarios', 'roles'));
     }
 
     /**
@@ -33,10 +35,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user = new User() ;
-        $roles = Role::all()->pluck('name' , 'id') ;
-        $zonas = Zona::all() ;
-        return view('usuarios.registro' ,  compact('roles' ,'zonas','user')) ;
+        $user = new User();
+        $roles = Role::all()->pluck('name', 'id');
+        $zonas = Zona::all();
+        return view('usuarios.registro',  compact('roles', 'zonas', 'user'));
     }
 
     /**
@@ -47,33 +49,42 @@ class UserController extends Controller
      */
     public function store(Request $request, User $user)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'apellido' => 'required',
+            'email' => 'required|email',
+            'dni' => 'required|string|min:10',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $direccion = new Direccion();
-        $direccion->zona_id = $request->zona_id ;
-        $direccion->calle = $request->calle ;
-        $direccion->altura = $request->altura ;
-        $direccion->save() ;
+        $direccion->zona_id = $request->zona_id;
+        $direccion->calle = $request->calle;
+        $direccion->altura = $request->altura;
+        $direccion->save();
 
-        $user->name = $request->name ;
-        $user->apellido = $request->apellido ;
-        $user->dni = $request->dni ;
-        $user->telefono = $request->telefono ;
+        $user->name = $request->name;
+        $user->apellido = $request->apellido;
+        $user->dni = $request->dni;
+        $user->telefono = $request->telefono;
         $user->fecha_ingreso = $request->fecha_ingreso;
-        $user->direccion_id = $direccion->id ;
-        $user->email = $request->email ;
-        $user->password = Hash::make($request->password) ;
-        if($request->urlFoto != null){
-            $file = $request->file('urlFoto') ;
-            $name = time().$user->name.$user->apellido.'.png';
-            $file->move(public_path('/img/perfiles/') , $name) ;
-            $user->urlFoto = $name ;
+        $user->direccion_id = $direccion->id;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        if ($request->urlFoto != null) {
+            $file = $request->file('urlFoto');
+            $name = time() . $user->name . $user->apellido . '.png';
+            $file->move(public_path('/img/perfiles/'), $name);
+            $user->urlFoto = $name;
         }
         // $user->password = Hash::make('123456789');
-        $user->save() ;
+        $user->save();
 
         // $user = User::create($request->all()) ;
-        $user->roles()->sync($request->input('roles',[])) ;
+        $user->roles()->sync($request->input('roles', []));
 
-        return redirect()->route('users.index')->with('confirmar' , 'ok') ;
+        return redirect()->route('users.index')->with('confirmar', 'ok');
     }
 
     /**
@@ -85,7 +96,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         //$user = User::find($id) ;
-        return view('usuarios.show' , compact('user')) ;
+        return view('usuarios.show', compact('user'));
     }
 
     /**
@@ -96,10 +107,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id) ;
-        $roles = Role::all()->pluck('name' , 'id') ;
-        $zonas = Zona::all() ;
-        return view('usuarios.edit' , compact('user','roles','zonas'));
+        $user = User::find($id);
+        $roles = Role::all()->pluck('name', 'id');
+        $zonas = Zona::all();
+        return view('usuarios.edit', compact('user', 'roles', 'zonas'));
     }
 
     /**
@@ -109,28 +120,38 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request , $id)
+    public function update(Request $request, $id)
     {
-        $user = User::find($id) ;
-        $user->fill($request->only(['name' , 'apellido' , 'dni' , 'fecha_ingreso' , 'telefono' , 'email'])) ;
-
-        if($request->password != null){
-            $user->password = Hash::make($request->password) ;
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'apellido' => 'required',
+            'email' => 'required|email',
+            'dni' => 'required|string|min:10',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if($request->urlFoto != null){
-            $file = $request->file('urlFoto') ;
-            $name = time().$user->name.$user->apellido.'.png';
-            $file->move(public_path('/img/perfiles/') , $name) ;
-            $user->urlFoto = $name ;
+        $user = User::find($id);
+        $user->fill($request->only(['name', 'apellido', 'dni', 'fecha_ingreso', 'telefono', 'email']));
+
+        if ($request->password != null) {
+            $user->password = Hash::make($request->password);
         }
 
-        $direccion = $user->direccion ;
-        $direccion->fill($request->only(['zona_id' , 'calle' , 'altura'])) ;
-        $direccion->save() ;
-        $user->update() ;
-        $user->roles()->sync($request->input('roles',[])) ;
-        return redirect()->route('users.index')->with('confirmar' , 'ok') ;
+        if ($request->urlFoto != null) {
+            $file = $request->file('urlFoto');
+            $name = time() . $user->name . $user->apellido . '.png';
+            $file->move(public_path('/img/perfiles/'), $name);
+            $user->urlFoto = $name;
+        }
+
+        $direccion = $user->direccion;
+        $direccion->fill($request->only(['zona_id', 'calle', 'altura']));
+        $direccion->save();
+        $user->update();
+        $user->roles()->sync($request->input('roles', []));
+        return redirect()->route('users.index')->with('confirmar', 'ok');
     }
 
     /**
@@ -141,21 +162,20 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id) ;
-        if($user != null){
-            try{
-                if(!$user->id == 1){
-                    $user->delete() ;
+        $user = User::find($id);
+        if ($user != null) {
+            try {
+                if (!$user->id == 1) {
+                    $user->delete();
                     return redirect('/users');
-                }else{
-                    alert()->error('No es posible eliminar al administrador' , 'Error') ;
-                    return redirect()->back() ;
+                } else {
+                    alert()->error('No es posible eliminar al administrador', 'Error');
+                    return redirect()->back();
                 }
-            }catch(Exception $e){
-                report($e) ;
-                return redirect()->back()->with('cancelar' , 'asdf') ;
+            } catch (Exception $e) {
+                report($e);
+                return redirect()->back()->with('cancelar', 'asdf');
             }
         }
-
     }
 }

@@ -248,7 +248,7 @@
                         <input type="text" name="socio" id="nombreSocio" required disabled value="{{old('socio')}}"
                             class="form-control">
                         <div class="text-danger">{{$errors->first('socio')}}</div>
-                        <input type="hidden" name="socio_id" id="idSocio" value="">
+                        <input type="hidden" name="socio_id" id="idSocio" value="{{old('socio_id')}}">
                     </div>
                     <div class="form-group">
                         <label>Nº de Conexion</label>
@@ -310,7 +310,7 @@
 <script>
     @if($errors->any() )
                 $(function(){
-                    $('#crear').modal('show');
+                    $('#crearConexion').modal('show');
                 });
             @endif
 </script>

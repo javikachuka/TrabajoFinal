@@ -16,7 +16,7 @@
                                     <p>
                                         Nombre: <i class="text-muted"> {{$reclamo->direccion->socio->apellido}} {{$reclamo->direccion->socio->nombre}} </i><br>
                                         Dni: {{$reclamo->direccion->socio->dni}} <br>
-                                        Numero de Conexion: {{$reclamo->direccion->socio->nro_conexion}} <br>
+                                        Numero de Conexion: {{$reclamo->direccion->nro_conexion}} <br>
                                         El dia: {{$reclamo->fecha}} <br>
                                         Detalles: {{$reclamo->detalle}}
                                     </p>

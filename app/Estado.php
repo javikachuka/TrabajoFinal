@@ -32,4 +32,12 @@ class Estado extends Model
         return $this->hasMany(HistorialEstado::class);
     }
 
+    public function isUltimo($id){
+        $flujo = FlujoTrabajo::find($id) ;
+        if($this->id == $flujo->getEstadoFinal()->id){
+            return true ;
+        }
+        return false ;
+    }
+
 }

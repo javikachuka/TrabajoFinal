@@ -117,10 +117,16 @@
                             @endif
                         </td>
                         <td>
-                            @if($reclamo->trabajo != null)
-                            <span class="badge badge-info">{{$reclamo->trabajo->estado->nombre}}</span>
+                            @if($reclamo->trabajo->estado != null)
+                                @if($reclamo->trabajo->estado->isUltimo($reclamo->tipoReclamo->flujoTrabajo->id))
+                                    <span class="badge badge-success">{{$reclamo->trabajo->estado->nombre}}</span>
+                                @elseif($reclamo->trabajo->estado->nombre == 'FALTA' || $reclamo->trabajo->estado->nombre == 'SIN EXISTENCIAS')
+                                    <span class="badge badge-danger">{{$reclamo->trabajo->estado->nombre}}</span>
+                                @else
+                                    <span class="badge badge-info">{{$reclamo->trabajo->estado->nombre}}</span>
+                                @endif
                             @else
-                            <span class="badge badge-light">N/A</span>
+                                <span class="badge badge-light">N/A</span>
                             @endif
                         </td>
                         <td width="200px">

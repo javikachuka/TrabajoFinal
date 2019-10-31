@@ -327,7 +327,9 @@ class ReclamoController extends Controller
 
                 // }
 
-            } else { }
+            } else {
+
+            }
             DB::commit();
             return redirect()->route('reclamos.index')->with('confirmar', 'asd');;
         } catch (Exception $e) {

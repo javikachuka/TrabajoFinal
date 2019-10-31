@@ -27,6 +27,8 @@
                                 <label>DNI</label>
                                 <input type="text" id="dni" name="dni" required value="{{ old('dni') ?? $user->dni }}"
                                     class="form-control">
+                                <div class="text-danger">{{$errors->first('dni')}} </div>
+
                             </div>
                             <div class="form-group">
                                 <label for="">Fecha de Ingreso <input type="date" name="fecha_ingreso"
@@ -50,6 +52,8 @@
                                 <label>Email</label>
                                 <input type="text" name="email" required value="{{ old('email') ?? $user->email }}"
                                     class="form-control">
+                                <div class="text-danger">{{$errors->first('email')}} </div>
+
                             </div>
                             <div class="form-group">
                                 <label>Nueva Contraseña</label>

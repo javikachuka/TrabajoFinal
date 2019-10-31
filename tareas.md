@@ -29,7 +29,7 @@ a los demas trabajos que existen ya iniciados
 
 - [x] Agregar duracion en el eje Y del chart
 
-- [ ] cambiar color de estados en el trabajo
+- [x] cambiar color de estados en el trabajo
 
 - [x] arreglar filtros de index de reclamos debido a que agrege una nueva columna
 
@@ -42,7 +42,7 @@ a los demas trabajos que existen ya iniciados
 
 
 MODULO ALMACEN (faltantes)
-- [ ] Informe de productos mas utilizados por almacen
+- [x] Informe de productos mas utilizados por almacen (Estadistica hecha)
 - [x] Generar pedido de productos (podria ser el modulo inteligente o una edicion y luego la generacion)
 
 

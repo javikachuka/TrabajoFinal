@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Almacen;
 use App\Configuracion;
 use App\Estado;
 use App\Movimiento;
@@ -689,5 +690,31 @@ class PdfController extends Controller
         $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
         $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
         return $pdf->stream('auditoria.pdf');
+    }
+
+    public function productosUtilizadosPDF(Request $request){
+        $almacen = Almacen::find($request->almacen_id) ;
+        $productos = collect() ;
+        foreach($almacen->existencias as $e){
+            $productos->add($e->producto) ;
+        }
+
+        for ($i = 1; $i < count($productos); $i++) {
+            for ($j = 0; $j < count($productos) - $i; $j++) {
+                if ($productos[$j]->cantidadUtilizada($almacen) < $productos[$j + 1]->cantidadUtilizada($almacen)) {
+                        $k = $productos[$j + 1];
+                        $productos[$j + 1] = $productos[$j];
+                        $productos[$j] = $k;
+                }
+            }
+        }
+
+        $config = Configuracion::first();
+        $cant = sizeof($productos);
+        $datos = date('d/m/Y');
+        $pdf = PDF::loadView('pdf.productosUtilizados', ['productos' => $productos, 'almacen' => $almacen, 'datos' => $datos, 'cant' => $cant, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
+        return $pdf->stream('productosUtilizados.pdf');
     }
 }

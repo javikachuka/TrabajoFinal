@@ -112,7 +112,13 @@
                         </td>
                         <td>
                             @if($trabajo->estado != null)
-                            <span class="badge badge-info">{{$trabajo->estado->nombre}}</span>
+                                @if($trabajo->estado->isUltimo($trabajo->reclamo->tipoReclamo->flujoTrabajo->id))
+                                    <span class="badge badge-success">{{$trabajo->estado->nombre}}</span>
+                                @elseif($trabajo->estado->nombre == 'FALTA' || $trabajo->estado->nombre == 'SIN EXISTENCIAS')
+                                    <span class="badge badge-danger">{{$trabajo->estado->nombre}}</span>
+                                @else
+                                    <span class="badge badge-info">{{$trabajo->estado->nombre}}</span>
+                                @endif
                             @else
                             <span class="badge badge-light">N/A</span>
                             @endif

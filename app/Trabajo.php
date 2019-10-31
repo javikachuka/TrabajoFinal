@@ -129,7 +129,7 @@ class Trabajo extends Model
         $cantidad = 0;
         $div = 0 ;
         foreach($producto->movimientos as $mov){
-            if($mov->tipoMovimiento->operacion == false){
+            if($mov->tipoMovimiento->operacion === 0){
                 if($mov->cabeceraMovimiento->trabajo->reclamo->tipoReclamo->id == $this->reclamo->tipoReclamo->id){
                     $cantidad += $mov->cantidad ;
                     $div += 1;

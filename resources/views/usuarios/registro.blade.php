@@ -13,7 +13,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" name="name" required value="{{ old('nombre') ?? $user->name }}"
+                                <input type="text" name="name" required value="{{ old('name') ?? $user->name }}"
                                     class="form-control">
                             </div>
                             <div class="form-group">
@@ -25,6 +25,8 @@
                                 <label>DNI</label>
                                 <input type="text" id="dni" name="dni" required value="{{ old('dni') ?? $user->dni }}"
                                     class="form-control">
+                                <div class="text-danger">{{$errors->first('dni')}} </div>
+
                             </div>
                             <div class="form-group">
                                 <label for="">Fecha de Ingreso <input type="date" name="fecha_ingreso"
@@ -41,13 +43,15 @@
                             <div class="form-group">
                                 <label>Telefono</label>
                                 <input type="number" name="telefono" required
-                                    value="{{ old('telefono') ?? $user->telefono }}" class="form-control" >
+                                    value="{{ old('telefono') ?? $user->telefono }}" class="form-control">
                             </div>
 
                             <div class="form-group">
                                 <label>Email</label>
                                 <input type="text" name="email" required value="{{ old('email') ?? $user->email }}"
                                     class="form-control">
+                                <div class="text-danger">{{$errors->first('email')}} </div>
+
                             </div>
                             <div class="form-group">
                                 <label>Contraseña</label>

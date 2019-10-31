@@ -150,6 +150,7 @@ class SocioController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nro_conexion' => 'required|unique:direcciones,nro_conexion',
+            'socio_id' => 'required' ,
         ], [
             'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio',
         ]);

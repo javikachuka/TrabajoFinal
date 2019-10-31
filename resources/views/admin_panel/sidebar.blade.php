@@ -22,7 +22,7 @@
                 @endif
             </div>
             <div class="info">
-                <a href="{{ route('users.show' , auth()->user()->id) }}" class="d-block">{{ auth()->user()->name }}</a>
+                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
             </div>
         </div>
 

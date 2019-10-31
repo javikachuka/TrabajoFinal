@@ -288,4 +288,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('auditoriaPDF', 'PdfController@auditoriaPDF')->name('auditoria.pdf');
     Route::get('trabajosConMayorDuracionPDF', 'PdfController@trabajosConMayorDuracionPDF')->name('trabajosConMayorDuracion.pdf');
     Route::get('trabajosMasFrecuentesPDF', 'PdfController@trabajosMasFrecuentesPDF')->name('trabajosMasFrecuentes.pdf');
+    Route::get('productosMasUtilizadosPDF', 'PdfController@productosUtilizadosPDF')->name('productosUtilizados.pdf');
 });

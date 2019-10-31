@@ -99,4 +99,17 @@ class Producto extends Model implements Auditable
         return $cant ;
     }
 
+    public function cantidadUtilizada(Almacen $almacen){
+        $cantidad = 0 ;
+        foreach($almacen->movimientosOrigen as $mov){
+            if($mov->producto->id == $this->id){
+                if($mov->tipoMovimiento->operacion === 0){
+                    $cantidad += $mov->cantidad ;
+                }
+            }
+        }
+        return $cantidad ;
+
+    }
+
 }

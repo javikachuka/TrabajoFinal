@@ -19,9 +19,9 @@
                             <div class="badge badge-info">{{$trabajo->reclamo->tipoReclamo->prioridad->nombre}} </div>
                         </div>
                         <br>
-                        <strong> Ubicacion: </strong> {{$trabajo->reclamo->socio->direccion->calle}} Nº
-                        {{$trabajo->reclamo->socio->direccion->altura}},
-                        {{$trabajo->reclamo->socio->direccion->zona->nombre}}
+                        <strong> Ubicacion: </strong> {{$trabajo->reclamo->direccion->calle}} Nº
+                        {{$trabajo->reclamo->direccion->altura}},
+                        {{$trabajo->reclamo->direccion->zona->nombre}}
                     </p>
                 </div>
             </div>

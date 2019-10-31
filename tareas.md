@@ -10,8 +10,9 @@
 
 
 //GENERAL
-- [ ] Reporte de auditoria
+- [x] Reporte de auditoria
 - [ ] registro de cuando un empleado no viene a la empresa 
+- [ ] Implementar que un socio tenga multiples conexiones
 - [x] Inicio muestra o no opcion de asistencia dependiendo si corresponde el dia a un turno, si el empleado ya 
 marco o si no lo hizo todavia
 - [x] alinear todos los campos numero a la derecha

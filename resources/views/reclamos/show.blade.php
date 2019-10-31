@@ -14,9 +14,9 @@
                             <div class="col-md-8">
                                 <strong><i class="fal fa-file-alt mr-1"></i>Realizado por: <br>
                                     <p>
-                                        Nombre: <i class="text-muted"> {{$reclamo->socio->apellido}} {{$reclamo->socio->nombre}} </i><br>
-                                        Dni: {{$reclamo->socio->dni}} <br>
-                                        Numero de Conexion: {{$reclamo->socio->nro_conexion}} <br>
+                                        Nombre: <i class="text-muted"> {{$reclamo->direccion->socio->apellido}} {{$reclamo->direccion->socio->nombre}} </i><br>
+                                        Dni: {{$reclamo->direccion->socio->dni}} <br>
+                                        Numero de Conexion: {{$reclamo->direccion->socio->nro_conexion}} <br>
                                         El dia: {{$reclamo->fecha}} <br>
                                         Detalles: {{$reclamo->detalle}}
                                     </p>
@@ -35,8 +35,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <strong><i class="fal fa-map-marker-alt mr-1"></i>Lugar del Incidente</strong>
-                                <p class="text-muted">{{$reclamo->socio->direccion->calle}}  {{$reclamo->socio->direccion->altura}},
-                                    {{$reclamo->socio->direccion->zona->nombre}}
+                                <p class="text-muted">{{$reclamo->direccion->calle}}  {{$reclamo->direccion->altura}},
+                                    {{$reclamo->direccion->zona->nombre}}
                                 </p>
                             </div>
                         </div>

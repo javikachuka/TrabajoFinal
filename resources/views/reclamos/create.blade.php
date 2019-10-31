@@ -20,17 +20,39 @@
                         @endforeach
                     </select>
                 </div>
-
                 <div class="col-sm-1 d-flex align-items-end py-2">
                     <div class="form-group">
                         <a href="" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#buscar"><i
                                 class="fa fa-search"></i></a>
                     </div>
                     <div class="form-group ml-1">
-                        <a href="" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#crear"><i
+                        <a href="{{route('socios.create')}}" class="btn btn-primary btn-xs "><i
                                 class="fa fa-plus"></i></a>
                     </div>
                 </div>
+                <div class="col-sm-3">
+                    <label for="">DNI</label>
+                    <div class="form-group">
+                        <input type="text" id="dni" class="form-control" disabled value="">
+                    </div>
+                </div>
+                <div class="col-sm-1">
+
+                </div>
+                <div class="col-sm-3">
+                    <label for="">Nº de Conexion</label>
+                    <select class="form-control" name="nro_conexion" id="nro_conexion" required>
+                        <option value="" selected disabled>--Seleccione--</option>
+                    </select>
+                </div>
+                <div class="col-sm-1 d-flex align-items-end py-2">
+                    <div class="form-group ml-1">
+                        <button type="button" class="btn btn-primary btn-xs " disabled id="crearConex"
+                            data-toggle="modal" data-target="#crearConexion"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-3">
                     <label for="">Tipo de Reclamo</label>
                     <select class="seleccion form-control" name="tipoReclamo_id" id="tipoReclamo" required>
@@ -41,11 +63,11 @@
                     </select>
                 </div>
                 {{-- <div class="col-md-3">
-                <label for="">Requisitos</label>
-                <select class="seleccion form-control" name="requisitos" id="requisitos" >
-                    <option value="" disabled selected>--Seleccione--</option>
-                </select>
-            </div> --}}
+                    <label for="">Requisitos</label>
+                    <select class="seleccion form-control" name="requisitos" id="requisitos" >
+                        <option value="" disabled selected>--Seleccione--</option>
+                    </select>
+                </div> --}}
                 <div class="col-md-1">
 
                 </div>
@@ -65,8 +87,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+
             <div class="form-group">
                 <label for="">Requisitos Necesarios</label>
                 <ul id="lista" style="list-style:none">
@@ -110,7 +132,6 @@
                             <tr>
                                 <th scope="col">Apellido y Nombre</th>
                                 <th scope="col">DNI</th>
-                                <th scope="col">Nº de Conexion</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -118,7 +139,6 @@
                             <tr>
                                 <td>{{$socio->apellido}} {{$socio->nombre}}</td>
                                 <td>{{$socio->dni}}</td>
-                                <td>{{$socio->nro_conexion}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -209,6 +229,74 @@
         </div>
     </div>
 </div>
+<!-- Modal Crear Conexion -->
+<div class="modal fade" id="crearConexion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nueva Conexion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-group " method="POST" action="{{route('socios.nuevaConexion')}}">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Socio</label>
+                        <input type="text" name="socio" id="nombreSocio" required disabled value="{{old('socio')}}"
+                            class="form-control">
+                        <div class="text-danger">{{$errors->first('socio')}}</div>
+                        <input type="hidden" name="socio_id" id="idSocio" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Nº de Conexion</label>
+                        <input type="number" name="nro_conexion" required value="{{old('nro_conexion')}}"
+                            class="form-control">
+                        <div class="text-danger">{{$errors->first('nro_conexion')}}</div>
+                    </div>
+                    <label for="">Direccion</label>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="">Calle</label>
+                                    <div class="input-group">
+                                        <input name="calle" type="text" value="{{old('calle')}}" required
+                                            class="form-control" placeholder="Calle">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">-</span>
+                                        </div>
+                                        <input name="altura" type="text" value="{{old('altura')}}" required
+                                            class="form-control col-md-3" placeholder="Altura">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Zona</label>
+                        <select name="zona_id" class="form-control" required>
+                            <option value="" selected disabled>--Seleccione--</option>
+                            @foreach ($zonas as $zona)
+                            <option value="{{$zona->id}}" @if($zona->id == old('zona_id')) selected
+                                @endif>{{$zona->nombre}}</option>
+                            @endforeach
+                        </select>
+                        <div class="text-danger">{{$errors->first('zona_id')}} </div>
+                    </div>
+                </div>
+                <input type="hidden" name="modal" id="modalAbierto" value="">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary btn-sm ">Guardar</button>
+                </div>
+                @csrf
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -220,12 +308,12 @@
     });
 </script>
 <script>
-        @if($errors->any() )
+    @if($errors->any() )
                 $(function(){
                     $('#crear').modal('show');
                 });
             @endif
-    </script>
+</script>
 <script>
     @if(session('confirmar'))
             Confirmar.fire() ;
@@ -238,19 +326,34 @@
 
 <script>
     $(document).ready(function(){
-        // $('#tipoReclamo').change(function(){
-        //     var tip_rec_id = $(this).val();
-        //     // alert(tip_rec_id) ;
-        //     //AJAX
-        //     $.get('/api/reclamos/create/requisitos/'+tip_rec_id+'', function(data){
-        //         var html_select = '<option value="" selected disabled>--Seleccione--</option>' ;
-        //         for(var i = 0 ; i<data.length ; i++){
-        //             // console.log(data[i]) ;
-        //              html_select += '<option value="'+data[i].id+'">'+data[i].nombre+'</option>' ;
-        //         }
-        //          $('#requisitos').html(html_select);
-        //     });
-        // });
+        $('#socio').change(function(){
+            $('#crearConex').attr('disabled', false);
+            var id = $(this).val();
+            var socio = $('#socio option:selected').text() ;
+            $('#nombreSocio').val(socio) ;
+            $('#idSocio').val(id) ;
+            var url = "{{ route('socios.obtenerConexiones', ":id") }}" ;
+            url = url.replace(':id' , id) ;
+
+            var id2 = $(this).val();
+            var url2 = "{{ route('socios.obtenerDni', ":id") }}" ;
+            url2 = url2.replace(':id' , id2) ;
+            // alert(tip_rec_id) ;
+            //AJAX
+            $.get(url, function(data){
+                // var html_select = '<option value="" selected disabled>--Seleccione--</option>' ;
+                var html_select ;
+                for(var i = 0 ; i<data.length ; i++){
+                    // console.log(data[i]) ;
+                     html_select += '<option value="'+data[i]+'">'+data[i]+'</option>' ;
+                }
+                 $('#nro_conexion').html(html_select);
+            });
+
+            $.get(url2, function(data){
+                $('#dni').val(data);
+            });
+        });
 
         $('#tipoReclamo').change(function(){
             var tip_rec_id = $(this).val();
@@ -312,7 +415,7 @@ $(document).ready(function() {
     $('#socios thead tr').clone(true).appendTo( '#socios thead' );
     $('#socios thead tr:eq(1) th').each( function (i) {
         var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Buscar por '+title+'" />' );
+        $(this).html( '<input type="text" class="form-control" placeholder="Buscar por '+title+'" />' );
 
         $( 'input', this ).on( 'keyup change', function () {
             if ( table.column(i).search() !== this.value ) {
@@ -365,7 +468,6 @@ $(document).ready(function() {
 
 } );
 </script>
-
 
 {{-- <script>
 $(document).ready(function() {

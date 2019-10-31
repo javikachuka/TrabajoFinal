@@ -17,15 +17,11 @@ class Socio extends Model
         'nro_conexion',
     ];
 
-    public function direccion()
+    public function direcciones()
     {
-        return $this->belongsTo(Direccion::class);
+        return $this->hasMany(Direccion::class);
     }
 
-    public function reclamos()
-    {
-        return $this->hasMany(Reclamo::class);
-    }
 
     // public function getNombreAttribute($value)
     // {
@@ -55,4 +51,12 @@ class Socio extends Model
     // public function scopeDescrip($query){
     //     return 'hola' ;
     // }
+
+    public function getIdDireccion($nro_conexion){
+        foreach($this->direcciones as $d){
+            if($d->nro_conexion == $nro_conexion){
+                return $d->id;
+            }
+        }
+    }
 }

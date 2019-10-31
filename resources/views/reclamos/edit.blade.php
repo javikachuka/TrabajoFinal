@@ -2,9 +2,11 @@
 
 @section('content')
 
-<h2>Edicion de Reclamo</h2>
 
 <div class="card">
+    <div class="card-header">
+        <h3>Edicion de Reclamo</h3>
+    </div>
     <div class="card-body">
         <form class="form-group " method="POST" action="/reclamos/{{$reclamo->id}}" >
             @method('PUT')
@@ -12,7 +14,7 @@
             <div class="row ">
                 <div class="col-sm-4">
                     <label for="">Apellido y Nombre</label>
-                    <input type="text" disabled class="form-control" value="{{$reclamo->socio->apellido}} {{$reclamo->socio->nombre}}">
+                    <input type="text" disabled class="form-control" value="{{$reclamo->direccion->socio->apellido}} {{$reclamo->direccion->socio->nombre}}">
                     {{-- <select class="seleccion form-control" name="socio_id">
                         @foreach($socios as $socio)
                             <option value="{{$socio->id}}" @if ($socio->id == $reclamo->socio->id) selected="selected" @endif>{{$socio->apellido . ' ' . $socio->nombre}}</option>
@@ -22,14 +24,14 @@
                 <div class="col-1"></div>
                 <div class="col-sm-3">
                     <label for="">DNI</label>
-                    <input type="text" disabled class="form-control" value="{{$reclamo->socio->dni}}"> <br>
+                    <input type="text" disabled class="form-control" value="{{$reclamo->direccion->socio->dni}}"> <br>
                 </div>
                 <div class="col-1">
 
                 </div>
                 <div class="col-sm-3">
                     <label for="">Nº de Conexion</label>
-                    <input type="text" disabled value="{{$reclamo->socio->nro_conexion}}" class="form-control"> <br>
+                    <input type="text" disabled value="{{$reclamo->direccion->nro_conexion}}" class="form-control"> <br>
 
                 </div>
             </div>

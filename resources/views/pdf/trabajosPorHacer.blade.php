@@ -65,9 +65,9 @@
                 <tr>
                     <td>{{$trabajo->id}}</td>
                     <td>{{$trabajo->reclamo->tipoReclamo->nombre}}</td>
-                    <td>{{$trabajo->reclamo->socio->direccion->calle}}
-                        {{$trabajo->reclamo->socio->direccion->altura}},
-                        {{$trabajo->reclamo->socio->direccion->zona->nombre}}
+                    <td>{{$trabajo->reclamo->direccion->calle}}
+                        {{$trabajo->reclamo->direccion->altura}},
+                        {{$trabajo->reclamo->direccion->zona->nombre}}
                     </td>
                     <td>
                         <ul>

@@ -36,9 +36,9 @@
                     </div>
                     <div class="row">
                         <strong><i class="fal fa-map-marker-alt mr-1"></i>Lugar:</strong>
-                        <p class="text-muted"> {{$trabajo->reclamo->socio->direccion->calle}}
-                            {{$trabajo->reclamo->socio->direccion->altura}},
-                            {{$trabajo->reclamo->socio->direccion->zona->nombre}}
+                        <p class="text-muted"> {{$trabajo->reclamo->direccion->calle}}
+                            {{$trabajo->reclamo->direccion->altura}},
+                            {{$trabajo->reclamo->direccion->zona->nombre}}
                         </p>
                     </div>
                     <div class="row">

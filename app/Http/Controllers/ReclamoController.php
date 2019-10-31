@@ -69,8 +69,10 @@ class ReclamoController extends Controller
 
         DB::beginTransaction();
         try {
+            $socio = Socio::find($request->socio_id) ;
             // return sizeof($request->requisitos) ;
-            $reclamo->fill($request->only(['socio_id', 'tipoReclamo_id', 'fecha', 'detalle']));
+            $reclamo->fill($request->only(['tipoReclamo_id', 'fecha', 'detalle']));
+            $reclamo->direccion_id = $socio->getIdDireccion($request->nro_conexion);
             $reclamo->user_id = auth()->user()->id;
             $reclamo->save();
             if ($reclamo->tipoReclamo->trabajo == true) { // hay un atributo que es boolean (trabajo) y me dice si el reclamo conlleva o no un trabajo

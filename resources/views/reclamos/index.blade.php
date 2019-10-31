@@ -108,7 +108,7 @@
                         </td>
                         <td>{{$reclamo->getFecha()}}</td>
                         <td>{{$reclamo->created_at->format('H:i:s')}}</td>
-                        <td>{{$reclamo->socio->apellido}} {{$reclamo->socio->nombre}}</td>
+                        <td>{{$reclamo->direccion->socio->apellido}} {{$reclamo->direccion->socio->nombre}}</td>
                         <td>
                             @if($reclamo->detalle != null)
                             <span class="badge badge-light"> {{$reclamo->detalle}}</span>

@@ -248,6 +248,8 @@
             Borrado.fire();
         @endif
 </script>
+
+
 {{--
 <script>
 // $('#eliminar').on('click', function(){

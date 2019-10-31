@@ -23,6 +23,10 @@ Route::get('obtenerMedida/{id}', 'ProductoController@obtenerMedida')->name('prod
 
 Route::get('obtenerCantidad/{idProd}/{idAlmacen}/{cantidad}', 'ProductoController@tieneCantidadDisponible')->name('productos.tieneCantidadDisponible');
 
+Route::get('obtenerConexiones/{id}', 'SocioController@obtenerConexiones')->name('socios.obtenerConexiones');
+
+Route::get('obtenerDni/{id}', 'SocioController@obtenerDni')->name('socios.obtenerDni');
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

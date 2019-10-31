@@ -24,8 +24,8 @@ class Reclamo extends Model
         return $this->belongsTo(Trabajo::class);
     }
 
-    public function socio(){
-        return $this->belongsTo(Socio::class);
+    public function direccion(){
+        return $this->belongsTo(Direccion::class,  'direccion_id');
     }
 
     public function usuario(){

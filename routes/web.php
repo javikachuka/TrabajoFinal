@@ -74,8 +74,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('productos/{producto}', 'ProductoController@update')->name('productos.update')->middleware('permission:productos_update');
     Route::delete('productos/{producto}', 'ProductoController@destroy')->name('productos.destroy')->middleware('permission:productos_destroy');
 
-    //socios
-    Route::resource('socios', 'SocioController');
+
 
     //roles
     Route::get('roles', 'RoleController@index')->name('roles.index')->middleware('permission:roles_index');
@@ -234,6 +233,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('socios/{socio}/edit', 'SocioController@edit')->name('socios.edit');
     Route::put('socios/{socio}', 'SocioController@update')->name('socios.update');
     Route::delete('socios/{socio}', 'SocioController@destroy')->name('socios.destroy');
+    Route::post('socios/nuevaConexion', 'SocioController@nuevaConexion')->name('socios.nuevaConexion');
 
 
     //configuracion

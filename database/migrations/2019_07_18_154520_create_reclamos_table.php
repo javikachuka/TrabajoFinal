@@ -17,8 +17,8 @@ class CreateReclamosTable extends Migration
             $table->bigIncrements('id');
             $table->date('fecha') ;
             $table->string('detalle')->nullable() ;
-            $table->unsignedBigInteger('socio_id') ;
-            $table->foreign('socio_id')->references('id')->on('socios') ;
+            $table->unsignedBigInteger('direccion_id') ;
+            $table->foreign('direccion_id')->references('id')->on('direcciones') ;
             $table->unsignedBigInteger('user_id') ;
             $table->foreign('user_id')->references('id')->on('users') ;
             $table->unsignedBigInteger('tipoReclamo_id') ;

@@ -8,6 +8,8 @@ use App\Direccion;
 use App\Zona;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input as IlluminateInput;
+use Illuminate\Support\Facades\Validator;
 
 class SocioController extends Controller
 {
@@ -31,9 +33,9 @@ class SocioController extends Controller
      */
     public function create()
     {
-        $barrios = Barrio::all() ;
+        $zonas = Zona::all() ;
 
-        return view('socios.registro',compact('barrios')) ;
+        return view('socios.registro',compact('zonas')) ;
     }
 
     /**
@@ -44,21 +46,39 @@ class SocioController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validar();
-        $direccion = new Direccion() ;
-        $direccion->zona_id = $request->input('zona_id') ;
-        $direccion->calle = $request->input('calle') ;
-        $direccion->altura = $request->input('altura') ;
-        $direccion->save() ;
+        // return count($request->input('calle')) ;
+
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required' ,
+            'apellido' => 'required' ,
+            'dni' => 'required|string|min:10' ,
+            'nro_conexion.*' => 'required|unique:direcciones,nro_conexion',
+        ],[
+            'nro_conexion.*.unique' => 'El numero de conexion ya esta asignado a un socio' ,
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->with('cant' , count($request->input('calle')))->withInput() ;
+        }
 
         $socio = new Socio() ;
         $socio->apellido = $request->input('apellido') ;
         $socio->nombre = $request->input('nombre');
         $socio->dni = $request->input('dni');
-        $socio->nro_conexion = $request->input('nro_conexion');
-        $socio->direccion_id = $direccion->id ; ;
         $socio->save() ;
-        return redirect()->back()->with('confirmar', 'ok');
+
+        for ($i=0; $i < sizeof($request->input('calle')); $i++) {
+            $direccion = new Direccion() ;
+            $direccion->zona_id = $request->zona_id[$i] ;
+            $direccion->calle = $request->calle[$i] ;
+            $direccion->altura = $request->altura[$i] ;
+            $direccion->nro_conexion = $request->nro_conexion[$i];
+            $direccion->socio_id = $socio->id ;
+            $direccion->save() ;
+        }
+
+        return redirect()->route('socios.index')->with('confirmar', 'ok');
 
 
     }
@@ -81,11 +101,10 @@ class SocioController extends Controller
      * @param  \App\Socio  $socio
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Socio $socio)
     {
-        $socio = Socio::find($id) ;
-        $barrios = Barrio::all() ;
-        return view('socios.edit' , compact('socio','barrios')) ;
+        $zonas = Zona::all() ;
+        return view('socios.edit' , compact('socio','zonas')) ;
     }
 
     /**
@@ -124,14 +143,49 @@ class SocioController extends Controller
         }
     }
 
+    public function nuevaConexion(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'nro_conexion' => 'required|unique:direcciones,nro_conexion',
+        ],[
+            'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio' ,
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput() ;
+        }
+
+        $direccion = new Direccion() ;
+        $direccion->fill($request->all());
+        $direccion->socio_id = $request->socio_id ;
+        $direccion->nro_conexion = $request->nro_conexion ;
+        $direccion->save();
+
+        return redirect()->back()->with('confirmar', 'ok');
+    }
+
     public function validar(){
         $data = request()->validate([
             'nombre' => 'required' ,
             'apellido' => 'required' ,
-            'dni' => 'required' ,
-            'nro_conexion' => 'required|unique:socios,nro_conexion',
+            'dni' => 'required|string|min:10' ,
+            'nro_conexion.*' => 'required|unique:direcciones,nro_conexion',
         ],[
             'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio' ,
         ]);
+    }
+
+    public function obtenerConexiones($id){
+        $socio = Socio::find($id) ;
+        $conexiones = collect() ;
+        foreach($socio->direcciones as $direc){
+            $conexiones->add($direc->nro_conexion) ;
+        }
+        return $conexiones ;
+    }
+
+    public function obtenerDni($id){
+        $socio = Socio::find($id) ;
+        return $socio->dni;
     }
 }

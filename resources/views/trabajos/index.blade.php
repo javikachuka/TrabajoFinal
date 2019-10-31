@@ -103,9 +103,9 @@
                         <td>{{$trabajo->reclamo->tipoReclamo->nombre}}</td>
                         <td>{{$trabajo->getFecha()}}</td>
                         <td>
-                            <p>{{$trabajo->reclamo->socio->direccion->calle}}
-                                {{$trabajo->reclamo->socio->direccion->altura}} ,
-                                {{$trabajo->reclamo->socio->direccion->zona->nombre}}</p>
+                            <p>{{$trabajo->reclamo->direccion->calle}}
+                                {{$trabajo->reclamo->direccion->altura}} ,
+                                {{$trabajo->reclamo->direccion->zona->nombre}}</p>
                         </td>
                         <td><span
                                 class="badge badge-warning">{{$trabajo->reclamo->tipoReclamo->prioridad->nombre}}</span>
@@ -175,9 +175,9 @@
                                     <div class="modal-body">
                                         <strong><i class="fal fa-exclamation-circle mr-1"></i>Atencion</strong>
                                         <p>Debe encontrarse en la direccion
-                                            "{{$trabajo->reclamo->socio->direccion->calle}}
-                                            {{$trabajo->reclamo->socio->direccion->altura}},
-                                            {{$trabajo->reclamo->socio->direccion->zona->nombre}}" para comenzar el
+                                            "{{$trabajo->reclamo->direccion->calle}}
+                                            {{$trabajo->reclamo->direccion->altura}},
+                                            {{$trabajo->reclamo->direccion->zona->nombre}}" para comenzar el
                                             trabajo!
                                         </p>
 

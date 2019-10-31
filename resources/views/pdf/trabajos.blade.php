@@ -73,9 +73,9 @@
                     <td>{{$t->reclamo->tipoReclamo->nombre}}</td>
                     <td>{{$t->getFecha()}}</td>
                     <td>
-                        <p>{{$t->reclamo->socio->direccion->calle}}
-                            {{$t->reclamo->socio->direccion->altura}} ,
-                            {{$t->reclamo->socio->direccion->zona->nombre}}</p>
+                        <p>{{$t->reclamo->direccion->calle}}
+                            {{$t->reclamo->direccion->altura}} ,
+                            {{$t->reclamo->direccion->zona->nombre}}</p>
                     </td>
                     <td>
                         @if (!$t->users->isEmpty())

@@ -69,7 +69,7 @@
                 <tr>
                     <td>{{$rec->id}}</td>
                     <td>{{$rec->tipoReclamo->nombre}}</td>
-                    <td>{{$rec->socio->apellido}} {{$rec->socio->nombre}}</td>
+                    <td>{{$rec->direccion->socio->apellido}} {{$rec->direccion->socio->nombre}}</td>
                     <td>{{$rec->getFecha()}}</td>
                     <td>{{$rec->trabajo->estado->nombre}}</td>
 

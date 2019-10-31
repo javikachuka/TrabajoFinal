@@ -234,7 +234,7 @@
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fad fa-project-diagram "></i>
                         <p>
-                            Gestion de WorkFlow
+                            Gestion de Flujos
                             <i class="right fal fa-angle-left"></i>
                         </p>
                     </a>

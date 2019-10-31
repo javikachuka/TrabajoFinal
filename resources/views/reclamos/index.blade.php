@@ -284,7 +284,7 @@
                                 (
                                     (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
                                     (tipoRec == data[1]) &&
-                                    (socio == data[3])
+                                    (socio == data[4])
                                 )
                             )
                         {
@@ -311,7 +311,7 @@
                                 ( min == "" || max == "" ) ||
                                 (
                                     (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
-                                    (socio == data[3])
+                                    (socio == data[4])
                                 )
                             )
                         {
@@ -340,7 +340,7 @@
                                 ( min == "" || max == "" ) ||
                                 (
                                     (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
-                                    (socio == data[3]) &&
+                                    (socio == data[4]) &&
                                     (estado == data[6])
                                 )
                             )
@@ -371,7 +371,7 @@
                                 (
                                     (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
                                     (tipoRec == data[1]) &&
-                                    (socio == data[3]) &&
+                                    (socio == data[4]) &&
                                     (estado == data[6])
                                 )
                             )
@@ -405,7 +405,7 @@
             }else if(filtro1 == null && filtro2 != null && filtro3 == null){
                 var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
-                    if (socio == data[3]) {
+                    if (socio == data[4]) {
                         return true ;
                     }else{
                         return false;
@@ -419,7 +419,7 @@
             }else if(filtro1 != null && filtro2 != null && filtro3 == null){
                 var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
-                    if(socio == data[3] && tipoRec == data[1]){
+                    if(socio == data[4] && tipoRec == data[1]){
                         return true ;
                     } else{
                         return false ;
@@ -455,7 +455,7 @@
             }else if(filtro1 != null && filtro2 != null && filtro3 != null){
                 var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
-                    if(estado == data[6] && tipoRec == data[1] && socio == data[3]){
+                    if(estado == data[6] && tipoRec == data[1] && socio == data[4]){
                         return true ;
                     } else{
                         return false ;
@@ -467,7 +467,7 @@
             }else if(filtro1 == null && filtro2 != null && filtro3 != null){
                 var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
-                    if(estado == data[6] &&  socio == data[3]){
+                    if(estado == data[6] &&  socio == data[4]){
                         return true ;
                     } else{
                         return false ;

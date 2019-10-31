@@ -234,6 +234,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('socios/{socio}', 'SocioController@update')->name('socios.update');
     Route::delete('socios/{socio}', 'SocioController@destroy')->name('socios.destroy');
     Route::post('socios/nuevaConexion', 'SocioController@nuevaConexion')->name('socios.nuevaConexion');
+    Route::delete('socios/eliminarConexion/{id}-{idDirec}', 'SocioController@eliminarConexion')->name('socios.eliminarConexion');
 
 
     //configuracion

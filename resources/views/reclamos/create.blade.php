@@ -138,7 +138,7 @@
                             @foreach ($socios as $socio)
                             <tr>
                                 <td>{{$socio->apellido}} {{$socio->nombre}}</td>
-                                <td>{{$socio->dni}}</td>
+                                <td style="text-align: right">{{$socio->dni}}</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -12,7 +12,7 @@
 //GENERAL
 - [x] Reporte de auditoria
 - [ ] registro de cuando un empleado no viene a la empresa 
-- [ ] Implementar que un socio tenga multiples conexiones
+- [x] Implementar que un socio tenga multiples conexiones
 - [x] Inicio muestra o no opcion de asistencia dependiendo si corresponde el dia a un turno, si el empleado ya 
 marco o si no lo hizo todavia
 - [x] alinear todos los campos numero a la derecha
@@ -21,7 +21,7 @@ marco o si no lo hizo todavia
 - [ ] ABM de prioridades?
 - [x] ABM de zonas
 - [ ] ABM de medidas
-- [ ] agregar mejor alerta para eliminar (almaces ya tiene incorporado. copiar de ahi)
+- [x] agregar mejor alerta para eliminar (almaces ya tiene incorporado. copiar de ahi)
 - [x] Arreglar cuando guardo configuracion que vuelva a la pestania que estaba
 - [x] arreglar que cuando se cambien los requisitos de un tipo de reclamo no afecte
 a los demas trabajos que existen ya iniciados

@@ -22,8 +22,8 @@ class SocioController extends Controller
     public function index()
     {
         $socios = Socio::all();
-        $zonas = Zona::all() ;
-        return view('socios.index',compact('socios','zonas')) ;
+        $zonas = Zona::all();
+        return view('socios.index', compact('socios', 'zonas'));
     }
 
     /**
@@ -33,9 +33,9 @@ class SocioController extends Controller
      */
     public function create()
     {
-        $zonas = Zona::all() ;
+        $zonas = Zona::all();
 
-        return view('socios.registro',compact('zonas')) ;
+        return view('socios.registro', compact('zonas'));
     }
 
     /**
@@ -50,37 +50,35 @@ class SocioController extends Controller
 
 
         $validator = Validator::make($request->all(), [
-            'nombre' => 'required' ,
-            'apellido' => 'required' ,
-            'dni' => 'required|string|min:10' ,
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'dni' => 'required|string|min:10',
             'nro_conexion.*' => 'required|unique:direcciones,nro_conexion',
-        ],[
-            'nro_conexion.*.unique' => 'El numero de conexion ya esta asignado a un socio' ,
+        ], [
+            'nro_conexion.*.unique' => 'El numero de conexion ya esta asignado a un socio',
         ]);
 
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->with('cant' , count($request->input('calle')))->withInput() ;
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->with('cant', count($request->input('calle')))->withInput();
         }
 
-        $socio = new Socio() ;
-        $socio->apellido = $request->input('apellido') ;
+        $socio = new Socio();
+        $socio->apellido = $request->input('apellido');
         $socio->nombre = $request->input('nombre');
         $socio->dni = $request->input('dni');
-        $socio->save() ;
+        $socio->save();
 
-        for ($i=0; $i < sizeof($request->input('calle')); $i++) {
-            $direccion = new Direccion() ;
-            $direccion->zona_id = $request->zona_id[$i] ;
-            $direccion->calle = $request->calle[$i] ;
-            $direccion->altura = $request->altura[$i] ;
+        for ($i = 0; $i < sizeof($request->input('calle')); $i++) {
+            $direccion = new Direccion();
+            $direccion->zona_id = $request->zona_id[$i];
+            $direccion->calle = $request->calle[$i];
+            $direccion->altura = $request->altura[$i];
             $direccion->nro_conexion = $request->nro_conexion[$i];
-            $direccion->socio_id = $socio->id ;
-            $direccion->save() ;
+            $direccion->socio_id = $socio->id;
+            $direccion->save();
         }
 
         return redirect()->route('socios.index')->with('confirmar', 'ok');
-
-
     }
 
     /**
@@ -91,8 +89,8 @@ class SocioController extends Controller
      */
     public function show($id)
     {
-        $socio = Socio::find($id) ;
-        return view('socios.show',compact('socio'));
+        $socio = Socio::find($id);
+        return view('socios.show', compact('socio'));
     }
 
     /**
@@ -103,8 +101,8 @@ class SocioController extends Controller
      */
     public function edit(Socio $socio)
     {
-        $zonas = Zona::all() ;
-        return view('socios.edit' , compact('socio','zonas')) ;
+        $zonas = Zona::all();
+        return view('socios.edit', compact('socio', 'zonas'));
     }
 
     /**
@@ -116,14 +114,18 @@ class SocioController extends Controller
      */
     public function update(Request $request, Socio $socio)
     {
-        // $this->validar();
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'dni' => 'required|string|min:10',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $socio->fill($request->all());
-        $direccion = $socio->direccion ;
-        $direccion->fill($request->all()) ;
-        $socio->save() ;
-        $direccion->save() ;
+        $socio->update();
 
-        return redirect()->back()->with('confirmar', 'ok') ;
+        return redirect()->back()->with('confirmar', 'ok');
     }
 
     /**
@@ -134,58 +136,78 @@ class SocioController extends Controller
      */
     public function destroy(Socio $socio)
     {
-        try{
+        try {
             $socio->delete();
             return redirect()->back()->with('borrado', 'ok');
-        }catch(Exception $e){
-            alert()->error('No se pudo borrar al socio', 'Error') ;
-            return redirect()->back() ;
+        } catch (Exception $e) {
+            alert()->error('No se pudo borrar al socio', 'Error');
+            return redirect()->back();
         }
     }
 
-    public function nuevaConexion(Request $request){
+    public function nuevaConexion(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'nro_conexion' => 'required|unique:direcciones,nro_conexion',
-        ],[
-            'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio' ,
+        ], [
+            'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio',
         ]);
 
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput() ;
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $direccion = new Direccion() ;
+        $direccion = new Direccion();
         $direccion->fill($request->all());
-        $direccion->socio_id = $request->socio_id ;
-        $direccion->nro_conexion = $request->nro_conexion ;
+        $direccion->socio_id = $request->socio_id;
+        $direccion->nro_conexion = $request->nro_conexion;
         $direccion->save();
 
         return redirect()->back()->with('confirmar', 'ok');
     }
 
-    public function validar(){
+    public function eliminarConexion($id, $idDirec)
+    {
+        $socio = Socio::find($id);
+        if (count($socio->direcciones) > 1) {
+            foreach ($socio->direcciones as $d) {
+                if ($d->id == $idDirec) {
+                    $d->delete();
+                    return redirect()->back()->with('borrado', 'ok');
+                }
+            }
+        } else {
+            alert()->error('No es posible eliminar todas las conexiones', 'Error')->persistent();
+            return redirect()->back();
+        }
+    }
+
+    public function validar()
+    {
         $data = request()->validate([
-            'nombre' => 'required' ,
-            'apellido' => 'required' ,
-            'dni' => 'required|string|min:10' ,
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'dni' => 'required|string|min:10',
             'nro_conexion.*' => 'required|unique:direcciones,nro_conexion',
-        ],[
-            'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio' ,
+        ], [
+            'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio',
         ]);
     }
 
-    public function obtenerConexiones($id){
-        $socio = Socio::find($id) ;
-        $conexiones = collect() ;
-        foreach($socio->direcciones as $direc){
-            $conexiones->add($direc->nro_conexion) ;
+    public function obtenerConexiones($id)
+    {
+        $socio = Socio::find($id);
+        $conexiones = collect();
+        foreach ($socio->direcciones as $direc) {
+            $conexiones->add($direc->nro_conexion);
         }
-        return $conexiones ;
+        return $conexiones;
     }
 
-    public function obtenerDni($id){
-        $socio = Socio::find($id) ;
+    public function obtenerDni($id)
+    {
+        $socio = Socio::find($id);
         return $socio->dni;
     }
 }

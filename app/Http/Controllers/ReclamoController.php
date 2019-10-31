@@ -52,7 +52,7 @@ class ReclamoController extends Controller
         $zonas = Zona::all();
         $tipos_reclamos = TipoReclamo::all();
         $reclamos = Reclamo::all();
-        return view('reclamos.create', compact('reclamo', 'reclamos', 'socios', 'tipos_reclamos' , 'zonas'));
+        return view('reclamos.create', compact('reclamo', 'reclamos', 'socios', 'tipos_reclamos', 'zonas'));
     }
 
     /**
@@ -69,7 +69,7 @@ class ReclamoController extends Controller
 
         DB::beginTransaction();
         try {
-            $socio = Socio::find($request->socio_id) ;
+            $socio = Socio::find($request->socio_id);
             // return sizeof($request->requisitos) ;
             $reclamo->fill($request->only(['tipoReclamo_id', 'fecha', 'detalle']));
             $reclamo->direccion_id = $socio->getIdDireccion($request->nro_conexion);
@@ -130,6 +130,7 @@ class ReclamoController extends Controller
                                     if ($trabajo->recomendacionCantidad($productoRecomendado) > ($productoRecomendado->cantidadTotal() - $cantidadAcumulada)) {
                                         $hayStock = false;
                                     }
+                                    $cantidadAcumulada += $trabajo->recomendacionCantidad($productoRecomendado);
                                     if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
                                         $pedido = Pedido::where('generado', false)->get();
                                         if ($pedido->isEmpty()) {
@@ -228,6 +229,8 @@ class ReclamoController extends Controller
                                     if ($trabajo->recomendacionCantidad($productoRecomendado) > ($productoRecomendado->cantidadTotal() - $cantidadAcumulada)) {
                                         $hayStock = false;
                                     }
+                                    $cantidadAcumulada += $trabajo->recomendacionCantidad($productoRecomendado);
+
                                     if ($productoRecomendado->isCantidadMinima($cantidadAcumulada)) {
                                         $pedido = Pedido::where('generado', false)->get();
                                         if ($pedido->isEmpty()) {

@@ -9,7 +9,6 @@
 
         </div>
         <div class="card-body" id="registroSocio">
-            @csrf
             <h4>Datos Personales</h4>
             <div class="form-group">
                 <label>Apellido</label>
@@ -136,6 +135,7 @@
                 <input type="submit" value="Cargar Socio" class="btn btn-success btn-sm">
             </div>
         </div>
+        @csrf
     </form>
 </div>
 

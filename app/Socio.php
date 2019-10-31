@@ -14,7 +14,6 @@ class Socio extends Model
         'apellido',
         'nombre',
         'dni',
-        'nro_conexion',
     ];
 
     public function direcciones()

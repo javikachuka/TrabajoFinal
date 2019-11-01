@@ -58,6 +58,17 @@ class User extends Authenticatable implements Auditable
         'email_verified_at' => 'datetime',
     ];
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucwords($value);
+    }
+
+    public function setApellidoAttribute($value)
+    {
+        $this->attributes['apellido'] = ucwords($value);
+    }
+
+
     public function direccion(){
         return $this->belongsTo(Direccion::class) ;
     }

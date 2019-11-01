@@ -7,8 +7,10 @@
 <div class="card">
     <div class="card-header">
         <h3>Listado de Empleados
+            @can('users_create')
             <button type="submit" class="btn btn-primary btn-xs"
                 onclick="location.href = '{{ route('users.create') }}'">Registrar Empleado</button>
+            @endcan
         </h3>
 
     </div>
@@ -30,7 +32,8 @@
 
                     <tr>
                         @if($user->urlFoto != null)
-                        <td style="text-align: center"><img src="{{asset('img/perfiles'.$user->urlFoto)}}" alt="" class="table-avatar"></td>
+                        <td style="text-align: center"><img src="{{asset('img/perfiles'.$user->urlFoto)}}" alt=""
+                                class="table-avatar"></td>
                         @else
                         <div class="d-flex justify-content-center">
                             <td width="10%"><img src="{{asset('img/perfiles/usuario-sin-foto.png')}}" alt="" width="25"
@@ -51,15 +54,15 @@
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-xs btn-secondary"> Editar
                             </a>
                             @endcan
+                            @can('users_destroy')
                             <form id="form-borrar{{$user->id}}" method="POST"
                                 action="{{route('users.destroy' , $user->id)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('users_destroy')
                                 <button type="submit" class="btn btn-danger btn-xs btn-almacen"
                                     id="{{$user->id}}">Borrar</button>
-                                @endcan
                             </form>
+                            @endcan
                         </td>
                     </tr>
 

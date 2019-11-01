@@ -133,22 +133,30 @@
                             @endif
                         </td>
                         <td width="200px">
+                            @can('trabajos_show')
                             <a href="{{route('trabajos.show', $trabajo)}}" class="btn btn-xs btn-primary">Ver mas</a>
+                            @endcan
                             @if ($trabajo->estado->nombre == 'EN ESPERA')
+                            @can('trabajos_asignar')
                             <a href="{{ route('trabajos.edit', $trabajo) }}" class="btn btn-xs btn-secondary"> Asignar a
                             </a>
+                            @endcan
                             @else
 
                             @endif
 
                             @if ($trabajo->estado->nombre == 'EN ESPERA')
+                            @can('trabajos_iniciar')
                             <button class="btn btn-xs btn-success" data-toggle="modal"
                                 data-target="#iniciarTrabajo{{$trabajo->id}}">Iniciar <i
                                     class="fad fa-play"></i></button>
+                            @endcan
                             @elseif($trabajo->estado->nombre == 'INICIADO')
+                            @can('trabajos_finalizar')
                             <button class="btn btn-xs btn-danger"
                                 onclick="location.href='{{route('trabajos.finalizarTrabajo', $trabajo)}}'">Finalizar <i
                                     class="fad fa-window-close"></i></button>
+                            @endcan
                             @elseif($trabajo->reclamo->getCantidadEstados() > 4)
 
                             @endif

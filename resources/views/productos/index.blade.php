@@ -9,8 +9,10 @@
     <div class="card-header">
         <h3>Listado de Productos
             <span></span>
+            @can('productos_create')
             <button type="submit" class="btn btn-primary btn-xs"
                 onclick="location.href = '{{ route('productos.create') }}'">Nuevo Producto</button>
+            @endcan
         </h3>
 
     </div>
@@ -39,27 +41,31 @@
                         <td>{{$producto->rubro->nombre}}</td>
                         <td style="text-align: right">
                             @if(!$producto->estaEnCantidadMinima())
-                            <div class="badge badge-success">{{$producto->cantidadTotal()}} {{$producto->medida->nombre}}</div>
+                            <div class="badge badge-success">{{$producto->cantidadTotal()}}
+                                {{$producto->medida->nombre}}</div>
                             @else
-                            <div class="badge badge-warning">{{$producto->cantidadTotal()}} {{$producto->medida->nombre}}</div>
+                            <div class="badge badge-warning">{{$producto->cantidadTotal()}}
+                                {{$producto->medida->nombre}}</div>
                             @endif
 
                         </td>
                         <td width="18%">
+                            @can('productos_show')
                             <a href="{{route('productos.show', $producto)}}" class="btn btn-xs btn-primary">Ver mas</a>
+                            @endcan
                             @can('productos_edit')
                             <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-xs btn-secondary">
                                 Editar </a>
                             @endcan
+                            @can('productos_destroy')
                             <form id="form-borrar{{$producto->id}}" method="POST"
                                 action="{{route('productos.destroy' , $producto->id)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('productos_destroy')
                                 <button type="submit" class="btn btn-danger btn-xs btn-almacen"
                                     id="{{$producto->id}}">Borrar</button>
-                                @endcan
                             </form>
+                            @endcan
                         </td>
                     </tr>
 

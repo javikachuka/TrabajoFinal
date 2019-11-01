@@ -30,18 +30,14 @@
                         <td>{{$permiso->slug}}</td>
                         <td>{{$permiso->description}}</td>
                         <td width="200px">
-                            @can('permisos_edit')
                             <a href="{{ route('permisos.edit', $permiso) }}" class="btn btn-xs btn-secondary"> Editar
                             </a>
-                            @endcan
                             <form method="POST" action="permisos/{{$permiso}}"
                                 onsubmit="return confirm('Desea borrar el permiso {{$permiso->name}} ?')"
                                 style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('permisos_destroy')
                                 <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
-                                @endcan
                             </form>
                         </td>
                     </tr>

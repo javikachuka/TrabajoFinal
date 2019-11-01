@@ -4,7 +4,9 @@
 <div class="card">
     <div class="card-header">
         <h3>Listado de Socios
+            @can('socios_create')
             <a href="{{route('socios.create')}}" class="btn btn-primary btn-xs ">Nuevo Socio</a>
+            @endcan
             {{-- <a href="" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#crear" >Nuevo Socio</a> --}}
 
         </h3>
@@ -50,17 +52,19 @@
                 </td>
 
                 <td width="15%">
+                    @can('socios_edit')
                     <a href="{{route('socios.edit', $socio)}}" class="btn btn-secondary btn-xs ">Editar</a>
+                    @endcan
 
+                    @can('socios_destroy')
                     <form method="POST" action="{{route('socios.destroy', $socio)}}"
                         onsubmit="return confirm('Desea borrar {{$socio->nombre}}')" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
 
-                        @can('socios_destroy')
                         <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
-                        @endcan
                     </form>
+                    @endcan
                 </td>
             </tr>
             @endforeach

@@ -27,6 +27,8 @@ marco o si no lo hizo todavia
 a los demas trabajos que existen ya iniciados
 - [x] agregar las medidas en todos los lugares donde aparezca cantidad
 
+- [ ] configurar roles y permisos en vista y en rutas
+
 - [x] Agregar duracion en el eje Y del chart
 
 - [x] cambiar color de estados en el trabajo

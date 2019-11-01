@@ -6,8 +6,10 @@
 <div class="card">
     <div class="card-header">
 
-        <h3>Listado de Rubros <span></span> <a href="" class="btn btn-primary btn-xs " data-toggle="modal"
-                data-target="#crear">Nuevo Rubro</a></h3>
+        <h3>Listado de Rubros <span></span>
+            @can('rubros_create')
+            <a href="" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#crear">Nuevo Rubro</a></h3>
+        @endcan
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -64,16 +66,16 @@
                                 </div>
                             </div>
                             @endcan
+                            @can('rubros_destroy')
                             <form method="POST" action="rubros/{{$rubro->id}}"
                                 onsubmit="return confirm('Desea borrar {{$rubro->nombre}}')"
                                 style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
 
-                                @can('rubros_destroy')
                                 <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
-                                @endcan
                             </form>
+                            @endcan
                         </td>
                     </tr>
 

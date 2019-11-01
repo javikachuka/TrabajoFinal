@@ -5,8 +5,10 @@
 <div class="card">
     <div class="card-header">
         <h3>Listado de Tipo de Reclamos
+            @can('tipoReclamos_create')
             <a href="" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#crear">Nuevo Tipo de
                 Reclamo</a>
+            @endcan
 
         </h3>
     </div>
@@ -148,15 +150,15 @@
                                 </div>
                             </div>
                             @endcan
+                            @can('tipoReclamos_destroy')
                             <form id="form-borrar{{$tipRec->id}}" method="POST"
                                 action="{{route('tipoReclamos.destroy' , $tipRec->id)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('tipoReclamos_destroy')
                                 <button type="submit" class="btn btn-danger btn-xs btn-almacen"
                                     id="{{$tipRec->id}}">Borrar</button>
-                                @endcan
                             </form>
+                            @endcan
                         </td>
                     </tr>
 

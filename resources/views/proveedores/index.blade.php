@@ -5,8 +5,10 @@
 <div class="card">
     <div class="card-header">
         <h3>Listado de Proveedores <span></span>
+            @can('proveedores_create')
             <button type="submit" class="btn btn-primary btn-xs"
                 onclick="location.href = '{{ route('proveedores.create') }}'">Registrar Proveedor</button>
+            @endcan
             <button type="button" class="btn btn-xs btn-danger "
                 onclick="location.href = '{{ route('proveedor.pdf')}}'">Generar <i class="fa fa-file-pdf"></i></button>
         </h3>
@@ -37,15 +39,16 @@
                             <a href="{{ route('proveedores.edit', $proveedor->id) }}" class="btn btn-xs btn-secondary">
                                 Editar </a>
                             @endcan
+                            @can('proveedores_destroy')
                             <form id="form-borrar{{$proveedor->id}}" method="POST"
-                                action="{{route('proveedores.destroy' , $proveedor->id)}}" style="display: inline-block;">
+                                action="{{route('proveedores.destroy' , $proveedor->id)}}"
+                                style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('proveedores_destroy')
                                 <button type="submit" class="btn btn-danger btn-xs btn-almacen"
                                     id="{{$proveedor->id}}">Borrar</button>
-                                @endcan
                             </form>
+                            @endcan
                         </td>
                     </tr>
 

@@ -4,8 +4,10 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>Listado de Requisitos <span></span> <a href="" class="btn btn-primary btn-xs " data-toggle="modal"
-                data-target="#crear">Nuevo Requisito</a>
+        <h3>Listado de Requisitos <span></span>
+            @can('requisitos_create')
+            <a href="" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#crear">Nuevo Requisito</a>
+            @endcan
         </h3>
     </div>
     <div class="card-body">
@@ -70,15 +72,15 @@
                                 </div>
                             </div>
                             @endcan
+                            @can('requisitos_destroy')
                             <form id="form-borrar{{$requisito->id}}" method="POST"
                                 action="{{route('requisitos.destroy' , $requisito)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('requisitos_destroy')
                                 <button type="submit" class="btn btn-danger btn-xs btn-almacen"
                                     id="{{$requisito->id}}">Borrar</button>
-                                @endcan
                             </form>
+                            @endcan
                         </td>
                     </tr>
 

@@ -6,7 +6,9 @@
     <div class="card-header">
 
         <h3>Listado de Almacenes
+            @can('almacenes_create')
             <a href="" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#crear">Nuevo almacen</a>
+            @endcan
         </h3>
 
     </div>
@@ -32,7 +34,9 @@
                                 {{$almacen->direccion->zona->nombre}}</p>
                         </td>
                         <td width="150px">
+                            @can('almacenes_show')
                             <a href="{{route('almacenes.show', $almacen)}}" class="btn btn-xs btn-primary">Ver mas</a>
+                            @endcan
                             @can('almacenes_edit')
                             <a href="" class="btn btn-secondary btn-xs " data-toggle="modal"
                                 data-target="#editar{{$almacen->id}}">Editar</a>
@@ -103,6 +107,7 @@
                                 </div>
                             </div>
                             @endcan
+                            @can('almacenes_destroy')
                             <form id="form-borrar{{$almacen->id}}" method="POST"
                                 action="{{route('almacenes.destroy' , $almacen->id)}}"
                                 {{-- onsubmit="return confirm('Desea borrar {{$almacen->denominacion}}')" --}}
@@ -110,15 +115,14 @@
                                 @csrf
                                 @method('DELETE')
 
-                                @can('almacenes_destroy')
                                 {{-- <button class="btn btn-xs btn-danger" id="eliminar">Borrar</button> --}}
                                 <button type="submit" class="btn btn-danger btn-xs btn-almacen"
                                     id="{{$almacen->id}}">Borrar</button>
                                 {{-- <a href="#" class="btn btn-danger btn-xs btn-almacen" id="eliminar{{$almacen->id}}">Borrar</a>
                                 --}}
                                 {{-- <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete"> --}}
-                                @endcan
                             </form>
+                            @endcan
                         </td>
                     </tr>
 

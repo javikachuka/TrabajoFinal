@@ -73,12 +73,16 @@
     <div class="card-header">
         <h3>Movimientos Realizados
             <span></span>
+            @can('movimientos_ingreso')
             <button class="btn btn-xs btn-primary"
                 onclick="location.href='{{ route('movimientos.createIngreso')}}'">Nuevo Ingreso <i
                     class="fas fa-tags nav-icon"></i></button>
+            @endcan
+            @can('movimientos_transferencia')
             <button class="btn btn-xs btn-primary"
                 onclick="location.href='{{ route('movimientos.createTransferencia')}}'">Nueva Transferencia <i
                     class="fas fa-exchange-alt "></i></button>
+            @endcan
             {{-- <a type="button" href="{{ route('movimientos.createIngreso') }}" class="btn btn-xs btn-success"> Nuevo
             Ingreso <i class="fas fa-tags nav-icon"></i></a> --}}
             {{-- <a type="button" href="{{ route('movimientos.createTransferencia') }}" class="btn btn-xs btn-success">
@@ -125,8 +129,10 @@
                             @endif
                         </td>
                         <td width="150px" class="text-center">
+                            @can('movimientos_show')
                             <a href="{{route('movimientos.show' , $movimiento)}}" class="btn btn-xs btn-primary">Ver
                                 mas</a>
+                            @endcan
                             {{-- @can('movimientos_edit')
                                         <a href=""  class="btn btn-secondary btn-xs " data-toggle="modal" data-target="#editar{{$movimiento->id}}"
                             >Editar</a>
@@ -163,15 +169,16 @@
                                 </div>
                             </div>
                             @endcan --}}
+                            @can('movimientos_destroy')
                             <form id="form-borrar{{$movimiento->id}}" method="POST"
-                                action="{{route('movimientos.destroy' , $movimiento->id)}}" style="display: inline-block;">
+                                action="{{route('movimientos.destroy' , $movimiento->id)}}"
+                                style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('movimientos_destroy')
                                 <button type="submit" class="btn btn-danger btn-xs btn-almacen"
                                     id="{{$movimiento->id}}">Borrar</button>
-                                @endcan
                             </form>
+                            @endcan
 
                         </td>
                     </tr>

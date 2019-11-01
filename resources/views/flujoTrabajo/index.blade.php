@@ -4,8 +4,11 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>Listado de Flujos de Trabajos <button type="submit" class="btn btn-primary btn-xs"
+        <h3>Listado de Flujos de Trabajos
+            @can('flujoTrabajos_create')
+            <button type="submit" class="btn btn-primary btn-xs"
                 onclick="location.href = '{{ route('flujoTrabajos.create') }}'">Nuevo Flujo</button>
+            @endcan
         </h3>
 
     </div>
@@ -35,22 +38,24 @@
 
                         </td>
                         <td width="200px">
+                            @can('flujoTrabajos_show')
                             <a href="{{route('flujoTrabajos.show', $flujoTrabajo)}}" class="btn btn-xs btn-primary">Ver
                                 mas</a>
+                            @endcan
 
                             @can('flujoTrabajos_edit')
                             <a href="{{ route('flujoTrabajos.edit', $flujoTrabajo)}}" class="btn btn-xs btn-secondary">
                                 Editar </a>
                             @endcan
+                            @can('flujoTrabajos_destroy')
                             <form method="POST" action="{{route('flujoTrabajos.destroy' , $flujoTrabajo)}}"
                                 onsubmit="return confirm('Desea borrar {{$flujoTrabajo->nombre}}')"
                                 style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('flujoTrabajos_destroy')
                                 <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
-                                @endcan
                             </form>
+                            @endcan
                         </td>
                     </tr>
 

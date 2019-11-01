@@ -79,8 +79,10 @@
 <div class="card">
     <div class="card-header">
         <h3>Listado de Reclamos
+            @can('reclamos_create')
             <button type="submit" class="btn btn-primary btn-xs"
                 onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo Reclamo</button>
+            @endcan
         </h3>
     </div>
     <div class="card-body">
@@ -118,32 +120,35 @@
                         </td>
                         <td>
                             @if($reclamo->trabajo->estado != null)
-                                @if($reclamo->trabajo->estado->isUltimo($reclamo->tipoReclamo->flujoTrabajo->id))
-                                    <span class="badge badge-success">{{$reclamo->trabajo->estado->nombre}}</span>
-                                @elseif($reclamo->trabajo->estado->nombre == 'FALTA' || $reclamo->trabajo->estado->nombre == 'SIN EXISTENCIAS')
-                                    <span class="badge badge-danger">{{$reclamo->trabajo->estado->nombre}}</span>
-                                @else
-                                    <span class="badge badge-info">{{$reclamo->trabajo->estado->nombre}}</span>
-                                @endif
+                            @if($reclamo->trabajo->estado->isUltimo($reclamo->tipoReclamo->flujoTrabajo->id))
+                            <span class="badge badge-success">{{$reclamo->trabajo->estado->nombre}}</span>
+                            @elseif($reclamo->trabajo->estado->nombre == 'FALTA' || $reclamo->trabajo->estado->nombre ==
+                            'SIN EXISTENCIAS')
+                            <span class="badge badge-danger">{{$reclamo->trabajo->estado->nombre}}</span>
                             @else
-                                <span class="badge badge-light">N/A</span>
+                            <span class="badge badge-info">{{$reclamo->trabajo->estado->nombre}}</span>
+                            @endif
+                            @else
+                            <span class="badge badge-light">N/A</span>
                             @endif
                         </td>
                         <td width="200px">
+                            @can('reclamos_show')
                             <a href="{{route('reclamos.show', $reclamo)}}" class="btn btn-xs btn-primary">Ver mas</a>
-                            @can('trabajos_edit')
+                            @endcan
+                            @can('reclamos_edit')
                             <a href="{{ route('reclamos.edit', $reclamo) }}" class="btn btn-xs btn-secondary"> Editar
                             </a>
                             @endcan
+                            @can('reclamos_destroy')
                             <form id="form-borrar{{$reclamo->id}}" method="POST"
                                 action="{{route('reclamos.destroy' , $reclamo->id)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('reclamos_destroy')
                                 <button type="submit" class="btn btn-danger btn-xs btn-almacen"
                                     id="{{$reclamo->id}}">Borrar</button>
-                                @endcan
-                            </form>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
 

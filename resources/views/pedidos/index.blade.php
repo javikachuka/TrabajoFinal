@@ -73,8 +73,10 @@
     <div class="card-header">
         <h3>Pedidos Realizados
             <span></span>
+            @can('pedidos_create')
             <button class="btn btn-xs btn-primary" onclick="location.href='{{ route('pedidos.create')}}'">Nuevo
                 Pedido <i class="fas fa-tags nav-icon"></i></button>
+            @endcan
         </h3>
     </div>
     <div class="card-body">
@@ -115,20 +117,25 @@
                             <a href="{{route('pedidos.pdf', $pedido)}}" class="btn btn-xs btn-danger">Generar <i
                                     class="fal fa-file-pdf"></i></a>
                             @endif
-
+                            @can('pedidos_show')
                             <a href="{{route('pedidos.show' , $pedido)}}" class="btn btn-xs btn-primary">Ver
                                 mas</a>
+                            @endcan
                             @if($pedido->proveedor == null)
+                            @can('pedidos_edit')
                             <a href="{{route('pedidos.edit' , $pedido)}}" class="btn btn-xs btn-secondary">Finalizar
                                 Pedido</a>
+                            @endcan
                             @endif
-                            <form id="form-borrar{{$pedido->id}}" method="POST" action="{{route('pedidos.destroy' , $pedido)}}" style="display: inline-block;">
+                            @can('pedidos_destroy')
+                            <form id="form-borrar{{$pedido->id}}" method="POST"
+                                action="{{route('pedidos.destroy' , $pedido)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                @can('pedidos_destroy')
-                                <button type="submit" class="btn btn-danger btn-xs btn-almacen" id="{{$pedido->id}}">Borrar</button>
-                                @endcan
+                                <button type="submit" class="btn btn-danger btn-xs btn-almacen"
+                                    id="{{$pedido->id}}">Borrar</button>
                             </form>
+                            @endcan
 
 
                         </td>

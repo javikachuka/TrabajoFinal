@@ -19,12 +19,14 @@
     <label>Permisos Especiales</label>
 
     <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" id="defaultGroupExample1" value="all-access" name="special">
+        <input type="radio" class="custom-control-input" id="defaultGroupExample1" value="all-access" name="special"
+            @if($rol->special != null) @if($rol->special == 'all-access') checked @endif @endif>
         <label class="custom-control-label" for="defaultGroupExample1">Acceso Total</label>
     </div>
 
     <div class="custom-control custom-radio">
-        <input type="radio" class="custom-control-input" id="defaultGroupExample2" value="no-access" name="special">
+        <input type="radio" class="custom-control-input" id="defaultGroupExample2" value="no-access" name="special"
+            @if($rol->special != null) @if($rol->special == 'no-access') checked @endif @endif>
         <label class="custom-control-label" for="defaultGroupExample2">Ningun Acceso</label>
     </div>
 </div>

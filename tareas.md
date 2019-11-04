@@ -10,11 +10,13 @@
 
 
 //GENERAL
+- [ ] ver tiempos de los trabajos (duracion real y estimada)
 - [x] Reporte de auditoria
 - [ ] registro de cuando un empleado no viene a la empresa 
 - [x] Implementar que un socio tenga multiples conexiones
 - [x] Inicio muestra o no opcion de asistencia dependiendo si corresponde el dia a un turno, si el empleado ya 
 marco o si no lo hizo todavia
+- [ ] Mostrar los turnos designados(si es que tiene) en el show de users
 - [x] alinear todos los campos numero a la derecha
 - [x] agregar botones para volver atras
 - [x] Terminar configuracion del sistema(tipos de comprobantes, movimientos)
@@ -27,7 +29,8 @@ marco o si no lo hizo todavia
 a los demas trabajos que existen ya iniciados
 - [x] agregar las medidas en todos los lugares donde aparezca cantidad
 
-- [ ] configurar roles y permisos en vista y en rutas
+- [x] configurar roles y permisos en vista 
+- [ ] configurar roles y permisos en rutas
 
 - [x] Agregar duracion en el eje Y del chart
 
@@ -60,7 +63,7 @@ MODULO DE TRABAJO
 
 MODULO RECLAMOS
 - [x] Informes con filtros
-- [ ] Informe zonas con mas reclamos (Estadistica hecha)
+- [x] Informe zonas con mas reclamos (Estadistica hecha)
 
 
 

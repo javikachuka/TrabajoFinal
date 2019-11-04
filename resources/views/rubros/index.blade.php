@@ -12,6 +12,14 @@
         @endcan
     </div>
     <div class="card-body">
+        @if ($errors->any())
+        <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach
+        </div>
+        @endif
         <div class="table-responsive">
             <table id="rubros" class="table table-bordered table-striped table-hover datatable">
                 <thead>
@@ -101,7 +109,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Nombre</label>
-                        <input type="text" name="nombre" required value="" class="form-control">
+                        <input type="text" name="nombre" required value="{{old('nombre')}}" class="form-control">
                         <div class="text-danger">{{$errors->first('nombre')}} </div>
 
                     </div>
@@ -127,6 +135,26 @@
             "ordering": true,
             "info": false,
             "autoWidth": false,
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
           });
         });
 </script>
@@ -140,12 +168,12 @@
             Borrado.fire();
         @endif
 </script>
-
+{{--
 <script>
     @if($errors->any() )
             $(function(){
                 $('#crear').modal('show');
             });
         @endif
-</script>
+</script> --}}
 @endpush

@@ -13,6 +13,14 @@
 
     </div>
     <div class="card-body">
+        @if ($errors->any())
+        <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach
+        </div>
+        @endif
         <div class="table-responsive">
             <table id="almacenes" class="table table-bordered table-striped table-hover datatable">
                 <thead>
@@ -47,7 +55,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Nuevo Estado</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Edicion de Almacen</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -80,14 +88,14 @@
                                                                 <label for="">Calle</label>
                                                                 <div class="input-group">
                                                                     <input name="calle" type="text"
-                                                                        value="{{ $almacen->direccion->calle ?? old('calle') }}"
+                                                                        value="{{ $almacen->direccion->calle ?? old('calle')}}"
                                                                         required class="form-control"
                                                                         placeholder="Calle">
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text">-</span>
                                                                     </div>
                                                                     <input name="altura" type="text"
-                                                                        value="{{$almacen->direccion->altura ?? old('altura')}}  "
+                                                                        value="{{$almacen->direccion->altura ?? old('altura')}}"
                                                                         required class="form-control col-md-3"
                                                                         placeholder="Altura">
                                                                 </div>
@@ -148,7 +156,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Denominacion</label>
-                        <input type="text" name="denominacion" required value="" class="form-control">
+                        <input type="text" name="denominacion" required value="{{old('denominacion')}}" class="form-control">
                         <div class="text-danger">{{$errors->first('denominacion')}} </div>
                     </div>
 
@@ -166,6 +174,8 @@
                                         <input name="altura" type="text" value="{{ old('altura') }}" required
                                             class="form-control col-md-3" placeholder="Altura">
                                     </div>
+                                    <div class="text-danger">{{$errors->first('calle')}} </div>
+                                    <div class="text-danger">{{$errors->first('altura')}} </div>
                                 </div>
                             </div>
                         </div>
@@ -192,13 +202,13 @@
 
 @endsection
 @push('scripts')
-<script>
+{{-- <script>
     @if($errors->any() )
-                $(function(){
-                    $('#crear').modal('show');
-                });
-            @endif
-</script>
+            $(function(){
+                $('#editar2').modal('show');
+            });
+    @endif
+</script> --}}
 <script>
     $(function () {
           $('#almacenes').DataTable({

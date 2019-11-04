@@ -77,7 +77,8 @@ class Trabajo extends Model
     public function tiempoDuracion(){
         $inicio = Carbon::create($this->horaInicio) ;
         $fin = Carbon::create($this->horaFin) ;
-        $resul = round($inicio->diffInMinutes($fin)/60, 2) ;
+        return $inicio->diffInMinutes($fin) ;
+        $resul = round($inicio->diffInMinutes($fin)*60, 2) ;
         return  str_replace('.', ':' , $resul ) ;
 
     }
@@ -91,13 +92,14 @@ class Trabajo extends Model
                 if($trabajo->horaFin != null){
                     $inicio = Carbon::create($trabajo->horaInicio) ;
                     $fin = Carbon::create($trabajo->horaFin) ;
-                    $suma += $inicio->diffInMinutes($fin)/60 ;
+                    $suma += $inicio->diffInMinutes($fin) ;
                     $div += 1 ;
                 }
             }
         }
         if($div != 0){
             $resul = $suma/$div ;
+            return $resul ;
             $enHoras = round($resul, 2) ;
             return str_replace('.', ':' , $enHoras ) ;
         }else{

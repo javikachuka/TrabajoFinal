@@ -93,6 +93,11 @@ class User extends Authenticatable implements Auditable
         return $this->hasMany(Pedido::class);
     }
 
+    public function getFecha(){
+        $date = Carbon::create($this->fecha_ingreso)->format('d/m/Y') ;
+        return $date  ;
+    }
+
     public function deTurno(){
         $hoy = Carbon::now() ;
         $hoy->setTime(0,0,0);

@@ -11,6 +11,14 @@
         </h3>
     </div>
     <div class="card-body">
+        @if ($errors->any())
+        <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach
+        </div>
+        @endif
         <div class="table-responsive">
             <table id="requisitos" class="table table-bordered table-striped table-hover datatable">
                 <thead>
@@ -106,7 +114,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Nombre</label>
-                        <input type="text" name="nombre" required value="" class="form-control">
+                        <input type="text" name="nombre" required value="{{old('nombre')}}" class="form-control">
                         <div class="text-danger">{{$errors->first('nombre')}} </div>
 
                     </div>
@@ -194,11 +202,11 @@
              });
 </script>
 
-<script>
+{{-- <script>
     @if($errors->any() )
                 $(function(){
                     $('#crear').modal('show');
                 });
             @endif
-</script>
+</script> --}}
 @endpush

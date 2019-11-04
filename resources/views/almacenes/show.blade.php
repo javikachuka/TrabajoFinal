@@ -13,7 +13,7 @@
                         </div>
                         <hr>
                         <strong><i class="fal fa-map-marker-alt mr-1"></i>Ubicacion</strong>
-                        <p class="text-muted">{{$almacen->direccion->calle}}  {{$almacen->direccion->altura}}  <br>
+                        <p class="text-muted">{{$almacen->direccion->calle}}  {{$almacen->direccion->altura}},
                             {{$almacen->direccion->zona->nombre}}
                         </p>
                         <hr>

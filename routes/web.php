@@ -149,7 +149,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('trabajos/create', 'TrabajoController@create')->name('trabajos.create')->middleware('permission:trabajos_create');
     Route::post('trabajos', 'TrabajoController@store')->name('trabajos.store') ;
     Route::get('trabajos/{trabajo}', 'TrabajoController@show')->name('trabajos.show')->middleware('permission:trabajos_show');
-    Route::get('trabajos/{trabajo}/edit', 'TrabajoController@edit')->name('trabajos.edit')->middleware('permission:trabajos_edit');
+    Route::get('trabajos/{trabajo}/edit', 'TrabajoController@edit')->name('trabajos.edit')->middleware('permission:trabajos_asignar');
     Route::put('trabajos/{trabajo}', 'TrabajoController@update')->name('trabajos.update') ;
     Route::delete('trabajos/{trabajo}', 'TrabajoController@destroy')->name('trabajos.destroy')->middleware('permission:trabajos_destroy');
     Route::get('trabajos/iniciarTrabajo/{trabajo}', 'TrabajoController@iniciarTrabajo')->name('trabajos.iniciarTrabajo');
@@ -191,19 +191,19 @@ Route::middleware(['auth'])->group(function () {
 
 
     //horarios
-    Route::get('horarios', 'HorarioController@index')->name('horarios.index')->middleware('permission:horarios_index');
-    Route::get('horarios/create', 'HorarioController@create')->name('horarios.create')->middleware('permission:horarios_create');
+    Route::get('horarios', 'HorarioController@index')->name('horarios.index')->middleware('permission:horarios_all');
+    Route::get('horarios/create', 'HorarioController@create')->name('horarios.create')->middleware('permission:horarios_all');
     Route::post('horarios', 'HorarioController@store')->name('horarios.store') ;
-    Route::get('horarios/{horario}', 'HorarioController@show')->name('horarios.show')->middleware('permission:horarios_show');
-    Route::get('horarios/{horario}/edit', 'HorarioController@edit')->name('horarios.edit')->middleware('permission:horarios_edit');
+    Route::get('horarios/{horario}', 'HorarioController@show')->name('horarios.show')->middleware('permission:horarios_all');
+    Route::get('horarios/{horario}/edit', 'HorarioController@edit')->name('horarios.edit')->middleware('permission:horarios_all');
     Route::put('horarios/{horario}', 'HorarioController@update')->name('horarios.update') ;
-    Route::delete('horarios/{id}', 'HorarioController@destroy')->name('horarios.destroy')->middleware('permission:horarios_destroy');
+    Route::delete('horarios/{id}', 'HorarioController@destroy')->name('horarios.destroy')->middleware('permission:horarios_all');
 
     //turnos
     // Route::get('turnos','TurnoController@index')->name('turnos.index')->middleware('permission:turnos_index')  ;
-    Route::get('turnos', 'TurnoController@index')->name('turnos.index')->middleware('permission:turnos_index');
+    Route::get('turnos', 'TurnoController@index')->name('turnos.index')->middleware('permission:turnos_all');
     Route::post('turnos/store', 'TurnoController@store')->name('turnos.store') ;
-    Route::delete('turnos/{id}/{idEmple}', 'TurnoController@destroy')->name('turnos.destroy')->middleware('permission:turnos_destroy');
+    Route::delete('turnos/{id}/{idEmple}', 'TurnoController@destroy')->name('turnos.destroy')->middleware('permission:turnos_all');
 
 
 
@@ -289,4 +289,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('trabajosConMayorDuracionPDF', 'PdfController@trabajosConMayorDuracionPDF')->name('trabajosConMayorDuracion.pdf');
     Route::get('trabajosMasFrecuentesPDF', 'PdfController@trabajosMasFrecuentesPDF')->name('trabajosMasFrecuentes.pdf');
     Route::get('productosMasUtilizadosPDF', 'PdfController@productosUtilizadosPDF')->name('productosUtilizados.pdf');
+    Route::get('zonasConMasReclamosPDF', 'PdfController@zonasConMasReclamosPDF')->name('zonasConMasReclamos.pdf');
 });

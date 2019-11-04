@@ -15,6 +15,7 @@ use App\TipoMovimiento;
 use App\TipoReclamo;
 use App\Trabajo;
 use App\User;
+use App\Zona;
 use Illuminate\Http\Request;
 use PDF;
 use DB;
@@ -716,5 +717,25 @@ class PdfController extends Controller
         $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
         $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
         return $pdf->stream('productosUtilizados.pdf');
+    }
+
+    public function zonasConMasReclamosPDF(){
+        $zonas = Zona::all() ;
+        foreach($zonas as $id => $zona){
+
+            if($zona->CantidadReclamos == 0){
+                $zonas->pull($id) ;
+            }
+        }
+        $zonas->sortBy('CantidadReclamos') ;
+
+        $config = Configuracion::first();
+        $cant = sizeof($zonas);
+        $datos = date('d/m/Y');
+        $pdf = PDF::loadView('pdf.zonasConMasReclamos', ['zonas' => $zonas, 'datos' => $datos, 'cant' => $cant, 'config' => $config]);
+        $y = $pdf->getDomPDF()->get_canvas()->get_height() - 35;
+        $pdf->getDomPDF()->get_canvas()->page_text(500, $y, "Pagina {PAGE_NUM} de {PAGE_COUNT}", null, 10, array(0, 0, 0));
+        return $pdf->stream('zonasConMasReclamos.pdf');
+
     }
 }

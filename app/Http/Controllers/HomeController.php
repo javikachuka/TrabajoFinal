@@ -32,6 +32,7 @@ class HomeController extends Controller
     public function inicio()
     {
         $trabajos = Trabajo::all()->where('estado_id', 2);
+        $trabajosOrdenados = collect();
         foreach ($trabajos as $key => $trabajo) {
             // if ($trabajo->estado->nombre != 'EN ESPERA') {
             //     $trabajos->pull($key);
@@ -40,18 +41,16 @@ class HomeController extends Controller
             //     $trabajos->pull($key);
             // }
             if (!$trabajo->users->isEmpty()) {
-                if (!$trabajo->users->contains(auth()->user())) {
-                    $trabajos->pull($key);
+                if ($trabajo->users->contains(auth()->user())) {
+                    $trabajosOrdenados->add($trabajo);
                 }
+            } else {
+                $trabajosOrdenados->add($trabajo);
             }
         }
 
-        $aux = null;
-        $max = 2200;
-        $trabajosOrdenados = collect();
-        foreach ($trabajos as $trabajo) {
-            $trabajosOrdenados->add($trabajo);
-        }
+
+
 
         // for ($i = 0; $i < sizeof($trabajosOrdenados); $i++) {
 
@@ -63,16 +62,18 @@ class HomeController extends Controller
         //         $trabajosOrdenados[$i] = $aux;
         //     }
         // }
-            // dd($trabajos);
+        // dd($trabajos);
         // $trabajosOrdenados = $trabajosOrdenados->sortByDesc('Nivel') ;
 
         //burbuja para ordenar los de mayor prioridad
+        $aux = null;
+        $max = 2200;
         for ($i = 1; $i < count($trabajosOrdenados); $i++) {
             for ($j = 0; $j < count($trabajosOrdenados) - $i; $j++) {
                 if ($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad->nivel < $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad->nivel) {
-                        $k = $trabajosOrdenados[$j + 1];
-                        $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
-                        $trabajosOrdenados[$j] = $k;
+                    $k = $trabajosOrdenados[$j + 1];
+                    $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
+                    $trabajosOrdenados[$j] = $k;
                 }
             }
         }
@@ -80,7 +81,7 @@ class HomeController extends Controller
         //burbuja para los de mayor tiempo segun prioridad de cada uno, si tienen igual prioridad se compara el tiempo de duracion
         for ($i = 1; $i < count($trabajosOrdenados); $i++) {
             for ($j = 0; $j < count($trabajosOrdenados) - $i; $j++) {
-                if(($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad == $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad) && ($trabajosOrdenados[$j]->duracionEstimadaReal($trabajosOrdenados[$j]->reclamo->tipoReclamo->id) < $trabajosOrdenados[$j+1]->duracionEstimadaReal($trabajosOrdenados[$j+1]->reclamo->tipoReclamo->id))){
+                if (($trabajosOrdenados[$j]->reclamo->tipoReclamo->prioridad == $trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->prioridad) && ($trabajosOrdenados[$j]->duracionEstimadaReal($trabajosOrdenados[$j]->reclamo->tipoReclamo->id) < $trabajosOrdenados[$j + 1]->duracionEstimadaReal($trabajosOrdenados[$j + 1]->reclamo->tipoReclamo->id))) {
                     $k = $trabajosOrdenados[$j + 1];
                     $trabajosOrdenados[$j + 1] = $trabajosOrdenados[$j];
                     $trabajosOrdenados[$j] = $k;

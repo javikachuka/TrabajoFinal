@@ -87,7 +87,7 @@
                 <tr>
                     <td>{{$d->producto->codigo}}</td>
                     <td>{{$d->producto->nombre}}</td>
-                    <td style="text-align: right">{{$d->cantidad}}</td>
+                    <td style="text-align: right">{{$d->cantidad}} {{$d->producto->medida->nombre}}</td>
                 </tr>
                 @endforeach
             </tbody>

@@ -22,7 +22,7 @@ class RequisitoController extends Controller
         ], ['nombre.unique' => 'El requisito ya existe']);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
         $requisito = new Requisito();
         $requisito->fill($request->all());
@@ -32,6 +32,13 @@ class RequisitoController extends Controller
 
     public function update(Request $request, Requisito $requisito)
     {
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|unique:requisitos,nombre,'. $requisito->id,
+        ], ['nombre.unique' => 'El requisito ya existe']);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $requisito->fill($request->all());
         $requisito->update();
         return redirect()->route('requisitos.index')->with('confirmar', 'asd');

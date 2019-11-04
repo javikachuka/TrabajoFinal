@@ -10,7 +10,7 @@
 
 </div>
 
-
+@can('asistencias_create')
 @if(auth()->user()->marcoEntrada() === false)
 <div class="row d-flex justify-content-center">
     <div class="col-md-8 ">
@@ -34,8 +34,10 @@
     </div>
 </div>
 @endif
+@endcan
 <div class="content">
     <div class="content-fuid">
+        @can('trabajos_finalizar')
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
@@ -82,6 +84,8 @@
                 </div>
             </div>
         </div>
+        @endcan
+        @can('trabajos_iniciar')
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -119,7 +123,7 @@
                                         {{$trabajo->reclamo->tipoReclamo->prioridad->nombre}}
                                     </td>
                                     <td style="text-align: start">
-                                        {{$trabajo->tiempoDuracionEstimado($trabajo->reclamo->tipoReclamo->id)}} hs
+                                        {{$trabajo->tiempoDuracionEstimado($trabajo->reclamo->tipoReclamo->id)}} min.
                                     </td>
                                     <td>
                                         <button class="btn btn-xs btn-success" data-toggle="modal"
@@ -227,6 +231,7 @@
                 </div>
             </div>
         </div>
+        @endcan
         <br>
 
     </div>

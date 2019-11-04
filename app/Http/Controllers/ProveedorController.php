@@ -89,7 +89,16 @@ class ProveedorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validar();
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required' ,
+            'cuit' => 'required|string|min:13|unique:proveedores,cuit,'.$id ,
+            'email' => 'required|email' ,
+            'telefono' => 'numeric|required'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $proveedor = Proveedor::find($id) ;
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
@@ -120,7 +129,7 @@ class ProveedorController extends Controller
     public function validar(){
         $data = request()->validate([
             'nombre' => 'required' ,
-            'cuit' => 'required' ,
+            'cuit' => 'required|string|min:13|unique:proveedores,cuit' ,
             'email' => 'required|email' ,
             'telefono' => 'numeric|required'
         ]);

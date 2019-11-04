@@ -51,10 +51,10 @@
 
             </div>
 
-            <div class="col-md-1 offset-4">
+            {{-- <div class="col-md-1 offset-4">
                 <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
 
-            </div>
+            </div> --}}
     </div>
 
     @csrf
@@ -176,6 +176,95 @@
                 },
           });
         });
+</script>
+<script>
+    $(document).ready(function() {
+        var table = $('#pedidos').DataTable();
+
+
+        $('#limpiar').click(function(){
+            $('input[type=date]').val('');
+
+            $.fn.dataTable.ext.search.pop(
+                function( settings, data, dataIndex ) {
+                    if(1){
+                        return true ;
+                    }
+                    return false ;
+                }
+            );
+            table.draw() ;
+        }) ;
+
+
+
+
+        // Event listener to the two range filtering inputs to redraw on input
+        // $('#min, #max').keyup( function() {
+        //     table.draw();
+        // } );
+        $('#filtrar').click(function(){
+
+
+            var fec1 =  $('#min').val() ;
+            var fec2 =  $('#max').val() ;
+
+            $.fn.dataTable.ext.search.pop(
+                function( settings, data, dataIndex ) {
+                    if(1){
+                        return true ;
+                    }
+                    return false ;
+                }
+            );
+            table.draw() ;
+
+
+            if((fec1 != "") && (fec2 != "")){
+
+                var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                    var min = moment(fec1) ;
+                    var max = moment(fec2) ;
+
+                    var d = data[1]
+                    var datearray = d.split("/");
+                    var newdate =   datearray[2] + '/'+ datearray[1] + '/' + datearray[0] ;
+                    var s = new Date(newdate)
+                    var startDate = moment(s)
+                    console.log(startDate) ;
+
+                        if
+                                (
+                                    (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) )
+                                )
+                        {
+
+                            return true ;
+                        }else{
+                            return false;
+                        }
+
+                }
+
+                $.fn.dataTable.ext.search.push( filtradoTabla )
+
+
+                table.draw()
+
+            }else{
+
+                swal({
+                title: "Alerta",
+                text: "Seleccione opciones de filtrado!",
+
+                });
+            }
+
+        }) ;
+    } );
+
+
 </script>
 
 

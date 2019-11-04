@@ -78,6 +78,11 @@ class TrabajoController extends Controller
     public function edit(Trabajo $trabajo)
     {
         $empleados = User::all() ;
+        foreach($empleados as $key => $e){
+            if($e->roles->first()->name != 'EMPLEADO_PLANTA'){
+                $empleados->pull($key) ;
+            }
+        }
         return view('trabajos.asignacionTrabajos', compact('trabajo', 'empleados')) ;
     }
 
@@ -138,6 +143,11 @@ class TrabajoController extends Controller
         $productos = Producto::all() ;
         $almacenes = Almacen::all() ;
         $empleados = User::all() ;
+        foreach($empleados as $key => $e){
+            if($e->roles->first()->name != 'EMPLEADO_PLANTA'){
+                $empleados->pull($key) ;
+            }
+        }
 
         // foreach($empleados as $key => $empleado){
         //     if($empleado->)

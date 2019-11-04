@@ -136,7 +136,6 @@ class TipoReclamoController extends Controller
     public function validar(){
         $data = request()->validate([
             'nombre' => 'required|unique:tipo_reclamos,nombre' ,
-
         ]);
     }
 }

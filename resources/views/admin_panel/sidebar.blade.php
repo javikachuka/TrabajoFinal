@@ -38,6 +38,8 @@
                     </a>
                 </li>
 
+                @can('reclamos_index')
+
                 <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fal fa-clipboard-list"></i>
@@ -89,6 +91,8 @@
                     </ul>
                 </li>
 
+                @endcan
+                @can('trabajos_index')
                 <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fal fa-forklift"></i>
@@ -115,6 +119,7 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
                 <li class="nav-item has-treeview  ">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fal fa-warehouse"></i>
@@ -183,6 +188,7 @@
 
                 </li>
 
+                @can('asistencias_index')
                 <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fal fa-tasks"></i>
@@ -228,6 +234,9 @@
 
                     </ul>
                 </li>
+                @endcan
+
+                @can('users_index')
 
                 <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">
@@ -265,6 +274,7 @@
                         @endcan
                     </ul>
                 </li>
+                @endcan
                 @can('flujoTrabajos_index')
                 <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">

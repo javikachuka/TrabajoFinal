@@ -44,10 +44,11 @@ class AlmacenController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'denominacion' => 'required|unique:almacenes,denominacion',
+            'altura' => 'required|numeric',
         ],['denominacion.unique' => 'El almacen ya existe']);
 
         if($validator->fails()){
-            return redirect()->back()->withErrors($validator) ;
+            return redirect()->back()->withErrors($validator)->withInput() ;
         }
 
         $direccion = new Direccion() ;
@@ -91,6 +92,14 @@ class AlmacenController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'denominacion' => 'required|unique:almacenes,denominacion,'.$id,
+            'altura' => 'required|numeric',
+        ],['denominacion.unique' => 'El almacen ya existe']);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator) ;
+        }
         $almacen = Almacen::find($id) ;
         $direccion = $almacen->direccion ;
         $direccion->fill($request->all()) ;

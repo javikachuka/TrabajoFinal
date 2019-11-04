@@ -50,6 +50,10 @@
                             @endforeach
                         </td>
                         <td width="13%">
+                            @can('users_show')
+                            <a href="{{ route('users.show', $user) }}" class="btn btn-xs btn-primary"> Ver mas
+                            </a>
+                            @endcan
                             @can('users_edit')
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-xs btn-secondary"> Editar
                             </a>

@@ -25,10 +25,12 @@
                         <a href="" class="btn btn-primary btn-xs " data-toggle="modal" data-target="#buscar"><i
                                 class="fa fa-search"></i></a>
                     </div>
+                    @can('socios_create')
                     <div class="form-group ml-1">
                         <a href="{{route('socios.create')}}" class="btn btn-primary btn-xs "><i
                                 class="fa fa-plus"></i></a>
                     </div>
+                    @endcan
                 </div>
                 <div class="col-sm-3">
                     <label for="">DNI</label>
@@ -45,12 +47,14 @@
                         <option value="" selected disabled>--Seleccione--</option>
                     </select>
                 </div>
+                @can('socios_create')
                 <div class="col-sm-1 d-flex align-items-end py-2">
                     <div class="form-group ml-1">
                         <button type="button" class="btn btn-primary btn-xs " disabled id="crearConex"
                             data-toggle="modal" data-target="#crearConexion"><i class="fa fa-plus"></i></button>
                     </div>
                 </div>
+                @endcan
             </div>
             <div class="row">
                 <div class="col-sm-3">
@@ -83,7 +87,7 @@
                             </div>
                             <input type="date" name="fecha" class="form-control" required
                                 value="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
-                                max="{{ Carbon\Carbon::now()->addDay()->format('Y-m-d') }}" id="">
+                                max="{{ Carbon\Carbon::now()->format('Y-m-d') }}" id="">
                         </div>
                     </div>
                 </div>

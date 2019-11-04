@@ -75,6 +75,9 @@ class RubroController extends Controller
      */
     public function update(Request $request, $id)
     {
+        request()->validate([
+            'nombre' => 'required|unique:rubros,nombre,'. $id,
+        ]);
         $rubro = Rubro::find($id);
         $rubro->fill($request->all());
         $rubro->update();

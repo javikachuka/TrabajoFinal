@@ -50,12 +50,18 @@
                         @foreach (auth()->user()->asistencias as $asistencia)
                     <tr>
                                 <td>{{$asistencia->getDia()}}</td>
-                                <td>{{$asistencia->horaEntrada}}</td>
+                                <td>
+                                    @if($asistencia->horaEntrada != null)
+                                    {{$asistencia->horaEntrada}}
+                                    @else
+                                        Sin Registros.
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($asistencia->horaSalida != null)
                                         {{$asistencia->horaSalida}}
                                     @else
-                                        Aun no presenta salida.
+                                        Sin Registros.
                                     @endif
                                 </td>
 

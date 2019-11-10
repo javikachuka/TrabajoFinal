@@ -35,6 +35,84 @@
 </div>
 @endif
 @endcan
+<div class="row d-flex justify-content-around">
+    <div class="col-md-3">
+        <div class="small-box bg-blue">
+            <div class="inner">
+                <h3>
+                    {{$cantidadReclamos}}
+                </h3>
+                <p>
+                    Reclamos Registrados
+                </p>
+            </div>
+            <div class="icon">
+                <i class="fal fa-clipboard-list"></i>
+            </div>
+            <a href="{{route('reclamos.index')}}" class="small-box-footer">
+                Ver mas
+                <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="small-box bg-cyan">
+            <div class="inner">
+                <h3>
+                    {{$cantidadProveedores}}
+                </h3>
+                <p>
+                    Proveedores Registrados
+                </p>
+            </div>
+            <div class="icon">
+                <i class="fal fa-people-carry"></i>
+            </div>
+            <a href="{{route('productos.index')}}" class="small-box-footer">
+                Ver mas
+                <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>
+                    {{$cantidadEmpleados}}
+                </h3>
+                <p>
+                    Empleados Registrados
+                </p>
+            </div>
+            <div class="icon">
+                <i class="fal fa-user"></i>
+            </div>
+            <a href="{{route('users.index')}}" class="small-box-footer">
+                Ver mas
+                <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="small-box bg-navy">
+            <div class="inner">
+                <h3>
+                    {{$cantidadProductos}}
+                </h3>
+                <p>
+                    Productos Registrados
+                </p>
+            </div>
+            <div class="icon">
+                <i class="fal fa-cube"></i>
+            </div>
+            <a href="{{route('productos.index')}}" class="small-box-footer">
+                Ver mas
+                <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
 <div class="content">
     <div class="content-fuid">
         @can('trabajos_finalizar')

@@ -10,7 +10,7 @@
 
 
 //GENERAL
-- [ ] ver tiempos de los trabajos (duracion real y estimada)
+- [x] ver tiempos de los trabajos (duracion real y estimada)
 - [x] Reporte de auditoria
 - [ ] registro de cuando un empleado no viene a la empresa 
 - [x] Implementar que un socio tenga multiples conexiones
@@ -31,6 +31,8 @@ a los demas trabajos que existen ya iniciados
 
 - [x] configurar roles y permisos en vista 
 - [ ] configurar roles y permisos en rutas
+
+- [ ] fijarme el las si agregar direccion del proveedor
 
 - [x] Agregar duracion en el eje Y del chart
 

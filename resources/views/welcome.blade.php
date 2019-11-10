@@ -87,7 +87,7 @@
 
             <div class="title m-b-md">
                 ReCoop
-                <img src="{{ asset('img/logo4.png')}}" alt="" class="brand-image img-circle " height="150" width="150"
+                <img src="{{ asset('img/logo4.png')}}" alt="" class="brand-image img-circle " height="100" width="100"
                     style="opacity: .8 ;">
             </div>
 

@@ -82,7 +82,7 @@ class UserTableSeeder extends Seeder
         $user->password = Hash::make('123456789') ;
         $user->save() ;
         $user->roles()->sync(3);
-        $user->roles->first()->permissions()->sync([1,12,17,18,19,22,34,35,37,38,39,40,41,42,49,51,58,60,63]) ;
+        $user->roles->first()->permissions()->sync([1,12,17,18,19,22,30,34,35,37,38,39,40,41,42,49,50,51,58,60,63,75]) ;
 
 
 
@@ -104,7 +104,7 @@ class UserTableSeeder extends Seeder
         $user->password = Hash::make('123456789') ;
         $user->save() ;
         $user->roles()->sync(3);
-        $user->roles->first()->permissions()->sync([1,12,17,18,19,22,34,35,37,38,39,40,41,42,49,51,58,60,63]) ;
+        $user->roles->first()->permissions()->sync([1,12,17,18,19,22,30,34,35,37,38,39,40,41,42,49,50,51,58,60,63,75]) ;
 
         //empleados de oficina
         $direccion = new Direccion();
@@ -125,7 +125,7 @@ class UserTableSeeder extends Seeder
         $user->password = Hash::make('123456789') ;
         $user->save() ;
         $user->roles()->sync(2);
-        $user->roles->first()->permissions()->sync([1,2,3,4,5,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,39,40,41,42,43,49,50,51,52,53,54,55,56,57,58,59,60,61,62,64]) ;
+        $user->roles->first()->permissions()->sync([1,2,3,4,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,39,40,41,42,49,50,51,52,53,54,58,60,64,65,75]) ;
 
 
 

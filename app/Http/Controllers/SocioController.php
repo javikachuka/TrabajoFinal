@@ -137,6 +137,14 @@ class SocioController extends Controller
     public function destroy(Socio $socio)
     {
         try {
+            foreach($socio->direcciones as $d){
+                foreach($d->reclamos as $r){
+                    if($r->trabajo->estado->id != $r->tipoReclamo->flujoTrabajo->getEstadoFinal()->id){
+                        alert()->error('No es posible eliminar el socio porque tiene reclamos que estan siendo tratados' , 'Error')->persistent() ;
+                        return redirect()->back() ;
+                    }
+                }
+            }
             $socio->delete();
             return redirect()->back()->with('borrado', 'ok');
         } catch (Exception $e) {

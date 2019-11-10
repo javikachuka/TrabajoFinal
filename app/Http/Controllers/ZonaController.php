@@ -45,6 +45,10 @@ class ZonaController extends Controller
     public function destroy(Zona $zona)
     {
 
+        if(!$zona->direcciones->isEmpty()){
+            alert()->error('No es posible eliminar la zona debido a que tiene direcciones asociadas')->persistent() ;
+            return redirect()->back()->withInput(['tab' => 'zonas']) ;
+        }
         $zona->delete();
         return redirect()->back()->withInput(['tab' => 'zonas'])->with('borrado', 'bien');
     }

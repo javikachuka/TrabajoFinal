@@ -119,8 +119,16 @@ class AlmacenController extends Controller
     {
         $almacen = Almacen::find($id) ;
         try{
+            if(!$almacen->existencias->isEmpty()){
+                alert()->error('No es posible eliminar el almacen debido a que tiene productos asociados' , 'Error')->persistent() ;
+                return redirect()->back() ;
+            }elseif(!$almacen->movimientosOrigen->isEmpty() || !$almacen->movimientosDestino->isEmpty()){
+                alert()->error('No es posible eliminar el almacen debido a que tiene movimientos asociados' , 'Error')->persistent() ;
+                return redirect()->back() ;
+            }
             $almacen->delete() ;
-            return redirect()->back()->with('borrado' , 'ok') ;
+            return redirect()->back()->with('borrado' ,' ok') ;
+
 
         }catch(Exception $e){
             alert()->error('No es posible eliminar el Almacen' , 'Error') ;

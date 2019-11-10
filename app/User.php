@@ -119,12 +119,20 @@ class User extends Authenticatable implements Auditable
 
     public function getHorario(Asistencia $asistencia){
         $horarios = Horario::all();
-        $horaEntrada = Carbon::create($asistencia->horaEntrada) ;
-        foreach($horarios as $horario){
-            $horaE = Carbon::create($horario->horaEntrada)->subMinutes(15);
-            $horaS = Carbon::create($horario->horaSalida);
-            if(($horaEntrada->greaterThanOrEqualTo($horaE) && $horaEntrada->lessThanOrEqualTo($horaS))){
-                return $horario;
+        if($asistencia->horaEntrada != null){
+            $horaEntrada = Carbon::create($asistencia->horaEntrada) ;
+            foreach($horarios as $horario){
+                $horaE = Carbon::create($horario->horaEntrada)->subMinutes(15);
+                $horaS = Carbon::create($horario->horaSalida);
+                if(($horaEntrada->greaterThanOrEqualTo($horaE) && $horaEntrada->lessThanOrEqualTo($horaS))){
+                    return $horario;
+                }
+            }
+        }else{
+            foreach($this->turnos as $t){
+                if($t->dia == $asistencia->getNumeroDeDia()){
+                    return $t->horario ;
+                }
             }
         }
     }
@@ -167,5 +175,15 @@ class User extends Authenticatable implements Auditable
             }
         }
         return null ;
+    }
+
+    public function getTurnos($dia){
+        $turnos = collect() ;
+        foreach($this->turnos as $t){
+            if($t->dia == $dia){
+                $turnos->add($t) ;
+            }
+        }
+        return $turnos ;
     }
 }

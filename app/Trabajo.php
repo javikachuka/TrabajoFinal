@@ -49,13 +49,15 @@ class Trabajo extends Model
                 if($trabajo->horaFin != null){
                     $inicio = Carbon::create($trabajo->horaInicio) ;
                     $fin = Carbon::create($trabajo->horaFin) ;
-                    $suma += ($inicio->diffInMinutes($fin)-($inicio->diffInMinutes($fin)%60))/60 ;
+                    $suma += ($inicio->diffInMinutes($fin)) ;
+
                     $div += 1 ;
                 }
             }
         }
         if($div != 0){
             $resul = $suma/$div ;
+
             return round($resul, 2) ;
         }else{
             return 0 ;

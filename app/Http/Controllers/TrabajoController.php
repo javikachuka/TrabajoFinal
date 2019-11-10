@@ -32,7 +32,7 @@ class TrabajoController extends Controller
             $estados = $trabajos[0]->reclamo->tipoReclamo->flujoTrabajo->getEstados() ;
         }
         $empleados = User::all() ;
-        $empleados = $empleados->sortBy('nombre') ;
+        $empleados = $empleados->sortBy('name') ;
         $productos = Producto::all() ;
         return view('trabajos.index' , compact('trabajos', 'estados' , 'productos' , 'tipoTrabajos' ,'empleados'));
     }
@@ -140,6 +140,16 @@ class TrabajoController extends Controller
     }
 
     public function finalizarTrabajo(Trabajo $trabajo){
+        if(!$trabajo->users->isEmpty()){
+            if(!$trabajo->users->contains(auth()->user())){
+                $nombres ='' ;
+                foreach($trabajo->users as $u){
+                    $nombres = $u->name. ' ' . $u->apellido . '  ';
+                }
+                alert()->error('Usted no puede finalizar el trabajo debido a que esta designado a '. $nombres)->persistent() ;
+                return redirect()->back() ;
+            }
+        }
         $productos = Producto::all() ;
         $almacenes = Almacen::all() ;
         $empleados = User::all() ;

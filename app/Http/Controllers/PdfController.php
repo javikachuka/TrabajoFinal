@@ -727,7 +727,9 @@ class PdfController extends Controller
                 $zonas->pull($id) ;
             }
         }
-        $zonas->sortBy('CantidadReclamos') ;
+        $zonas = $zonas->sortByDesc('CantidadReclamos') ;
+
+
 
         $config = Configuracion::first();
         $cant = sizeof($zonas);

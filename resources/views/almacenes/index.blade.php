@@ -21,7 +21,7 @@
             @endforeach
         </div>
         @endif
-        <div class="table-responsive">
+        <div class="table-responsive animated fadeIn">
             <table id="almacenes" class="table table-bordered table-striped table-hover datatable">
                 <thead>
                     <tr>

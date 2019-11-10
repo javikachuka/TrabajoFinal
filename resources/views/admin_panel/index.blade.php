@@ -20,6 +20,8 @@
   {{-- <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('admin_panel/dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/animacion.css') }}">
+  {{-- <link rel="stylesheet" href="{{ asset('css/temaPace.css') }}"> --}}
 
 
 
@@ -150,6 +152,7 @@
     <script src="{{asset('admin_panel/plugins/moment/moment-with-locales.min.js')}}"></script>
     <script src="{{asset('admin_panel/plugins/chart.js/Chart.min.js')}}"></script>
     <script src="{{asset('admin_panel/dist/js/demo.js')}}"></script>
+    {{-- <script src="{{asset('js/pace.js')}}"></script> --}}
 
 
     @include('sweet::alert')

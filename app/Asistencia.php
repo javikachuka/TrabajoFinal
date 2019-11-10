@@ -16,6 +16,11 @@ class Asistencia extends Model
         return $date  ;
     }
 
+    public function getNumeroDeDia(){
+        $date = Carbon::create($this->dia)->dayOfWeek;
+        return $date  ;
+    }
+
     public function getNombreDia(){
         $date = Carbon::create($this->dia) ;
         switch($date->dayOfWeek){

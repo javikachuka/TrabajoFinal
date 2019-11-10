@@ -20,17 +20,22 @@ class EstadisticaController extends Controller
         $trabajosMasFrecuentes = new Estadistica;
         $tipos = TipoReclamo::all()->where('flujoTrabajo_id',  1);
         $nom = collect();
+        $nom2 = collect();
         $duracion = collect();
         $cantidad = collect();
         foreach ($tipos as $t) {
-            $nom->add($t->nombre);
             if ($t->reclamos->first() != null) {
-                $duracion->add($t->reclamos->first()->trabajo->duracionEstimadaReal($t->id));
+                $nom->add($t->nombre);
+                if($t->reclamos->first()->trabajo->duracionEstimadaReal($t->id) != 0){
+                    $duracion->add($t->reclamos->first()->trabajo->duracionEstimadaReal($t->id));
+                    $nom2->add($t->nombre);
+                }
                 $cantidad->add(Reclamo::where('tipoReclamo_id', $t->id)->get()->count());
-            } else {
-                $duracion->add(0);
-                $cantidad->add(0);
             }
+            // } else {
+            //     $duracion->add(0);
+            //     $cantidad->add(0);
+            // }
         }
         $trabajosMasFrecuentes->labels($nom);
         // $trabajosMasFrecuentes->options([
@@ -110,7 +115,7 @@ class EstadisticaController extends Controller
             ],
         ]);
 
-        $prueba->labels($nom);
+        $prueba->labels($nom2);
         $prueba->title('Tiempo de Duracion de los Trabajos');
         $prueba->options([
             'scales'              => [
@@ -129,14 +134,14 @@ class EstadisticaController extends Controller
                         ],
                         'scaleLabel' => [
                             'display' => true ,
-                            'labelString' => 'Horas' ,
+                            'labelString' => 'Minutos' ,
                         ]
                     ],
                 ],
             ],
         ]);
         // $prueba->dataset('My dataset', 'bar', [1, 2, 3, 4]);
-        $prueba->dataset('Duracion Real', 'bar', $duracion)->color("rgba(75, 192, 192)")->backgroundColor("rgba(75, 192, 192, 0.2)");
+        $prueba->dataset('Duracion Promedio', 'bar', $duracion)->color("rgba(75, 192, 192)")->backgroundColor("rgba(75, 192, 192, 0.2)");
         return view('trabajos.estadistica', compact('prueba', 'trabajosMasFrecuentes'));
     }
 

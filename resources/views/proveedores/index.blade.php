@@ -23,6 +23,7 @@
                         <th>CUIT</th>
                         <th>Email</th>
                         <th>Telefono</th>
+                        <th>Productos Ofrecidos</th>
                         <th>Accion</th>
                     </tr>
                 </thead>
@@ -34,6 +35,11 @@
                         <td style="text-align: right">{{$proveedor->cuit}}</td>
                         <td>{{$proveedor->email}}</td>
                         <td style="text-align: right">{{$proveedor->telefono}}</td>
+                        <td>
+                            @foreach ($proveedor->productos as $p)
+                                <div class="badge badge-success">{{$p->nombre}}</div>
+                            @endforeach
+                        </td>
                         <td width="125px">
                             @can('proveedores_edit')
                             <a href="{{ route('proveedores.edit', $proveedor->id) }}" class="btn btn-xs btn-secondary">

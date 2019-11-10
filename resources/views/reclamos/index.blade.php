@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="card">
+<div class="card ">
     <div class="card-header">
         <div class="card-title">
             Filtros
@@ -76,7 +76,7 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card animated fadeIn">
     <div class="card-header">
         <h3>Listado de Reclamos
             @can('reclamos_create')

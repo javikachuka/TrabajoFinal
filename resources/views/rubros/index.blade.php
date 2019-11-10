@@ -75,13 +75,12 @@
                             </div>
                             @endcan
                             @can('rubros_destroy')
-                            <form method="POST" action="rubros/{{$rubro->id}}"
-                                onsubmit="return confirm('Desea borrar {{$rubro->nombre}}')"
-                                style="display: inline-block;">
+                            <form id="form-borrar{{$rubro->id}}" method="POST"
+                                action="{{route('rubros.destroy' , $rubro->id)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-
-                                <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
+                                <button type="submit" class="btn btn-danger btn-xs btn-almacen"
+                                    id="{{$rubro->id}}">Borrar</button>
                             </form>
                             @endcan
                         </td>
@@ -167,6 +166,29 @@
         @elseif(session('borrado'))
             Borrado.fire();
         @endif
+</script>
+<script>
+    $('.btn-almacen').on('click', function(e){
+                                var id = $(this).attr('id');
+                            e.preventDefault();
+
+                        swal({
+                                title: "Cuidado!",
+                                text: "Esta seguro que desea eliminar?",
+                                icon: "warning",
+                                dangerMode: true,
+
+                                buttons: {
+                                cancel: "Cancelar",
+                                confirm: "Aceptar",
+                                },
+                            })
+                            .then ((willDelete) => {
+                                if (willDelete) {
+                                $("#form-borrar"+id).submit();
+                                }
+                            });
+                         });
 </script>
 {{--
 <script>

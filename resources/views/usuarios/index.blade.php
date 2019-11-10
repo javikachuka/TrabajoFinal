@@ -49,14 +49,12 @@
                             <span class="badge badge-info">{{$rol->name}}</span>
                             @endforeach
                         </td>
-                        <td width="13%">
+                        <td width="18%">
                             @can('users_show')
-                            <a href="{{ route('users.show', $user) }}" class="btn btn-xs btn-primary"> Ver mas
-                            </a>
+                            <a href="{{ route('users.show', $user) }}" class="btn btn-xs btn-primary"> Ver mas </a>
                             @endcan
                             @can('users_edit')
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-xs btn-secondary"> Editar
-                            </a>
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-xs btn-secondary"> Editar </a>
                             @endcan
                             @can('users_destroy')
                             <form id="form-borrar{{$user->id}}" method="POST"

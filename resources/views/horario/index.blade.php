@@ -76,12 +76,12 @@
                                 </div>
                             </div>
                             {{-- @endcan --}}
-                            <form method="POST" action="horarios/{{$horario->id}}"
-                                onsubmit="return confirm('Desea borrar {{$horario->nombre}}')"
-                                style="display: inline-block;">
+                            <form id="form-borrar{{$horario->id}}" method="POST"
+                                action="{{route('horarios.destroy' , $horario->id)}}" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
+                                <button type="submit" class="btn btn-danger btn-xs btn-almacen"
+                                    id="{{$horario->id}}">Borrar</button>
                             </form>
                         </td>
                     </tr>
@@ -144,5 +144,28 @@
         @elseif(session('borrado'))
             Borrado.fire();
         @endif
+</script>
+<script>
+    $('.btn-almacen').on('click', function(e){
+                                var id = $(this).attr('id');
+                            e.preventDefault();
+
+                        swal({
+                                title: "Cuidado!",
+                                text: "Esta seguro que desea eliminar?",
+                                icon: "warning",
+                                dangerMode: true,
+
+                                buttons: {
+                                cancel: "Cancelar",
+                                confirm: "Aceptar",
+                                },
+                            })
+                            .then ((willDelete) => {
+                                if (willDelete) {
+                                $("#form-borrar"+id).submit();
+                                }
+                            });
+                         });
 </script>
 @endpush

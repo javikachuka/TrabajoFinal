@@ -417,7 +417,7 @@ class PermissionsTableSeeder extends Seeder
 
         Permission::create([
             'name'          => 'Listar las asistencias',
-            'slug'          => 'asistencias_show',
+            'slug'          => 'asistencias_index',
             'description'   => 'Lista y navega todos las asistencias del sistema',
         ]);
 
@@ -485,6 +485,13 @@ class PermissionsTableSeeder extends Seeder
             'name'          => 'Todos los permisos de configuracion',
             'slug'          => 'configuracion_all',
             'description'   => 'Puede realizar todos las acciones de configuracion',
+        ]);
+
+        //Agregado
+        Permission::create([
+            'name'          => 'Ver barra de gestion de asistencias',
+            'slug'          => 'asistencias_mostrar',
+            'description'   => 'muestra el acceso a las asistencias',
         ]);
 
     }

@@ -76,7 +76,7 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card animated fadeIn">
     <div class="card-header">
         <h3>Listado de Trabajos</h3>
     </div>

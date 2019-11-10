@@ -56,6 +56,7 @@
                     <th>Cuit</th>
                     <th>Email</th>
                     <th>Telefono</th>
+                    <th>Productos Ofrecidos</th>
                 </tr>
             </thead>
 
@@ -68,6 +69,11 @@
                     <td>{{$prov->cuit}}</td>
                     <td>{{$prov->email}}</td>
                     <td>{{$prov->telefono}}</td>
+                    <td>
+                        @foreach ($prov->productos as $p)
+                            {{$p->nombre}} <br>
+                        @endforeach
+                    </td>
 
                 </tr>
                 @endforeach

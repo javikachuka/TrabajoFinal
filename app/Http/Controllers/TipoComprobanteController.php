@@ -50,6 +50,10 @@ class TipoComprobanteController extends Controller
 
     public function destroy(TipoComprobante $comprobante)
     {
+        if(!$comprobante->cabecerasMovimiento->isEmpty()){
+            alert()->error('No es posible eliminar el comprobante debido a que esta asociado a movimientos realizados')->persistent() ;
+            return redirect()->back()->withInput(['tab' => 'comprobantes']) ;
+        }
 
         $comprobante->delete();
         return redirect()->back()->withInput(['tab' => 'comprobantes'])->with('borrado', 'bien');

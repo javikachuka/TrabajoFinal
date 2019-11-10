@@ -188,7 +188,7 @@
 
                 </li>
 
-                @can('asistencias_index')
+                @can('asistencias_mostrar')
                 <li class="nav-item has-treeview ">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fal fa-tasks"></i>
@@ -207,7 +207,7 @@
                             </a>
                         </li>
                         @endcan
-                        @can('asistencias_show')
+                        @can('asistencias_index')
                         <li class="nav-item">
                             <a href="{{ route('asistencias.control') }}" class="nav-link">
                                 <i class="fal fa-calendar-check nav-icon"></i>

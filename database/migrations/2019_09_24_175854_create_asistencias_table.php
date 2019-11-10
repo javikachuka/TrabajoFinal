@@ -16,8 +16,8 @@ class CreateAsistenciasTable extends Migration
         Schema::create('asistencias', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('dia') ;
-            $table->time('horaEntrada') ;
-            $table->string('urlFoto') ;
+            $table->time('horaEntrada')->nullable() ;
+            $table->string('urlFoto')->nullable() ;
             $table->time('horaSalida')->nullable() ;
             $table->boolean('presente') ;
             $table->unsignedBigInteger('user_id');

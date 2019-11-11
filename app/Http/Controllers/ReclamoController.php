@@ -87,6 +87,7 @@ class ReclamoController extends Controller
                 $reclamo->trabajo_id = $trabajo->id;
                 $reclamo->update();
 
+
                 //historial de estados del reclamo
                 $historial = new HistorialEstado();
                 $historial->reclamo_id = $reclamo->id;
@@ -188,6 +189,9 @@ class ReclamoController extends Controller
                                     $trabajo->estado_id = $e->id;
                                 }
                             }
+                            if($trabajo->reclamo->tipoReclamo->prioridad->nivel == 5){
+                                $trabajo->enviarEmail() ;
+                            }
                         } else {
                             foreach ($posiblesEstados as $e) {
                                 if ($e->nombre == 'SIN EXISTENCIAS') {
@@ -287,6 +291,9 @@ class ReclamoController extends Controller
                                 if ($e->nombre == 'EN ESPERA') {
                                     $trabajo->estado_id = $e->id;
                                 }
+                            }
+                            if($trabajo->reclamo->tipoReclamo->prioridad->nivel == 5){
+                                $trabajo->enviarEmail() ;
                             }
                         } else {
                             foreach ($posiblesEstados as $e) {

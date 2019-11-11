@@ -106,7 +106,7 @@ Route::middleware(['auth'])->group(function () {
 
     //transiciones
     Route::get('transiciones', 'TransicionController@index')->name('transiciones.index');
-    Route::get('transiciones/create/{id}', 'TransicionController@create');
+    Route::get('transiciones/create/{id}', 'TransicionController@create')->name('transiciones.create');
     Route::post('transiciones/{id}', 'TransicionController@store');
     // Route::post('transiciones/orden', 'TransicionController@ordenar')->name('transiciones.ordenar') ;
     Route::get('transiciones/{transicion}', 'TransicionController@show')->name('transiciones.show');
@@ -290,4 +290,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('trabajosMasFrecuentesPDF', 'PdfController@trabajosMasFrecuentesPDF')->name('trabajosMasFrecuentes.pdf');
     Route::get('productosMasUtilizadosPDF', 'PdfController@productosUtilizadosPDF')->name('productosUtilizados.pdf');
     Route::get('zonasConMasReclamosPDF', 'PdfController@zonasConMasReclamosPDF')->name('zonasConMasReclamos.pdf');
+
+    //Email
+    Route::get('enviar-email', 'EmailController@enviarEmail');
 });

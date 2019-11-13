@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Estado;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class EstadoController extends Controller
 {
@@ -74,7 +76,13 @@ class EstadoController extends Controller
     public function update(Request $request,  $id)
     {
         $estado = Estado::find($id);
-        $this->validar();
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|unique:estados,nombre,' . $estado->id,
+        ],['nombre.unique' => 'El estado ya existe']);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator) ;
+        }
         $estado->fill($request->all());
         $estado->update();
         return redirect()->back()->with('confirmar', 'bien');
@@ -105,7 +113,7 @@ class EstadoController extends Controller
     public function validar()
     {
         return  request()->validate([
-            'nombre' => 'required',
+            'nombre' => 'required|unique:estados,nombre',
         ]);
     }
 }

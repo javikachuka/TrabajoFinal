@@ -18,7 +18,7 @@ class CreateDireccionesTable extends Migration
             $table->unsignedBigInteger('zona_id') ;
             $table->string('calle') ;
             $table->integer('altura') ;
-            $table->integer('nro_conexion')->nullable();
+            $table->bigInteger('nro_conexion')->nullable();
             $table->unsignedBigInteger('socio_id')->nullable() ;
             $table->foreign('socio_id')->references('id')->on('socios') ;
             $table->timestamps();

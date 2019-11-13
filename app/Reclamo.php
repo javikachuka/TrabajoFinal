@@ -5,10 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Reclamo extends Model
+class Reclamo extends Model implements Auditable
 {
 
+    use \OwenIt\Auditing\Auditable;
     use SoftDeletes ;
     protected $guarded = [] ;
 

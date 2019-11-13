@@ -17,11 +17,15 @@
                                 <label>Nombre</label>
                                 <input type="text" name="name" required value="{{ old('nombre') ?? $user->name }}"
                                     class="form-control">
+                                <div class="text-danger">{{$errors->first('name')}} </div>
+
                             </div>
                             <div class="form-group">
                                 <label>Apellido</label>
                                 <input type="text" name="apellido" required
                                     value="{{ old('apellido') ?? $user->apellido }}" class="form-control">
+                                <div class="text-danger">{{$errors->first('apellido')}} </div>
+
                             </div>
                             <div class="form-group">
                                 <label>DNI</label>
@@ -46,6 +50,8 @@
                                 <label>Telefono</label>
                                 <input type="text" name="telefono" required
                                     value="{{ old('telefono') ?? $user->telefono }}" class="form-control">
+                                <div class="text-danger">{{$errors->first('telefono')}} </div>
+
                             </div>
 
                             <div class="form-group">
@@ -94,6 +100,8 @@
                                                     value="{{ old('altura') ?? $user->direccion->altura}} @endif"
                                                     required class="form-control col-md-3" placeholder="Altura">
                                                 </div>
+                                                <div class="text-danger">{{$errors->first('altura')}} </div>
+                                                <div class="text-danger">{{$errors->first('calle')}} </div>
                                             </div>
                                         </div>
                                     </div>

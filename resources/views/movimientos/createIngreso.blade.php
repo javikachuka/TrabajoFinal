@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body box-profile">
                     <form class="form-group " method="POST" action="/movimientos/ingreso">
-                        <div class="row d-flex justify-content-around">
+                        <div class="row d-flex justify-content-between">
                             @if (session()->has('message'))
                             <div class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
@@ -41,6 +41,7 @@
                                         </div>
                                         <input type="date" name="fecha" class="form-control" required
                                             value="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
+                                            min="{{ Carbon\Carbon::now()->subDays(5)->format('Y-m-d') }}"
                                             max="{{ Carbon\Carbon::now()->format('Y-m-d') }}" id="">
                                     </div>
                                 </div>
@@ -212,10 +213,11 @@
         cantidad = $("#cantidad").val();
         medida = $("#medida").val();
         precio = $("#precio").val();
+        console.log(precio)
 
         if(producto_id != null ){
             if(cantidad > 0){
-                // if(precio > 0){
+                if(precio != ""){
                     var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
                                 '<td style="text-align:right;"><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
                                 '<td>'+medida+'</td>'+
@@ -225,13 +227,13 @@
 
                     $('tbody').append(fila) ;
                     limpiar();
-                // }else{
-                //     swal({
-                //         title: "Error",
-                //         text: "Ingrese un precio valido y mayor a 0",
-                //         icon: "error",
-                //     });
-                // }
+                }else{
+                    swal({
+                        title: "Error",
+                        text: "Ingrese un precio valido",
+                        icon: "error",
+                    });
+                }
             }else{
                 swal({
                         title: "Error",

@@ -53,9 +53,13 @@ class SocioController extends Controller
             'nombre' => 'required',
             'apellido' => 'required',
             'dni' => 'required|string|min:10',
-            'nro_conexion.*' => 'required|unique:direcciones,nro_conexion',
+            'nro_conexion.*' => 'required|distinct|unique:direcciones,nro_conexion',
+            'altura.*' => 'required|digits_between:1,10|numeric'
+
         ], [
             'nro_conexion.*.unique' => 'El numero de conexion ya esta asignado a un socio',
+            'altura.*.digits_between' => 'El campo altura debe tener entre 1 y 10 digitos',
+            'nro_conexion.*.distinct' => 'El campo numero de conexion no debe estar repetido'
         ]);
 
         if ($validator->fails()) {
@@ -118,6 +122,7 @@ class SocioController extends Controller
             'nombre' => 'required',
             'apellido' => 'required',
             'dni' => 'required|string|min:10',
+
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -159,8 +164,10 @@ class SocioController extends Controller
         $validator = Validator::make($request->all(), [
             'nro_conexion' => 'required|unique:direcciones,nro_conexion',
             'socio_id' => 'required' ,
+            'altura' => 'required|digits_between:1,10|numeric'
         ], [
             'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio',
+            'altura.digits_between' => 'El campo altura debe tener entre 1 y 10 digitos',
         ]);
 
         if ($validator->fails()) {
@@ -195,10 +202,11 @@ class SocioController extends Controller
     public function validar()
     {
         $data = request()->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
+            'nombre' => 'required|max:190',
+            'apellido' => 'required|max:190',
             'dni' => 'required|string|min:10',
             'nro_conexion.*' => 'required|unique:direcciones,nro_conexion',
+            'altura.*' => 'required|digits_between:1,10|numeric'
         ], [
             'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio',
         ]);

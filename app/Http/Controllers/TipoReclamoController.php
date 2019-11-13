@@ -89,10 +89,12 @@ class TipoReclamoController extends Controller
     {
 
         $tipoRec = TipoReclamo::find($id) ;
-        foreach($tipoRec->reclamos as $r){
-            if($r->trabajo->estado->id != $r->tipoReclamo->flujoTrabajo->getEstadoFinal()->id){
-                alert()->info('No es posible editar en este momento debido a que existen reclamos en curso. Cuando todos hayan finalizado intente de nuevo', 'Alerta!')->persistent();
-                return redirect()->back() ;
+        if($tipoRec->trabajo != false){
+            foreach($tipoRec->reclamos as $r){
+                if($r->trabajo->estado->id != $r->tipoReclamo->flujoTrabajo->getEstadoFinal()->id){
+                    alert()->info('No es posible editar en este momento debido a que existen reclamos en curso. Cuando todos hayan finalizado intente de nuevo', 'Alerta!')->persistent();
+                    return redirect()->back() ;
+                }
             }
         }
         $tipoRec->fill($request->only(['nombre' , 'detalle' , 'trabajo' , 'prioridad_id' , 'flujoTrabajo_id'])) ;

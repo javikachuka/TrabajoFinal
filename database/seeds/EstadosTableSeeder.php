@@ -116,5 +116,14 @@ class EstadosTableSeeder extends Seeder
             'estadoFinal_id' => 7,
         ]) ;
 
+
+        Transicion::create([
+            'nombre' => 'Quejas Del Socio',
+            'orden' => 9,
+            'flujoTrabajo_id' => 2,
+            'estadoInicial_id' => 1,
+            'estadoFinal_id' => 5,
+        ]) ;
+
     }
 }

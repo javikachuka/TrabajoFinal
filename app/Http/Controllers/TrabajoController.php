@@ -168,11 +168,15 @@ class TrabajoController extends Controller
 
     public function guardarFinalizacion(Request $request, Trabajo $trabajo){
 
+        if ($request->cantidad == null) {
+            alert()->error('Debe cargar los productos utilizados', 'Error');
+            return redirect()->back();
+        }
 
         DB::beginTransaction();
 
         $almacenOrigen = Almacen::find($request->almacen_id);
-        $trabajo->horaFin = Carbon::now() ;
+        $trabajo->horaFin = Carbon::create($request->fechaFin) ;
         $trabajo->observacion = $request->observacion ;
         $cabMov = new CabeceraMovimiento() ;
         $cabMov->fecha = Carbon::now();
@@ -238,5 +242,28 @@ class TrabajoController extends Controller
         DB::commit();
 
         return redirect()->route('trabajos.index')->with('confirmar' , 'ok') ;
+    }
+
+    public function comprobarFin($trabajo ,$fecha , $hora){
+        $t = Trabajo::find($trabajo) ;
+        $ahora = Carbon::now() ;
+        $horaFin = Carbon::create($hora) ;
+        $fechaFin = Carbon::create($fecha) ;
+        $fechaFin->setTime($horaFin->hour , $horaFin->minute) ;
+        $fechaReal = Carbon::create($t->horaInicio) ;
+
+        // return $fechaFin ;
+        // if($fechaFin->lessThan($ahora)){
+        //     return 5 ;
+        // }else{
+        //     return 546 ;
+        // }
+
+        if($fechaFin->isAfter($fechaReal) && $fechaFin->lessThan($ahora)){
+            return 1 ;
+        }else{
+            return 0 ;
+        }
+
     }
 }

@@ -117,24 +117,24 @@ Route::middleware(['auth'])->group(function () {
 
 
     //estados
-    Route::get('estados', 'EstadoController@index')->name('estados.index');
-    Route::get('estados/create', 'EstadoController@create')->name('estados.create');
+    Route::get('estados', 'EstadoController@index')->name('estados.index')->middleware('permission:estados_all');
+    Route::get('estados/create', 'EstadoController@create')->name('estados.create')->middleware('permission:estados_all');
     Route::post('estados', 'EstadoController@store')->name('estados.store');
     Route::get('estados/{estado}', 'EstadoController@show')->name('estados.show');
-    Route::get('estados/{estado}/edit', 'EstadoController@edit')->name('estados.edit');
+    Route::get('estados/{estado}/edit', 'EstadoController@edit')->name('estados.edit')->middleware('permission:estados_all');
     Route::put('estados/{id}', 'EstadoController@update')->name('estados.update');
-    Route::delete('estados/{estado}', 'EstadoController@destroy')->name('estados.destroy');
+    Route::delete('estados/{estado}', 'EstadoController@destroy')->name('estados.destroy')->middleware('permission:estados_all');
 
 
 
 
     //movimientos
-    Route::get('movimientos', 'MovimientoController@index')->name('movimientos.index');
-    Route::get('movimientos/createIngreso', 'MovimientoController@createIngreso')->name('movimientos.createIngreso');
-    Route::get('movimientos/createTransferencia', 'MovimientoController@createTransferencia')->name('movimientos.createTransferencia');
+    Route::get('movimientos', 'MovimientoController@index')->name('movimientos.index')->middleware('permission:movimientos_index');
+    Route::get('movimientos/createIngreso', 'MovimientoController@createIngreso')->name('movimientos.createIngreso')->middleware('permission:movimientos_ingreso');
+    Route::get('movimientos/createTransferencia', 'MovimientoController@createTransferencia')->name('movimientos.createTransferencia')->middleware('permission:movimientos_transferencia');
     Route::post('movimientos/ingreso', 'MovimientoController@storeIngreso')->name('movimientos.storeIngreso');
     Route::post('movimientos/transferencia', 'MovimientoController@storeTransferencia')->name('movimientos.storeTransferencia');
-    Route::get('movimientos/{movimiento}', 'MovimientoController@show')->name('movimientos.show');
+    Route::get('movimientos/{movimiento}', 'MovimientoController@show')->name('movimientos.show')->middleware('permission:movimientos_show');
     Route::get('movimientos/{movimiento}/edit', 'MovimientoController@edit')->name('movimientos.edit')->middleware('permission:movimientos_edit');
     Route::put('movimientos/{id}', 'MovimientoController@update')->name('movimientos.update') ;
     Route::delete('movimientos/{movimiento}', 'MovimientoController@destroy')->name('movimientos.destroy')->middleware('permission:movimientos_destroy');
@@ -154,7 +154,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('trabajos/{trabajo}', 'TrabajoController@destroy')->name('trabajos.destroy')->middleware('permission:trabajos_destroy');
     Route::get('trabajos/iniciarTrabajo/{trabajo}', 'TrabajoController@iniciarTrabajo')->name('trabajos.iniciarTrabajo');
     // Route::get('/trabajos/inicio/{trabajo}',  'TrabajoController@iniciarTrabajo')->name('trabajos.inicair') ;
-    Route::get('trabajos/finalizarTrabajo/{trabajo}', 'TrabajoController@finalizarTrabajo')->name('trabajos.finalizarTrabajo');
+    Route::get('trabajos/finalizarTrabajo/{trabajo}', 'TrabajoController@finalizarTrabajo')->name('trabajos.finalizarTrabajo')->middleware('permission:trabajos_finalizar');
     Route::put('trabajos/finalizacion/{trabajo}', 'TrabajoController@guardarFinalizacion')->name('trabajos.guardarFinalizacion');
 
 
@@ -182,10 +182,10 @@ Route::middleware(['auth'])->group(function () {
 
 
     //asistencias
-    Route::get('asistencias', 'AsistenciaController@index')->name('asistencias.index');
+    Route::get('asistencias', 'AsistenciaController@index')->name('asistencias.index')->middleware('permission:asistencias_create');
     Route::post('asistencias/entrada', 'AsistenciaController@entrada')->name('asistencias.entrada');
     Route::post('asistencias/salida', 'AsistenciaController@salida')->name('asistencias.salida');
-    Route::get('asistencias/control', 'AsistenciaController@control')->name('asistencias.control');
+    Route::get('asistencias/control', 'AsistenciaController@control')->name('asistencias.control')->middleware('permission:asistencias_index');
     Route::get('asistencias/obtenerAsistencias', 'AsistenciaController@obtenerAsistencias')->name('asistencias.obtenerAsistencias');
     Route::get('asistencias/{empleado}', 'AsistenciaController@show')->name('asistencias.show');
 
@@ -208,38 +208,38 @@ Route::middleware(['auth'])->group(function () {
 
 
     //Rubros
-    Route::get('rubros', 'RubroController@index')->name('rubros.index');
-    Route::get('rubros/create', 'RubroController@create')->name('rubros.create');
+    Route::get('rubros', 'RubroController@index')->name('rubros.index')->middleware('permission:rubros_index');
+    Route::get('rubros/create', 'RubroController@create')->name('rubros.create')->middleware('permission:rubros_create');
     Route::post('rubros', 'RubroController@store')->name('rubros.store');
     Route::get('rubros/{rubro}', 'RubroController@show')->name('rubros.show');
-    Route::get('rubros/{rubro}/edit', 'RubroController@edit')->name('rubros.edit');
+    Route::get('rubros/{rubro}/edit', 'RubroController@edit')->name('rubros.edit')->middleware('permission:rubros_edit');
     Route::put('rubros/{id}', 'RubroController@update')->name('rubros.update');
-    Route::delete('rubros/{rubro}', 'RubroController@destroy')->name('rubros.destroy');
+    Route::delete('rubros/{rubro}', 'RubroController@destroy')->name('rubros.destroy')->middleware('permission:rubros_destroy');
 
 
     //requisitos
-    Route::get('requisitos', 'RequisitoController@index')->name('requisitos.index');
-    Route::post('requisitos', 'RequisitoController@store')->name('requisitos.store');
-    Route::put('requisitos/{requisito}', 'RequisitoController@update')->name('requisitos.update');
-    Route::delete('requisitos/{requisito}', 'RequisitoController@destroy')->name('requisitos.destroy');
+    Route::get('requisitos', 'RequisitoController@index')->name('requisitos.index')->middleware('permission:requisitos_index');
+    Route::post('requisitos', 'RequisitoController@store')->name('requisitos.store')->middleware('permission:requisitos_create');
+    Route::put('requisitos/{requisito}', 'RequisitoController@update')->name('requisitos.update')->middleware('permission:requisitos_edit');
+    Route::delete('requisitos/{requisito}', 'RequisitoController@destroy')->name('requisitos.destroy')->middleware('permission:requisitos_destroy');
 
 
 
     //socios
-    Route::get('socios', 'SocioController@index')->name('socios.index');
-    Route::get('socios/create', 'SocioController@create')->name('socios.create');
+    Route::get('socios', 'SocioController@index')->name('socios.index')->middleware('permission:socios_index');
+    Route::get('socios/create', 'SocioController@create')->name('socios.create')->middleware('permission:socios_create');
     Route::post('socios', 'SocioController@store')->name('socios.store');
     Route::get('socios/{socio}', 'SocioController@show')->name('socios.show');
-    Route::get('socios/{socio}/edit', 'SocioController@edit')->name('socios.edit');
+    Route::get('socios/{socio}/edit', 'SocioController@edit')->name('socios.edit')->middleware('permission:socios_edit');
     Route::put('socios/{socio}', 'SocioController@update')->name('socios.update');
-    Route::delete('socios/{socio}', 'SocioController@destroy')->name('socios.destroy');
+    Route::delete('socios/{socio}', 'SocioController@destroy')->name('socios.destroy')->middleware('permission:socios_destroy');
     Route::post('socios/nuevaConexion', 'SocioController@nuevaConexion')->name('socios.nuevaConexion');
     Route::delete('socios/eliminarConexion/{id}-{idDirec}', 'SocioController@eliminarConexion')->name('socios.eliminarConexion');
 
 
     //configuracion
-    Route::get('configuracion', 'ConfiguracionController@index')->name('configuraciones.index');
-    Route::put('configuracion/update', 'ConfiguracionController@update')->name('configuraciones.update');
+    Route::get('configuracion', 'ConfiguracionController@index')->name('configuraciones.index')->middleware('permission:configuracion_all');
+    Route::put('configuracion/update', 'ConfiguracionController@update')->name('configuraciones.update')->middleware('permission:configuracion_all');
 
     //comprobantes
     Route::post('comprobantes', 'TipoComprobanteController@store')->name('comprobantes.store') ;
@@ -258,19 +258,20 @@ Route::middleware(['auth'])->group(function () {
 
 
     //pedidos
-    Route::get('pedidos', 'PedidoController@index')->name('pedidos.index');
-    Route::get('pedidos/create', 'PedidoController@create')->name('pedidos.create');
+    Route::get('pedidos', 'PedidoController@index')->name('pedidos.index')->middleware('permission:pedidos_index');
+    Route::get('pedidos/create', 'PedidoController@create')->name('pedidos.create')->middleware('permission:pedidos_create');
     Route::post('pedidos', 'PedidoController@store')->name('pedidos.store');
-    Route::get('pedidos/{pedido}', 'PedidoController@show')->name('pedidos.show');
-    Route::get('pedidos/{pedido}/edit', 'PedidoController@edit')->name('pedidos.edit');
+    Route::get('pedidos/{pedido}', 'PedidoController@show')->name('pedidos.show')->middleware('permission:pedidos_show');
+    Route::get('pedidos/{pedido}/edit', 'PedidoController@edit')->name('pedidos.edit')->middleware('permission:pedidos_edit');
     Route::put('pedidos/{pedido}', 'PedidoController@update')->name('pedidos.update');
-    Route::delete('pedidos/{pedido}', 'PedidoController@destroy')->name('pedidos.destroy');
+    Route::delete('pedidos/{pedido}', 'PedidoController@destroy')->name('pedidos.destroy')->middleware('permission:pedidos_destroy');
 
     //auditoria
-    Route::get('auditoria', 'AuditoriaController@index')->name('auditoria.index');
-    Route::get('auditoria/movimientos/{auditoria}-{id}', 'AuditoriaController@showMov')->name('auditoria.showMov');
-    Route::get('auditoria/users/{auditoria}-{id}', 'AuditoriaController@showUser')->name('auditoria.showUser');
-    Route::get('auditoria/productos/{auditoria}-{id}', 'AuditoriaController@showProd')->name('auditoria.showProd');
+    Route::get('auditoria', 'AuditoriaController@index')->name('auditoria.index')->middleware('permission:auditoria_all');
+    Route::get('auditoria/movimientos/{auditoria}-{id}', 'AuditoriaController@showMov')->name('auditoria.showMov')->middleware('permission:auditoria_all');
+    Route::get('auditoria/users/{auditoria}-{id}', 'AuditoriaController@showUser')->name('auditoria.showUser')->middleware('permission:auditoria_all');
+    Route::get('auditoria/productos/{auditoria}-{id}', 'AuditoriaController@showProd')->name('auditoria.showProd')->middleware('permission:auditoria_all');
+    Route::get('auditoria/reclamos/{auditoria}-{id}', 'AuditoriaController@showRec')->name('auditoria.showRec')->middleware('permission:auditoria_all');
 
     //estadisticas
     Route::get('estadistica/trabajos', 'EstadisticaController@trabajo')->name('estadistica.trabajos');

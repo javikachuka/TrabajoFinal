@@ -13,13 +13,17 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" name="name" required value="{{ old('name') ?? $user->name }}"
-                                    class="form-control">
+                                <input type="text" name="name" id="nombre" required
+                                    value="{{ old('name') ?? $user->name }}" class="form-control">
+                                <div class="text-danger">{{$errors->first('name')}} </div>
+
                             </div>
                             <div class="form-group">
                                 <label>Apellido</label>
-                                <input type="text" name="apellido" required
+                                <input type="text" name="apellido" id="apellido" required
                                     value="{{ old('apellido') ?? $user->apellido }}" class="form-control">
+                                <div class="text-danger">{{$errors->first('apellido')}} </div>
+
                             </div>
                             <div class="form-group">
                                 <label>DNI</label>
@@ -44,6 +48,8 @@
                                 <label>Telefono</label>
                                 <input type="number" name="telefono" required
                                     value="{{ old('telefono') ?? $user->telefono }}" class="form-control">
+                                <div class="text-danger">{{$errors->first('telefono')}} </div>
+
                             </div>
 
                             <div class="form-group">
@@ -85,16 +91,19 @@
                                                 <label for="">Calle</label>
                                                 <div class="input-group">
                                                     <input name="calle" type="text" @if($user->direccion != null)
-                                                    value="{{ old('calle') ?? $user->direccion->calle}} @endif" required
+                                                    value="{{ old('calle')}} @endif" required
                                                     class="form-control" placeholder="Calle">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">-</span>
                                                     </div>
-                                                    <input name="altura" type="text" @if($user->direccion != null)
-                                                    value="{{ old('altura') ?? $user->direccion->altura}} @endif"
+                                                    <input name="altura" type="number" min="0" @if($user->direccion !=
+                                                    null)
+                                                    value="{{ old('altura')}} @endif"
                                                     required class="form-control col-md-3" placeholder="Altura">
                                                 </div>
                                             </div>
+                                            <div class="text-danger">{{$errors->first('altura')}} </div>
+                                            <div class="text-danger">{{$errors->first('calle')}} </div>
                                         </div>
                                     </div>
                                 </div>
@@ -131,6 +140,9 @@
 <script>
     $(document).ready(function(){
             $('#dni').mask('00.000.000');
+            $('#nombre').mask('Z',{translation: {'Z': {pattern: /[ña-zÑA-Z ]/, recursive: true}}});
+            $('#apellido').mask('Z',{translation: {'Z': {pattern: /[ña-zÑA-Z ]/, recursive: true}}});
+
         });
 </script>
 

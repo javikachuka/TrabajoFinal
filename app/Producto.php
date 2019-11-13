@@ -20,6 +20,11 @@ class Producto extends Model implements Auditable
         $this->attributes['nombre'] = strtoupper($value);
     }
 
+    public function setCodigoAttribute($value)
+    {
+        $this->attributes['codigo'] = strtoupper($value);
+    }
+
 
 
     public function rubro()

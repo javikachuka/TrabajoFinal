@@ -335,7 +335,15 @@ class ReclamoController extends Controller
                 // }
 
             } else {
+                $historial = new HistorialEstado();
+                $historial->reclamo_id = $reclamo->id;
+                $historial->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoInicial();
+                $historial->save();
 
+                $historial = new HistorialEstado();
+                $historial->reclamo_id = $reclamo->id;
+                $historial->estado_id = $reclamo->tipoReclamo->flujoTrabajo->getEstadoFinal()->id;
+                $historial->save();
             }
             DB::commit();
             return redirect()->route('reclamos.index')->with('confirmar', 'asd');;

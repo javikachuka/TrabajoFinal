@@ -64,13 +64,13 @@
                             <td>{{$direc->nro_conexion}}</td>
                             <td>{{$direc->calle}} {{$direc->altura}}, {{$direc->zona->nombre}}</td>
                             <td>
-                                <form id="form-borrar{{$socio->id}}" method="POST"
+                                <form id="form-borrar{{$direc->id}}" method="POST"
                                     action="{{route('socios.eliminarConexion' , [$socio->id , $direc->id] )}}"
                                     style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-xs btn-socio"
-                                        id="{{$socio->id}}">Borrar</button>
+                                        id="{{$direc->id}}">Borrar</button>
 
                                 </form>
                             </td>
@@ -127,6 +127,8 @@
                                         <input name="altura" type="text" value="{{old('altura')}}" required
                                             class="form-control col-md-3" placeholder="Altura">
                                     </div>
+                                    <div class="text-danger">{{$errors->first('altura')}} </div>
+
                                 </div>
                             </div>
                         </div>
@@ -159,6 +161,11 @@
 @push('scripts')
 <script>
     @if($errors->has('nro_conexion') )
+        $(function(){
+            $('#crearConexion').modal('show');
+        });
+    @endif
+    @if($errors->has('altura') )
         $(function(){
             $('#crearConexion').modal('show');
         });

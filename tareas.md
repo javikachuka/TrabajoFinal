@@ -4,15 +4,16 @@
 - [x] Recomendaciones de productos(MODULO INTELIGENTE)
 - [x] Agregar si hay existencias de los productos y en que almacen para el MODULO INTELIGENTE
 - [x] Generar un pedido de los productos que serian necesarios para el mes o para una semana
-- [ ] Aviso a personal de apoyo cuando ingrese un trabajo con alto nivel de prioridad
+- [x] Aviso a personal de apoyo cuando ingrese un trabajo con alto nivel de prioridad
 
 //regla de 3 simple viendo el primer uso de un producto, hasta quedar sin stock .
 
 
 //GENERAL
+- [ ] controlar el lenght de los campos de nombres
 - [x] ver tiempos de los trabajos (duracion real y estimada)
 - [x] Reporte de auditoria
-- [ ] registro de cuando un empleado no viene a la empresa 
+- [x] registro de cuando un empleado no viene a la empresa 
 - [x] Implementar que un socio tenga multiples conexiones
 - [x] Inicio muestra o no opcion de asistencia dependiendo si corresponde el dia a un turno, si el empleado ya 
 marco o si no lo hizo todavia
@@ -30,7 +31,7 @@ a los demas trabajos que existen ya iniciados
 - [x] agregar las medidas en todos los lugares donde aparezca cantidad
 
 - [x] configurar roles y permisos en vista 
-- [ ] configurar roles y permisos en rutas
+- [x] configurar roles y permisos en rutas
 
 - [ ] fijarme el las si agregar direccion del proveedor
 

@@ -1,14 +1,20 @@
 @extends('admin_panel.index')
 
 @section('content')
-
-<h1>Listado de Estados</h1>
-
-<div class="form-group col-md-8">
-    <a href="" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#crear">Nuevo Estado</a>
-</div>
 <div class="card">
+    <div class="card-header">
+        <h3>Listado de Estados</h3>
+        <a href="" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#crear">Nuevo Estado</a>
+    </div>
     <div class="card-body">
+        @if ($errors->any())
+        <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach
+        </div>
+        @endif
         <div class="table-responsive">
             <table id="estados" class="table table-bordered table-striped table-hover datatable">
                 <thead>
@@ -94,6 +100,8 @@
                     <div class="form-group">
                         <label>Nombre</label>
                         <input type="text" name="nombre" required value="{{old('nombre')}}" class="form-control">
+                        <div class="text-danger">{{$errors->first('nombre')}} </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>

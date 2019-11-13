@@ -24,6 +24,7 @@
                         <option value="1">MOVIMIENTOS</option>
                         <option value="2">EMPLEADOS</option>
                         <option value="3">PRODUCTOS</option>
+                        <option value="4">RECLAMOS</option>
 
                     </select>
                 </div>
@@ -136,6 +137,23 @@
                         <td>{{$auditoria->user->apellido}} {{$auditoria->user->name}}</td>
                         <td width="150px" class="text-center">
                             <a href="{{route('auditoria.showProd' , ['auditoria' => $auditoria->auditable_id, 'id' => $auditoria->id])}}"
+                                class="btn btn-xs btn-primary">Ver
+                                mas</a>
+
+                        </td>
+                    </tr>
+
+                    @endforeach
+                    @foreach($auditoriasRec as $auditoria)
+                    <tr>
+                        <td>{{$auditoria->auditable_id}}</td>
+                        <td>RECLAMOS</td>
+                        <td style="text-transform:uppercase">{{$auditoria->event}}</td>
+                        <td>{{$auditoria->created_at->format('d/m/Y')}}</td>
+                        <td>{{$auditoria->created_at->format('H:i:s')}}</td>
+                        <td>{{$auditoria->user->apellido}} {{$auditoria->user->name}}</td>
+                        <td width="150px" class="text-center">
+                            <a href="{{route('auditoria.showRec' , ['auditoria' => $auditoria->auditable_id, 'id' => $auditoria->id])}}"
                                 class="btn btn-xs btn-primary">Ver
                                 mas</a>
 

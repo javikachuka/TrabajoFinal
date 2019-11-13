@@ -13,7 +13,24 @@
             </div>
         </div>
         <div class="card-body">
-            <p><strong>Trabajo: </strong> {{$trabajo->reclamo->tipoReclamo->nombre}}</p> <br>
+            <div class="row justify-content-start">
+                <div class="col-md-4">
+                    <p><strong>Trabajo: </strong> {{$trabajo->reclamo->tipoReclamo->nombre}}</p> <br>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <p><strong>Fecha y Hora de finalizacion: </strong> <input type="datetime" id="fechaMod"
+                            class="form-control" disabled value="{{ Carbon\Carbon::now()->format('d/m/Y H:i') }}">
+
+                    </p>
+                    <input type="hidden" name="fechaFin" id="fechaFinalizacion" value="{{ Carbon\Carbon::now()->format('Y-m-d H:i') }}">
+                    <input type="hidden" id="idTrabajo" value="{{ $trabajo->id }}">
+                </div>
+                <div class="col-md-2 d-flex align-items-center">
+                    <a href="" class="btn btn-secondary btn-xs " data-toggle="modal" data-target="#editar">Editar</a>
+                </div>
+
+            </div>
             <p><strong>Iniciado: </strong> {{$trabajo->diferencia()}}</p>
             <hr>
             <label for="" class="">Productos Utilizados</label>
@@ -110,6 +127,35 @@
 </form>
 
 @endsection
+
+<!-- Modal Edit -->
+<div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar fecha y hora</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="">Fecha de Finalizacion</label>
+                <input type="date" id="fechaFin" name="fechaFin" class="form-control" required
+                    value="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
+                    min="{{ Carbon\Carbon::create($trabajo->horaInicio)->format('Y-m-d') }}"
+                    max="{{ Carbon\Carbon::now()->format('Y-m-d') }}" id="">
+
+                <label for="">Hora de Finalizacion</label>
+                <input type="time" class="form-control" name="horaFin" id="horaFin"
+                    value="{{ Carbon\Carbon::now()->format('H:i') }}" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="comprobarFecha" class="btn btn-primary btn-sm ">Establecer</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @push('scripts')
 <script>
@@ -214,6 +260,44 @@
                 });
             } else {
                 $('#medida').val('') ;
+            }
+        });
+        $('#comprobarFecha').on('click' , function(){
+            var fecha = $('#fechaFin').val();
+            var hora = $('#horaFin').val();
+            var trabajo = $('#idTrabajo').val();
+            // console.log(fecha) ;
+            // console.log(hora) ;
+            if(fecha != null){
+                var direc = "{{ route('trabajos.comprobarFin', [":trabajo" , ":fecha", ":hora"]) }}" ;
+                direc = direc.replace(':fecha' , fecha) ;
+                direc = direc.replace(':hora' , hora) ;
+                direc = direc.replace(':trabajo' ,trabajo ) ;
+                // alert(tip_rec_id) ;
+                //AJAX
+
+                $.get(direc, function(data){
+                    // console.log(data) ;
+                    if(data == 1) {
+                        var datearray = fecha.split("-");
+                        var newdate =   datearray[2] + '/'+ datearray[1] + '/' + datearray[0] ;
+                        console.log(newdate);
+                        $('#fechaMod').val(newdate.concat(' ' ,hora)) ;
+                        $('#fechaFinalizacion').val(newdate.concat(' ' ,hora)) ;
+
+                        $('#editar').modal('hide');
+                        $(".modal-backdrop").remove();
+
+                    }else{
+                        swal({
+                            title: "Error",
+                            text: "La fecha y hora ingresada es menor a la fecha de inicio del trabajo o mayor a la fecha y hora actual!",
+                            icon: "error",
+                        });
+                    }
+                });
+            } else {
+
             }
         });
     });

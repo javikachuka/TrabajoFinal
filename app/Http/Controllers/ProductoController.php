@@ -88,7 +88,7 @@ class ProductoController extends Controller
         request()->validate([
             'nombre' => 'required|unique:productos,nombre,' . $producto->id,
             'codigo' => 'required|numeric|unique:productos,codigo,' . $producto->id,
-            'cantidadMinima' => 'required|numeric',
+            'cantidadMinima' => 'required|numeric|min:0|not_in:0',
             'rubro_id' => 'required',
         ]);
         $producto->fill($request->all());
@@ -125,9 +125,9 @@ class ProductoController extends Controller
     public function validar()
     {
         $data = request()->validate([
-            'nombre' => 'required|unique:productos,nombre',
+            'nombre' => 'required|max:190|unique:productos,nombre',
             'codigo' => 'required|numeric|unique:productos,codigo',
-            'cantidadMinima' => 'required|numeric',
+            'cantidadMinima' => 'required|numeric|min:0|not_in:0',
             'rubro_id' => 'required',
         ]);
     }

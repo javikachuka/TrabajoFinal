@@ -192,6 +192,30 @@ class EstadisticaController extends Controller
             // $estadisAlmacen->dataset($a->denominacion, 'bar' , $cantidades)->color("rgb(255,99,132)") ;
         }
 
+        $estadisAlmacen->options([
+            'scales'              => [
+                'xAxes' => [
+                    [
+                        'scaleLabel' => [
+                            'display' => true ,
+                            'labelString' => 'Productos' ,
+                        ]
+                    ]
+                ],
+                'yAxes' => [
+                    [
+                        'ticks' => [
+                            'beginAtZero' => true,
+                        ],
+                        'scaleLabel' => [
+                            'display' => true ,
+                            'labelString' => 'Cantidad Utilizada' ,
+                        ]
+                    ],
+                ],
+            ],
+        ]);
+
         return view('almacenes.estadistica', compact('estadisAlmacen', 'almacenes'));
     }
 
@@ -215,6 +239,30 @@ class EstadisticaController extends Controller
         }
 
         $estadisReclamos->labels($nombres);
+
+        $estadisReclamos->options([
+            'scales'              => [
+                'xAxes' => [
+                    [
+                        'scaleLabel' => [
+                            'display' => true ,
+                            'labelString' => 'Zonas' ,
+                        ]
+                    ]
+                ],
+                'yAxes' => [
+                    [
+                        'ticks' => [
+                            'beginAtZero' => true,
+                        ],
+                        'scaleLabel' => [
+                            'display' => true ,
+                            'labelString' => 'Cantidad de Reclamos' ,
+                        ]
+                    ],
+                ],
+            ],
+        ]);
 
         $r = rand(50, 200);
         $g = rand(50, 200);

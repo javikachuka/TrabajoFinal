@@ -41,7 +41,8 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>Nº de Conexion</label>
-                        <input type="number" name="nro_conexion[]" required value="{{old('nro_conexion.0')}}" class="form-control">
+                        <input type="number" name="nro_conexion[]" required value="{{old('nro_conexion.0')}}"
+                            class="form-control">
                         <div class="text-danger">{{$errors->first('nro_conexion.0')}}</div>
                     </div>
                     <label for="">Direccion</label>
@@ -51,14 +52,16 @@
                                 <div class="form-group">
                                     <label for="">Calle</label>
                                     <div class="input-group">
-                                        <input name="calle[]" type="text" value="{{old('calle.0')}}" required class="form-control"
-                                            placeholder="Calle">
+                                        <input name="calle[]" type="text" value="{{old('calle.0')}}" required
+                                            class="form-control" placeholder="Calle">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">-</span>
                                         </div>
                                         <input name="altura[]" type="text" value="{{old('altura.0')}}" required
                                             class="form-control col-md-3" placeholder="Altura">
+
                                     </div>
+                                    <div class="text-danger">{{$errors->first('altura.0')}} </div>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +71,8 @@
                         <select name="zona_id[]" class="form-control" required>
                             <option value="" selected disabled>--Seleccione--</option>
                             @foreach ($zonas as $zona)
-                            <option value="{{$zona->id}}" @if($zona->id == old('zona_id.0')) selected @endif>{{$zona->nombre}}</option>
+                            <option value="{{$zona->id}}" @if($zona->id == old('zona_id.0')) selected
+                                @endif>{{$zona->nombre}}</option>
                             @endforeach
                         </select>
                         <div class="text-danger">{{$errors->first('zona_id')}} </div>
@@ -81,62 +85,66 @@
             {{-- @foreach ($errors->get('images'.*) as $error)
                     <li>{{ $error }}</li>
             @endforeach --}}
-            @for ($i = 1; $i < session('cant'); $i++)
-                <div class="card" id="con1">
-                    <div class="card-header">
-                        Datos de la Conexion
-                        <div class="card-tools">
-                            <button type="button" id="borrarConexion" class="btn btn-danger btn-xs borrarConexion">Quitar</button>
-                        </div>
+            @for ($i = 1; $i < session('cant'); $i++) <div class="card" id="con1">
+                <div class="card-header">
+                    Datos de la Conexion
+                    <div class="card-tools">
+                        <button type="button" id="borrarConexion"
+                            class="btn btn-danger btn-xs borrarConexion">Quitar</button>
                     </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label>Nº de Conexion</label>
-                            <input type="number" name="nro_conexion[]" required value="{{old('nro_conexion.'.$i)}}" class="form-control">
-                            <div class="text-danger">{{$errors->first('nro_conexion.'.$i)}}</div>
-                        </div>
-                        <label for="">Direccion</label>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-xs-12 col-md-12">
-                                    <div class="form-group">
-                                        <label for="">Calle</label>
-                                        <div class="input-group">
-                                            <input name="calle[]" type="text" value="{{old('calle.'.$i)}}" required class="form-control"
-                                                placeholder="Calle">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">-</span>
-                                            </div>
-                                            <input name="altura[]" type="text" value="{{old('altura.'.$i)}}" required
-                                                class="form-control col-md-3" placeholder="Altura">
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Nº de Conexion</label>
+                        <input type="number" name="nro_conexion[]" required value="{{old('nro_conexion.'.$i)}}"
+                            class="form-control">
+                        <div class="text-danger">{{$errors->first('nro_conexion.'.$i)}}</div>
+                    </div>
+                    <label for="">Direccion</label>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="">Calle</label>
+                                    <div class="input-group">
+                                        <input name="calle[]" type="text" value="{{old('calle.'.$i)}}" required
+                                            class="form-control" placeholder="Calle">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">-</span>
                                         </div>
+                                        <input name="altura[]" type="text" value="{{old('altura.'.$i)}}" required
+                                            class="form-control col-md-3" placeholder="Altura">
                                     </div>
+                                    <div class="text-danger">{{$errors->first('altura.'.$i)}}</div>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="">Zona</label>
-                            <select name="zona_id[]" class="form-control" required>
-                                <option value="" selected disabled>--Seleccione--</option>
-                                @foreach ($zonas as $zona)
-                                <option value="{{$zona->id}}" @if($zona->id == old('zona_id.'.$i)) selected @endif>{{$zona->nombre}}</option>
-                                @endforeach
-                            </select>
-                            <div class="text-danger">{{$errors->first('zona_id')}} </div>
-                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Zona</label>
+                        <select name="zona_id[]" class="form-control" required>
+                            <option value="" selected disabled>--Seleccione--</option>
+                            @foreach ($zonas as $zona)
+                            <option value="{{$zona->id}}" @if($zona->id == old('zona_id.'.$i)) selected
+                                @endif>{{$zona->nombre}}</option>
+                            @endforeach
+                        </select>
+                        <div class="text-danger">{{$errors->first('zona_id')}} </div>
                     </div>
                 </div>
-            @endfor
-            @endif
         </div>
-        <div class="card-footer">
-            <div class="text-right">
-                <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
-                <input type="submit" value="Cargar Socio" class="btn btn-success btn-sm">
-            </div>
-        </div>
-        @csrf
-    </form>
+        @endfor
+        @endif
+</div>
+<div class="card-footer">
+    <div class="text-right">
+        <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
+        <input type="submit" value="Cargar Socio" class="btn btn-success btn-sm">
+    </div>
+</div>
+@csrf
+</form>
 </div>
 
 @endsection

@@ -50,10 +50,13 @@ class UserController extends Controller
     public function store(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'apellido' => 'required',
-            'email' => 'required|email',
+            'name' => 'required|max:190',
+            'apellido' => 'required|max:190',
+            'email' => 'required|email|unique:users,email',
             'dni' => 'required|string|min:10',
+            'telefono' => 'required|max:15',
+            'altura' => 'required|max:10' ,
+            'calle' => 'required|string|max:190' ,
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -123,10 +126,13 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'apellido' => 'required',
-            'email' => 'required|email',
+            'name' => 'required|max:190',
+            'apellido' => 'required|max:190',
+            'email' => 'required|email|unique:users,email,'. $id,
             'dni' => 'required|string|min:10',
+            'telefono' => 'required|max:15',
+            'altura' => 'required|max:10' ,
+            'calle' => 'required|string|max:190' ,
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

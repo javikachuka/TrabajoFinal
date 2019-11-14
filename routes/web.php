@@ -228,7 +228,9 @@ Route::middleware(['auth'])->group(function () {
     //socios
     Route::get('socios', 'SocioController@index')->name('socios.index')->middleware('permission:socios_index');
     Route::get('socios/create', 'SocioController@create')->name('socios.create')->middleware('permission:socios_create');
+    Route::get('socios/createReclamos', 'SocioController@atajoReclamos')->name('socios.createReclamos')->middleware('permission:socios_create');
     Route::post('socios', 'SocioController@store')->name('socios.store');
+    Route::post('socios/atajo', 'SocioController@atajo')->name('socios.atajo');
     Route::get('socios/{socio}', 'SocioController@show')->name('socios.show');
     Route::get('socios/{socio}/edit', 'SocioController@edit')->name('socios.edit')->middleware('permission:socios_edit');
     Route::put('socios/{socio}', 'SocioController@update')->name('socios.update');
@@ -294,4 +296,9 @@ Route::middleware(['auth'])->group(function () {
 
     //Email
     Route::get('enviar-email', 'EmailController@enviarEmail');
+});
+
+
+Route::fallback(function(){
+    return view('errors.404');
 });

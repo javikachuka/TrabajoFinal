@@ -138,6 +138,8 @@
 <script>
     $(document).ready(function(){
             $('#dni').mask('00.000.000');
+            $('#nombre').mask('Z',{translation: {'Z': {pattern: /[ña-zÑA-Z ]/, recursive: true}}});
+            $('#apellido').mask('Z',{translation: {'Z': {pattern: /[ña-zÑA-Z ]/, recursive: true}}});
         });
 </script>
 <script>

@@ -27,7 +27,7 @@
                     </div>
                     @can('socios_create')
                     <div class="form-group ml-1">
-                        <a href="{{route('socios.create')}}" class="btn btn-primary btn-xs "><i
+                        <a href="{{route('socios.createReclamos')}}" class="btn btn-primary btn-xs "><i
                                 class="fa fa-plus"></i></a>
                     </div>
                     @endcan

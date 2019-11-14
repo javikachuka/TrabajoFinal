@@ -12,13 +12,13 @@
             <h4>Datos Personales</h4>
             <div class="form-group">
                 <label>Apellido</label>
-                <input type="text" name="apellido" value="{{old('apellido')}}" required class="form-control"
+                <input type="text" name="apellido" id="apellido" value="{{old('apellido')}}" required class="form-control"
                     placeholder="Ingrese el apellido">
                 <div class="text-danger">{{$errors->first('apellido')}} </div>
             </div>
             <div class="form-group">
                 <label>Nombre</label>
-                <input type="text" name="nombre" value="{{old('nombre')}}" class="form-control"
+                <input type="text" name="nombre" id="nombre" value="{{old('nombre')}}" class="form-control"
                     placeholder="Ingrese el nombre" required>
                 <div class="text-danger">{{$errors->first('nombre')}} </div>
 
@@ -150,6 +150,12 @@
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function(){
+            $('#nombre').mask('Z',{translation: {'Z': {pattern: /[ña-zÑA-Z ]/, recursive: true}}});
+            $('#apellido').mask('Z',{translation: {'Z': {pattern: /[ña-zÑA-Z ]/, recursive: true}}});
+        });
+</script>
 <script>
     $('#agregarConexion').on('click' ,function(){
             addConexion();

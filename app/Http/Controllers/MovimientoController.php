@@ -236,7 +236,6 @@ class MovimientoController extends Controller
         $cabMov = new CabeceraMovimiento();
         $cabMov->fill($request->only('fecha', 'fechaComprobante', 'numeroComprobante', 'tipoComprobante_id'));
         $cabMov->save();
-        $error = false;
         for ($i = 0; $i < sizeof($request->cantidad); $i++) {
             $movimiento = new Movimiento();
             $movimiento->cabecera_movimiento_id = $cabMov->id;

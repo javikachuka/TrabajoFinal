@@ -68,7 +68,7 @@
             <div class="icon">
                 <i class="fal fa-people-carry"></i>
             </div>
-            <a href="{{route('productos.index')}}" class="small-box-footer">
+            <a href="{{route('proveedores.index')}}" class="small-box-footer">
                 Ver mas
                 <i class="fas fa-arrow-circle-right"></i>
             </a>

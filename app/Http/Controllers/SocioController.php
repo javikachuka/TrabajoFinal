@@ -38,6 +38,13 @@ class SocioController extends Controller
         return view('socios.registro', compact('zonas'));
     }
 
+    public function atajoReclamos()
+    {
+        $zonas = Zona::all();
+
+        return view('reclamos.atajo', compact('zonas'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -83,6 +90,46 @@ class SocioController extends Controller
         }
 
         return redirect()->route('socios.index')->with('confirmar', 'ok');
+    }
+
+    public function atajo(Request $request)
+    {
+        // return count($request->input('calle')) ;
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'dni' => 'required|string|min:10',
+            'nro_conexion.*' => 'required|distinct|unique:direcciones,nro_conexion',
+            'altura.*' => 'required|digits_between:1,10|numeric'
+
+        ], [
+            'nro_conexion.*.unique' => 'El numero de conexion ya esta asignado a un socio',
+            'altura.*.digits_between' => 'El campo altura debe tener entre 1 y 10 digitos',
+            'nro_conexion.*.distinct' => 'El campo numero de conexion no debe estar repetido'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->with('cant', count($request->input('calle')))->withInput();
+        }
+
+        $socio = new Socio();
+        $socio->apellido = $request->input('apellido');
+        $socio->nombre = $request->input('nombre');
+        $socio->dni = $request->input('dni');
+        $socio->save();
+
+        for ($i = 0; $i < sizeof($request->input('calle')); $i++) {
+            $direccion = new Direccion();
+            $direccion->zona_id = $request->zona_id[$i];
+            $direccion->calle = $request->calle[$i];
+            $direccion->altura = $request->altura[$i];
+            $direccion->nro_conexion = $request->nro_conexion[$i];
+            $direccion->socio_id = $socio->id;
+            $direccion->save();
+        }
+
+        return redirect()->route('reclamos.create')->with('confirmar', 'ok');
     }
 
     /**

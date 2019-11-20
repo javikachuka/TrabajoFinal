@@ -171,7 +171,7 @@ class UserTableSeeder extends Seeder
         $user->password = Hash::make('123456789') ;
         $user->save() ;
         $user->roles()->sync(5);
-        $user->roles->first()->permissions()->sync([1,3,39,40,49,51,73]) ;
+        $user->roles->first()->permissions()->sync([1,3,12,17,39,40,49,51,73]) ;
 
 
         // $user = new User() ;

@@ -10,7 +10,7 @@
 
 
 //GENERAL
-- [ ] controlar el lenght de los campos de nombres
+- [x] controlar el lenght de los campos de nombres
 - [x] ver tiempos de los trabajos (duracion real y estimada)
 - [x] Reporte de auditoria
 - [x] registro de cuando un empleado no viene a la empresa 

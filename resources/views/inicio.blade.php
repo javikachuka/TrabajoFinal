@@ -311,9 +311,119 @@
         </div>
         @endcan
         <br>
+        @if(auth()->user()->roles->first()->name == 'EMPLEADO_OFICINA')
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Cantidad de Reclamos en el Tiempo
+                    </div>
+                    <div class="card-body">
+                        <div width="50%">
+                            {!! $nivelReclamos->container() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <div class="card-title">
+                                Ultimos Reclamos Registrados
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (!$primerosReclamos->isEmpty())
 
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de Reclamo</th>
+                                    <th>Fecha y Hora</th>
+                                    <th>Socio</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($primerosReclamos as $pr)
+                                <tr>
+                                    <td>
+                                        {{$pr->tipoReclamo->nombre}}
+                                    </td>
+                                    <td>
+                                        {{$pr->created_at->format('d/m/Y H:i:s')}}
+                                    </td>
+                                    <td>{{$pr->direccion->socio->apellido}} {{$pr->direccion->socio->nombre}}</td>
+                                    <td><a href="{{route('reclamos.show', $pr)}}" class="btn btn-xs btn-adn"><i
+                                                class="fas fa-plus"></i></a></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @else
+                        <div class="justify-content-center">
+                            No registro de reclamos!
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        {!! $nivelReclamos->script() !!}
+        @endif
+        @if(auth()->user()->roles->first()->name == 'ENCARGADO_COMPRAS')
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <div class="card-title">
+                                Pedidos Pendientes
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if (!$pedidos->isEmpty())
+
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Pedido</th>
+                                    <th>Fecha</th>
+                                    <th>Accion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($pedidos as $p)
+                                <tr>
+                                    <td>
+                                        {{$p->id}}
+                                    </td>
+                                    <td>{{$p->getFecha()}}</td>
+                                    <td>
+                                        <a href="{{route('pedidos.edit' , $p)}}"
+                                            class="btn btn-xs btn-secondary">Finalizar
+                                            Pedido</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @else
+                        <div class="justify-content-center">
+                            No hay pedidos sin finalizar!
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
+
 @endsection
 @push('scripts')
 {{-- <script type="text/javascript">

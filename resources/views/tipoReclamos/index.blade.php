@@ -13,6 +13,14 @@
         </h3>
     </div>
     <div class="card-body">
+        @if ($errors->any())
+        <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            @foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach
+        </div>
+        @endif
         <div class="table-responsive">
             <table id="tipoReclamos" class="table table-bordered table-striped table-hover datatable">
                 <thead>
@@ -59,7 +67,8 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Edicion de Tipo de Reclamo</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Edicion de Tipo de Reclamo
+                                            </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -287,13 +296,13 @@
             Borrado.fire();
         @endif
 </script>
-<script>
+{{-- <script>
     @if($errors->any() )
             $(function(){
                 $('#crear').modal('show');
             });
         @endif
-</script>
+</script> --}}
 <script>
     $('.btn-almacen').on('click', function(e){
                 var id = $(this).attr('id');

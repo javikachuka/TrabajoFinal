@@ -34,6 +34,7 @@
 <script>
     $(document).ready(function(){
         $('#cuit').mask('00-00000000-0');
+        //
     });
 </script>
 <script>

@@ -9,6 +9,7 @@ use App\Requisito;
 use App\TipoReclamo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class TipoReclamoController extends Controller
 {
@@ -87,6 +88,15 @@ class TipoReclamoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|max:190|unique:tipo_reclamos,nombre,'.$id ,
+            'trabajo' => 'required',
+            'flujoTrabajo_id' => 'required',
+            'prioridad_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $tipoRec = TipoReclamo::find($id) ;
         if($tipoRec->trabajo != false){

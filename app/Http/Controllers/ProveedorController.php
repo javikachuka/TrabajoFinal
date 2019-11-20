@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProveedorController extends Controller
 {

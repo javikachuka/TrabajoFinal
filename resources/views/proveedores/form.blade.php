@@ -3,7 +3,7 @@
 
                 <div class="form-group">
                         <label>Nombre <i class="text-danger">(*)</i></label>
-                        <input type="text" name="nombre" value="{{ old('nombre') ?? $proveedor->nombre }}" class="form-control">
+                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre') ?? $proveedor->nombre }}" class="form-control">
                         <div class="text-danger">{{$errors->first('nombre')}} </div>
                 </div>
                 <div class="form-group">

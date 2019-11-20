@@ -6,9 +6,13 @@ use App\Estado;
 use App\Producto;
 use App\Proveedor;
 use App\Reclamo;
+use App\TipoReclamo;
 use App\Trabajo;
 use App\User;
 use Illuminate\Http\Request;
+use App\Charts\Estadistica;
+use App\Pedido;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -35,7 +39,7 @@ class HomeController extends Controller
 
     public function inicio()
     {
-        if(auth()->user()->roles->first()->name == 'EMPLEADO_PLANTA' || auth()->user()->roles->first()->name == 'ADMIN' ){
+        if (auth()->user()->roles->first()->name == 'EMPLEADO_PLANTA' || auth()->user()->roles->first()->name == 'ADMIN') {
 
             $trabajos = Trabajo::all()->where('estado_id', 2);
             $trabajosOrdenados = collect();
@@ -97,13 +101,54 @@ class HomeController extends Controller
 
             $estadoIniciado = Estado::where('nombre', 'INICIADO')->firstOrFail();
             $trabajosIniciados = Trabajo::where('estado_id', $estadoIniciado->id)->get();
+        } elseif( auth()->user()->roles->first()->name == 'EMPLEADO_OFICINA'){
+            $primerosReclamos = Reclamo::all()->sortByDesc('created_at')->take(10) ;
+            $nivelReclamos = new Estadistica ;
+            $reclamosParaGraf = Reclamo::all() ;
+            $fechas = collect();
+            $cantidades = collect();
+            foreach($reclamosParaGraf as $r){
+                $mod =  Carbon::create($r->fecha)->format('d/m/y') ;
+                if(!$fechas->contains($mod)){
+                    $fechas->add($mod) ;
+                    $cantidades->add(Reclamo::where('fecha', $r->fecha)->get()->count());
+                }
+            }
+            $nivelReclamos->labels($fechas) ;
+            $nivelReclamos->dataset('Cantidad', 'line',$cantidades)->color("rgba(54, 162, 235)")->backgroundColor("rgba(54, 162, 235, 0.2)");
+            $nivelReclamos->options([
+                'scales'              => [
+                    'xAxes' => [
+                        [
+                            'scaleLabel' => [
+                                'display' => true,
+                                'labelString' => 'Fechas',
+                            ]
+                        ]
+                    ],
+                    'yAxes' => [
+                        [
+                            'ticks' => [
+                                'beginAtZero' => true,
+                            ],
+                            'scaleLabel' => [
+                                'display' => true,
+                                'labelString' => 'Cantidad de Reclamos',
+                            ]
+                        ],
+                    ],
+                ],
+            ]);
+
+
+        } elseif( auth()->user()->roles->first()->name == 'ENCARGADO_COMPRAS'){
+            $pedidos = Pedido::all()->where('generado',false) ;
 
         }
-
-        $cantidadReclamos = Reclamo::all()->count() ;
-        $cantidadProveedores = Proveedor::all()->count() ;
-        $cantidadEmpleados = User::all()->count() ;
-        $cantidadProductos = Producto::all()->count() ;
-        return view('inicio', compact('trabajosOrdenados', 'trabajosIniciados',  'cantidadReclamos', 'cantidadProveedores' , 'cantidadEmpleados', 'cantidadProductos'));
+        $cantidadReclamos = Reclamo::all()->count();
+        $cantidadProveedores = Proveedor::all()->count();
+        $cantidadEmpleados = User::all()->count();
+        $cantidadProductos = Producto::all()->count();
+        return view('inicio', compact('trabajosOrdenados', 'trabajosIniciados',  'cantidadReclamos', 'cantidadProveedores', 'cantidadEmpleados', 'cantidadProductos' , 'primerosReclamos' , 'nivelReclamos', 'pedidos'));
     }
 }

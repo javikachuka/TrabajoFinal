@@ -57,6 +57,41 @@
                             {{$user->direccion->zona->nombre}}
                         </div>
                     </div>
+                    <br>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Turnos asignados</h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-fixed" id="turnos">
+                                <thead>
+                                    <tr>
+                                        <th>Dia</th>
+                                        <th>Horario</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(!$user->turnos->isEmpty())
+                                    @foreach ($user->turnos as $turno)
+                                    <tr>
+                                        <td width="35%">
+                                            {{$turno->getNombreDia()}}
+                                        </td>
+                                        <td>
+                                            {{$turno->horario->nombre}} ({{$turno->horario->horaEntrada . ' - ' . $turno->horario->horaSalida}} )
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                   @else
+                                   <tr>
+                                       <td>No hay turnos asignados!</td>
+                                   </tr>
+                                   @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

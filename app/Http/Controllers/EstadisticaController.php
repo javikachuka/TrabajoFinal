@@ -9,6 +9,7 @@ use App\Producto;
 use App\Reclamo;
 use App\TipoReclamo;
 use App\Zona;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,7 +27,7 @@ class EstadisticaController extends Controller
         foreach ($tipos as $t) {
             if ($t->reclamos->first() != null) {
                 $nom->add($t->nombre);
-                if($t->reclamos->first()->trabajo->duracionEstimadaReal($t->id) != 0){
+                if ($t->reclamos->first()->trabajo->duracionEstimadaReal($t->id) != 0) {
                     $duracion->add($t->reclamos->first()->trabajo->duracionEstimadaReal($t->id));
                     $nom2->add($t->nombre);
                 }
@@ -96,8 +97,8 @@ class EstadisticaController extends Controller
                 'xAxes' => [
                     [
                         'scaleLabel' => [
-                            'display' => true ,
-                            'labelString' => 'Tipos de Trabajos' ,
+                            'display' => true,
+                            'labelString' => 'Tipos de Trabajos',
                         ]
                     ]
                 ],
@@ -107,8 +108,8 @@ class EstadisticaController extends Controller
                             'beginAtZero' => true,
                         ],
                         'scaleLabel' => [
-                            'display' => true ,
-                            'labelString' => 'Frecuencia' ,
+                            'display' => true,
+                            'labelString' => 'Frecuencia',
                         ]
                     ],
                 ],
@@ -122,8 +123,8 @@ class EstadisticaController extends Controller
                 'xAxes' => [
                     [
                         'scaleLabel' => [
-                            'display' => true ,
-                            'labelString' => 'Tipos de Trabajos' ,
+                            'display' => true,
+                            'labelString' => 'Tipos de Trabajos',
                         ]
                     ]
                 ],
@@ -133,8 +134,8 @@ class EstadisticaController extends Controller
                             'beginAtZero' => true,
                         ],
                         'scaleLabel' => [
-                            'display' => true ,
-                            'labelString' => 'Minutos' ,
+                            'display' => true,
+                            'labelString' => 'Minutos',
                         ]
                     ],
                 ],
@@ -197,8 +198,8 @@ class EstadisticaController extends Controller
                 'xAxes' => [
                     [
                         'scaleLabel' => [
-                            'display' => true ,
-                            'labelString' => 'Productos' ,
+                            'display' => true,
+                            'labelString' => 'Productos',
                         ]
                     ]
                 ],
@@ -208,8 +209,8 @@ class EstadisticaController extends Controller
                             'beginAtZero' => true,
                         ],
                         'scaleLabel' => [
-                            'display' => true ,
-                            'labelString' => 'Cantidad Utilizada' ,
+                            'display' => true,
+                            'labelString' => 'Cantidad Utilizada',
                         ]
                     ],
                 ],
@@ -221,6 +222,12 @@ class EstadisticaController extends Controller
 
     public function reclamo()
     {
+        $anio= 2016;
+        $ahora = Carbon::now()->year;
+        $anios = collect() ;
+        for ($i= $anio; $i <= $ahora+5 ; $i++) {
+            $anios->add($i) ;
+        }
         $estadisReclamos = new Estadistica;
         $estadisReclamos->title('Zonas con Mas Reclamos');
         $zonas = Zona::all();
@@ -245,8 +252,8 @@ class EstadisticaController extends Controller
                 'xAxes' => [
                     [
                         'scaleLabel' => [
-                            'display' => true ,
-                            'labelString' => 'Zonas' ,
+                            'display' => true,
+                            'labelString' => 'Zonas',
                         ]
                     ]
                 ],
@@ -256,8 +263,69 @@ class EstadisticaController extends Controller
                             'beginAtZero' => true,
                         ],
                         'scaleLabel' => [
-                            'display' => true ,
-                            'labelString' => 'Cantidad de Reclamos' ,
+                            'display' => true,
+                            'labelString' => 'Cantidad de Reclamos',
+                        ]
+                    ],
+                ],
+            ],
+        ]);
+
+        $r = rand(50, 200);
+        $g = rand(50, 200);
+        $b = rand(50, 200);
+        $estadisReclamos->dataset('Zonas', 'bar', $cantReclamos)->color("rgb(" . $r . "," . $g . "," . $b . ")")->backgroundColor("rgba(" . $r . "," . $g . "," . $b . ", 0.2)");
+        $anio = null ;
+        return view('reclamos.estadistica', compact('estadisReclamos', 'anios' , 'anio'));
+    }
+
+    public function filtroZonas($anio)
+    {
+        $anio2= 2016;
+        $ahora = Carbon::now()->year;
+        $anios = collect() ;
+        for ($i= $anio2; $i <= $ahora+5 ; $i++) {
+            $anios->add($i) ;
+        }
+        $fecha = Carbon::create($anio)->format('Y-m-d') ;
+        $fin = Carbon::create($anio+1)->format('Y-m-d') ;
+        $estadisReclamos = new Estadistica;
+        $estadisReclamos->title('Zonas con Mas Reclamos');
+        $zonas = Zona::all();
+        $nombres = collect();
+        $cantReclamos = collect();
+
+        foreach ($zonas as $zona) {
+            $cantidad = DB::table('zonas')
+                ->join('direcciones', 'zonas.id', '=', 'direcciones.zona_id')
+                ->join('reclamos', 'direcciones.id', '=', 'reclamos.direccion_id')
+                ->select('zonas.*', 'reclamos.tipoReclamo_id')->where('zonas.id', $zona->id)->where('reclamos.fecha', '>=', $fecha)->where('reclamos.fecha', '<', $fin)->get()->count();
+            if ($cantidad != 0) {
+                $nombres->add($zona->nombre);
+                $cantReclamos->add($cantidad);
+            }
+        }
+
+        $estadisReclamos->labels($nombres);
+
+        $estadisReclamos->options([
+            'scales'              => [
+                'xAxes' => [
+                    [
+                        'scaleLabel' => [
+                            'display' => true,
+                            'labelString' => 'Zonas',
+                        ]
+                    ]
+                ],
+                'yAxes' => [
+                    [
+                        'ticks' => [
+                            'beginAtZero' => true,
+                        ],
+                        'scaleLabel' => [
+                            'display' => true,
+                            'labelString' => 'Cantidad de Reclamos',
                         ]
                     ],
                 ],
@@ -269,6 +337,8 @@ class EstadisticaController extends Controller
         $b = rand(50, 200);
         $estadisReclamos->dataset('Zonas', 'bar', $cantReclamos)->color("rgb(" . $r . "," . $g . "," . $b . ")")->backgroundColor("rgba(" . $r . "," . $g . "," . $b . ", 0.2)");
 
-        return view('reclamos.estadistica', compact('estadisReclamos'));
+        return view('reclamos.estadistica', compact('estadisReclamos','anios' ,'anio'));
     }
 }
+
+

@@ -20,7 +20,7 @@
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>CUIT</th>
+                        <th width="15%">CUIT</th>
                         <th>Email</th>
                         <th>Telefono</th>
                         <th>Productos Ofrecidos</th>

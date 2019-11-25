@@ -66,7 +66,8 @@
                 </div>
             </div>
             <div class="row d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo"></i></button>
+                <button type="button" class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i
+                        class="fas fa-redo"></i></button>
                 <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
                         class="fas fa-filter "></i></button>
 
@@ -76,7 +77,7 @@
     </div>
 </div>
 
-<div class="card animated fadeIn">
+<div class="card ">
     <div class="card-header">
         <h3>Listado de Trabajos</h3>
     </div>
@@ -112,13 +113,14 @@
                         </td>
                         <td>
                             @if($trabajo->estado != null)
-                                @if($trabajo->estado->isUltimo($trabajo->reclamo->tipoReclamo->flujoTrabajo->id))
-                                    <span class="badge badge-success">{{$trabajo->estado->nombre}}</span>
-                                @elseif($trabajo->estado->nombre == 'FALTA' || $trabajo->estado->nombre == 'SIN EXISTENCIAS')
-                                    <span class="badge badge-danger">{{$trabajo->estado->nombre}}</span>
-                                @else
-                                    <span class="badge badge-info">{{$trabajo->estado->nombre}}</span>
-                                @endif
+                            @if($trabajo->estado->isUltimo($trabajo->reclamo->tipoReclamo->flujoTrabajo->id))
+                            <span class="badge badge-success">{{$trabajo->estado->nombre}}</span>
+                            @elseif($trabajo->estado->nombre == 'FALTA' || $trabajo->estado->nombre == 'SIN
+                            EXISTENCIAS')
+                            <span class="badge badge-danger">{{$trabajo->estado->nombre}}</span>
+                            @else
+                            <span class="badge badge-info">{{$trabajo->estado->nombre}}</span>
+                            @endif
                             @else
                             <span class="badge badge-light">N/A</span>
                             @endif
@@ -276,7 +278,7 @@
             "lengthChange": true,
             "searching": true,
             "ordering": true,
-            "order": [[ 5, "asc" ]] ,
+            "order": [[ 0, "desc" ]] ,
             language: {
                 "decimal": "",
                 "emptyTable": "No hay información",

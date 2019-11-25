@@ -25,6 +25,7 @@
                     </p>
                     <input type="hidden" name="fechaFin" id="fechaFinalizacion" value="{{ Carbon\Carbon::now()->format('Y-m-d H:i') }}">
                     <input type="hidden" id="idTrabajo" value="{{ $trabajo->id }}">
+                    <input type="hidden" name="modificado" id="modificado" value="0">
                 </div>
                 <div class="col-md-2 d-flex align-items-center">
                     <a href="" class="btn btn-secondary btn-xs " data-toggle="modal" data-target="#editar">Editar</a>
@@ -284,7 +285,7 @@
                         console.log(newdate);
                         $('#fechaMod').val(newdate.concat(' ' ,hora)) ;
                         $('#fechaFinalizacion').val(newdate.concat(' ' ,hora)) ;
-
+                        $('#modificado').val(1) ;
                         $('#editar').modal('hide');
                         $(".modal-backdrop").remove();
 

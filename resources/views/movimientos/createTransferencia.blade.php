@@ -170,7 +170,7 @@
                                             <a href="javascript:history.back()"
                                                 class="btn btn-primary btn-sm">Volver</a>
 
-                                            <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
+                                            {{-- <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm"> --}}
                                             <button type="submit" class="btn btn-success btn-sm">Guardar</button>
                                         </div>
                                     </div>

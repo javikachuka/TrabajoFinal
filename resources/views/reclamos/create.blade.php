@@ -16,7 +16,8 @@
                     <select class="seleccion form-control" name="socio_id" id="socio" required>
                         <option value="" disabled selected>--Seleccione un socio--</option>
                         @foreach($socios as $socio)
-                        <option value="{{$socio->id}}">{{$socio->apellido . ' ' . $socio->nombre}}</option>
+                        <option value="{{$socio->id}}" @if(old('socio_id')==$socio->id) selected
+                            @endif>{{$socio->apellido . ' ' . $socio->nombre}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -87,6 +88,7 @@
                             </div>
                             <input type="date" name="fecha" class="form-control" required
                                 value="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
+                                min="{{ Carbon\Carbon::now()->subDay()->format('Y-m-d') }}"
                                 max="{{ Carbon\Carbon::now()->format('Y-m-d') }}" id="">
                         </div>
                     </div>
@@ -107,7 +109,7 @@
 
             <div class="text-right">
                 <a href="javascript:history.back()" class="btn btn-primary btn-sm">Volver</a>
-                <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
+                {{-- <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm"> --}}
                 <button type="submit" class="btn btn-success btn-sm">Generar Reclamo</button>
             </div>
             @csrf
@@ -249,10 +251,11 @@
 
                     <div class="form-group">
                         <label>Socio</label>
-                        <input type="text" name="socio" id="nombreSocio" required disabled value="{{old('socio')}}"
+                        <input type="text" name="socio" id="nombreSocio" required disabled value="{{session('nombreSoc')}}"
                             class="form-control">
                         <div class="text-danger">{{$errors->first('socio')}}</div>
                         <input type="hidden" name="socio_id" id="idSocio" value="{{old('socio_id')}}">
+                        <input type="hidden" name="socioNombre" id="socioNombre" value="">
                     </div>
                     <div class="form-group">
                         <label>Nº de Conexion</label>
@@ -304,13 +307,11 @@
 @endsection
 
 @push('scripts')
-<script>
+{{-- <script>
     $(document).ready(function() {
-        $('.seleccion').select2({
-            sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
-        });
+
     });
-</script>
+</script> --}}
 <script>
     @if($errors->any() )
                 $(function(){
@@ -318,6 +319,7 @@
                 });
             @endif
 </script>
+
 <script>
     @if(session('confirmar'))
             Confirmar.fire() ;
@@ -335,6 +337,7 @@
             var id = $(this).val();
             var socio = $('#socio option:selected').text() ;
             $('#nombreSocio').val(socio) ;
+            $('#socioNombre').val(socio) ;
             $('#idSocio').val(id) ;
             var url = "{{ route('socios.obtenerConexiones', ":id") }}" ;
             url = url.replace(':id' , id) ;
@@ -383,7 +386,9 @@
         });
 
 
-
+        $('.seleccion').select2({
+            sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
+        });
     });
 
 </script>

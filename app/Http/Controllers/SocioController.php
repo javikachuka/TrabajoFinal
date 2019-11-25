@@ -222,7 +222,7 @@ class SocioController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()->withErrors($validator)->withInput()->with('nombreSoc' , $request->socioNombre);
         }
 
         $direccion = new Direccion();

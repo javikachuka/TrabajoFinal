@@ -176,7 +176,14 @@ class TrabajoController extends Controller
         DB::beginTransaction();
 
         $almacenOrigen = Almacen::find($request->almacen_id);
-        $trabajo->horaFin = Carbon::create($request->fechaFin) ;
+        // return Carbon::createFromFormat('d/m/Y' ,'15/06/2019');
+        // return $request->modificado ;
+        if($request->modificado == 0){
+
+            $trabajo->horaFin = Carbon::create($request->fechaFin);
+        }else{
+            $trabajo->horaFin = Carbon::createFromFormat('d/m/Y H:i',$request->fechaFin);
+        }
         $trabajo->observacion = $request->observacion ;
         $cabMov = new CabeceraMovimiento() ;
         $cabMov->fecha = Carbon::now();

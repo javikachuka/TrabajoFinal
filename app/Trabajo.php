@@ -91,6 +91,9 @@ class Trabajo extends Model
 
     public function tiempoDuracion()
     {
+        if($this->horaInicio == null || $this->horaFin == null){
+            return 0 ;
+        }
         $inicio = Carbon::create($this->horaInicio);
         $fin = Carbon::create($this->horaFin);
         return $inicio->diffInMinutes($fin);

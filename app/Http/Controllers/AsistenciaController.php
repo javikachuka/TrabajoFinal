@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class AsistenciaController extends Controller
@@ -23,8 +25,10 @@ class AsistenciaController extends Controller
         $user = Auth::user();
         $dia = Carbon::now()->format('Y-m-d');
         $asistencia = new Asistencia();
+        $asistencias = $user->asistencias;
+        $asistencias = $asistencias->sortByDesc('dia');
 
-        return view('asistencia.index', compact('user'));
+        return view('asistencia.index', compact('user', 'asistencias'));
     }
 
     /**
@@ -56,8 +60,7 @@ class AsistenciaController extends Controller
      */
     public function show(User $empleado)
     {
-        return view('asistencia.controlVer', compact('empleado')) ;
-
+        return view('asistencia.controlVer', compact('empleado'));
     }
 
     /**
@@ -97,8 +100,6 @@ class AsistenciaController extends Controller
     public function entrada(Request $request)
     {
 
-        // $this->validar();
-
         $asisEmpleado = Asistencia::where('dia', Carbon::now()->format('Y-m-d'))->where('user_id', auth()->user()->id)->get();
         $horaActual = Carbon::now()->format('H:i:s');
         if (!empty($asisEmpleado[0])) {
@@ -121,20 +122,23 @@ class AsistenciaController extends Controller
                 }
             }
         }
-        $encoded_data = $_POST['fotoEntrada'];
-        $binary_data = base64_decode($encoded_data);
-        $name = time() . auth()->user()->name . auth()->user()->apellido . ".png";
-        $result = file_put_contents(public_path('/img/asistencias/') . $name, $binary_data);
-        if (!$result) {
-            alert()->error('No se pudo almacenar la foto', 'Error');
-            return redirect()->back();
-        }
         $asistencia = new Asistencia();
         $asistencia->dia = Carbon::now();
         $asistencia->horaEntrada  = Carbon::now('America/Argentina/Buenos_Aires')->format('H:i:s');
-        $asistencia->urlFoto = $name;
         $asistencia->presente = true;
         $asistencia->user_id = auth()->user()->id;
+        if ($request->dni == null) {
+            $encoded_data = $_POST['fotoEntrada'];
+            $binary_data = base64_decode($encoded_data);
+            $name = time() . auth()->user()->name . auth()->user()->apellido . ".png";
+            $result = file_put_contents(public_path('/img/asistencias/') . $name, $binary_data);
+            if (!$result) {
+                alert()->error('No se pudo almacenar la foto', 'Error');
+                return redirect()->back();
+            }
+            $asistencia->urlFoto = $name;
+        }
+
         $asistencia->save();
 
         return redirect()->back()->with('confirmar', 'ok');
@@ -201,5 +205,15 @@ class AsistenciaController extends Controller
         return request()->validate([
             'fotoEntrada' => 'required',
         ]);
+    }
+
+    public function comprobarDni($dni, $id)
+    {
+        $user = User::find($id);
+        if ($user->dni == $dni) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

@@ -71,8 +71,11 @@
                     <td>{{$rec->tipoReclamo->nombre}}</td>
                     <td>{{$rec->direccion->socio->apellido}} {{$rec->direccion->socio->nombre}}</td>
                     <td>{{$rec->getFecha()}}</td>
+                    @if($rec->trabajo != null)
                     <td>{{$rec->trabajo->estado->nombre}}</td>
-
+                    @else
+                    <td>{{$rec->historial->last()->estado->nombre}}</td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

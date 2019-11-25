@@ -29,6 +29,8 @@ Route::get('obtenerDni/{id}', 'SocioController@obtenerDni')->name('socios.obtene
 
 Route::get('comprobarFin/{trabajo}/{fecha}/{hora}', 'TrabajoController@comprobarFin')->name('trabajos.comprobarFin');
 
+Route::get('comprobarDni/{dni}/{id}', 'AsistenciaController@comprobarDni')->name('asistencias.comprobarDni');
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

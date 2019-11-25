@@ -22,7 +22,7 @@
                 @endif
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+                <a href="#" class="d-block">{{ auth()->user()->name }} {{ auth()->user()->apellido }}</a>
             </div>
         </div>
 
@@ -345,10 +345,12 @@
                 </a>
             </li>
             @endcan
-
-
-
-
+            <li class="nav-item">
+                <a href="{{asset('ManualDeUsuario.pdf')}}" class="nav-link" target="_blank">
+                    <i class="fal fa-info-circle nav-icon"></i>
+                    <p>Ayuda</p>
+                </a>
+            </li>
             </ul>
 
         </nav>

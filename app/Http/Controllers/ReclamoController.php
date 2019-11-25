@@ -459,7 +459,7 @@ class ReclamoController extends Controller
         $reclamo = Reclamo::find($id);
         try {
             if ($reclamo != null) {
-                if (sizeof($reclamo->historial) <= 1) {
+                if (sizeof($reclamo->historial) <= 2) {
                     $t = $reclamo->trabajo;
                     $reclamo->delete();
                     if ($t != null) {

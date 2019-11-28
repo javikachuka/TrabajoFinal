@@ -33,27 +33,26 @@
 
                 </div>
 
-                <div class="col-md-1 offset-4">
-                    <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
-
-                </div>
             </div>
 
-            @csrf
-        </form>
-        <div class="row d-flex justify-content-center">
-            <button class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
-            <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
-                    class="fas fa-filter "></i></button>
+            <div class="row d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i
+                        class="fas fa-redo "></i></button>
+                <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
+                        class="fas fa-filter "></i></button>
 
-        </div>
+            </div>
     </div>
 
 </div>
 
 <div class="card">
     <div class="card-header">
-        <h3>Listado de Asistencias </h3>
+        <h3>Listado de Asistencias
+            <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
+        </h3>
+        @csrf
+        </form>
     </div>
     <div class="card-body">
         <div class="row">
@@ -124,7 +123,7 @@
 <script>
     $(function () {
           $('#asistencias').DataTable({
-            "order": [[ 1, "asc" ]] ,
+            "order": [[ 1, "desc" ]] ,
                 language: {
                     "decimal": "",
                     "emptyTable": "No hay información",

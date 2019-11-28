@@ -10,6 +10,12 @@
 
 
 //GENERAL
+- [x] al finalizar el trabajo que filtre unicamente por los usuarios que hayan marcado asistencia en la empresa.
+- [x] al finalizar que seleccione primero el producto y que despues se cargue en donde esta disponible
+- [ ] agregar mas detalles al movimiento egreso. ej. nro del trabajo
+
+- [ ] falta filtro en  controlador de movimientos
+
 - [x] controlar el lenght de los campos de nombres
 - [x] ver tiempos de los trabajos (duracion real y estimada)
 - [x] Reporte de auditoria

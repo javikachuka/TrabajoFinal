@@ -32,6 +32,9 @@ Route::get('comprobarFin/{trabajo}/{fecha}/{hora}', 'TrabajoController@comprobar
 Route::get('comprobarDni/{dni}/{id}', 'AsistenciaController@comprobarDni')->name('asistencias.comprobarDni');
 
 
+Route::get('obtenerAlmacenes/{id}', 'ProductoController@obtenerAlmacenes')->name('productos.obtenerAlmacenes');
+
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -333,6 +333,7 @@
 <script>
     $(document).ready(function(){
         $('#socio').change(function(){
+            console.log('holamda');
             $('#crearConex').attr('disabled', false);
             var id = $(this).val();
             var socio = $('#socio option:selected').text() ;

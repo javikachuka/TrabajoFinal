@@ -84,6 +84,7 @@
                                     <tr>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
+                                        <th>Almacen</th>
                                     </tr>
                                 </thead>
 
@@ -93,11 +94,12 @@
                                     <tr>
                                         <td>{{$movimiento->producto->nombre}}</td>
                                         <td>{{$movimiento->cantidad}} {{$movimiento->producto->medida->nombre}}</td>
+                                        <td>{{$movimiento->almacenOrigen->denominacion}}</td>
                                     </tr>
                                     @endforeach
                                     @else
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="3">
                                             <i class="text-muted">Aun no se han utilizado productos en este trabajo</i>
                                         </td>
                                     </tr>

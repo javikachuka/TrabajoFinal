@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Almacen;
 use App\Existencia;
 use App\Medida;
 use App\Producto;
@@ -146,5 +147,15 @@ class ProductoController extends Controller
         } else {
             return 0 ;
         }
+    }
+
+    public function obtenerAlmacenes($id){
+        $almacenes = Almacen::all();
+        foreach($almacenes as $key => $a){
+            if(!$a->existeProducto($id)){
+                $almacenes->pull($key) ;
+            }
+        }
+        return $almacenes;
     }
 }

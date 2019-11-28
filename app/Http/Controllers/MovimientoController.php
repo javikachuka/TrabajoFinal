@@ -30,7 +30,8 @@ class MovimientoController extends Controller
         $movimientos = Movimiento::all();
         $tipoMovimientos = TipoMovimiento::all();
         $productos = Producto::all();
-        return view('movimientos.index', compact('movimientos', 'tipoMovimientos', 'productos'));
+        $almacenes = Almacen::all() ;
+        return view('movimientos.index', compact('movimientos', 'tipoMovimientos', 'productos' , 'almacenes'));
     }
 
     /**

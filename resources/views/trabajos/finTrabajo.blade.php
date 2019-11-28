@@ -35,7 +35,7 @@
             <p><strong>Iniciado: </strong> {{$trabajo->diferencia()}}</p>
             <hr>
             <label for="" class="">Productos Utilizados</label>
-            <div class="row d-flex justify-content-around">
+            {{-- <div class="row d-flex justify-content-around">
                 <div class="col-md-5 ">
                     <label for="">Almacen</label>
                     <select name="almacen_id" id="almacen_id" class="js-example-basic-single form-control" required>
@@ -46,15 +46,24 @@
                     </select>
                 </div>
 
-            </div>
+            </div> --}}
             <div class="row d-flex justify-content-around py-3">
-                <div class=" col-sm-5">
+                <div class=" col-sm-3">
                     <label for="">Producto</label>
-                    <select name="producto" id="producto_id" class="js-example-basic-single form-control">
+                    <select name="producto" id="producto_id" class="empleados-js form-control">
                         <option value="" selected disabled>--Seleccione--</option>
                         @foreach ($productos as $producto)
                         <option value="{{$producto->id}}">{{$producto->nombre}}</option>
                         @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3 ">
+                    <label for="">Almacen</label>
+                    <select name="almacen_id" id="almacen_id" class="js-example-basic-single form-control" >
+                        <option value="" selected disabled>--Seleccione--</option>
+                        {{-- @foreach ($almacenes as $almacen)
+                        <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
+                        @endforeach --}}
                     </select>
                 </div>
                 <div class=" col-sm-2">
@@ -77,8 +86,9 @@
                     <thead style="background-color: lightblue ; text-align: center">
                         <tr>
                             <th>Producto</th>
-                            <th width="20%">Cantidad</th>
-                            <th width="20%">Medida</th>
+                            <th width="15%">Almacen</th>
+                            <th width="15%">Cantidad</th>
+                            <th width="15%">Medida</th>
                             <th width="10%">Accion</th>
                         </tr>
                     </thead>
@@ -187,6 +197,7 @@
                     $.get(url, function(data){
                         if(data == 1){
                             var fila = '<tr> <td><input type="hidden" name="producto_id[]" value="'+producto_id+'">'+producto+'</td>'+
+                                        '<td><input type="hidden" name="almacenOrigen_id[]" value="'+almacen_id+'">'+almacen+'</td>'+
                                         '<td style=" text-align: right"><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+' </td>'+
                                         '<td>'+medida+'</td>'+
                                         '<td style = " text-align: center"><a href="#" class="btn btn-danger btn-xs remove"><i class="fas fa-minus"></i></a></td>' +
@@ -231,7 +242,8 @@
     function limpiar(){
 		$("#cantidad").val("");
         $("#producto_id").val(null).trigger("change");
-
+        $('#almacen_id option:not(:first)').remove() ;
+        $("#almacen_id").val(null).trigger("change");
 	}
 
     $('body').on('click', '.remove',function(){
@@ -250,6 +262,7 @@
         $('#producto_id').change(function(){
             var producto_id = $(this).val();
             if(producto_id != null){
+
                 var url = "{{ route('productos.obtenerMedida', ":id") }}" ;
                 url = url.replace(':id' , producto_id) ;
                 // alert(tip_rec_id) ;
@@ -258,6 +271,20 @@
                 $.get(url, function(data){
 
                     $('#medida').val(data) ;
+                });
+
+                var url2 = "{{ route('productos.obtenerAlmacenes', ":id") }}" ;
+                url2 = url2.replace(':id' , producto_id) ;
+                $.get(url2, function(data){
+
+                    console.log(data.length) ;
+                    $('#almacen_id').children('option:not(:first)').remove() ;
+                    for (var i = 0; i < data.length; i++) {
+
+                        $('#almacen_id').append('<option value='+data[i].id+'>'+data[i].denominacion+'</option>') ;
+
+                    }
+                    console.log(data[0].denominacion) ;
                 });
             } else {
                 $('#medida').val('') ;

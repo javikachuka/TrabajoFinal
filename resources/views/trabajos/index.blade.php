@@ -47,9 +47,6 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-1 ">
-                    <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
-                </div>
             </div>
             <div class="row d-flex justify-content-center">
                 <div class="col-md-3">
@@ -72,14 +69,16 @@
                         class="fas fa-filter "></i></button>
 
             </div>
-            @csrf
-        </form>
     </div>
 </div>
 
 <div class="card ">
     <div class="card-header">
-        <h3>Listado de Trabajos</h3>
+        <h3>Listado de Trabajos
+            <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
+        </h3>
+        @csrf
+        </form>
     </div>
     <div class="card-body">
         <div class="table-responsive">

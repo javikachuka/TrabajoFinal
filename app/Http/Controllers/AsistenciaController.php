@@ -170,6 +170,11 @@ class AsistenciaController extends Controller
     {
         $empleados = User::all();
         $asistencias = Asistencia::all();
+        foreach ($empleados as $key => $e) {
+            if ($e->roles->first()->name != 'EMPLEADO_PLANTA') {
+                $empleados->pull($key);
+            }
+        }
         // $hora = Carbon::create($asistencias[0]->horaEntrada);
         // $horarios = Horario::all() ;
         //  $horaE = Carbon::create($horarios[0]->horaEntrada);

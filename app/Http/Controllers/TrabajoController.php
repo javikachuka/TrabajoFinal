@@ -156,8 +156,13 @@ class TrabajoController extends Controller
         foreach($empleados as $key => $e){
             if($e->roles->first()->name != 'EMPLEADO_PLANTA'){
                 $empleados->pull($key) ;
+            }else{
+                if(!$e->deTurno()){
+                    $empleados->pull($key) ;
+                }
             }
         }
+
 
         // foreach($empleados as $key => $empleado){
         //     if($empleado->)
@@ -174,8 +179,6 @@ class TrabajoController extends Controller
         }
 
         DB::beginTransaction();
-
-        $almacenOrigen = Almacen::find($request->almacen_id);
         // return Carbon::createFromFormat('d/m/Y' ,'15/06/2019');
         // return $request->modificado ;
         if($request->modificado == 0){
@@ -189,6 +192,7 @@ class TrabajoController extends Controller
         $cabMov->fecha = Carbon::now();
         $cabMov->save();
         for ($i=0; $i < sizeof($request->cantidad); $i++) {
+            $almacenOrigen = Almacen::find($request->almacenOrigen_id[$i]);
             $movimiento = new Movimiento() ;
             $movimiento->cantidad = $request->cantidad[$i] ;
             $movimiento->tipo_movimiento_id = 2 ;

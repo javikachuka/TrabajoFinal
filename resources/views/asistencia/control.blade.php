@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <label for="">Empleado</label>
-                    <select class="seleccion form-control " name="empleado_id" id="empleado">
+                    <select class="seleccion form-control " name="empleado_id" id="empleado" required>
                         <option value="" disabled selected>--Seleccione--</option>
                         @foreach($empleados as $emple)
                         <option value="{{$emple->id}}" {{old('empleado_id') == $emple->id ? 'selected' : ''}}>
@@ -22,8 +22,7 @@
 
                 </div>
                 <div class="col-md-1 d-flex align-items-end ">
-                    <button class="btn btn-primary btn-sm"
-                        onclick="location.href='{{route('asistencias.obtenerAsistencias')}}'">Seleccionar</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Seleccionar</button>
                     {{-- <a class="btn btn-primary btn-sm" onclick="{{route('asistencias.obtenerAsistencias')}}"
                     id="seleccionar">Seleccionar</a> --}}
                 </div>

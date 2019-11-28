@@ -161,7 +161,7 @@ class User extends Authenticatable implements Auditable
                                     }
                                 }
                             }else{
-                                if($horaActual->diffInHours($entrada) < 4){
+                                if($horaActual->diffInHours($entrada) < 6){
                                     return true ;
                                 }
                             }

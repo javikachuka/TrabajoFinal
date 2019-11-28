@@ -105,6 +105,12 @@
 
                         <div class="col-md-4">
                             <p>
+                                Nº de Trabajo: {{$movimiento->cabeceraMovimiento->trabajo->id}}
+                                <br>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>
                                 Trabajo: {{$movimiento->cabeceraMovimiento->trabajo->reclamo->tipoReclamo->nombre}}
                                 <br>
                             </p>

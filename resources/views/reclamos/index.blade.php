@@ -45,10 +45,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-1 ">
-                    <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
 
-                </div>
             </div>
             <div class="row d-flex justify-content-center">
                 <div class="col-md-3">
@@ -71,8 +68,7 @@
                         class="fas fa-filter "></i></button>
 
             </div>
-            @csrf
-        </form>
+
     </div>
 </div>
 
@@ -80,10 +76,13 @@
     <div class="card-header">
         <h3>Listado de Reclamos
             @can('reclamos_create')
-            <button type="submit" class="btn btn-primary btn-xs"
+            <button type="button" class="btn btn-primary btn-xs"
                 onclick="location.href = '{{ route('reclamos.create') }}'">Nuevo Reclamo</button>
             @endcan
+            <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
         </h3>
+        @csrf
+        </form>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -120,20 +119,20 @@
                         </td>
                         <td>
                             @if($reclamo->tipoReclamo->trabajo != false)
-                                @if($reclamo->trabajo->estado != null)
-                                @if($reclamo->trabajo->estado->isUltimo($reclamo->tipoReclamo->flujoTrabajo->id))
-                                <span class="badge badge-success">{{$reclamo->trabajo->estado->nombre}}</span>
-                                @elseif($reclamo->trabajo->estado->nombre == 'FALTA' || $reclamo->trabajo->estado->nombre ==
-                                'SIN EXISTENCIAS')
-                                <span class="badge badge-danger">{{$reclamo->trabajo->estado->nombre}}</span>
-                                @else
-                                <span class="badge badge-info">{{$reclamo->trabajo->estado->nombre}}</span>
-                                @endif
-                                @else
-                                <span class="badge badge-light">N/A</span>
-                                @endif
+                            @if($reclamo->trabajo->estado != null)
+                            @if($reclamo->trabajo->estado->isUltimo($reclamo->tipoReclamo->flujoTrabajo->id))
+                            <span class="badge badge-success">{{$reclamo->trabajo->estado->nombre}}</span>
+                            @elseif($reclamo->trabajo->estado->nombre == 'FALTA' || $reclamo->trabajo->estado->nombre ==
+                            'SIN EXISTENCIAS')
+                            <span class="badge badge-danger">{{$reclamo->trabajo->estado->nombre}}</span>
                             @else
-                                <span class="badge badge-success">{{$reclamo->historial->last()->estado->nombre}}</span>
+                            <span class="badge badge-info">{{$reclamo->trabajo->estado->nombre}}</span>
+                            @endif
+                            @else
+                            <span class="badge badge-light">N/A</span>
+                            @endif
+                            @else
+                            <span class="badge badge-success">{{$reclamo->historial->last()->estado->nombre}}</span>
                             @endif
                         </td>
                         <td width="200px">
@@ -151,7 +150,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-xs btn-almacen"
                                     id="{{$reclamo->id}}">Borrar</button>
-                                </form>
+                            </form>
                             @endcan
                         </td>
                     </tr>

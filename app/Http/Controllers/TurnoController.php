@@ -18,9 +18,14 @@ class TurnoController extends Controller
     {
         // $empleados = User::all() ;
         // return view('turnos.index' , compact('empleados')) ;
-        $horarios = Horario::all() ;
-        $empleados = User::all() ;
-        return view('turnos.create' , compact('horarios' , 'empleados')) ;
+        $horarios = Horario::all();
+        $empleados = User::all();
+        foreach ($empleados as $key => $e) {
+            if ($e->roles->first()->name != 'EMPLEADO_PLANTA') {
+                $empleados->pull($key);
+            }
+        }
+        return view('turnos.create', compact('horarios', 'empleados'));
     }
 
     /**
@@ -29,9 +34,7 @@ class TurnoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-
-    }
+    { }
 
     /**
      * Store a newly created resource in storage.
@@ -41,34 +44,33 @@ class TurnoController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->empleado_id == null){
-            alert()->error('Debe seleccionar un empleado' , 'Error') ;
-            return redirect()->back() ;
+        if ($request->empleado_id == null) {
+            alert()->error('Debe seleccionar un empleado', 'Error');
+            return redirect()->back();
         }
-        if($request->dias == null || $request->horarios == null){
-            alert()->error('Debe asignar dias y horarios' , 'Error') ;
-            return redirect()->back() ;
+        if ($request->dias == null || $request->horarios == null) {
+            alert()->error('Debe asignar dias y horarios', 'Error');
+            return redirect()->back();
         }
 
         $empleado = User::find($request->empleado_id);
-        foreach($request->horarios as $horario){
-            $horarioDisp = Horario::find($horario) ;
-            foreach($request->dias as $dia){
-                if($horarioDisp->existeTurno($dia)){
-                    if(!$horarioDisp->getTurno($dia)->users->contains($empleado)){
-                        $horarioDisp->getTurno($dia)->users()->attach($empleado->id) ;
+        foreach ($request->horarios as $horario) {
+            $horarioDisp = Horario::find($horario);
+            foreach ($request->dias as $dia) {
+                if ($horarioDisp->existeTurno($dia)) {
+                    if (!$horarioDisp->getTurno($dia)->users->contains($empleado)) {
+                        $horarioDisp->getTurno($dia)->users()->attach($empleado->id);
                     }
-                }else{
-                    $turno = new Turno() ;
-                    $turno->dia = $dia ;
-                    $turno->horario_id = $horario ;
-                    $turno->save() ;
-                    $turno->users()->sync($empleado) ;
+                } else {
+                    $turno = new Turno();
+                    $turno->dia = $dia;
+                    $turno->horario_id = $horario;
+                    $turno->save();
+                    $turno->users()->sync($empleado);
                 }
             }
         }
-        return redirect()->back()->withInput()->with('confirmar' , 'ok') ;
-
+        return redirect()->back()->withInput()->with('confirmar', 'ok');
     }
 
     /**
@@ -111,20 +113,21 @@ class TurnoController extends Controller
      * @param  \App\Turno  $turno
      * @return \Illuminate\Http\Response
      */
-    public function destroy($idturno , $idemple)
+    public function destroy($idturno, $idemple)
     {
-        $empleado = User::find($idemple) ;
-        $empleado->turnos()->detach($idturno) ;
+        $empleado = User::find($idemple);
+        $empleado->turnos()->detach($idturno);
         // $turno = Turno::find($idturno) ;
         // $turno->delete() ;
-        return redirect()->back()->withInput()->with('confirmar' , 'ok') ;
+        return redirect()->back()->withInput()->with('confirmar', 'ok');
     }
 
-    public function obtenerTurnos($id){
-        $empleado = User::find($id) ;
-        $horarios = Horario::all() ;
+    public function obtenerTurnos($id)
+    {
+        $empleado = User::find($id);
+        $horarios = Horario::all();
 
-        return ['turnos' => $empleado->turnos , 'horarios' => $horarios] ;
+        return ['turnos' => $empleado->turnos, 'horarios' => $horarios];
     }
 
     // public function validar(){

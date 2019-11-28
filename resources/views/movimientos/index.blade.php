@@ -16,8 +16,8 @@
     <div class="card-body">
         <form class="form-group " method="GET" action="{{route('movimientos.pdf')}}">
 
-            <div class="row">
-                <div class=" col-sm-2">
+            <div class="row d-flex justify-content-around">
+                <div class=" col-sm-3">
                     <label for="">Tipo de Movimiento</label>
                     <select name="tipoMovimiento_id" id="tipoMovimiento" class="form-control">
                         <option value="" selected disabled>--Seleccione--</option>
@@ -26,7 +26,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class=" col-sm-2">
+                <div class=" col-sm-4">
                     <label for="">Producto</label>
                     <select name="producto_id" id="producto" class="form-control">
                         <option value="" selected disabled>--Seleccione--</option>
@@ -35,6 +35,17 @@
                         @endforeach
                     </select>
                 </div>
+                <div class=" col-sm-3">
+                    <label for="">Almacen</label>
+                    <select name="almacen_id" id="almacen" class="form-control">
+                        <option value="" selected disabled>--Seleccione--</option>
+                        @foreach ($almacenes as $almacen)
+                        <option value="{{$almacen->id}}">{{$almacen->denominacion}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Desde</label>
@@ -47,24 +58,17 @@
                         <input type="date" id="max" name="fecha2" value="" class="form-control">
                     </div>
                 </div>
-                <div class="col-md-1">
-
-                </div>
-
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
-
-                </div>
             </div>
 
-            @csrf
-        </form>
-        <div class="row d-flex justify-content-center">
-            <button class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
-            <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
-                    class="fas fa-filter "></i></button>
 
-        </div>
+
+
+            <div class="row d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary btn-xs mr-1" id="limpiar">Limpiar <i class="fas fa-redo "></i></button>
+                <button type="button" class="btn btn-primary btn-xs" id="filtrar">Filtrar <i
+                        class="fas fa-filter "></i></button>
+
+            </div>
     </div>
 
 </div>
@@ -74,12 +78,12 @@
         <h3>Movimientos Realizados
             <span></span>
             @can('movimientos_ingreso')
-            <button class="btn btn-xs btn-primary"
+            <button type="button" class="btn btn-xs btn-primary"
                 onclick="location.href='{{ route('movimientos.createIngreso')}}'">Nuevo Ingreso <i
                     class="fas fa-tags nav-icon"></i></button>
             @endcan
             @can('movimientos_transferencia')
-            <button class="btn btn-xs btn-primary"
+            <button type="button" class="btn btn-xs btn-primary"
                 onclick="location.href='{{ route('movimientos.createTransferencia')}}'">Nueva Transferencia <i
                     class="fas fa-exchange-alt "></i></button>
             @endcan
@@ -87,7 +91,10 @@
             Ingreso <i class="fas fa-tags nav-icon"></i></a> --}}
             {{-- <a type="button" href="{{ route('movimientos.createTransferencia') }}" class="btn btn-xs btn-success">
             Nueva Transferencia <i class="nav-icon fas fa-exchange-alt"></i></a> --}}
+                <button type="submit" class="btn btn-xs btn-danger ">Generar <i class="fa fa-file-pdf"></i></button>
         </h3>
+        @csrf
+        </form>
     </div>
     <div class="card-body">
         <div class="table-responsive table-sm">
@@ -238,6 +245,7 @@
     $('#limpiar').click(function(){
         $("#tipoMovimiento ").prop("selectedIndex", 0) ;
         $("#producto ").prop("selectedIndex", 0) ;
+        $("#almacen ").prop("selectedIndex", 0) ;
         $('input[type=date]').val('');
 
         $.fn.dataTable.ext.search.pop(
@@ -267,6 +275,7 @@
         console.log(filtro1);
         //no olvidarme de volver a poner (pop) las filas
         var filtro2 = $('#producto').val() ;
+        var filtro3 = $('#almacen').val() ;
         $.fn.dataTable.ext.search.pop(
             function( settings, data, dataIndex ) {
                 if(1){
@@ -282,6 +291,9 @@
         }
         if(filtro2 != null){
             var prod = $('#producto option:selected').text() ;
+        }
+        if(filtro3 != null){
+            var alma = $('#almacen option:selected').text() ;
         }
 
 
@@ -299,7 +311,7 @@
                 var s = new Date(newdate)
                 var startDate = moment(s)
                 console.log(startDate) ;
-                if(filtro1 == null && filtro2 == null){
+                if(filtro1 == null && filtro2 == null && filtro3 == null){
                     if  (
                             ( min == "" || max == "" ) ||
                             (
@@ -312,7 +324,7 @@
                     }else{
                         return false;
                     }
-                }else if(filtro1 != null && filtro2 != null){
+                }else if(filtro1 != null && filtro2 != null && filtro3 == null){
                     if  (
                             ( min == "" || max == "" ) ||
                             (
@@ -327,7 +339,7 @@
                     }else{
                         return false;
                     }
-                }else if(filtro1 != null && filtro2 == null){
+                }else if(filtro1 != null && filtro2 == null && filtro3 == null){
                     if  (
                             ( min == "" || max == "" ) ||
                             (
@@ -340,11 +352,67 @@
                     }else{
                         return false;
                     }
-                } else if(filtro1 == null && filtro2 != null){
+                } else if(filtro1 == null && filtro2 != null && filtro3 == null){
                     if  (
                             ( min == "" || max == "" ) ||
                             (
                                 (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (prod == data[3])
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                } else if(filtro1 == null && filtro2 == null && filtro3 != null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (alma == data[5] || alma == data[6])
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                } else if(filtro1 == null && filtro2 != null && filtro3 != null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (alma == data[5] || alma == data[6]) &&
+                                (prod == data[3])
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                } else if(filtro1 != null && filtro2 == null && filtro3 != null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (alma == data[5] || alma == data[6]) &&
+                                (tipMov == data[1])
+                            )
+                        )
+                    {
+                        return true ;
+                    }else{
+                        return false;
+                    }
+                } else if(filtro1 != null && filtro2 != null && filtro3 != null){
+                    if  (
+                            ( min == "" || max == "" ) ||
+                            (
+                                (moment(startDate).isSameOrAfter(min) && moment(startDate).isSameOrBefore(max) ) &&
+                                (alma == data[5] || alma == data[6]) &&
+                                (tipMov == data[1]) &&
                                 (prod == data[3])
                             )
                         )
@@ -361,7 +429,7 @@
 
             table.draw()
 
-        }else if(filtro1 != null && filtro2 == null){
+        }else if(filtro1 != null && filtro2 == null && filtro3 == null){
             var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
                 if  ( tipMov == data[1]){
@@ -375,7 +443,7 @@
 
             table.draw()
 
-        }else if(filtro1 == null && filtro2 != null){
+        }else if(filtro1 == null && filtro2 != null && filtro3 == null){
             var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
                 if (prod == data[3]) {
@@ -389,10 +457,62 @@
 
             table.draw()
 
-        }else if(filtro1 != null && filtro2 != null){
+        }else if(filtro1 != null && filtro2 != null && filtro3 == null){
             var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
 
                 if(prod == data[3] && tipMov == data[1]){
+                    return true ;
+                } else{
+                    return false ;
+                }
+            }
+            $.fn.dataTable.ext.search.push( filtradoTabla )
+
+            table.draw()
+
+        }else if(filtro1 != null && filtro2 != null && filtro3 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(prod == data[3] && tipMov == data[1] && (alma == data[5] || alma == data[6])){
+                    return true ;
+                } else{
+                    return false ;
+                }
+            }
+            $.fn.dataTable.ext.search.push( filtradoTabla )
+
+            table.draw()
+
+        } else if(filtro1 == null && filtro2 != null && filtro3 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(prod == data[3]  && (alma == data[5] || alma == data[6])){
+                    return true ;
+                } else{
+                    return false ;
+                }
+            }
+            $.fn.dataTable.ext.search.push( filtradoTabla )
+
+            table.draw()
+
+        } else if(filtro1 != null && filtro2 == null && filtro3 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(tipMov == data[1]  && (alma == data[5] || alma == data[6])){
+                    return true ;
+                } else{
+                    return false ;
+                }
+            }
+            $.fn.dataTable.ext.search.push( filtradoTabla )
+
+            table.draw()
+
+        } else if(filtro1 == null && filtro2 == null && filtro3 != null){
+            var filtradoTabla = function FuncionFiltrado(settings, data, dataIndex){
+
+                if(alma == data[5] || alma == data[6]){
                     return true ;
                 } else{
                     return false ;

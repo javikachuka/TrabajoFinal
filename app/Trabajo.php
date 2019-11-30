@@ -118,7 +118,7 @@ class Trabajo extends Model
         }
         if ($div != 0) {
             $resul = $suma / $div;
-            return $resul;
+            return ceil($resul);
             $enHoras = round($resul, 2);
             return str_replace('.', ':', $enHoras);
         } else {

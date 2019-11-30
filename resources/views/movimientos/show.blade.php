@@ -74,21 +74,7 @@
                                 Almacen Destino: {{$movimiento->almacenDestino->denominacion}}
                             </p>
                         </div>
-                        @elseif($movimiento->tipoMovimiento->operacion != false)
-                        <div class="col-md-4">
-                            <p>
-                                Desde el almacen: {{$movimiento->almacenOrigen->denominacion}} <br>
-                                al almacen: {{$movimiento->almacenDestino->denominacion}} <br>
-                            </p>
-                        </div>
-                        <div class="col-md-4">
-                            <p>
-                                Cantidad Transferida: {{$movimiento->cantidad}}
-                                {{$movimiento->producto->medida->nombre}} <br>
-                            </p>
-                        </div>
-
-                        @else
+                        @elseif($movimiento->tipoMovimiento->operacion === 0)
                         <div class="col-md-4">
                             <p>
                                 Cantidad Utilizada: {{$movimiento->cantidad}} {{$movimiento->producto->medida->nombre}}
@@ -118,6 +104,19 @@
                         <div class="col-md-4">
                             <p>
                                 Fecha de Creacion: {{$movimiento->cabeceraMovimiento->trabajo->getFecha()}} <br>
+                            </p>
+                        </div>
+                        @else
+                        <div class="col-md-4">
+                            <p>
+                                Desde el almacen: {{$movimiento->almacenOrigen->denominacion}} <br>
+                                al almacen: {{$movimiento->almacenDestino->denominacion}} <br>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>
+                                Cantidad Transferida: {{$movimiento->cantidad}}
+                                {{$movimiento->producto->medida->nombre}} <br>
                             </p>
                         </div>
                         @endif

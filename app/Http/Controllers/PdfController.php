@@ -730,9 +730,9 @@ class PdfController extends Controller
         if (($request->fecha1 != null && $request->fecha2 != null) && $request->tabla == null && $request->empleado_id == null) {
             foreach ($auditorias as $a) {
                 $f = ($a->created_at);
+                $f->setTime(0,0,0);
                 $fecha1 = Carbon::create($request->input('fecha1'));
                 $fecha2 = Carbon::create($request->input('fecha2'));
-
                 if (($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) {
                     $aux->push($a);
                 }
@@ -745,9 +745,12 @@ class PdfController extends Controller
                 $tabla = 'User';
             } elseif ($request->tabla == 3) {
                 $tabla = 'Producto';
+            } elseif ($request->tabla == 4) {
+                $tabla = 'Reclamo';
             }
             foreach ($auditorias as $a) {
                 $f = $a->created_at;
+                $f->setTime(0,0,0);
                 $fecha1 = Carbon::create($request->input('fecha1'));
                 $fecha2 = Carbon::create($request->input('fecha2'));
                 if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && (strpos($a->auditable_type, $tabla) !== false)) {
@@ -760,11 +763,14 @@ class PdfController extends Controller
                 $tabla2 = 'EMPLEADOS';
             } elseif ($request->tabla == 3) {
                 $tabla2 = 'PRODUCTOS';
+            } elseif ($request->tabla == 4) {
+                $tabla2 = 'RECLAMOS';
             }
             $filtro = "Filtros: -Fecha: desde:" . $fecha1->format('d/m/Y') . " hasta: " . $fecha2->format('d/m/Y') . ' -Tabla ' . $tabla2;
         } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->tabla == null && $request->empleado_id != null) {
             foreach ($auditorias as $a) {
                 $f = ($a->created_at);
+                $f->setTime(0,0,0);
                 $fecha1 = Carbon::create($request->input('fecha1'));
                 $fecha2 = Carbon::create($request->input('fecha2'));
 
@@ -781,9 +787,12 @@ class PdfController extends Controller
                 $tabla = 'User';
             } elseif ($request->tabla == 3) {
                 $tabla = 'Producto';
+            } elseif ($request->tabla == 4) {
+                $tabla = 'Reclamo';
             }
             foreach ($auditorias as $a) {
                 $f = $a->created_at;
+                $f->setTime(0,0,0);
                 $fecha1 = Carbon::create($request->input('fecha1'));
                 $fecha2 = Carbon::create($request->input('fecha2'));
                 if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && (strpos($a->auditable_type, $tabla) !== false) && ($a->user_id == $request->empleado_id)) {
@@ -796,6 +805,8 @@ class PdfController extends Controller
                 $tabla2 = 'EMPLEADOS';
             } elseif ($request->tabla == 3) {
                 $tabla2 = 'PRODUCTOS';
+            } elseif ($request->tabla == 4) {
+                $tabla2 = 'RECLAMOS';
             }
             $empleado = User::find($request->empleado_id);
             $filtro = "Filtros: -Fecha: desde:" . $fecha1->format('d/m/Y') . " hasta: " . $fecha2->format('d/m/Y') . ' -Tabla ' . $tabla2 . ' -Empleado: ' . $empleado->apellido  . ' ' . $empleado->name;
@@ -806,6 +817,8 @@ class PdfController extends Controller
                 $tabla = 'User';
             } elseif ($request->tabla == 3) {
                 $tabla = 'Producto';
+            } elseif ($request->tabla == 4) {
+                $tabla = 'Reclamo';
             }
             foreach ($auditorias as $a) {
                 if ((strpos($a->auditable_type, $tabla) !== false) && ($a->user_id == $request->empleado_id)) {
@@ -818,6 +831,8 @@ class PdfController extends Controller
                 $tabla2 = 'EMPLEADOS';
             } elseif ($request->tabla == 3) {
                 $tabla2 = 'PRODUCTOS';
+            } elseif ($request->tabla == 4) {
+                $tabla2 = 'RECLAMOS';
             }
             $empleado = User::find($request->empleado_id);
             $filtro = "Filtros: -Tabla " . $tabla2 . ' -Empleado: ' . $empleado->apellido  . ' ' . $empleado->name;
@@ -839,6 +854,8 @@ class PdfController extends Controller
                 $tabla = 'User';
             } elseif ($request->tabla == 3) {
                 $tabla = 'Producto';
+            } elseif ($request->tabla == 4) {
+                $tabla = 'Reclamo';
             }
             foreach ($auditorias as $a) {
                 if ((strpos($a->auditable_type, $tabla) !== false)) {
@@ -851,6 +868,8 @@ class PdfController extends Controller
                 $tabla2 = 'EMPLEADOS';
             } elseif ($request->tabla == 3) {
                 $tabla2 = 'PRODUCTOS';
+            } elseif ($request->tabla == 4) {
+                $tabla2 = 'RECLAMOS';
             }
             $filtro = "Filtros: -Tabla " . $tabla2;
         } else {

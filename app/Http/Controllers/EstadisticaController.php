@@ -222,15 +222,16 @@ class EstadisticaController extends Controller
 
     public function reclamo()
     {
-        $anio= 2016;
+        $anio = 2016;
         $ahora = Carbon::now()->year;
-        $anios = collect() ;
-        for ($i= $anio; $i <= $ahora+5 ; $i++) {
-            $anios->add($i) ;
+        $anios = collect();
+        for ($i = $anio; $i <= $ahora + 5; $i++) {
+            $anios->add($i);
         }
         $estadisReclamos = new Estadistica;
         $estadisReclamos->title('Zonas con Mas Reclamos');
         $zonas = Zona::all();
+        $tipoReclamos = TipoReclamo::all();
         $nombres = collect();
         $cantReclamos = collect();
 
@@ -275,36 +276,75 @@ class EstadisticaController extends Controller
         $g = rand(50, 200);
         $b = rand(50, 200);
         $estadisReclamos->dataset('Zonas', 'bar', $cantReclamos)->color("rgb(" . $r . "," . $g . "," . $b . ")")->backgroundColor("rgba(" . $r . "," . $g . "," . $b . ", 0.2)");
-        $anio = null ;
-        return view('reclamos.estadistica', compact('estadisReclamos', 'anios' , 'anio'));
+        $anio = null;
+        $tip = null;
+        return view('reclamos.estadistica', compact('estadisReclamos', 'tipoReclamos', 'tip', 'anios', 'anio'));
     }
 
-    public function filtroZonas($anio)
+    public function filtroZonas($anio, $tip)
     {
-        $anio2= 2016;
+        $anio2 = 2016;
         $ahora = Carbon::now()->year;
-        $anios = collect() ;
-        for ($i= $anio2; $i <= $ahora+5 ; $i++) {
-            $anios->add($i) ;
+        $anios = collect();
+        for ($i = $anio2; $i <= $ahora + 5; $i++) {
+            $anios->add($i);
         }
-        $fecha = Carbon::create($anio)->format('Y-m-d') ;
-        $fin = Carbon::create($anio+1)->format('Y-m-d') ;
+        $zonas = Zona::all();
+        $tipoReclamos = TipoReclamo::all();
         $estadisReclamos = new Estadistica;
         $estadisReclamos->title('Zonas con Mas Reclamos');
-        $zonas = Zona::all();
-        $nombres = collect();
-        $cantReclamos = collect();
 
-        foreach ($zonas as $zona) {
-            $cantidad = DB::table('zonas')
-                ->join('direcciones', 'zonas.id', '=', 'direcciones.zona_id')
-                ->join('reclamos', 'direcciones.id', '=', 'reclamos.direccion_id')
-                ->select('zonas.*', 'reclamos.tipoReclamo_id')->where('zonas.id', $zona->id)->where('reclamos.fecha', '>=', $fecha)->where('reclamos.fecha', '<', $fin)->get()->count();
-            if ($cantidad != 0) {
-                $nombres->add($zona->nombre);
-                $cantReclamos->add($cantidad);
+        if ($anio != 0 && $tip == 0) {
+            $fecha = Carbon::create($anio)->format('Y-m-d');
+            $fin = Carbon::create($anio + 1)->format('Y-m-d');
+
+            $nombres = collect();
+            $cantReclamos = collect();
+
+            foreach ($zonas as $zona) {
+                $cantidad = DB::table('zonas')
+                    ->join('direcciones', 'zonas.id', '=', 'direcciones.zona_id')
+                    ->join('reclamos', 'direcciones.id', '=', 'reclamos.direccion_id')
+                    ->select('zonas.*', 'reclamos.tipoReclamo_id')->where('zonas.id', $zona->id)->where('reclamos.fecha', '>=', $fecha)->where('reclamos.fecha', '<', $fin)->get()->count();
+                if ($cantidad != 0) {
+                    $nombres->add($zona->nombre);
+                    $cantReclamos->add($cantidad);
+                }
+            }
+        } elseif ($anio == 0 && $tip != 0) {
+            $nombres = collect();
+            $cantReclamos = collect();
+
+            foreach ($zonas as $zona) {
+                $cantidad = DB::table('zonas')
+                    ->join('direcciones', 'zonas.id', '=', 'direcciones.zona_id')
+                    ->join('reclamos', 'direcciones.id', '=', 'reclamos.direccion_id')
+                    ->select('zonas.*', 'reclamos.tipoReclamo_id')->where('zonas.id', $zona->id)->where('reclamos.tipoReclamo_id', $tip)->get()->count();
+                if ($cantidad != 0) {
+                    $nombres->add($zona->nombre);
+                    $cantReclamos->add($cantidad);
+                }
+            }
+            $anio == null;
+        } elseif ($anio != 0 && $tip != 0) {
+            $fecha = Carbon::create($anio)->format('Y-m-d');
+            $fin = Carbon::create($anio + 1)->format('Y-m-d');
+
+            $nombres = collect();
+            $cantReclamos = collect();
+
+            foreach ($zonas as $zona) {
+                $cantidad = DB::table('zonas')
+                    ->join('direcciones', 'zonas.id', '=', 'direcciones.zona_id')
+                    ->join('reclamos', 'direcciones.id', '=', 'reclamos.direccion_id')
+                    ->select('zonas.*', 'reclamos.tipoReclamo_id')->where('zonas.id', $zona->id)->where('reclamos.fecha', '>=', $fecha)->where('reclamos.fecha', '<', $fin)->where('reclamos.tipoReclamo_id', $tip)->get()->count();
+                if ($cantidad != 0) {
+                    $nombres->add($zona->nombre);
+                    $cantReclamos->add($cantidad);
+                }
             }
         }
+
 
         $estadisReclamos->labels($nombres);
 
@@ -337,8 +377,6 @@ class EstadisticaController extends Controller
         $b = rand(50, 200);
         $estadisReclamos->dataset('Zonas', 'bar', $cantReclamos)->color("rgb(" . $r . "," . $g . "," . $b . ")")->backgroundColor("rgba(" . $r . "," . $g . "," . $b . ", 0.2)");
 
-        return view('reclamos.estadistica', compact('estadisReclamos','anios' ,'anio'));
+        return view('reclamos.estadistica', compact('estadisReclamos', 'tipoReclamos', 'tip', 'anios', 'anio'));
     }
 }
-
-

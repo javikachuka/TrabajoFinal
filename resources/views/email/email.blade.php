@@ -10,7 +10,7 @@
     <p>Estos son los datos del socio que ha realizado el reclamo:</p>
     <ul>
         <li>Nombre y Apellido: {{ $data->reclamo->direccion->socio->nombre }} {{ $data->reclamo->direccion->socio->apellido }}</li>
-        <li>Nº: {{ $data->reclamo->direccion->nro_conexion }}</li>
+        <li>Nº de Conexion: {{ $data->reclamo->direccion->nro_conexion }}</li>
         <li>DNI: {{ $data->reclamo->direccion->socio->dni }}</li>
     </ul>
     <p>Y se encuentra en la direccion:</p>

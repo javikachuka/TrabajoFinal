@@ -40,8 +40,9 @@
 
                 @can('reclamos_index')
 
+                {{-- <li class="nav-item has-treeview {{request()->is('reclamos') || request()->is('tipoReclamos/*') || request()->is('requisitos/*') || request()->is('socios/*') || request()->is('estadistica/reclamos/*') ? 'menu-open': ''}}"> --}}
                 <li class="nav-item has-treeview ">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link ">
                         <i class="nav-icon fal fa-clipboard-list"></i>
                         <p>
                             Gestion de Reclamos
@@ -52,7 +53,8 @@
                     <ul class="nav nav-treeview">
                         @can('reclamos_index')
                         <li class="nav-item">
-                            <a href="{{ route('reclamos.index') }}" class="nav-link">
+                            {{-- <a href="{{ route('reclamos.index') }}" class="nav-link {{request()->is('reclamos') ? 'active': ''}}"> --}}
+                            <a href="{{ route('reclamos.index') }}" class="nav-link ">
                                 <i class="fal fa-clipboard nav-icon"></i>
                                 <p>Reclamos</p>
                             </a>
@@ -60,7 +62,7 @@
                         @endcan
                         @can('tipoReclamos_index')
                         <li class="nav-item">
-                            <a href="{{ route('tipoReclamos.index') }}" class="nav-link">
+                            <a href="{{ route('tipoReclamos.index') }}" class="nav-link ">
                                 <i class="fal fa-list nav-icon"></i>
                                 <p>Tipos de Reclamos</p>
                             </a>
@@ -83,7 +85,7 @@
                         </li>
                         @endcan
                         <li class="nav-item">
-                            <a href="{{ route('estadistica.reclamos') }}" class="nav-link">
+                            <a href="{{ route('estadistica.reclamos') }}" class="nav-link ">
                                 <i class="fal fa-chart-pie nav-icon"></i>
                                 <p>Estadistica</p>
                             </a>
@@ -94,7 +96,7 @@
                 @endcan
                 @can('trabajos_index')
                 <li class="nav-item has-treeview ">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link ">
                         <i class="nav-icon fal fa-forklift"></i>
                         <p>
                             Gestion de Trabajos
@@ -121,7 +123,7 @@
                 </li>
                 @endcan
                 <li class="nav-item has-treeview  ">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link ">
                         <i class="nav-icon fal fa-warehouse"></i>
                         <p>
                             Gestion de Almacen
@@ -190,7 +192,7 @@
 
                 @can('asistencias_mostrar')
                 <li class="nav-item has-treeview ">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link ">
                         <i class="nav-icon fal fa-tasks"></i>
                         <p>
                             Gestion de Asistencias
@@ -239,7 +241,7 @@
                 @can('users_index')
 
                 <li class="nav-item has-treeview ">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link ">
                         <i class="nav-icon fal fa-users-cog"></i>
                         <p>
                             Gestion Empleados
@@ -277,7 +279,7 @@
                 @endcan
                 @can('flujoTrabajos_index')
                 <li class="nav-item has-treeview ">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link ">
                         <i class="nav-icon fad fa-project-diagram "></i>
                         <p>
                             Gestion de Flujos

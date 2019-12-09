@@ -25,7 +25,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form-group " method="GET" action="{{route('productosUtilizados.pdf')}}">
+            {{-- <form class="form-group " method="GET" action="{{route('productosUtilizados.pdf')}}">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Almacen</label>
@@ -42,7 +42,7 @@
                             class=" fa fa-file-pdf"></i></button>
                 </div>
                 @csrf
-            </form>
+            </form> --}}
         </div>
     </div>
 </div>

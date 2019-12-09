@@ -279,7 +279,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('estadistica/trabajos', 'EstadisticaController@trabajo')->name('estadistica.trabajos');
     Route::get('estadistica/almacenes', 'EstadisticaController@almacen')->name('estadistica.almacenes');
     Route::get('estadistica/reclamos', 'EstadisticaController@reclamo')->name('estadistica.reclamos');
-    Route::get('estadistica/filtroZonas/{anio}', 'EstadisticaController@filtroZonas')->name('estadistica.filtroZonas');
+    Route::get('estadistica/reclamos/filtroZonas/{anio}/{idRec}', 'EstadisticaController@filtroZonas')->name('estadistica.filtroZonas');
 
     //pdfs
     Route::get('/proveedorPDF', 'PdfController@proveedorPDF')->name('proveedor.pdf');

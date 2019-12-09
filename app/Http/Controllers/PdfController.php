@@ -428,6 +428,19 @@ class PdfController extends Controller
             $socio = Socio::find($request->socio_id);
             $estado = Estado::find($request->estado_id);
             $filtro = "Filtros: -Fecha:" . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " -Tipo de Reclamo: " . $tipRec->nombre . " -Socio: " . $socio->apellido . " " . $socio->nombre  . " -Estado " . $estado->nombre;
+        } elseif (($request->fecha1 != null && $request->fecha2 != null) && $request->tipoReclamo_id != null && $request->socio_id == null  && $request->estado_id != null) {
+            foreach ($reclamos as $rec) {
+                $f = Carbon::create($rec->fecha);
+                $fecha1 = Carbon::create($request->input('fecha1'));
+                $fecha2 = Carbon::create($request->input('fecha2'));
+
+                if ((($f->greaterThanOrEqualTo($fecha1)) && ($f->lessThanOrEqualTo($fecha2))) && ($rec->tipoReclamo->id == $request->tipoReclamo_id) && ($rec->trabajo->estado->id == $request->estado_id)) {
+                    $aux->push($rec);
+                }
+            }
+            $tipRec = TipoReclamo::find($request->tipoReclamo_id);
+            $estado = Estado::find($request->estado_id);
+            $filtro = "Filtros: -Fecha:" . $fecha1->format('d/m/Y') . " a " . $fecha2->format('d/m/Y') . " -Tipo de Reclamo: " . $tipRec->nombre . " -Estado " . $estado->nombre;
         } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoReclamo_id != null && $request->socio_id == null  && $request->estado_id == null) {
             foreach ($reclamos as $rec) {
                 if ($rec->tipoReclamo->id == $request->tipoReclamo_id) {
@@ -670,7 +683,7 @@ class PdfController extends Controller
             }
 
             $estado = Estado::find($request->estado_id);
-            $filtro = "Filtros: -Estado" .  $estado->nombre;
+            $filtro = "Filtros: -Estado: " .  $estado->nombre;
         } elseif (($request->fecha1 == null && $request->fecha2 == null) && $request->tipoTrabajo_id != null && $request->empleado_id != null  && $request->estado_id == null) {
             foreach ($trabajos as $t) {
                 if (($t->reclamo->tipoReclamo->id == $request->tipoTrabajo_id) && ($t->users->contains('id', $request->empleado_id))) {

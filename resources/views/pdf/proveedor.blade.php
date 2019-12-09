@@ -66,13 +66,14 @@
                 <tr>
                     <td>{{$prov->id}}</td>
                     <td>{{$prov->nombre}}</td>
-                    <td>{{$prov->cuit}}</td>
+                    <td width="15%">{{$prov->cuit}}</td>
                     <td>{{$prov->email}}</td>
                     <td>{{$prov->telefono}}</td>
                     <td>
                         @foreach ($prov->productos as $p)
                             {{$p->nombre}} <br>
                         @endforeach
+                        <br>
                     </td>
 
                 </tr>

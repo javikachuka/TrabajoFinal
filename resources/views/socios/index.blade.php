@@ -162,7 +162,7 @@
 <script>
     $(function () {
           $('#socios').DataTable({
-            "order": [[ 0, "desc" ]] ,
+            "order": [[ 0, "asc" ] , [1, 'asc']] ,
                 language: {
                     "decimal": "",
                     "emptyTable": "No hay información",

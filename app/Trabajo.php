@@ -191,7 +191,7 @@ class Trabajo extends Model
             }
         }
         foreach ($empleados as $key => $e) {
-            if($e->deTurno()){
+            if(!$e->deTurno()){
                 $empleados->pull($key);
             }
         }

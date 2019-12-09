@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="content-fluid">
-    <H2>Datos del Almacen</H2>
         <div class="row  justify-content-center">
             <div class="col-md-10">
                 <div class="card card-primary card-outline">
@@ -14,7 +13,7 @@
                         </div>
                         <hr>
                         <strong><i class="fal fa-map-marker-alt mr-1"></i>Ubicacion</strong>
-                        <p class="text-muted">{{$almacen->direccion->calle}}  {{$almacen->direccion->altura}}  <br>
+                        <p class="text-muted">{{$almacen->direccion->calle}}  {{$almacen->direccion->altura}},
                             {{$almacen->direccion->zona->nombre}}
                         </p>
                         <hr>
@@ -37,7 +36,7 @@
                                                 <td>{{$exis->id}}</td>
                                                 <td>{{$exis->producto->nombre}}</td>
                                                 <td>{{$exis->producto->rubro->nombre}}</td>
-                                                <td>{{$exis->cantidad}}</td>
+                                                <td>{{$exis->cantidad}} {{$exis->producto->medida->nombre}}</td>
                                             </tr>
                                     @endforeach
 

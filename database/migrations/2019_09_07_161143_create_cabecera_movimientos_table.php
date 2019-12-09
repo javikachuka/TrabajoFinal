@@ -17,9 +17,11 @@ class CreateCabeceraMovimientosTable extends Migration
             $table->bigIncrements('id');
             $table->date('fecha');
             $table->date('fechaComprobante')->nullable();
-            $table->integer('numeroComprobante')->nullable();
+            $table->bigInteger('numeroComprobante')->nullable();
             $table->unsignedBigInteger('proveedor_id')->nullable();
             $table->foreign('proveedor_id')->references('id')->on('proveedores') ;
+            $table->unsignedBigInteger('trabajo_id')->nullable();
+            $table->foreign('trabajo_id')->references('id')->on('trabajos') ;
             $table->unsignedBigInteger('tipoComprobante_id')->nullable();
             $table->foreign('tipoComprobante_id')->references('id')->on('tipo_comprobantes') ;
             $table->timestamps();

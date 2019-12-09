@@ -2,45 +2,49 @@
 
 @section('content')
 
-<h1>Listado de Permisos</h1>
-
-    <div class="form-group col-md-8">
-        <button type="submit" class="btn btn-primary " onclick="location.href = '{{ route('permisos.create') }}'">Nuevo Permiso</button>
-    </div>
 <div class="card">
+    <div class="card-header">
+        <h3>Listado de Permisos
+            <button type="submit" class="btn btn-primary btn-xs"
+                onclick="location.href = '{{ route('permisos.create') }}'">Nuevo
+                Permiso</button>
+        </h3>
+
+    </div>
     <div class="card-body">
         <div class="table-responsive">
             <table id="permisos" class="table table-bordered table-striped table-hover datatable">
                 <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Slug</th>
-                    <th>Descripcion</th>
-                    <th>Accion</th>
-                  </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Slug</th>
+                        <th>Descripcion</th>
+                        <th>Accion</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach($permisos as $permiso)
 
-                        <tr>
-                            <td>{{$permiso->name}}</td>
-                            <td>{{$permiso->slug}}</td>
-                            <td>{{$permiso->description}}</td>
-                            <td width ="200px">
-                                @can('permisos_edit')
-                                    <a href="{{ route('permisos.edit', $permiso) }}" class="btn btn-xs btn-secondary"> Editar </a>
-                                @endcan
-                            <form method="POST" action="permisos/{{$permiso}}" onsubmit="return confirm('Desea borrar el permiso {{$permiso->name}} ?')" style="display: inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    @can('permisos_destroy')
-                                        <input value="Borrar" type="submit" class="btn btn-sm btn-danger btn-xs btn-delete">
-                                    @endcan
+                    <tr>
+                        <td>{{$permiso->id}}</td>
+                        <td>{{$permiso->name}}</td>
+                        <td>{{$permiso->slug}}</td>
+                        <td>{{$permiso->description}}</td>
+                        <td width="200px">
+                            <a href="{{ route('permisos.edit', $permiso) }}" class="btn btn-xs btn-secondary"> Editar
+                            </a>
+                            <form id="form-borrar{{$permiso->id}}" method="POST"
+                                action="{{route('permisos.destroy' , $permiso->id)}}" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-xs btn-almacen"
+                                    id="{{$permiso->id}}">Borrar</button>
                             </form>
-                            </td>
-                          </tr>
+                        </td>
+                    </tr>
 
-                      @endforeach
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -49,7 +53,7 @@
 @endsection
 @push('scripts')
 <script>
-        $(function () {
+    $(function () {
           $('#permisos').DataTable({
             "paging": true,
             "lengthChange": true,
@@ -57,7 +61,50 @@
             "ordering": true,
             "info": false,
             "autoWidth": false,
+            language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
           });
         });
+</script>
+<script>
+    $('.btn-almacen').on('click', function(e){
+                                var id = $(this).attr('id');
+                            e.preventDefault();
+
+                        swal({
+                                title: "Cuidado!",
+                                text: "Esta seguro que desea eliminar?",
+                                icon: "warning",
+                                dangerMode: true,
+
+                                buttons: {
+                                cancel: "Cancelar",
+                                confirm: "Aceptar",
+                                },
+                            })
+                            .then ((willDelete) => {
+                                if (willDelete) {
+                                $("#form-borrar"+id).submit();
+                                }
+                            });
+                         });
 </script>
 @endpush

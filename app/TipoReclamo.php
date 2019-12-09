@@ -12,8 +12,13 @@ class TipoReclamo extends Model
 
     protected $guarded = [] ;
 
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = strtoupper($value);
+    }
+
     public function reclamos(){
-        return $this->hasMany(Reclamo::class);
+        return $this->hasMany(Reclamo::class, 'tipoReclamo_id');
     }
 
     public function prioridad(){
@@ -26,5 +31,25 @@ class TipoReclamo extends Model
 
     public function requisitos(){
         return $this->belongsToMany(Requisito::class);
+    }
+
+    public function tieneRequisitos(){
+        if(empty($this->requisitos[0])){
+            return false ;
+        }else{
+            return true;
+        }
+    }
+
+    public function getDuracionRealAttribute(){
+        if(!$this->reclamos->isEmpty()){
+            return $this->reclamos->first()->trabajo->duracionEstimadaReal($this->id);
+        }else{
+            return 0 ;
+        }
+    }
+
+    public function getFrecuenciaAttribute(){
+        return Reclamo::where('tipoReclamo_id', $this->id)->get()->count() ;
     }
 }

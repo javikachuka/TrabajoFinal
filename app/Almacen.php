@@ -10,6 +10,12 @@ class Almacen extends Model
     use SoftDeletes ;
     protected $table = 'almacenes' ;
 
+    public function setDenominacionAttribute($value)
+    {
+        $this->attributes['denominacion'] = ucwords($value);
+    }
+
+
     public function direccion()
     {
         return $this->belongsTo(Direccion::class);
@@ -52,6 +58,20 @@ class Almacen extends Model
         foreach($exis as $e){
             if($e->producto->id == $prod_id){
                 $e->cantidad += $cant ;
+                $e->update() ;
+                return true ;
+            }
+        }
+
+        return false ;
+    }
+
+    public function restarExistencia($prod_id , $cant){
+        $exis = $this->existencias;
+
+        foreach($exis as $e){
+            if($e->producto->id == $prod_id){
+                $e->cantidad -= $cant ;
                 $e->update() ;
                 return true ;
             }

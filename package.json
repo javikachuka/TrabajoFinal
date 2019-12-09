@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "@ttskch/select2-bootstrap4-theme": "^1.2.3"
+        "@ttskch/select2-bootstrap4-theme": "^1.2.3",
+        "moment": "^2.24.0"
     }
 }

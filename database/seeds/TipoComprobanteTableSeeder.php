@@ -23,7 +23,7 @@ class TipoComprobanteTableSeeder extends Seeder
 
         Almacen::create([
             'denominacion' => 'Almacen Norte',
-            'direccion_id' => 1 ,
+            'direccion_id' => 2 ,
         ]) ;
 
 

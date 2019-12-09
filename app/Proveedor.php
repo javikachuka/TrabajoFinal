@@ -11,7 +11,12 @@ class Proveedor extends Model
 
     protected $table = "proveedores" ;
 
-    protected $guarded = [] ;
+    protected $fillable  = ['nombre', 'cuit' , 'email' , 'telefono'] ;
+
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = strtoupper($value);
+    }
 
     public function cabecerasMovimiento()
     {
@@ -21,6 +26,10 @@ class Proveedor extends Model
     public function productos()
     {
         return $this->belongsToMany(Producto::class);
+    }
+
+    public function pedidos(){
+        return $this->hasMany(Pedido::class);
     }
 
 

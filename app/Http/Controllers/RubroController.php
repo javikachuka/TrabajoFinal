@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Rubro;
+use Exception;
 use Illuminate\Http\Request;
 
 class RubroController extends Controller
@@ -14,7 +15,8 @@ class RubroController extends Controller
      */
     public function index()
     {
-        //
+        $rubros = Rubro::all();
+        return view('rubros.index', compact('rubros'));
     }
 
     /**
@@ -35,7 +37,11 @@ class RubroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validar();
+        $rubro = new Rubro();
+        $rubro->fill($request->all());
+        $rubro->save();
+        return redirect()->back()->with('confirmar', 'ok');
     }
 
     /**
@@ -67,9 +73,15 @@ class RubroController extends Controller
      * @param  \App\Rubro  $rubro
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rubro $rubro)
+    public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'nombre' => 'required|unique:rubros,nombre,'. $id,
+        ]);
+        $rubro = Rubro::find($id);
+        $rubro->fill($request->all());
+        $rubro->update();
+        return redirect()->back()->with('confirmar', 'ok');
     }
 
     /**
@@ -80,6 +92,26 @@ class RubroController extends Controller
      */
     public function destroy(Rubro $rubro)
     {
-        //
+        try {
+            if ($rubro->productos->isEmpty()) {
+                $rubro->delete();
+                return redirect()->back()->with('borrado', 'ok');
+            } else {
+                alert()->error('No es posible eliminar el Rubro debido a que esta siendo utilizado por un producto', 'Error');
+                return redirect()->back();
+            }
+        } catch (Exception $e) {
+            alert()->error($e);
+            return redirect()->back();
+        }
+    }
+
+    public function validar()
+    {
+        $data = request()->validate([
+            'nombre' => 'required|unique:rubros,nombre',
+        ], [
+            'nombre.unique' => 'El rubro ya existe'
+        ]);
     }
 }

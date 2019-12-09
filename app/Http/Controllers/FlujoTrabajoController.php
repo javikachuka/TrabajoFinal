@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Estado;
 use App\FlujoTrabajo;
+use App\Reclamo;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -44,8 +45,7 @@ class FlujoTrabajoController extends Controller
         $this->validar();
         $flujoTrabajo->fill($request->all()) ;
         $flujoTrabajo->save() ;
-
-        return redirect()->route('transiciones.create' , $flujoTrabajo) ;
+        return redirect()->route('transiciones.create' , $flujoTrabajo->id) ;
 
 
     }
@@ -58,7 +58,9 @@ class FlujoTrabajoController extends Controller
      */
     public function show(FlujoTrabajo $flujoTrabajo)
     {
-        //
+
+        return view('flujoTrabajo.show', compact('flujoTrabajo')) ;
+
     }
 
     /**
@@ -69,8 +71,14 @@ class FlujoTrabajoController extends Controller
      */
     public function edit(FlujoTrabajo $flujoTrabajo)
     {
-        $estados = Estado::all() ;
-        return view('transiciones.edit' , compact('flujoTrabajo' , 'estados'));
+        // $reclamos = Reclamo::all();
+        // foreach($reclamos as $r){
+        //     if($r->tipoReclamo->flujoTrabajo == $flujoTrabajo){
+        //         alert()->info('No es posible editar el flujo debido a existen reclamos y trabajos en curso!');
+        //         return redirect()->back();
+        //     }
+        // }
+        return redirect()->route('transiciones.create', $flujoTrabajo->id);
     }
 
     /**

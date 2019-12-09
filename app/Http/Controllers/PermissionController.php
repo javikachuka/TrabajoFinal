@@ -87,9 +87,15 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permiso)
+    public function destroy($id)
     {
+        $permiso = Permission::find($id) ;
+        if(!$permiso->roles->isEmpty()){
+            alert()->error('No es posible eliminar el permiso debido a que esta asociado a un rol', 'Error')->persistent() ;
+            return redirect()->back() ;
+        }
+
         $permiso->delete();
-        return redirect('/permisos') ;
+        return redirect()->back()->with('confirmar' , 'ok') ;
     }
 }

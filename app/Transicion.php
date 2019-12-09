@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transicion extends Model
 {
+
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = ucwords($value);
+    }
+
     public function flujoTrabajo()
     {
         return $this->belongsTo(FlujoTrabajo::class , 'flujoTrabajo_id');

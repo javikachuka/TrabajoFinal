@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form class="form-group " method="POST" action="/proveedores" >
+<form class="form-group " method="POST" action="{{route('proveedores.store')}}" >
     <div class="container-fluid">
             <div class="row justify-content-center">
             <div class="col-md-10">
@@ -34,6 +34,7 @@
 <script>
     $(document).ready(function(){
         $('#cuit').mask('00-00000000-0');
+        //
     });
 </script>
 <script>

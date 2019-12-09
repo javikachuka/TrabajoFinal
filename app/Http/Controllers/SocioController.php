@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Socio;
 use App\Barrio;
-use App\Domicilio;
+use App\Direccion;
+use App\Zona;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input as IlluminateInput;
+use Illuminate\Support\Facades\Validator;
 
 class SocioController extends Controller
 {
@@ -18,8 +22,8 @@ class SocioController extends Controller
     public function index()
     {
         $socios = Socio::all();
-        $domicilios = Domicilio::all();
-        return view('socios.index',compact('socios','domicilios')) ;
+        $zonas = Zona::all();
+        return view('socios.index', compact('socios', 'zonas'));
     }
 
     /**
@@ -29,9 +33,16 @@ class SocioController extends Controller
      */
     public function create()
     {
-        $barrios = Barrio::all() ;
+        $zonas = Zona::all();
 
-        return view('socios.registro',compact('barrios')) ;
+        return view('socios.registro', compact('zonas'));
+    }
+
+    public function atajoReclamos()
+    {
+        $zonas = Zona::all();
+
+        return view('reclamos.atajo', compact('zonas'));
     }
 
     /**
@@ -42,22 +53,85 @@ class SocioController extends Controller
      */
     public function store(Request $request)
     {
-        $domicilio = new Domicilio() ;
-        $domicilio->barrio_id = $request->input('domicilio') ;
-        $domicilio->calle = $request->input('calle') ;
-        $domicilio->altura = $request->input('altura') ;
-        $domicilio->save() ;
+        // return count($request->input('calle')) ;
 
-        $socio = new Socio() ;
-        $socio->apellido = $request->input('apellido') ;
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'dni' => 'required|string|min:10',
+            'nro_conexion.*' => 'required|distinct|digits_between:1,18|unique:direcciones,nro_conexion',
+            'altura.*' => 'required|digits_between:1,10|numeric'
+
+        ], [
+            'nro_conexion.*.unique' => 'El numero de conexion ya esta asignado a un socio',
+            'altura.*.digits_between' => 'El campo altura debe tener entre 1 y 10 digitos',
+            'nro_conexion.*.distinct' => 'El campo numero de conexion no debe estar repetido',
+            'nro_conexion.*.digits_between' => 'El campo altura debe tener entre 1 y 18 digitos'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->with('cant', count($request->input('calle')))->withInput();
+        }
+
+        $socio = new Socio();
+        $socio->apellido = $request->input('apellido');
         $socio->nombre = $request->input('nombre');
         $socio->dni = $request->input('dni');
-        $socio->nro_conexion = $request->input('nro_conexion');
-        $socio->domicilio_id = $domicilio->id ; ;
-        $socio->save() ;
-        return redirect('/socios');
+        $socio->save();
 
+        for ($i = 0; $i < sizeof($request->input('calle')); $i++) {
+            $direccion = new Direccion();
+            $direccion->zona_id = $request->zona_id[$i];
+            $direccion->calle = $request->calle[$i];
+            $direccion->altura = $request->altura[$i];
+            $direccion->nro_conexion = $request->nro_conexion[$i];
+            $direccion->socio_id = $socio->id;
+            $direccion->save();
+        }
 
+        return redirect()->route('socios.index')->with('confirmar', 'ok');
+    }
+
+    public function atajo(Request $request)
+    {
+        // return count($request->input('calle')) ;
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'dni' => 'required|string|min:10',
+            'nro_conexion.*' => 'required|distinct|digits_between:1,18|unique:direcciones,nro_conexion',
+            'altura.*' => 'required|digits_between:1,10|numeric'
+
+        ], [
+            'nro_conexion.*.unique' => 'El numero de conexion ya esta asignado a un socio',
+            'altura.*.digits_between' => 'El campo altura debe tener entre 1 y 10 digitos',
+            'nro_conexion.*.distinct' => 'El campo numero de conexion no debe estar repetido',
+            'nro_conexion.*.digits_between' => 'El campo altura debe tener entre 1 y 18 digitos'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->with('cant', count($request->input('calle')))->withInput();
+        }
+
+        $socio = new Socio();
+        $socio->apellido = $request->input('apellido');
+        $socio->nombre = $request->input('nombre');
+        $socio->dni = $request->input('dni');
+        $socio->save();
+
+        for ($i = 0; $i < sizeof($request->input('calle')); $i++) {
+            $direccion = new Direccion();
+            $direccion->zona_id = $request->zona_id[$i];
+            $direccion->calle = $request->calle[$i];
+            $direccion->altura = $request->altura[$i];
+            $direccion->nro_conexion = $request->nro_conexion[$i];
+            $direccion->socio_id = $socio->id;
+            $direccion->save();
+        }
+
+        return redirect()->route('reclamos.create')->with('confirmar', 'ok');
     }
 
     /**
@@ -68,8 +142,8 @@ class SocioController extends Controller
      */
     public function show($id)
     {
-        $socio = Socio::find($id) ;
-        return view('socios.show',compact('socio'));
+        $socio = Socio::find($id);
+        return view('socios.show', compact('socio'));
     }
 
     /**
@@ -78,11 +152,10 @@ class SocioController extends Controller
      * @param  \App\Socio  $socio
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Socio $socio)
     {
-        $socio = Socio::find($id) ;
-        $barrios = Barrio::all() ;
-        return view('socios.edit' , compact('socio','barrios')) ;
+        $zonas = Zona::all();
+        return view('socios.edit', compact('socio', 'zonas'));
     }
 
     /**
@@ -92,16 +165,21 @@ class SocioController extends Controller
      * @param  \App\Socio  $socio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Socio $socio)
     {
-        $socio = Socio::find($id) ;
-        $socio->fill($request->all());
-        $domicilio = $socio->domicilio ;
-        $domicilio->fill($request->all()) ;
-        $socio->save() ;
-        $domicilio->save() ;
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'dni' => 'required|string|min:10',
 
-        return redirect('/socios') ;
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $socio->fill($request->all());
+        $socio->update();
+
+        return redirect()->back()->with('confirmar', 'ok');
     }
 
     /**
@@ -112,6 +190,92 @@ class SocioController extends Controller
      */
     public function destroy(Socio $socio)
     {
-        //
+        try {
+            foreach($socio->direcciones as $d){
+                foreach($d->reclamos as $r){
+                    if($r->trabajo->estado->id != $r->tipoReclamo->flujoTrabajo->getEstadoFinal()->id){
+                        alert()->error('No es posible eliminar el socio porque tiene reclamos que estan siendo tratados' , 'Error')->persistent() ;
+                        return redirect()->back() ;
+                    }
+                }
+            }
+            $socio->delete();
+            return redirect()->back()->with('borrado', 'ok');
+        } catch (Exception $e) {
+            alert()->error('No se pudo borrar al socio', 'Error');
+            return redirect()->back();
+        }
+    }
+
+    public function nuevaConexion(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'nro_conexion' => 'required|digits_between:1,18|unique:direcciones,nro_conexion',
+            'socio_id' => 'required' ,
+            'altura' => 'required|digits_between:1,10|numeric'
+        ], [
+            'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio',
+            'altura.digits_between' => 'El campo altura debe tener entre 1 y 10 digitos',
+            'nro_conexion.digits_between' => 'El campo altura debe tener entre 1 y 18 digitos'
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('nombreSoc' , $request->socioNombre);
+        }
+
+        $direccion = new Direccion();
+        $direccion->fill($request->all());
+        $direccion->socio_id = $request->socio_id;
+        $direccion->nro_conexion = $request->nro_conexion;
+        $direccion->save();
+
+        return redirect()->back()->with('confirmar', 'ok');
+    }
+
+    public function eliminarConexion($id, $idDirec)
+    {
+        $socio = Socio::find($id);
+        if (count($socio->direcciones) > 1) {
+            foreach ($socio->direcciones as $d) {
+                if ($d->id == $idDirec) {
+                    $d->delete();
+                    return redirect()->back()->with('borrado', 'ok');
+                }
+            }
+        } else {
+            alert()->error('No es posible eliminar todas las conexiones', 'Error')->persistent();
+            return redirect()->back();
+        }
+    }
+
+    public function validar()
+    {
+        $data = request()->validate([
+            'nombre' => 'required|max:190',
+            'apellido' => 'required|max:190',
+            'dni' => 'required|string|min:10',
+            'nro_conexion.*' => 'required|unique:direcciones,nro_conexion',
+            'altura.*' => 'required|digits_between:1,10|numeric'
+        ], [
+            'nro_conexion.unique' => 'El numero de conexion ya esta asignado a un socio',
+        ]);
+    }
+
+    public function obtenerConexiones($id)
+    {
+        $socio = Socio::find($id);
+        $conexiones = collect();
+        foreach ($socio->direcciones as $direc) {
+            $conexiones->add($direc->nro_conexion);
+        }
+        return $conexiones;
+    }
+
+    public function obtenerDni($id)
+    {
+        $socio = Socio::find($id);
+        return $socio->dni;
     }
 }

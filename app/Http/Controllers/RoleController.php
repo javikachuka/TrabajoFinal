@@ -98,6 +98,18 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $rol = Role::find($id) ;
+        if(!$rol->users->isEmpty()){
+            alert()->error('No es posible eliminar el rol debido a que tiene asociado usuarios', 'Error')->persistent();
+            return redirect()->back() ;
+        }
+        if($rol->name == 'ADMIN'){
+            alert()->error('No es posible eliminar el rol admin', 'Error')->persistent();
+            return redirect()->back() ;
+        }
+
+        $rol->delete() ;
+        return redirect()->back()->with('borrado' , 'ok') ;
+
     }
 }

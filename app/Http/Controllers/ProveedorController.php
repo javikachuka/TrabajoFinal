@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Proveedor;
 use Alert ;
+use App\Producto;
 use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProveedorController extends Controller
 {
@@ -33,7 +35,8 @@ class ProveedorController extends Controller
     public function create()
     {
         $proveedor = new Proveedor();
-        return view('proveedores.registro', compact('proveedor')) ;
+        $productos = Producto::all() ;
+        return view('proveedores.registro', compact('proveedor', 'productos')) ;
     }
 
     /**
@@ -45,9 +48,9 @@ class ProveedorController extends Controller
     public function store(Request $request, Proveedor $proveedor)
     {
         $this->validar() ;
-
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
+        $proveedor->productos()->sync($request->input('productos', [])) ;
         return redirect('/proveedores')->with('confirmar' , 'guardado') ;
 
     }
@@ -73,8 +76,8 @@ class ProveedorController extends Controller
     {
 
         $proveedor = Proveedor::find($id);
-
-        return view('proveedores.edit' , compact('proveedor'));
+        $productos = Producto::all() ;
+        return view('proveedores.edit' , compact('proveedor' , 'productos'));
 
     }
 
@@ -87,10 +90,20 @@ class ProveedorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validar();
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|max:190' ,
+            'cuit' => 'required|string|min:13|unique:proveedores,cuit,'.$id ,
+            'email' => 'required|email|unique:proveedores,email,'.$id ,
+            'telefono' => 'required|digits_between:1,15|numeric'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $proveedor = Proveedor::find($id) ;
         $proveedor->fill($request->all()) ;
         $proveedor->save() ;
+        $proveedor->productos()->sync($request->input('productos', [])) ;
         return redirect('/proveedores')->with('confirmar' , 'guardado') ;
     }
 
@@ -116,10 +129,10 @@ class ProveedorController extends Controller
 
     public function validar(){
         $data = request()->validate([
-            'nombre' => 'required' ,
-            'cuit' => 'required' ,
-            'email' => 'required|email' ,
-            'telefono' => 'numeric|required'
+            'nombre' => 'required|max:190' ,
+            'cuit' => 'required|string|min:13|unique:proveedores,cuit' ,
+            'email' => 'required|email|unique:proveedores,email' ,
+            'telefono' => 'required|digits_between:1,15|numeric'
         ]);
     }
 }

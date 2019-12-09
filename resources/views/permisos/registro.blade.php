@@ -1,15 +1,44 @@
 @extends('admin_panel.index')
 
 @section('content')
-    <h1>Registro de Permisos</h1>
-    <form class="form-group " method="POST" action="/permisos" >
-        @include('permisos.form')
-        <div class="text-right">
-                <input type="reset" value="Limpiar" class="btn btn-secondary">
-                <button type="submit" class="btn btn-success">Guardar</button>
+<br>
+<form class="form-group " method="POST" action="/permisos">
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card ">
+                    <div class="card-header">
+                        <h3>Nuevo Permiso</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" name="name" required value="{{ old('name') ?? $permiso->name }}"
+                                class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Slug</label>
+                            <input type="text" name="slug" required value="{{ old('slug') ?? $permiso->slug }}"
+                                class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripcion</label>
+                            <input type="text" name="description" required
+                                value="{{ old('description') ?? $permiso->description }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <a href="javascript:history.back()" class="btn btn-primary btn-sm">Volver</a>
+                            <input type="reset" value="Limpiar" class="btn btn-secondary btn-sm">
+                            <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
+    @csrf
+</form>
 @endsection
-
-
-

@@ -30,10 +30,10 @@ class TransicionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(FlujoTrabajo $flujoTrabajo)
+    public function create($id)
     {
-
         $estados = Estado::all() ;
+        $flujoTrabajo = FlujoTrabajo::find($id) ;
         return view('transiciones.index' , compact( 'estados','flujoTrabajo')) ;
     }
 
@@ -46,25 +46,27 @@ class TransicionController extends Controller
     public function store(Request $request, $flujoTrabajo_id)
     {
         $flujoTrabajo = FlujoTrabajo::find($flujoTrabajo_id) ;
-        for($i = 0 ; $i < sizeof($request->nombre) ; $i++){
+
             $transicion = new Transicion() ;
             foreach($flujoTrabajo->transiciones as $tran){
-                if(($tran->estadoInicial->id == $request->estadoInicial_id[$i]) && ($tran->estadoFinal->id == $request->estadoFinal_id[$i])){
-                    return redirect()->back()->with('cancelar' , 'asdf') ;
+                if(($tran->estadoInicial->id == $request->estadoInicial_id) && ($tran->estadoFinal->id == $request->estadoFinal_id)){
+                    alert()->error('Ya existe una transicion con el estado inicial y final correspondiente' , 'error')->persistent() ;
+                    return redirect()->back();
                 }
             }
             $transicion->flujoTrabajo_id = $flujoTrabajo->id ;
-            $transicion->nombre = $request->nombre[$i] ;
-            $transicion->estadoInicial_id = $request->estadoInicial_id[$i];
-            if($transicion->asignarEstadoFinal($request->estadoFinal_id[$i]) ){
+            $transicion->nombre = $request->nombre ;
+            $transicion->estadoInicial_id = $request->estadoInicial_id;
+            if($transicion->asignarEstadoFinal($request->estadoFinal_id) ){
                 $transicion->orden = sizeof($flujoTrabajo->transiciones)+1 ;
                 $transicion->save() ;
             }
             else{
-                return redirect()->back()->with('cancelar' , 'asdf') ;  ;
+                alert()->error('El estado final debe ser distinto al inicial' , 'error')->persistent() ;
+                return redirect()->back();
             }
-        }
-        return redirect('/flujoTrabajos')->with('confirmar' , 'asdf') ;
+
+            return redirect()->back()->with('confirmar' , 'asdf') ;
 
         // $transicion->nombre = $request->nombre ;
         // $transicion->flujoTrabajo = $request->flujoTrabajo ;
@@ -124,11 +126,12 @@ class TransicionController extends Controller
      * @param  \App\Transicion  $transicion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transicion $transicion)
+    public function destroy($id)
     {
-        return $transicion ;
+        $transicion = Transicion::find($id) ;
+
         $transicion->delete() ;
-        return redirect()->back() ;
+        return redirect()->back()->with('borrado' , 'ok') ;
     }
 
 }

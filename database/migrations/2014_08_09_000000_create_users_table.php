@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('apellido');
             $table->string('dni') ;
+            $table->string('urlFoto')->nullable() ;
             $table->unsignedBigInteger('direccion_id');
             $table->foreign('direccion_id')->references('id')->on('direcciones') ;
             $table->date('fecha_ingreso');

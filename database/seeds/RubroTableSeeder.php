@@ -25,29 +25,56 @@ class RubroTableSeeder extends Seeder
             'nombre'          => 'MEDIDORES',
         ]);
 
+        Rubro::create([
+            'nombre'          => 'CODOS',
+        ]);
+
+        Rubro::create([
+            'nombre'          => 'LLAVES',
+        ]);
+
+        Rubro::create([
+            'nombre'          => 'CANILLAS',
+        ]);
+
+        Rubro::create([
+            'nombre'          => 'AROS DE GOMA',
+        ]);
+
         //creacion de medidas
 
         Medida::create([
-            'nombre'          => 'Metros',
+            'nombre'          => 'Metro/s',
             'simbolo'         => 'M'
         ]);
 
         Medida::create([
-            'nombre'          => 'Unidades',
-            'simbolo'         => 'P/U'
+            'nombre'          => 'Unidad/es',
+            'simbolo'         => 'U'
         ]);
 
         Medida::create([
-            'nombre'          => 'Kilogramos',
+            'nombre'          => 'Centimetro/s',
+            'simbolo'         => 'cm'
+        ]);
+
+        Medida::create([
+            'nombre'          => 'Kilogramo/s',
             'simbolo'         => 'Kg',
         ]);
         Medida::create([
-            'nombre'          => 'Gramos',
+            'nombre'          => 'Gramo/s',
             'simbolo'         => 'g' ,
         ]);
+
         Medida::create([
-            'nombre'          => 'Litros',
+            'nombre'          => 'Litro/s',
             'simbolo'         => 'L' ,
+        ]);
+
+        Medida::create([
+            'nombre'          => 'Mililitros/s',
+            'simbolo'         => 'ml' ,
         ]);
 
     }

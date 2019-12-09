@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Almacen;
 use App\Existencia;
 use App\Medida;
 use App\Producto;
@@ -18,9 +19,9 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all() ;
+        $productos = Producto::all();
 
-        return view('productos.index' , compact('productos')) ;
+        return view('productos.index', compact('productos'));
     }
 
     /**
@@ -31,9 +32,9 @@ class ProductoController extends Controller
     public function create()
     {
         $producto = new Producto();
-        $rubros = Rubro::all() ;
-        $medidas = Medida::all() ;
-        return view('productos.registro', compact('producto', 'rubros' , 'medidas')) ;
+        $rubros = Rubro::all();
+        $medidas = Medida::all();
+        return view('productos.registro', compact('producto', 'rubros', 'medidas'));
     }
 
     /**
@@ -45,9 +46,9 @@ class ProductoController extends Controller
     public function store(Request $request, Producto $producto)
     {
         $this->validar();
-        $producto->fill($request->all()) ;
-        $producto->save() ;
-        return redirect('/productos') ;
+        $producto->fill($request->all());
+        $producto->save();
+        return redirect('/productos')->with('confirmar', 'ok');
     }
 
     /**
@@ -58,8 +59,8 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
-        $exis = $producto->existencias ;
-        return view('productos.show' , compact('producto', 'exis')) ;
+        $exis = $producto->existencias;
+        return view('productos.show', compact('producto', 'exis'));
     }
 
     /**
@@ -70,10 +71,10 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        $producto = Producto::find($id) ;
-        $rubros = Rubro::all() ;
-        $medidas = Medida::all() ;
-        return view('productos.edit' , compact('producto' , 'rubros' , 'medidas')) ;
+        $producto = Producto::find($id);
+        $rubros = Rubro::all();
+        $medidas = Medida::all();
+        return view('productos.edit', compact('producto', 'rubros', 'medidas'));
     }
 
     /**
@@ -85,10 +86,15 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        $this->validar();
-        $producto->fill($request->all()) ;
-        $producto->update() ;
-        return redirect('/productos')->with('confirmar' , 'asdf') ;
+        request()->validate([
+            'nombre' => 'required|unique:productos,nombre,' . $producto->id,
+            'codigo' => 'required|numeric|unique:productos,codigo,' . $producto->id,
+            'cantidadMinima' => 'required|numeric|min:0|not_in:0',
+            'rubro_id' => 'required',
+        ]);
+        $producto->fill($request->all());
+        $producto->update();
+        return redirect('/productos')->with('confirmar', 'asdf');
     }
 
     /**
@@ -100,23 +106,56 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
 
-        try{
-            $producto->delete() ;
-            return redirect()->back()->with('borrado' , 'guardado') ;
-        }catch(Exception $e){
-            alert()->error('No es posible eliminar' , 'Error!') ;
-            return redirect('/proveedores') ;
+        try {
+            if ($producto->movimientos->isEmpty()) {
+                if ($producto->proveedores->isEmpty()) {
+                    if ($producto->detalles->isEmpty()) {
+                        $producto->delete();
+                        return redirect()->back()->with('borrado', 'guardado');
+                    }
+                }
+            }
+            alert()->error('No es posible eliminar el producto debido a que esta siendo utilizado!', 'Error')->persistent();
+            return redirect()->back();
+        } catch (Exception $e) {
+            alert()->error('No es posible eliminar', 'Error!');
+            return redirect('/productos');
         }
-
-
     }
 
-    public function validar(){
+    public function validar()
+    {
         $data = request()->validate([
-            'nombre' => 'required' ,
-            'codigo' => 'required|numeric' ,
-            'cantidadMinima' => 'required|numeric' ,
+            'nombre' => 'required|max:190|unique:productos,nombre',
+            'codigo' => 'required|numeric|unique:productos,codigo',
+            'cantidadMinima' => 'required|numeric|min:0|not_in:0',
             'rubro_id' => 'required',
         ]);
+    }
+
+    public function obtenerMedida($id)
+    {
+        $producto = Producto::find($id);
+        return $producto->medida->nombre;
+    }
+
+    public function tieneCantidadDisponible($idProd, $idAlmacen, $cantidad)
+    {
+        $producto = Producto::find($idProd);
+        if ($cantidad <= $producto->cantidadAlmacen($idAlmacen)) {
+            return 1;
+        } else {
+            return 0 ;
+        }
+    }
+
+    public function obtenerAlmacenes($id){
+        $almacenes = Almacen::all();
+        foreach($almacenes as $key => $a){
+            if(!$a->existeProducto($id)){
+                $almacenes->pull($key) ;
+            }
+        }
+        return $almacenes;
     }
 }

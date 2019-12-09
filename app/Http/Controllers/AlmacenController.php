@@ -7,6 +7,8 @@ use App\Direccion;
 use App\Zona;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class AlmacenController extends Controller
 {
@@ -40,6 +42,15 @@ class AlmacenController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'denominacion' => 'required|unique:almacenes,denominacion',
+            'altura' => 'required|numeric',
+        ],['denominacion.unique' => 'El almacen ya existe']);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput() ;
+        }
+
         $direccion = new Direccion() ;
         $direccion->fill($request->all()) ;
         $direccion->save() ;
@@ -81,6 +92,14 @@ class AlmacenController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'denominacion' => 'required|unique:almacenes,denominacion,'.$id,
+            'altura' => 'required|numeric',
+        ],['denominacion.unique' => 'El almacen ya existe']);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator) ;
+        }
         $almacen = Almacen::find($id) ;
         $direccion = $almacen->direccion ;
         $direccion->fill($request->all()) ;
@@ -100,8 +119,16 @@ class AlmacenController extends Controller
     {
         $almacen = Almacen::find($id) ;
         try{
+            if(!$almacen->existencias->isEmpty()){
+                alert()->error('No es posible eliminar el almacen debido a que tiene productos asociados' , 'Error')->persistent() ;
+                return redirect()->back() ;
+            }elseif(!$almacen->movimientosOrigen->isEmpty() || !$almacen->movimientosDestino->isEmpty()){
+                alert()->error('No es posible eliminar el almacen debido a que tiene movimientos asociados' , 'Error')->persistent() ;
+                return redirect()->back() ;
+            }
             $almacen->delete() ;
-            return redirect()->back()->with('borrado' , 'ok') ;
+            return redirect()->back()->with('borrado' ,' ok') ;
+
 
         }catch(Exception $e){
             alert()->error('No es posible eliminar el Almacen' , 'Error') ;

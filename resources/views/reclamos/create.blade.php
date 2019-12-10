@@ -11,7 +11,7 @@
     <div class="card-body">
         <form class="form-group " method="POST" action="/reclamos">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <label for="">Socio</label>
                     <select class="seleccion form-control" name="socio_id" id="socio" required>
                         <option value="" disabled selected>--Seleccione un socio--</option>
@@ -33,7 +33,7 @@
                     </div>
                     @endcan
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4 offset-1">
                     <label for="">DNI</label>
                     <div class="form-group">
                         <input type="text" id="dni" class="form-control" disabled value="">
@@ -42,7 +42,9 @@
                 <div class="col-sm-1">
 
                 </div>
-                <div class="col-sm-3">
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
                     <label for="">Nº de Conexion</label>
                     <select class="form-control" name="nro_conexion" id="nro_conexion" required>
                         <option value="" selected disabled>--Seleccione--</option>
@@ -56,9 +58,15 @@
                     </div>
                 </div>
                 @endcan
+                <div class="col-sm-4 offset-1">
+                    <label for="">Direccion</label>
+                    <div class="form-group">
+                        <input type="text" id="direc" class="form-control" disabled value="">
+                    </div>
+                </div>
             </div>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <label for="">Tipo de Reclamo</label>
                     <select class="seleccion form-control" name="tipoReclamo_id" id="tipoReclamo" required>
                         <option value="" disabled selected>--Seleccione un tipo--</option>
@@ -73,11 +81,9 @@
                         <option value="" disabled selected>--Seleccione--</option>
                     </select>
                 </div> --}}
-                <div class="col-md-1">
 
-                </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4 offset-2">
                     <div class="form-group">
                         <label for="">Fecha del Reclamo</label>
                         <div class="input-group">
@@ -251,8 +257,8 @@
 
                     <div class="form-group">
                         <label>Socio</label>
-                        <input type="text" name="socio" id="nombreSocio" required disabled value="{{session('nombreSoc')}}"
-                            class="form-control">
+                        <input type="text" name="socio" id="nombreSocio" required disabled
+                            value="{{session('nombreSoc')}}" class="form-control">
                         <div class="text-danger">{{$errors->first('socio')}}</div>
                         <input type="hidden" name="socio_id" id="idSocio" value="{{old('socio_id')}}">
                         <input type="hidden" name="socioNombre" id="socioNombre" value="">
@@ -335,6 +341,7 @@
         $('#socio').change(function(){
             console.log('holamda');
             $('#crearConex').attr('disabled', false);
+            $('#direc').val('');
             var id = $(this).val();
             var socio = $('#socio option:selected').text() ;
             $('#nombreSocio').val(socio) ;
@@ -349,7 +356,7 @@
             // alert(tip_rec_id) ;
             //AJAX
             $.get(url, function(data){
-                // var html_select = '<option value="" selected disabled>--Seleccione--</option>' ;
+                var html_select = '<option value="" selected disabled>--Seleccione--</option>' ;
                 var html_select ;
                 for(var i = 0 ; i<data.length ; i++){
                     // console.log(data[i]) ;
@@ -389,6 +396,21 @@
 
         $('.seleccion').select2({
             sorter: data => data.sort((a, b) => a.text.localeCompare(b.text)),
+        });
+
+        $('#nro_conexion').change(function(){
+            var num_conex = $(this).val();
+            var socio_id = $('#socio').val();
+            var url = "{{ route('socios.obtenerDireccion', [":id" , ":num1"]) }}" ;
+            url = url.replace(':id' , socio_id) ;
+            url = url.replace(':num1' , num_conex) ;
+            // alert(tip_rec_id) ;
+            //AJAX
+
+            $.get(url, function(data){
+                console.log(data);
+                $('#direc').val(data);
+            });
         });
     });
 

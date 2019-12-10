@@ -58,4 +58,12 @@ class Socio extends Model
             }
         }
     }
+
+    public function getNombreDireccion($nro_conexion){
+        foreach($this->direcciones as $d){
+            if($d->nro_conexion == $nro_conexion){
+                return $d->calle . ' ' . $d->altura . ', ' . $d->zona->nombre;
+            }
+        }
+    }
 }

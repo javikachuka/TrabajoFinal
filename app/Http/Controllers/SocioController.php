@@ -278,4 +278,9 @@ class SocioController extends Controller
         $socio = Socio::find($id);
         return $socio->dni;
     }
+
+    public function obtenerDireccion($id ,$num){
+        $socio = Socio::find($id) ;
+        return $socio->getNombreDireccion($num) ;
+    }
 }
